@@ -1,0 +1,333 @@
+@use '../../../assets/styles/vars.scss' as *;
+
+.how-it-works-section {
+    padding: 100px 0;
+    background: linear-gradient(to bottom, #f0f5ff, #f9fafb);
+    position: relative;
+    overflow: hidden;
+
+    // Decorative elements
+    .decorative-shape {
+        position: absolute;
+        z-index: 0;
+
+        &.shape-1 {
+            top: 20%;
+            left: 5%;
+            width: 80px;
+            height: 80px;
+            background-color: rgba($primary-color, 0.05);
+            border-radius: 20px;
+            transform: rotate(25deg);
+        }
+
+        &.shape-2 {
+            bottom: 15%;
+            right: 8%;
+            width: 120px;
+            height: 120px;
+            background-color: rgba($primary-color, 0.08);
+            border-radius: 30px;
+            transform: rotate(-15deg);
+        }
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 30px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 60px;
+
+        .section-title {
+            font-size: 2.75rem;
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -15px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80px;
+                height: 4px;
+                background: linear-gradient(to right, $primary-color, lighten($primary-color, 15%));
+                border-radius: 4px;
+            }
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: #4b5563;
+            max-width: 700px;
+            margin: 20px auto 0;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+    }
+
+    .user-tabs {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 50px;
+        flex-wrap: wrap;
+
+        .tab-button {
+            padding: 14px 28px;
+            background-color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4b5563;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 3px;
+                background: linear-gradient(to right, $primary-color, lighten($primary-color, 15%));
+                transform: scaleX(0);
+                transform-origin: right;
+                transition: transform 0.3s ease;
+                z-index: -1;
+            }
+
+            &:hover {
+                color: darken(#4b5563, 15%);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+
+                &::after {
+                    transform: scaleX(1);
+                    transform-origin: left;
+                }
+            }
+
+            &.active {
+                background: linear-gradient(135deg, $primary-color, lighten($primary-color, 10%));
+                color: white;
+                box-shadow: 0 8px 25px rgba($primary-color, 0.3);
+
+                &::after {
+                    transform: scaleX(0);
+                }
+
+                &:hover {
+                    box-shadow: 0 10px 30px rgba($primary-color, 0.35);
+                }
+            }
+        }
+    }
+
+    .process-content {
+        background-color: rgba(255, 255, 255, 0.7);
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08),
+            0 10px 20px rgba($primary-color, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.5s ease;
+        max-width: 1000px;
+        margin: 0 auto;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, $primary-color, lighten($primary-color, 15%));
+            z-index: 3;
+        }
+    }
+
+    .process-steps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 30px 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 3px;
+                background: linear-gradient(to right, transparent, $primary-color, transparent);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+
+                &::after {
+                    opacity: 1;
+                }
+
+                .step-icon {
+                    transform: scale(1.05);
+                    box-shadow: 0 10px 25px rgba($primary-color, 0.25);
+                }
+            }
+
+            .step-icon {
+                width: 70px;
+                height: 70px;
+                border-radius: 20px;
+                background: linear-gradient(135deg, rgba($primary-color, 0.08), rgba($primary-color, 0.15));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 20px;
+                transition: all 0.3s ease;
+                box-shadow: 0 8px 20px rgba($primary-color, 0.15);
+
+                svg {
+                    width: 32px;
+                    height: 32px;
+                    color: $primary-color;
+                }
+            }
+
+            .step-content {
+                h3 {
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    color: #1f2937;
+                    margin-bottom: 12px;
+                }
+
+                p {
+                    font-size: 0.95rem;
+                    line-height: 1.7;
+                    color: #4b5563;
+                }
+            }
+        }
+    }
+
+    // Tablet responsiveness
+    @media (max-width: 1100px) {
+        padding: 80px 0;
+
+        .process-steps {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    // Mobile responsiveness
+    @media (max-width: 768px) {
+        padding: 60px 0;
+
+        .section-header {
+            margin-bottom: 40px;
+
+            .section-title {
+                font-size: 2.25rem;
+            }
+
+            .section-subtitle {
+                font-size: 1.1rem;
+                padding: 0 10px;
+            }
+        }
+
+        .user-tabs {
+            .tab-button {
+                padding: 12px 20px;
+                font-size: 0.95rem;
+            }
+        }
+
+        .process-content {
+            padding: 30px;
+        }
+
+        .process-steps {
+            grid-template-columns: 1fr;
+            gap: 20px;
+
+            .step {
+                padding: 25px 15px;
+
+                .step-icon {
+                    width: 60px;
+                    height: 60px;
+
+                    svg {
+                        width: 28px;
+                        height: 28px;
+                    }
+                }
+            }
+        }
+    }
+
+    // Small mobile responsiveness
+    @media (max-width: 580px) {
+        padding: 50px 0;
+
+        .container {
+            padding: 0 20px;
+        }
+
+        .section-header {
+            .section-title {
+                font-size: 1.9rem;
+            }
+
+            .section-subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        .user-tabs {
+            gap: 10px;
+
+            .tab-button {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .process-content {
+            padding: 20px;
+        }
+    }
+}

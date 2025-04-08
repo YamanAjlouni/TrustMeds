@@ -1,0 +1,1175 @@
+@use '../../../assets/styles/vars.scss' as *;
+
+// Enhanced color system with HSL for better manipulation
+$secondary-color: #ffffff;
+$green-color: hsl(145, 63%, 42%); // #27AE60 in HSL
+$light-color: hsl(210, 87%, 94%); // #E3F2FD in HSL
+$text-color: hsl(0, 0%, 26%); // #424242 in HSL
+$red-color: hsl(5, 100%, 69%); // #FF6F61 in HSL
+
+// Semantic colors
+$error-color: hsl(0, 89%, 58%); // #F44336 in HSL
+$warning-color: hsl(45, 100%, 51%); // #FFC107 in HSL
+$success-color: $green-color;
+$border-color: hsl(0, 0%, 88%); // #e0e0e0 in HSL
+$hover-color: hsl(0, 0%, 96%); // #f5f5f5 in HSL
+
+// Adding more colors for better visual hierarchy
+$muted-text: hsl(0, 0%, 46%); // #757575
+$background-color: hsl(0, 0%, 98%); // #f9f9f9
+$surface-alt: hsl(0, 0%, 97%); // #f7f7f7
+
+// Shadows and elevations
+$card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+$elevated-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.06);
+
+// Typography
+$font-family: 'Roboto', 'Segoe UI', system-ui, -apple-system, sans-serif;
+$font-size-base: 1rem;
+$font-size-sm: 0.875rem;
+$font-size-xs: 0.75rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
+$font-size-2xl: 1.5rem;
+
+// Spacing
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 24px;
+$space-xl: 32px;
+$space-2xl: 48px;
+
+// Border radius
+$radius-sm: 4px;
+$radius-md: 8px;
+$radius-lg: 12px;
+$radius-circle: 50%;
+
+// Transitions
+$transition-fast: 150ms ease;
+$transition-standard: 250ms ease;
+
+// Z-index levels
+$z-index-base: 1;
+$z-index-elevated: 10;
+$z-index-modal: 100;
+
+// Mixins
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin card {
+    background-color: $secondary-color;
+    border-radius: $radius-md;
+    box-shadow: $card-shadow;
+    overflow: hidden;
+}
+
+@mixin badge($bg-color, $text-color) {
+    display: inline-block;
+    padding: $space-xs $space-md;
+    border-radius: $radius-lg;
+    font-size: $font-size-xs;
+    font-weight: 500;
+    background-color: rgba($bg-color, 0.12);
+    color: $text-color;
+}
+
+@mixin responsive-grid($min-width) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax($min-width, 1fr));
+    gap: $space-lg;
+}
+
+@mixin card-header {
+    @include flex-between;
+    padding: $space-md $space-lg;
+    background-color: $light-color;
+    border-bottom: 1px solid $border-color;
+}
+
+.patient-health-profile {
+    font-family: $font-family;
+    color: $text-color;
+    background-color: $background-color;
+    padding: $space-lg;
+    line-height: 1.5;
+    height: 100%;
+
+    .profile-container {
+        display: flex;
+        max-width: 1280px;
+        margin: 0 auto;
+        min-height: 700px;
+        @include card;
+    }
+
+    // Sidebar with improved visual design
+    .profile-sidebar {
+        width: 280px;
+        background: linear-gradient(135deg, $primary-color, darken($primary-color, 15%));
+        color: $secondary-color;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            padding: $space-xl $space-lg;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+            h2 {
+                margin: 0;
+                font-size: $font-size-2xl;
+                font-weight: 500;
+                letter-spacing: 0.3px;
+            }
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: $space-lg 0;
+
+            .nav-item {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                padding: $space-md $space-lg;
+                border: none;
+                background: none;
+                color: rgba(255, 255, 255, 0.8);
+                font-size: $font-size-base;
+                text-align: left;
+                cursor: pointer;
+                transition: background-color $transition-standard, color $transition-standard;
+                position: relative;
+
+                &:hover {
+                    background-color: rgba(255, 255, 255, 0.1);
+                    color: $secondary-color;
+                }
+
+                &.active {
+                    background-color: rgba(255, 255, 255, 0.15);
+                    color: $secondary-color;
+                    font-weight: 500;
+
+                    &:before {
+                        content: '';
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        bottom: 0;
+                        width: 4px;
+                        background-color: $light-color;
+                        border-top-right-radius: $radius-sm;
+                        border-bottom-right-radius: $radius-sm;
+                    }
+                }
+
+                .nav-icon {
+                    margin-right: $space-md;
+                    font-size: $font-size-lg;
+                    opacity: 0.9;
+                }
+
+                span {
+                    flex: 1;
+                }
+
+                .badge {
+                    @include badge($light-color, $primary-color);
+                }
+            }
+        }
+
+        .sidebar-footer {
+            padding: $space-lg;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+            .print-btn {
+                width: 100%;
+                padding: $space-md;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: $radius-md;
+                background: none;
+                color: $secondary-color;
+                font-size: $font-size-sm;
+                cursor: pointer;
+                @include flex-center;
+                transition: all $transition-standard;
+
+                &:hover {
+                    background-color: rgba(255, 255, 255, 0.15);
+                    transform: translateY(-1px);
+                }
+
+                &:active {
+                    transform: translateY(0);
+                    background-color: rgba(255, 255, 255, 0.2);
+                }
+
+                svg {
+                    margin-right: $space-sm;
+                }
+            }
+        }
+    }
+
+    // Content area with improved spacing
+    .profile-content {
+        flex: 1;
+        padding: $space-xl;
+        overflow-y: auto;
+        max-height: 85vh;
+    }
+
+    // Enhanced loading state
+    .loading-state {
+        @include flex-center;
+        flex-direction: column;
+        height: 300px;
+        color: $text-color;
+        opacity: 0.8;
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba($primary-color, 0.2);
+            border-radius: $radius-circle;
+            border-top-color: $primary-color;
+            animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            margin-bottom: $space-lg;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    }
+
+    // Section headers with improved visual treatment
+    .section-header {
+        @include flex-between;
+        margin-bottom: $space-xl;
+        position: relative;
+
+        h3 {
+            margin: 0;
+            font-size: $font-size-xl;
+            font-weight: 500;
+            color: $primary-color;
+            position: relative;
+            padding-bottom: $space-sm;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 40px;
+                height: 3px;
+                background-color: $primary-color;
+                border-radius: $radius-sm;
+            }
+        }
+    }
+
+    .section-subheading {
+        font-size: $font-size-lg;
+        color: $primary-color;
+        margin: $space-xl 0 $space-lg;
+        padding-bottom: $space-sm;
+        border-bottom: 1px solid $border-color;
+    }
+
+    // Improved empty state design
+    .empty-state {
+        @include flex-center;
+        flex-direction: column;
+        padding: $space-2xl $space-lg;
+        background-color: $surface-alt;
+        border-radius: $radius-md;
+        text-align: center;
+
+        .empty-icon {
+            font-size: 3rem;
+            color: lighten($muted-text, 20%);
+            margin-bottom: $space-lg;
+            opacity: 0.8;
+        }
+
+        p {
+            color: $muted-text;
+            margin-bottom: $space-lg;
+            max-width: 400px;
+        }
+    }
+
+    // Enhanced profile header
+    .profile-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: $space-xl;
+        padding: $space-lg;
+        background-color: $secondary-color;
+        border-radius: $radius-md;
+        box-shadow: $card-shadow;
+
+        .profile-avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: $radius-circle;
+            background: linear-gradient(135deg, $light-color, darken($light-color, 5%));
+            @include flex-center;
+            margin-right: $space-xl;
+            border: 4px solid rgba($primary-color, 0.1);
+
+            svg {
+                font-size: 2.5rem;
+                color: $primary-color;
+            }
+        }
+
+        .profile-name {
+            flex: 1;
+
+            h3 {
+                margin: 0 0 $space-xs;
+                font-size: 1.75rem;
+                font-weight: 500;
+            }
+
+            .profile-subtitle {
+                color: $muted-text;
+                margin: 0;
+                font-size: $font-size-sm;
+            }
+        }
+    }
+
+    // Info grid with better card design
+    .info-grid {
+        @include responsive-grid(280px);
+
+        .info-group {
+            @include card;
+            transition: transform $transition-standard, box-shadow $transition-standard;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: $elevated-shadow;
+            }
+
+            h4 {
+                margin: 0;
+                padding: $space-md $space-lg;
+                background: linear-gradient(to right, $light-color, lighten($light-color, 3%));
+                color: $primary-color;
+                font-size: $font-size-base;
+                font-weight: 500;
+                border-bottom: 1px solid $border-color;
+            }
+
+            .info-items {
+                padding: $space-lg;
+
+                .info-item {
+                    margin-bottom: $space-md;
+                    display: flex;
+                    justify-content: space-between;
+                    line-height: 1.4;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+
+                    .info-label {
+                        font-weight: 500;
+                        color: $muted-text;
+                    }
+
+                    .info-value {
+                        color: $text-color;
+                        text-align: right;
+                        word-break: break-word;
+                    }
+                }
+            }
+        }
+    }
+
+    // Enhanced allergy cards
+    .allergies-list {
+        @include responsive-grid(280px);
+
+        .allergy-card {
+            @include card;
+            transition: transform $transition-standard, box-shadow $transition-standard;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: $elevated-shadow;
+            }
+
+            .allergy-header {
+                @include card-header;
+
+                .allergy-title {
+                    h4 {
+                        margin: 0 0 $space-sm;
+                        font-size: $font-size-lg;
+                        font-weight: 500;
+                    }
+
+                    .severity-badge {
+                        &.severity-low {
+                            @include badge($green-color, $green-color);
+                        }
+
+                        &.severity-moderate {
+                            @include badge($warning-color, darken($warning-color, 15%));
+                        }
+
+                        &.severity-high,
+                        &.severity-severe {
+                            @include badge($red-color, $red-color);
+                        }
+                    }
+                }
+            }
+
+            .allergy-details {
+                padding: $space-lg;
+
+                .allergy-item {
+                    margin-bottom: $space-md;
+                    display: flex;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+
+                    &.notes {
+                        flex-direction: column;
+
+                        .allergy-label {
+                            margin-bottom: $space-xs;
+                        }
+                    }
+
+                    .allergy-label {
+                        font-weight: 500;
+                        color: $muted-text;
+                        margin-right: $space-sm;
+                        min-width: 80px;
+                    }
+
+                    .allergy-value {
+                        color: $text-color;
+                        flex: 1;
+                    }
+                }
+            }
+        }
+    }
+
+    // Enhanced medical condition cards
+    .conditions-list {
+        @include responsive-grid(280px);
+
+        .condition-card {
+            @include card;
+            transition: transform $transition-standard, box-shadow $transition-standard;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: $elevated-shadow;
+            }
+
+            .condition-header {
+                @include card-header;
+
+                .condition-title {
+                    h4 {
+                        margin: 0 0 $space-sm;
+                        font-size: $font-size-lg;
+                        font-weight: 500;
+                    }
+
+                    .status-badge {
+                        &.status-active {
+                            @include badge($warning-color, darken($warning-color, 15%));
+                        }
+
+                        &.status-resolved {
+                            @include badge($green-color, $green-color);
+                        }
+
+                        &.status-in-remission {
+                            @include badge($primary-color, $primary-color);
+                        }
+
+                        &.status-chronic {
+                            @include badge($red-color, $red-color);
+                        }
+                    }
+                }
+            }
+
+            .condition-details {
+                padding: $space-lg;
+
+                .condition-item {
+                    margin-bottom: $space-md;
+                    display: flex;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+
+                    &.notes {
+                        flex-direction: column;
+
+                        .condition-label {
+                            margin-bottom: $space-xs;
+                        }
+                    }
+
+                    .condition-label {
+                        font-weight: 500;
+                        color: $muted-text;
+                        margin-right: $space-sm;
+                        min-width: 80px;
+                    }
+
+                    .condition-value {
+                        color: $text-color;
+                        flex: 1;
+                    }
+                }
+            }
+        }
+    }
+
+    // Enhanced insurance card
+    .insurance-card {
+        @include card;
+        border: 1px solid $border-color;
+        margin-bottom: $space-xl;
+
+        .insurance-card-header {
+            @include flex-between;
+            padding: $space-lg;
+            background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+            color: $secondary-color;
+
+            h3 {
+                margin: 0;
+                font-size: $font-size-xl;
+                font-weight: 500;
+                letter-spacing: 0.3px;
+            }
+
+            .card-actions {
+                .edit-btn {
+                    background-color: rgba(255, 255, 255, 0.2);
+                    color: $secondary-color;
+                    border-radius: $radius-md;
+
+                    &:hover {
+                        background-color: rgba(255, 255, 255, 0.3);
+                    }
+                }
+            }
+        }
+
+        .insurance-card-content {
+            padding: $space-xl;
+
+            .member-info-section {
+                display: flex;
+                flex-wrap: wrap;
+                gap: $space-xl;
+                margin-bottom: $space-xl;
+
+                .member-identifier {
+                    flex: 1;
+                    min-width: 250px;
+
+                    div {
+                        margin-bottom: $space-md;
+
+                        .label {
+                            display: block;
+                            font-size: $font-size-xs;
+                            color: $muted-text;
+                            margin-bottom: $space-xs;
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+                        }
+
+                        .value {
+                            font-size: $font-size-base;
+                            font-weight: 500;
+
+                            &.highlight {
+                                font-size: $font-size-lg;
+                                color: $primary-color;
+                            }
+                        }
+                    }
+                }
+
+                .member-details {
+                    flex: 1;
+                    min-width: 250px;
+
+                    div {
+                        margin-bottom: $space-md;
+
+                        .label {
+                            display: block;
+                            font-size: $font-size-xs;
+                            color: $muted-text;
+                            margin-bottom: $space-xs;
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+                        }
+
+                        .value {
+                            font-size: $font-size-base;
+                        }
+                    }
+                }
+            }
+
+            .copay-section {
+                border-top: 1px solid $border-color;
+                padding-top: $space-xl;
+
+                h4 {
+                    margin: 0 0 $space-lg;
+                    font-size: $font-size-lg;
+                    color: $primary-color;
+                    position: relative;
+                    display: inline-block;
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        bottom: -5px;
+                        left: 0;
+                        width: 30px;
+                        height: 2px;
+                        background-color: $primary-color;
+                    }
+                }
+
+                .copay-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                    gap: $space-lg;
+
+                    .copay-item {
+                        background-color: $light-color;
+                        padding: $space-md $space-lg;
+                        border-radius: $radius-md;
+                        transition: transform $transition-standard;
+
+                        &:hover {
+                            transform: translateY(-2px);
+                        }
+
+                        .copay-label {
+                            display: block;
+                            font-size: $font-size-xs;
+                            color: $muted-text;
+                            margin-bottom: $space-xs;
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+                        }
+
+                        .copay-value {
+                            font-size: $font-size-lg;
+                            font-weight: 500;
+                            color: $primary-color;
+                        }
+                    }
+                }
+            }
+
+            .card-footer {
+                display: flex;
+                align-items: center;
+                background-color: $surface-alt;
+                padding: $space-md $space-lg;
+                border-radius: $radius-md;
+                margin-top: $space-xl;
+
+                .security-icon {
+                    color: $primary-color;
+                    font-size: $font-size-lg;
+                    margin-right: $space-md;
+                }
+
+                .security-note {
+                    color: $muted-text;
+                    font-size: $font-size-sm;
+                    margin: 0;
+                }
+            }
+        }
+    }
+
+    // Enhanced timeline design
+    .timeline {
+        position: relative;
+        padding-left: $space-md;
+
+        &:before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom,
+                    rgba($border-color, 0),
+                    rgba($border-color, 1) 5%,
+                    rgba($border-color, 1) 95%,
+                    rgba($border-color, 0));
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: $space-xl;
+            position: relative;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            .timeline-marker {
+                width: 100px;
+                flex-shrink: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                .timeline-icon {
+                    width: 44px;
+                    height: 44px;
+                    border-radius: $radius-circle;
+                    background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+                    color: $secondary-color;
+                    @include flex-center;
+                    margin-bottom: $space-sm;
+                    z-index: $z-index-base;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+                    svg {
+                        font-size: $font-size-base;
+                    }
+                }
+
+                .timeline-date {
+                    font-size: $font-size-xs;
+                    color: $muted-text;
+                    text-align: center;
+                    font-weight: 500;
+                }
+            }
+
+            .timeline-content {
+                flex: 1;
+                @include card;
+                transition: transform $transition-standard, box-shadow $transition-standard;
+
+                &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: $elevated-shadow;
+                }
+
+                .timeline-header {
+                    display: flex;
+                    align-items: center;
+                    padding: $space-md $space-lg;
+                    background: linear-gradient(to right, $light-color, lighten($light-color, 3%));
+                    border-bottom: 1px solid $border-color;
+
+                    h4 {
+                        margin: 0;
+                        font-size: $font-size-lg;
+                        font-weight: 500;
+                        flex: 1;
+                    }
+
+                    .badge {
+                        @include badge($primary-color, $primary-color);
+                        margin-right: $space-sm;
+                    }
+                }
+
+                .timeline-details {
+                    padding: $space-lg;
+
+                    .timeline-detail {
+                        margin-bottom: $space-md;
+                        display: flex;
+
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+
+                        &.notes {
+                            flex-direction: column;
+
+                            .detail-label {
+                                margin-bottom: $space-xs;
+                            }
+                        }
+
+                        .detail-label {
+                            font-weight: 500;
+                            color: $muted-text;
+                            margin-right: $space-sm;
+                            min-width: 80px;
+                        }
+
+                        .detail-value {
+                            color: $text-color;
+                            flex: 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Enhanced edit forms
+    .edit-form {
+        @include card;
+        padding: $space-xl;
+        margin-bottom: $space-xl;
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: $space-lg;
+            margin-bottom: $space-xl;
+
+            .form-group {
+                &.span-2 {
+                    grid-column: span 2;
+                }
+
+                label {
+                    display: block;
+                    margin-bottom: $space-sm;
+                    font-weight: 500;
+                    color: $text-color;
+                }
+
+                input[type="text"],
+                input[type="email"],
+                input[type="tel"],
+                input[type="date"],
+                select,
+                textarea {
+                    width: 100%;
+                    padding: $space-md;
+                    border: 1px solid $border-color;
+                    border-radius: $radius-md;
+                    font-size: $font-size-base;
+                    transition: all $transition-standard;
+                    background-color: $secondary-color;
+                    box-sizing: border-box;
+
+                    &:focus {
+                        outline: none;
+                        border-color: $primary-color;
+                        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+                    }
+
+                    &:hover:not(:focus) {
+                        border-color: darken($border-color, 10%);
+                    }
+                }
+
+                textarea {
+                    resize: vertical;
+                    min-height: 100px;
+                }
+
+                select {
+                    appearance: none;
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23424242' d='M6 8.5L1 3h10z'/%3E%3C/svg%3E");
+                    background-repeat: no-repeat;
+                    background-position: right 12px center;
+                    padding-right: 32px;
+                }
+            }
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: $space-md;
+        }
+    }
+
+    // Enhanced buttons
+    .edit-btn,
+    .add-btn,
+    .action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: $space-sm $space-lg;
+        border: none;
+        border-radius: $radius-md;
+        font-size: $font-size-sm;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all $transition-standard;
+
+        svg {
+            margin-right: $space-sm;
+        }
+
+        &:active {
+            transform: translateY(1px);
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba($primary-color, 0.25);
+        }
+
+        &.small {
+            padding: $space-xs $space-sm;
+            font-size: $font-size-xs;
+
+            svg {
+                margin-right: 0;
+            }
+        }
+    }
+
+    .edit-btn {
+        background-color: #f0f0f0;
+        color: $text-color;
+
+        &:hover {
+            background-color: #e0e0e0;
+        }
+
+        &.small {
+            background-color: transparent;
+            color: $muted-text;
+
+            &:hover {
+                background-color: #f0f0f0;
+            }
+        }
+    }
+
+    .add-btn {
+        background-color: $light-color;
+        color: $primary-color;
+
+        &:hover {
+            background-color: darken($light-color, 5%);
+        }
+    }
+
+    .action-btn {
+        &.primary {
+            background-color: $primary-color;
+            color: $secondary-color;
+            box-shadow: 0 2px 4px rgba($primary-color, 0.25);
+
+            &:hover {
+                background-color: darken($primary-color, 8%);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 8px rgba($primary-color, 0.25);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+
+        &.secondary {
+            background-color: $light-color;
+            color: $primary-color;
+
+            &:hover {
+                background-color: darken($light-color, 5%);
+            }
+        }
+
+        &.danger {
+            background-color: $red-color;
+            color: $secondary-color;
+
+            &:hover {
+                background-color: darken($red-color, 8%);
+            }
+        }
+    }
+
+    // Enhanced responsive design
+    @media (max-width: 1024px) {
+        .profile-container {
+            max-width: 100%;
+        }
+
+        .info-grid,
+        .allergies-list,
+        .conditions-list {
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        }
+    }
+
+    @media (max-width: 900px) {
+        .profile-container {
+            flex-direction: column;
+            min-height: auto;
+        }
+
+        .profile-sidebar {
+            width: 100%;
+
+            .sidebar-nav {
+                display: flex;
+                flex-wrap: wrap;
+                padding: $space-sm;
+
+                .nav-item {
+                    width: auto;
+                    flex: 1;
+                    min-width: 150px;
+                    justify-content: center;
+                    padding: $space-sm $space-md;
+
+                    &.active:before {
+                        width: 100%;
+                        height: 3px;
+                        top: auto;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                    }
+
+                    .nav-icon {
+                        margin-right: $space-sm;
+                    }
+                }
+            }
+
+            .sidebar-header {
+                text-align: center;
+            }
+        }
+
+        .profile-content {
+            padding: $space-lg;
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .allergies-list,
+        .conditions-list {
+            grid-template-columns: 1fr;
+        }
+
+        .timeline:before {
+            left: 30px;
+        }
+
+        .timeline-item .timeline-marker {
+            width: 60px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        padding: 10px;
+
+        .profile-header {
+            flex-direction: column;
+            text-align: center;
+
+            .profile-avatar {
+                margin-right: 0;
+                margin-bottom: 16px;
+            }
+
+            .profile-name {
+                margin-bottom: 16px;
+            }
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr !important;
+
+            .form-group.span-2 {
+                grid-column: span 1;
+            }
+        }
+
+        .member-info-section {
+            flex-direction: column;
+            gap: 10px !important;
+        }
+
+        .copay-grid {
+            grid-template-columns: 1fr 1fr !important;
+        }
+
+        .timeline-item {
+            flex-direction: column;
+
+            .timeline-marker {
+                width: 100%;
+                flex-direction: row;
+                margin-bottom: 10px;
+
+                .timeline-icon {
+                    margin-right: 10px;
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .timeline:before {
+            display: none;
+        }
+    }
+}

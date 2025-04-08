@@ -1,0 +1,769 @@
+@use '../../../assets/styles/vars.scss' as *;
+$secondary-color: #34a853;
+$accent-color: #fbbc05;
+$danger-color: #ea4335;
+$light-bg: #f8f9fa;
+$dark-text: #202124;
+$medium-text: #5f6368;
+$light-text: #9aa0a6;
+$border-radius: 12px;
+$shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 10px rgba(0, 0, 0, 0.08);
+$shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+$transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+// Mixins
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin card {
+    background-color: white;
+    border-radius: $border-radius;
+    box-shadow: $shadow-md;
+    padding: 1.5rem;
+    transition: $transition-standard;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+
+    &:hover {
+        box-shadow: $shadow-lg;
+        transform: translateY(-3px);
+    }
+}
+
+@mixin gradient-text {
+    background: linear-gradient(135deg, $primary-color, darken($primary-color, 15%));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.patient-dashboard {
+    background-color: $light-bg;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    color: $dark-text;
+
+    // Loading state
+    .loading-container {
+        @include flex-center;
+        flex-direction: column;
+        height: 100vh;
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba($primary-color, 0.2);
+            border-radius: 50%;
+            border-top-color: $primary-color;
+            animation: spin 1s infinite ease-in-out;
+            margin-bottom: 1.5rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: $medium-text;
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    }
+
+    // Main Content
+    .main-content {
+        padding: 2rem;
+
+        // Welcome Section
+        .welcome-section {
+            @include flex-between;
+            margin-bottom: 2rem;
+            background: linear-gradient(120deg, rgba($primary-color, 0.05), rgba($primary-color, 0.01));
+            padding: 1.5rem 2rem;
+            border-radius: $border-radius;
+            border-left: 4px solid $primary-color;
+
+            .welcome-message {
+                h2 {
+                    font-size: 1.6rem;
+                    font-weight: 600;
+                    margin: 0 0 0.5rem;
+
+                    .user-name-highlight {
+                        color: $primary-color;
+                        position: relative;
+
+                        &::after {
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                            bottom: -2px;
+                            width: 100%;
+                            height: 2px;
+                            background-color: $primary-color;
+                            border-radius: 10px;
+                        }
+                    }
+                }
+
+                .last-login {
+                    color: $medium-text;
+                    font-size: 0.9rem;
+                    margin: 0;
+                }
+            }
+
+            .quick-actions {
+                @include flex-center;
+                gap: 0.75rem;
+
+                .quick-action-btn {
+                    background-color: white;
+                    color: $medium-text;
+                    border: none;
+                    border-radius: 8px;
+                    padding: 0.75rem 1rem;
+                    cursor: pointer;
+                    @include flex-center;
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                    transition: $transition-standard;
+                    box-shadow: $shadow-sm;
+                    text-decoration: none;
+
+                    svg {
+                        margin-right: 0.5rem;
+                        font-size: 1rem;
+                    }
+
+                    &:hover {
+                        background-color: $light-bg;
+                        color: $dark-text;
+                        box-shadow: $shadow-md;
+                        transform: translateY(-2px);
+                    }
+
+                    &.primary {
+                        background-color: $primary-color;
+                        color: white;
+
+                        &:hover {
+                            background-color: darken($primary-color, 5%);
+                            box-shadow: 0 4px 10px rgba($primary-color, 0.3);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Dashboard Grid Layout
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+
+            .dashboard-section {
+                @include card;
+
+                &.health-summary-section {
+                    grid-column: span 3;
+
+                    h3{
+                        margin-bottom: 8px;
+                    }
+                }
+
+                &.medications-section {
+                    grid-column: span 2;
+                    grid-row: span 2;
+                }
+
+                &.upcoming-section {
+                    grid-column: 3;
+                }
+
+                &.pharmacy-section {
+                    grid-column: 3;
+                }
+
+                &.activity-section {
+                    grid-column: span 3;
+                }
+
+                .section-header {
+                    @include flex-between;
+                    margin-bottom: 1.5rem;
+                    padding-bottom: 0.75rem;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+                    .view-all {
+                        font-size: 0.85rem;
+                        color: $primary-color;
+                        background: none;
+                        border: none;
+                        cursor: pointer;
+                        padding: 0.3rem 0.75rem;
+                        border-radius: 4px;
+                        font-weight: 500;
+                        transition: $transition-standard;
+                        text-decoration: none;
+
+                        &:hover {
+                            background-color: rgba($primary-color, 0.1);
+                        }
+                    }
+                }
+
+                .section-title {
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    margin: 0;
+                    color: $dark-text;
+                }
+            }
+
+            // Health Summary Section
+            .health-metrics {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1rem;
+
+                .health-metric-card {
+                    display: flex;
+                    align-items: center;
+                    padding: 1rem;
+                    background-color: $light-bg;
+                    border-radius: 10px;
+                    transition: $transition-standard;
+
+                    &:hover {
+                        transform: translateY(-3px);
+                        box-shadow: $shadow-sm;
+                    }
+
+                    .metric-icon {
+                        @include flex-center;
+                        width: 48px;
+                        height: 48px;
+                        border-radius: 50%;
+                        margin-right: 1rem;
+
+                        svg {
+                            font-size: 1.25rem;
+                            color: white;
+                        }
+
+                        &.medication-icon {
+                            background: linear-gradient(135deg, $primary-color, darken($primary-color, 15%));
+                        }
+
+                        &.appointment-icon {
+                            background: linear-gradient(135deg, $accent-color, darken($accent-color, 15%));
+                        }
+
+                        &.doctor-icon {
+                            background: linear-gradient(135deg, $secondary-color, darken($secondary-color, 15%));
+                        }
+
+                        &.security-icon {
+                            background: linear-gradient(135deg, #9c27b0, darken(#9c27b0, 15%));
+                        }
+                    }
+
+                    .metric-info {
+                        h4 {
+                            font-size: 0.8rem;
+                            font-weight: 500;
+                            color: $medium-text;
+                            margin: 0 0 0.25rem;
+                        }
+
+                        .metric-value {
+                            font-size: 1.25rem;
+                            font-weight: 700;
+                            color: $dark-text;
+                            margin: 0;
+                        }
+                    }
+                }
+            }
+
+            // Medications Section
+            .medications-list {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+
+                .medication-card {
+                    display: flex;
+                    background-color: $light-bg;
+                    border-radius: 10px;
+                    overflow: hidden;
+                    transition: $transition-standard;
+                    position: relative;
+
+                    &:hover {
+                        box-shadow: $shadow-md;
+                        transform: translateY(-2px);
+                    }
+
+                    .medication-color-bar {
+                        width: 8px;
+                        height: auto;
+                    }
+
+                    .medication-details {
+                        flex: 1;
+                        padding: 1.25rem 1rem;
+
+                        .medication-primary-info {
+                            margin-bottom: 1rem;
+
+                            .medication-name {
+                                font-size: 1.1rem;
+                                font-weight: 600;
+                                margin: 0 0 0.25rem;
+                            }
+
+                            .medication-dosage {
+                                font-size: 0.85rem;
+                                color: $medium-text;
+                                background-color: rgba(0, 0, 0, 0.05);
+                                padding: 0.2rem 0.5rem;
+                                border-radius: 4px;
+                            }
+                        }
+
+                        .medication-secondary-info {
+                            display: grid;
+                            grid-template-columns: repeat(2, 1fr);
+                            gap: 0.75rem;
+
+                            .info-item {
+                                .info-label {
+                                    font-size: 0.75rem;
+                                    color: $light-text;
+                                    display: block;
+                                    margin-bottom: 0.2rem;
+                                }
+
+                                .info-value {
+                                    font-size: 0.9rem;
+                                    color: $dark-text;
+                                    font-weight: 500;
+                                }
+                            }
+                        }
+                    }
+
+                    .medication-actions {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        gap: 0.75rem;
+                        padding: 0 1.25rem;
+
+                        .medication-action-btn {
+                            border: none;
+                            border-radius: 6px;
+                            padding: 0.6rem 1rem;
+                            font-size: 0.85rem;
+                            font-weight: 500;
+                            cursor: pointer;
+                            transition: $transition-standard;
+                            white-space: nowrap;
+
+                            &.primary {
+                                background-color: $primary-color;
+                                color: white;
+
+                                &:hover {
+                                    background-color: darken($primary-color, 5%);
+                                }
+                            }
+
+                            &.secondary {
+                                background-color: transparent;
+                                color: $primary-color;
+                                border: 1px solid $primary-color;
+
+                                &:hover {
+                                    background-color: rgba($primary-color, 0.08);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Upcoming Events Section
+            .upcoming-events {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+
+                .upcoming-event {
+                    display: flex;
+                    padding: 1rem;
+                    background-color: $light-bg;
+                    border-radius: 10px;
+                    transition: $transition-standard;
+
+                    &:hover {
+                        box-shadow: $shadow-sm;
+                        transform: translateY(-2px);
+                    }
+
+                    .event-date {
+                        @include flex-center;
+                        flex-direction: column;
+                        border-radius: 8px;
+                        background: linear-gradient(to bottom, $primary-color, darken($primary-color, 15%));
+                        color: white;
+                        min-width: 60px;
+                        height: 60px;
+                        margin-right: 1rem;
+
+                        .date-day {
+                            font-size: 1.5rem;
+                            font-weight: 700;
+                            line-height: 1;
+                        }
+
+                        .date-month {
+                            font-size: 0.7rem;
+                            font-weight: 500;
+                            text-transform: uppercase;
+                            margin-top: 0.2rem;
+                        }
+                    }
+
+                    .event-details {
+                        flex: 1;
+
+                        .event-title {
+                            font-size: 1rem;
+                            font-weight: 600;
+                            margin: 0 0 0.25rem;
+                        }
+
+                        .event-description {
+                            font-size: 0.85rem;
+                            color: $medium-text;
+                            margin: 0 0 0.5rem;
+                        }
+
+                        .event-time {
+                            @include flex-center;
+                            justify-content: flex-start;
+                            font-size: 0.8rem;
+                            color: $light-text;
+
+                            .time-icon {
+                                margin-right: 0.4rem;
+                                font-size: 0.85rem;
+                            }
+                        }
+                    }
+
+                    .event-actions {
+                        align-self: center;
+
+                        .event-action-btn {
+                            background-color: transparent;
+                            color: $primary-color;
+                            border: 1px solid $primary-color;
+                            border-radius: 6px;
+                            padding: 0.5rem 0.75rem;
+                            font-size: 0.8rem;
+                            font-weight: 500;
+                            cursor: pointer;
+                            transition: $transition-standard;
+
+                            &:hover {
+                                background-color: rgba($primary-color, 0.08);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Pharmacy Section
+            .primary-pharmacy-card {
+                padding: 1.25rem;
+                background-color: $light-bg;
+                border-radius: 10px;
+                margin-top: 0.5rem;
+
+                .pharmacy-info {
+                    display: flex;
+                    margin-bottom: 1.25rem;
+
+                    .pharmacy-icon {
+                        @include flex-center;
+                        width: 48px;
+                        height: 48px;
+                        border-radius: 10px;
+                        background: linear-gradient(135deg, $secondary-color, darken($secondary-color, 15%));
+                        margin-right: 1rem;
+
+                        svg {
+                            font-size: 1.25rem;
+                            color: white;
+                        }
+                    }
+
+                    .pharmacy-details {
+                        flex: 1;
+
+                        .pharmacy-primary-info {
+                            display: flex;
+                            align-items: center;
+                            margin-bottom: 0.5rem;
+
+                            .pharmacy-name {
+                                font-size: 1.1rem;
+                                font-weight: 600;
+                                margin: 0;
+                                margin-right: 0.75rem;
+                            }
+
+                            .primary-badge {
+                                font-size: 0.7rem;
+                                font-weight: 500;
+                                background-color: rgba($secondary-color, 0.1);
+                                color: $secondary-color;
+                                padding: 0.15rem 0.5rem;
+                                border-radius: 4px;
+                                text-transform: uppercase;
+                            }
+                        }
+
+                        .pharmacy-address {
+                            font-size: 0.85rem;
+                            color: $medium-text;
+                            margin: 0 0 0.5rem;
+                        }
+
+                        .pharmacy-meta {
+                            display: flex;
+                            gap: 1rem;
+                            font-size: 0.8rem;
+                            color: $light-text;
+                            margin-bottom: 0.5rem;
+
+                            .pharmacy-rating {
+                                color: $accent-color;
+                            }
+                        }
+
+                        .pharmacy-delivery {
+                            .delivery-badge {
+                                display: inline-flex;
+                                align-items: center;
+                                font-size: 0.8rem;
+                                font-weight: 500;
+                                color: $secondary-color;
+
+                                .delivery-icon {
+                                    margin-right: 0.3rem;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .pharmacy-actions {
+                    display: flex;
+                    gap: 0.75rem;
+
+                    .pharmacy-action-btn {
+                        flex: 1;
+                        @include flex-center;
+                        border: none;
+                        border-radius: 6px;
+                        padding: 0.6rem 0;
+                        font-size: 0.85rem;
+                        font-weight: 500;
+                        cursor: pointer;
+                        transition: $transition-standard;
+
+                        .btn-icon {
+                            margin-right: 0.5rem;
+                            font-size: 0.85rem;
+                        }
+
+                        &.primary {
+                            background-color: $secondary-color;
+                            color: white;
+
+                            &:hover {
+                                background-color: darken($secondary-color, 5%);
+                            }
+                        }
+
+                        &.secondary {
+                            background-color: transparent;
+                            color: $dark-text;
+                            border: 1px solid rgba(0, 0, 0, 0.15);
+
+                            &:hover {
+                                background-color: rgba(0, 0, 0, 0.05);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Recent Activity Section
+            .activity-list {
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+
+                .activity-item {
+                    display: flex;
+                    align-items: center;
+                    padding: 1rem;
+                    background-color: $light-bg;
+                    border-radius: 10px;
+                    transition: $transition-standard;
+
+                    &:hover {
+                        box-shadow: $shadow-sm;
+                        transform: translateY(-2px);
+                    }
+
+                    .activity-icon {
+                        @include flex-center;
+                        width: 42px;
+                        height: 42px;
+                        border-radius: 10px;
+                        background-color: rgba($primary-color, 0.1);
+                        margin-right: 1rem;
+
+                        svg {
+                            font-size: 1.1rem;
+                            color: $primary-color;
+                        }
+                    }
+
+                    .activity-content {
+                        flex: 1;
+
+                        .activity-description {
+                            font-size: 0.9rem;
+                            margin: 0 0 0.25rem;
+                        }
+
+                        .activity-date {
+                            font-size: 0.8rem;
+                            color: $light-text;
+                        }
+                    }
+
+                    .activity-action {
+                        .action-arrow {
+                            @include flex-center;
+                            width: 32px;
+                            height: 32px;
+                            border-radius: 50%;
+                            border: none;
+                            background-color: transparent;
+                            color: $medium-text;
+                            cursor: pointer;
+                            transition: $transition-standard;
+
+                            &:hover {
+                                background-color: rgba($primary-color, 0.1);
+                                color: $primary-color;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Responsive styles
+@media (max-width: 1200px) {
+    .patient-dashboard {
+        .dashboard-grid {
+            grid-template-columns: 1fr 1fr;
+
+            .dashboard-section {
+                &.health-summary-section {
+                    grid-column: span 2;
+                }
+
+                &.medications-section {
+                    grid-column: span 2;
+                    grid-row: span 1;
+                }
+
+                &.upcoming-section {
+                    grid-column: 1;
+                }
+
+                &.pharmacy-section {
+                    grid-column: 2;
+                }
+
+                &.activity-section {
+                    grid-column: span 2;
+                }
+            }
+
+            .health-metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    }
+}
+
+@media (max-width: 992px) {
+    .patient-dashboard {
+        .dashboard-content {
+            flex-direction: column;
+            height: auto;
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+                .main-nav {
+                    padding: 1rem 0;
+
+                    ul {
+                        display: flex;
+                        overflow-x: auto;
+                        padding: 0 1rem;
+
+                        li {
+                            margin: 0 0.5rem;
+                            padding: 0.5rem 1rem;
+                            white-space: nowrap;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
