@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './PatientHealthProfile.scss';
 import {
     FaUserAlt,
     FaAllergies,
@@ -11,8 +10,12 @@ import {
     FaTimes,
     FaShieldAlt,
     FaHistory,
-    FaExclamationTriangle
+    FaExclamationTriangle,
+    FaDownload,
+    FaBell,
+    FaExclamationCircle
 } from 'react-icons/fa';
+import './PatientHealthProfile.scss'
 
 export const PatientHealthProfile = () => {
     // Sample data - in a real app, this would come from your API/backend
@@ -339,9 +342,20 @@ export const PatientHealthProfile = () => {
                         <h3>{personalInfo.firstName} {personalInfo.lastName}</h3>
                         <p className="profile-subtitle">Patient ID: PT-12345678</p>
                     </div>
-                    <button className="edit-btn" onClick={() => startEditing({ ...personalInfo })}>
-                        <FaPencilAlt /> Edit Profile
-                    </button>
+                    <div className="profile-actions">
+                        <button className="edit-btn" onClick={() => startEditing({ ...personalInfo })}>
+                            <FaPencilAlt /> Edit Profile
+                        </button>
+                    </div>
+                </div>
+
+                <div className="alert-box">
+                    <FaExclamationCircle className="alert-box-icon" />
+                    <div className="alert-box-content">
+                        <h4>Important Health Information</h4>
+                        <p>Your yearly checkup is due in 15 days. Please schedule an appointment with Dr. Smith.</p>
+                    </div>
+                    <button className="alert-box-action">Schedule Now</button>
                 </div>
 
                 <div className="info-grid">
@@ -351,6 +365,10 @@ export const PatientHealthProfile = () => {
                             <div className="info-item">
                                 <span className="info-label">Date of Birth</span>
                                 <span className="info-value">{new Date(personalInfo.dateOfBirth).toLocaleDateString()}</span>
+                            </div>
+                            <div className="info-item">
+                                <span className="info-label">Age</span>
+                                <span className="info-value">{new Date().getFullYear() - new Date(personalInfo.dateOfBirth).getFullYear()} years</span>
                             </div>
                             <div className="info-item">
                                 <span className="info-label">Gender</span>
@@ -404,6 +422,32 @@ export const PatientHealthProfile = () => {
                                 <span className="info-label">Phone</span>
                                 <span className="info-value">{personalInfo.emergencyContact.phoneNumber}</span>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="biometric-summary">
+                    <h4 className="summary-title">Biometric Summary</h4>
+                    <div className="biometric-grid">
+                        <div className="biometric-item">
+                            <div className="biometric-value">120/80</div>
+                            <div className="biometric-label">Blood Pressure</div>
+                            <div className="trend normal">Normal</div>
+                        </div>
+                        <div className="biometric-item">
+                            <div className="biometric-value">72</div>
+                            <div className="biometric-label">Heart Rate</div>
+                            <div className="trend normal">Normal</div>
+                        </div>
+                        <div className="biometric-item">
+                            <div className="biometric-value">98.6°F</div>
+                            <div className="biometric-label">Temperature</div>
+                            <div className="trend normal">Normal</div>
+                        </div>
+                        <div className="biometric-item">
+                            <div className="biometric-value">23.1</div>
+                            <div className="biometric-label">BMI</div>
+                            <div className="trend normal">Normal</div>
                         </div>
                     </div>
                 </div>
@@ -477,7 +521,10 @@ export const PatientHealthProfile = () => {
         return (
             <div className="info-display allergies-display">
                 <div className="section-header">
-                    <h3>Allergies & Sensitivities</h3>
+                    <div className="section-title-wrapper">
+                        <h3>Allergies & Sensitivities</h3>
+                        <p className="section-subtitle">Manage your known allergies and reactions</p>
+                    </div>
                     <button className="add-btn" onClick={() => startEditing({})}>
                         + Add New Allergy
                     </button>
@@ -596,7 +643,10 @@ export const PatientHealthProfile = () => {
         return (
             <div className="info-display conditions-display">
                 <div className="section-header">
-                    <h3>Medical Conditions</h3>
+                    <div className="section-title-wrapper">
+                        <h3>Medical Conditions</h3>
+                        <p className="section-subtitle">Manage your ongoing and past medical conditions</p>
+                    </div>
                     <button className="add-btn" onClick={() => startEditing({})}>
                         + Add New Condition
                     </button>
@@ -645,6 +695,7 @@ export const PatientHealthProfile = () => {
                         ))}
                     </div>
                 )}
+
             </div>
         );
     };
@@ -789,14 +840,24 @@ export const PatientHealthProfile = () => {
 
         return (
             <div className="info-display insurance-display">
+                <div className="section-header">
+                    <div className="section-title-wrapper">
+                        <h3>Insurance Information</h3>
+                        <p className="section-subtitle">Manage your insurance plan details and coverage</p>
+                    </div>
+                    <div className="header-actions">
+                        <button className="download-btn">
+                            <FaDownload /> Download Card
+                        </button>
+                        <button className="edit-btn" onClick={() => startEditing({ ...insuranceInfo })}>
+                            <FaPencilAlt /> Edit
+                        </button>
+                    </div>
+                </div>
+
                 <div className="insurance-card">
                     <div className="insurance-card-header">
                         <h3>{insuranceInfo.provider}</h3>
-                        <div className="card-actions">
-                            <button className="edit-btn" onClick={() => startEditing({ ...insuranceInfo })}>
-                                <FaPencilAlt /> Edit
-                            </button>
-                        </div>
                     </div>
 
                     <div className="insurance-card-content">
@@ -861,6 +922,38 @@ export const PatientHealthProfile = () => {
                         <div className="card-footer">
                             <FaShieldAlt className="security-icon" />
                             <p className="security-note">Your insurance information is securely stored and encrypted.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="benefits-summary">
+                    <h4>Benefits Summary</h4>
+                    <div className="benefits-grid">
+                        <div className="benefit-item">
+                            <h5>Annual Deductible</h5>
+                            <span className="benefit-value">$1,500</span>
+                            <span className="benefit-progress">$750 used</span>
+                            <div className="progress-bar">
+                                <div className="progress" style={{ width: '50%' }}></div>
+                            </div>
+                        </div>
+                        <div className="benefit-item">
+                            <h5>Out-of-Pocket Maximum</h5>
+                            <span className="benefit-value">$4,500</span>
+                            <span className="benefit-progress">$1,250 used</span>
+                            <div className="progress-bar">
+                                <div className="progress" style={{ width: '28%' }}></div>
+                            </div>
+                        </div>
+                        <div className="benefit-item">
+                            <h5>Preventive Care</h5>
+                            <span className="benefit-value">Covered 100%</span>
+                            <span className="benefit-status covered">Covered</span>
+                        </div>
+                        <div className="benefit-item">
+                            <h5>Prescription Coverage</h5>
+                            <span className="benefit-value">Tiered Copay</span>
+                            <span className="benefit-status covered">Active</span>
                         </div>
                     </div>
                 </div>
@@ -944,10 +1037,23 @@ export const PatientHealthProfile = () => {
         return (
             <div className="info-display history-display">
                 <div className="section-header">
-                    <h3>Medical History</h3>
+                    <div className="section-title-wrapper">
+                        <h3>Medical History</h3>
+                        <p className="section-subtitle">View and manage your historical medical records</p>
+                    </div>
                     <button className="add-btn" onClick={() => startEditing({})}>
                         + Add New Record
                     </button>
+                </div>
+
+                <div className="history-filter">
+                    <div className="filter-label">Filter by:</div>
+                    <div className="filter-options">
+                        <button className="filter-btn active">All</button>
+                        <button className="filter-btn">Surgery</button>
+                        <button className="filter-btn">Hospitalization</button>
+                        <button className="filter-btn">Vaccination</button>
+                    </div>
                 </div>
 
                 {medicalHistory.length === 0 ? (

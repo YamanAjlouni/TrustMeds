@@ -29,9 +29,13 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     background-color: white;
     border-radius: $border-radius;
     box-shadow: $shadow-md;
-    padding: 1.5rem;
+    padding: 1rem;
     transition: $transition-standard;
     border: 1px solid rgba(0, 0, 0, 0.04);
+
+    @media (min-width: 768px) {
+        padding: 1.5rem;
+    }
 
     &:hover {
         box-shadow: $shadow-lg;
@@ -50,27 +54,39 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     background-color: $light-bg;
     font-family: 'Inter', 'Segoe UI', sans-serif;
     color: $dark-text;
+    min-height: 100%;
 
     // Loading state
     .loading-container {
         @include flex-center;
         flex-direction: column;
-        height: 100vh;
+        min-height: 60vh;
+        padding: 2rem 0;
 
         .loader {
-            width: 48px;
-            height: 48px;
+            width: 36px;
+            height: 36px;
             border: 3px solid rgba($primary-color, 0.2);
             border-radius: 50%;
             border-top-color: $primary-color;
             animation: spin 1s infinite ease-in-out;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
+
+            @media (min-width: 768px) {
+                width: 48px;
+                height: 48px;
+                margin-bottom: 1.5rem;
+            }
         }
 
         p {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: $medium-text;
             font-weight: 500;
+
+            @media (min-width: 768px) {
+                font-size: 1.1rem;
+            }
         }
 
         @keyframes spin {
@@ -86,22 +102,50 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
     // Main Content
     .main-content {
-        padding: 2rem;
+        padding: 1rem;
+
+        @media (min-width: 768px) {
+            padding: 1.5rem;
+        }
+
+        @media (min-width: 992px) {
+            padding: 2rem;
+        }
 
         // Welcome Section
         .welcome-section {
-            @include flex-between;
-            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
             background: linear-gradient(120deg, rgba($primary-color, 0.05), rgba($primary-color, 0.01));
-            padding: 1.5rem 2rem;
+            padding: 1rem;
             border-radius: $border-radius;
             border-left: 4px solid $primary-color;
 
+            @media (min-width: 768px) {
+                @include flex-between;
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            @media (max-width: 992px) {
+                flex-direction: column;
+            }
+
             .welcome-message {
                 h2 {
-                    font-size: 1.6rem;
+                    font-size: 1.3rem;
                     font-weight: 600;
-                    margin: 0 0 0.5rem;
+                    margin: 0 0 0.3rem;
+
+                    @media (min-width: 768px) {
+                        font-size: 1.5rem;
+                        margin: 0 0 0.5rem;
+                    }
+
+                    @media (min-width: 992px) {
+                        font-size: 1.6rem;
+                    }
 
                     .user-name-highlight {
                         color: $primary-color;
@@ -122,32 +166,64 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
                 .last-login {
                     color: $medium-text;
-                    font-size: 0.9rem;
+                    font-size: 0.8rem;
                     margin: 0;
+
+                    @media (min-width: 768px) {
+                        font-size: 0.9rem;
+                    }
                 }
             }
 
             .quick-actions {
-                @include flex-center;
-                gap: 0.75rem;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+
+                @media (min-width: 768px) {
+                    @include flex-center;
+                    flex-wrap: nowrap;
+                    gap: 0.75rem;
+                }
 
                 .quick-action-btn {
                     background-color: white;
                     color: $medium-text;
                     border: none;
                     border-radius: 8px;
-                    padding: 0.75rem 1rem;
+                    padding: 0.5rem 0.75rem;
                     cursor: pointer;
                     @include flex-center;
-                    font-size: 0.9rem;
+                    font-size: 0.85rem;
                     font-weight: 500;
                     transition: $transition-standard;
                     box-shadow: $shadow-sm;
                     text-decoration: none;
+                    flex: 1;
+                    min-width: 0;
+
+                    @media (min-width: 768px) {
+                        padding: 0.75rem 1rem;
+                        font-size: 0.9rem;
+                        flex: initial;
+                    }
+
+                    @media (max-width:450px) {
+                        font-size: 0.6rem;
+                    }
 
                     svg {
-                        margin-right: 0.5rem;
-                        font-size: 1rem;
+                        margin-right: 0.4rem;
+                        font-size: 0.9rem;
+
+                        @media (min-width: 768px) {
+                            margin-right: 0.5rem;
+                            font-size: 1rem;
+                        }
+
+                        @media (max-width: 450px) {
+                            font-size: 0.7rem;
+                        }
                     }
 
                     &:hover {
@@ -173,42 +249,100 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         // Dashboard Grid Layout
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+
+            @media (min-width: 576px) {
+                gap: 1.25rem;
+            }
+
+            @media (min-width: 992px) {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            @media (min-width: 1200px) {
+                grid-template-columns: repeat(3, 1fr);
+            }
 
             .dashboard-section {
                 @include card;
 
                 &.health-summary-section {
-                    grid-column: span 3;
+                    grid-column: 1;
 
-                    h3{
+                    @media (min-width: 992px) {
+                        grid-column: span 2;
+                    }
+
+                    @media (min-width: 1200px) {
+                        grid-column: span 3;
+                    }
+
+                    h3 {
                         margin-bottom: 8px;
                     }
                 }
 
                 &.medications-section {
-                    grid-column: span 2;
-                    grid-row: span 2;
+                    grid-column: 1;
+
+                    @media (min-width: 992px) {
+                        grid-column: span 2;
+                    }
+
+                    @media (min-width: 1200px) {
+                        grid-column: span 2;
+                        grid-row: span 2;
+                    }
                 }
 
                 &.upcoming-section {
-                    grid-column: 3;
+                    grid-column: 1;
+
+                    @media (min-width: 992px) {
+                        grid-column: 1;
+                    }
+
+                    @media (min-width: 1200px) {
+                        grid-column: 3;
+                    }
                 }
 
                 &.pharmacy-section {
-                    grid-column: 3;
+                    grid-column: 1;
+
+                    @media (min-width: 992px) {
+                        grid-column: 2;
+                    }
+
+                    @media (min-width: 1200px) {
+                        grid-column: 3;
+                    }
                 }
 
                 &.activity-section {
-                    grid-column: span 3;
+                    grid-column: 1;
+
+                    @media (min-width: 992px) {
+                        grid-column: span 2;
+                    }
+
+                    @media (min-width: 1200px) {
+                        grid-column: span 3;
+                    }
                 }
 
                 .section-header {
                     @include flex-between;
-                    margin-bottom: 1.5rem;
-                    padding-bottom: 0.75rem;
+                    margin-bottom: 1rem;
+                    padding-bottom: 0.5rem;
                     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+                    @media (min-width: 768px) {
+                        margin-bottom: 1.5rem;
+                        padding-bottom: 0.75rem;
+                    }
 
                     .view-all {
                         font-size: 0.85rem;
@@ -229,26 +363,44 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                 }
 
                 .section-title {
-                    font-size: 1.1rem;
+                    font-size: 1rem;
                     font-weight: 600;
                     margin: 0;
                     color: $dark-text;
+                    margin-bottom: 8px;
+
+                    @media (min-width: 768px) {
+                        font-size: 1.1rem;
+                    }
                 }
             }
 
             // Health Summary Section
             .health-metrics {
                 display: grid;
-                grid-template-columns: repeat(4, 1fr);
-                gap: 1rem;
+                grid-template-columns: repeat(1, 1fr);
+                gap: 0.75rem;
+
+                @media (min-width: 576px) {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 1rem;
+                }
+
+                @media (min-width: 992px) {
+                    grid-template-columns: repeat(4, 1fr);
+                }
 
                 .health-metric-card {
                     display: flex;
                     align-items: center;
-                    padding: 1rem;
+                    padding: 0.75rem;
                     background-color: $light-bg;
                     border-radius: 10px;
                     transition: $transition-standard;
+
+                    @media (min-width: 768px) {
+                        padding: 1rem;
+                    }
 
                     &:hover {
                         transform: translateY(-3px);
@@ -257,14 +409,24 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
                     .metric-icon {
                         @include flex-center;
-                        width: 48px;
-                        height: 48px;
+                        width: 40px;
+                        height: 40px;
                         border-radius: 50%;
-                        margin-right: 1rem;
+                        margin-right: 0.75rem;
+
+                        @media (min-width: 768px) {
+                            width: 48px;
+                            height: 48px;
+                            margin-right: 1rem;
+                        }
 
                         svg {
-                            font-size: 1.25rem;
+                            font-size: 1.1rem;
                             color: white;
+
+                            @media (min-width: 768px) {
+                                font-size: 1.25rem;
+                            }
                         }
 
                         &.medication-icon {
@@ -286,17 +448,26 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
                     .metric-info {
                         h4 {
-                            font-size: 0.8rem;
+                            font-size: 0.75rem;
                             font-weight: 500;
                             color: $medium-text;
-                            margin: 0 0 0.25rem;
+                            margin: 0 0 0.15rem;
+
+                            @media (min-width: 768px) {
+                                font-size: 0.8rem;
+                                margin: 0 0 0.25rem;
+                            }
                         }
 
                         .metric-value {
-                            font-size: 1.25rem;
+                            font-size: 1.1rem;
                             font-weight: 700;
                             color: $dark-text;
                             margin: 0;
+
+                            @media (min-width: 768px) {
+                                font-size: 1.25rem;
+                            }
                         }
                     }
                 }
@@ -306,15 +477,24 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             .medications-list {
                 display: flex;
                 flex-direction: column;
-                gap: 1rem;
+                gap: 0.75rem;
+
+                @media (min-width: 768px) {
+                    gap: 1rem;
+                }
 
                 .medication-card {
                     display: flex;
+                    flex-direction: column;
                     background-color: $light-bg;
                     border-radius: 10px;
                     overflow: hidden;
                     transition: $transition-standard;
                     position: relative;
+
+                    @media (min-width: 768px) {
+                        flex-direction: row;
+                    }
 
                     &:hover {
                         box-shadow: $shadow-md;
@@ -322,49 +502,84 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                     }
 
                     .medication-color-bar {
-                        width: 8px;
-                        height: auto;
+                        width: 100%;
+                        height: 8px;
+
+                        @media (min-width: 768px) {
+                            width: 8px;
+                            height: auto;
+                        }
                     }
 
                     .medication-details {
                         flex: 1;
-                        padding: 1.25rem 1rem;
+                        padding: 1rem 0.75rem;
+
+                        @media (min-width: 768px) {
+                            padding: 1.25rem 1rem;
+                        }
 
                         .medication-primary-info {
-                            margin-bottom: 1rem;
+                            margin-bottom: 0.75rem;
+
+                            @media (min-width: 768px) {
+                                margin-bottom: 1rem;
+                            }
 
                             .medication-name {
-                                font-size: 1.1rem;
+                                font-size: 1rem;
                                 font-weight: 600;
                                 margin: 0 0 0.25rem;
+
+                                @media (min-width: 768px) {
+                                    font-size: 1.1rem;
+                                }
                             }
 
                             .medication-dosage {
-                                font-size: 0.85rem;
+                                font-size: 0.8rem;
                                 color: $medium-text;
                                 background-color: rgba(0, 0, 0, 0.05);
-                                padding: 0.2rem 0.5rem;
+                                padding: 0.15rem 0.5rem;
                                 border-radius: 4px;
+
+                                @media (min-width: 768px) {
+                                    font-size: 0.85rem;
+                                    padding: 0.2rem 0.5rem;
+                                }
                             }
                         }
 
                         .medication-secondary-info {
                             display: grid;
                             grid-template-columns: repeat(2, 1fr);
-                            gap: 0.75rem;
+                            gap: 0.5rem;
+
+                            @media (min-width: 768px) {
+                                gap: 0.75rem;
+                            }
 
                             .info-item {
                                 .info-label {
-                                    font-size: 0.75rem;
+                                    font-size: 0.7rem;
                                     color: $light-text;
                                     display: block;
-                                    margin-bottom: 0.2rem;
+                                    margin-bottom: 0.15rem;
+
+                                    @media (min-width: 768px) {
+                                        font-size: 0.75rem;
+                                        margin-bottom: 0.2rem;
+                                    }
                                 }
 
                                 .info-value {
-                                    font-size: 0.9rem;
+                                    font-size: 0.85rem;
                                     color: $dark-text;
                                     font-weight: 500;
+
+                                    @media (min-width: 768px) {
+                                        font-size: 0.9rem;
+                                    }
                                 }
                             }
                         }
@@ -372,20 +587,36 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
                     .medication-actions {
                         display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        gap: 0.75rem;
-                        padding: 0 1.25rem;
+                        justify-content: space-between;
+                        gap: 0.5rem;
+                        padding: 0 0.75rem 0.75rem;
+
+                        @media (min-width: 768px) {
+                            flex-direction: column;
+                            justify-content: center;
+                            gap: 0.75rem;
+                            padding: 0 1.25rem;
+                        }
 
                         .medication-action-btn {
                             border: none;
                             border-radius: 6px;
-                            padding: 0.6rem 1rem;
-                            font-size: 0.85rem;
+                            padding: 0.5rem;
+                            font-size: 0.8rem;
                             font-weight: 500;
                             cursor: pointer;
                             transition: $transition-standard;
                             white-space: nowrap;
+                            text-align: center;
+
+                            @media (min-width: 768px) {
+                                padding: 0.6rem 1rem;
+                                font-size: 0.85rem;
+                            }
+
+                            @media (max-width: 767px) {
+                                flex: 1;
+                            }
 
                             &.primary {
                                 background-color: $primary-color;
@@ -414,14 +645,22 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             .upcoming-events {
                 display: flex;
                 flex-direction: column;
-                gap: 1rem;
+                gap: 0.75rem;
+
+                @media (min-width: 768px) {
+                    gap: 1rem;
+                }
 
                 .upcoming-event {
                     display: flex;
-                    padding: 1rem;
+                    padding: 0.75rem;
                     background-color: $light-bg;
                     border-radius: 10px;
                     transition: $transition-standard;
+
+                    @media (min-width: 768px) {
+                        padding: 1rem;
+                    }
 
                     &:hover {
                         box-shadow: $shadow-sm;
@@ -434,21 +673,35 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                         border-radius: 8px;
                         background: linear-gradient(to bottom, $primary-color, darken($primary-color, 15%));
                         color: white;
-                        min-width: 60px;
-                        height: 60px;
-                        margin-right: 1rem;
+                        min-width: 50px;
+                        height: 50px;
+                        margin-right: 0.75rem;
+
+                        @media (min-width: 768px) {
+                            min-width: 60px;
+                            height: 60px;
+                            margin-right: 1rem;
+                        }
 
                         .date-day {
-                            font-size: 1.5rem;
+                            font-size: 1.25rem;
                             font-weight: 700;
                             line-height: 1;
+
+                            @media (min-width: 768px) {
+                                font-size: 1.5rem;
+                            }
                         }
 
                         .date-month {
-                            font-size: 0.7rem;
+                            font-size: 0.65rem;
                             font-weight: 500;
                             text-transform: uppercase;
                             margin-top: 0.2rem;
+
+                            @media (min-width: 768px) {
+                                font-size: 0.7rem;
+                            }
                         }
                     }
 
@@ -456,43 +709,73 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                         flex: 1;
 
                         .event-title {
-                            font-size: 1rem;
+                            font-size: 0.95rem;
                             font-weight: 600;
-                            margin: 0 0 0.25rem;
+                            margin: 0 0 0.15rem;
+
+                            @media (min-width: 768px) {
+                                font-size: 1rem;
+                                margin: 0 0 0.25rem;
+                            }
                         }
 
                         .event-description {
-                            font-size: 0.85rem;
+                            font-size: 0.8rem;
                             color: $medium-text;
-                            margin: 0 0 0.5rem;
+                            margin: 0 0 0.35rem;
+
+                            @media (min-width: 768px) {
+                                font-size: 0.85rem;
+                                margin: 0 0 0.5rem;
+                            }
                         }
 
                         .event-time {
                             @include flex-center;
                             justify-content: flex-start;
-                            font-size: 0.8rem;
+                            font-size: 0.75rem;
                             color: $light-text;
 
+                            @media (min-width: 768px) {
+                                font-size: 0.8rem;
+                            }
+
                             .time-icon {
-                                margin-right: 0.4rem;
-                                font-size: 0.85rem;
+                                margin-right: 0.3rem;
+                                font-size: 0.8rem;
+
+                                @media (min-width: 768px) {
+                                    margin-right: 0.4rem;
+                                    font-size: 0.85rem;
+                                }
                             }
                         }
                     }
 
                     .event-actions {
                         align-self: center;
+                        display: none;
+
+                        @media (min-width: 576px) {
+                            display: block;
+                        }
 
                         .event-action-btn {
                             background-color: transparent;
                             color: $primary-color;
                             border: 1px solid $primary-color;
                             border-radius: 6px;
-                            padding: 0.5rem 0.75rem;
-                            font-size: 0.8rem;
+                            padding: 0.4rem 0.6rem;
+                            font-size: 0.75rem;
                             font-weight: 500;
                             cursor: pointer;
                             transition: $transition-standard;
+                            white-space: nowrap;
+
+                            @media (min-width: 768px) {
+                                padding: 0.5rem 0.75rem;
+                                font-size: 0.8rem;
+                            }
 
                             &:hover {
                                 background-color: rgba($primary-color, 0.08);
@@ -504,26 +787,44 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
             // Pharmacy Section
             .primary-pharmacy-card {
-                padding: 1.25rem;
+                padding: 1rem;
                 background-color: $light-bg;
                 border-radius: 10px;
                 margin-top: 0.5rem;
 
+                @media (min-width: 768px) {
+                    padding: 1.25rem;
+                }
+
                 .pharmacy-info {
                     display: flex;
-                    margin-bottom: 1.25rem;
+                    margin-bottom: 1rem;
+
+                    @media (min-width: 768px) {
+                        margin-bottom: 1.25rem;
+                    }
 
                     .pharmacy-icon {
                         @include flex-center;
-                        width: 48px;
-                        height: 48px;
+                        width: 40px;
+                        height: 40px;
                         border-radius: 10px;
                         background: linear-gradient(135deg, $secondary-color, darken($secondary-color, 15%));
-                        margin-right: 1rem;
+                        margin-right: 0.75rem;
+
+                        @media (min-width: 768px) {
+                            width: 48px;
+                            height: 48px;
+                            margin-right: 1rem;
+                        }
 
                         svg {
-                            font-size: 1.25rem;
+                            font-size: 1.1rem;
                             color: white;
+
+                            @media (min-width: 768px) {
+                                font-size: 1.25rem;
+                            }
                         }
                     }
 
@@ -533,38 +834,63 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                         .pharmacy-primary-info {
                             display: flex;
                             align-items: center;
-                            margin-bottom: 0.5rem;
+                            margin-bottom: 0.35rem;
+
+                            @media (min-width: 768px) {
+                                margin-bottom: 0.5rem;
+                            }
 
                             .pharmacy-name {
-                                font-size: 1.1rem;
+                                font-size: 1rem;
                                 font-weight: 600;
                                 margin: 0;
-                                margin-right: 0.75rem;
+                                margin-right: 0.5rem;
+
+                                @media (min-width: 768px) {
+                                    font-size: 1.1rem;
+                                    margin-right: 0.75rem;
+                                }
                             }
 
                             .primary-badge {
-                                font-size: 0.7rem;
+                                font-size: 0.65rem;
                                 font-weight: 500;
                                 background-color: rgba($secondary-color, 0.1);
                                 color: $secondary-color;
-                                padding: 0.15rem 0.5rem;
+                                padding: 0.1rem 0.4rem;
                                 border-radius: 4px;
                                 text-transform: uppercase;
+
+                                @media (min-width: 768px) {
+                                    font-size: 0.7rem;
+                                    padding: 0.15rem 0.5rem;
+                                }
                             }
                         }
 
                         .pharmacy-address {
-                            font-size: 0.85rem;
+                            font-size: 0.8rem;
                             color: $medium-text;
-                            margin: 0 0 0.5rem;
+                            margin: 0 0 0.35rem;
+
+                            @media (min-width: 768px) {
+                                font-size: 0.85rem;
+                                margin: 0 0 0.5rem;
+                            }
                         }
 
                         .pharmacy-meta {
                             display: flex;
-                            gap: 1rem;
-                            font-size: 0.8rem;
+                            gap: 0.75rem;
+                            font-size: 0.75rem;
                             color: $light-text;
-                            margin-bottom: 0.5rem;
+                            margin-bottom: 0.35rem;
+
+                            @media (min-width: 768px) {
+                                gap: 1rem;
+                                font-size: 0.8rem;
+                                margin-bottom: 0.5rem;
+                            }
 
                             .pharmacy-rating {
                                 color: $accent-color;
@@ -575,9 +901,13 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                             .delivery-badge {
                                 display: inline-flex;
                                 align-items: center;
-                                font-size: 0.8rem;
+                                font-size: 0.75rem;
                                 font-weight: 500;
                                 color: $secondary-color;
+
+                                @media (min-width: 768px) {
+                                    font-size: 0.8rem;
+                                }
 
                                 .delivery-icon {
                                     margin-right: 0.3rem;
@@ -589,22 +919,36 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
                 .pharmacy-actions {
                     display: flex;
-                    gap: 0.75rem;
+                    gap: 0.5rem;
+
+                    @media (min-width: 768px) {
+                        gap: 0.75rem;
+                    }
 
                     .pharmacy-action-btn {
                         flex: 1;
                         @include flex-center;
                         border: none;
                         border-radius: 6px;
-                        padding: 0.6rem 0;
-                        font-size: 0.85rem;
+                        padding: 0.5rem 0;
+                        font-size: 0.8rem;
                         font-weight: 500;
                         cursor: pointer;
                         transition: $transition-standard;
 
-                        .btn-icon {
-                            margin-right: 0.5rem;
+                        @media (min-width: 768px) {
+                            padding: 0.6rem 0;
                             font-size: 0.85rem;
+                        }
+
+                        .btn-icon {
+                            margin-right: 0.4rem;
+                            font-size: 0.8rem;
+
+                            @media (min-width: 768px) {
+                                margin-right: 0.5rem;
+                                font-size: 0.85rem;
+                            }
                         }
 
                         &.primary {
@@ -633,15 +977,23 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             .activity-list {
                 display: flex;
                 flex-direction: column;
-                gap: 0.75rem;
+                gap: 0.5rem;
+
+                @media (min-width: 768px) {
+                    gap: 0.75rem;
+                }
 
                 .activity-item {
                     display: flex;
                     align-items: center;
-                    padding: 1rem;
+                    padding: 0.75rem;
                     background-color: $light-bg;
                     border-radius: 10px;
                     transition: $transition-standard;
+
+                    @media (min-width: 768px) {
+                        padding: 1rem;
+                    }
 
                     &:hover {
                         box-shadow: $shadow-sm;
@@ -650,15 +1002,26 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
                     .activity-icon {
                         @include flex-center;
-                        width: 42px;
-                        height: 42px;
-                        border-radius: 10px;
+                        width: 36px;
+                        height: 36px;
+                        border-radius: 8px;
                         background-color: rgba($primary-color, 0.1);
-                        margin-right: 1rem;
+                        margin-right: 0.75rem;
+
+                        @media (min-width: 768px) {
+                            width: 42px;
+                            height: 42px;
+                            border-radius: 10px;
+                            margin-right: 1rem;
+                        }
 
                         svg {
-                            font-size: 1.1rem;
+                            font-size: 1rem;
                             color: $primary-color;
+
+                            @media (min-width: 768px) {
+                                font-size: 1.1rem;
+                            }
                         }
                     }
 
@@ -666,21 +1029,30 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                         flex: 1;
 
                         .activity-description {
-                            font-size: 0.9rem;
-                            margin: 0 0 0.25rem;
+                            font-size: 0.85rem;
+                            margin: 0 0 0.15rem;
+
+                            @media (min-width: 768px) {
+                                font-size: 0.9rem;
+                                margin: 0 0 0.25rem;
+                            }
                         }
 
                         .activity-date {
-                            font-size: 0.8rem;
+                            font-size: 0.75rem;
                             color: $light-text;
+
+                            @media (min-width: 768px) {
+                                font-size: 0.8rem;
+                            }
                         }
                     }
 
                     .activity-action {
                         .action-arrow {
                             @include flex-center;
-                            width: 32px;
-                            height: 32px;
+                            width: 28px;
+                            height: 28px;
                             border-radius: 50%;
                             border: none;
                             background-color: transparent;
@@ -688,78 +1060,15 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                             cursor: pointer;
                             transition: $transition-standard;
 
+                            @media (min-width: 768px) {
+                                width: 32px;
+                                height: 32px;
+                            }
+
                             &:hover {
                                 background-color: rgba($primary-color, 0.1);
                                 color: $primary-color;
                             }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-// Responsive styles
-@media (max-width: 1200px) {
-    .patient-dashboard {
-        .dashboard-grid {
-            grid-template-columns: 1fr 1fr;
-
-            .dashboard-section {
-                &.health-summary-section {
-                    grid-column: span 2;
-                }
-
-                &.medications-section {
-                    grid-column: span 2;
-                    grid-row: span 1;
-                }
-
-                &.upcoming-section {
-                    grid-column: 1;
-                }
-
-                &.pharmacy-section {
-                    grid-column: 2;
-                }
-
-                &.activity-section {
-                    grid-column: span 2;
-                }
-            }
-
-            .health-metrics {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    }
-}
-
-@media (max-width: 992px) {
-    .patient-dashboard {
-        .dashboard-content {
-            flex-direction: column;
-            height: auto;
-
-            .sidebar {
-                width: 100%;
-                height: auto;
-                border-right: none;
-                border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-
-                .main-nav {
-                    padding: 1rem 0;
-
-                    ul {
-                        display: flex;
-                        overflow-x: auto;
-                        padding: 0 1rem;
-
-                        li {
-                            margin: 0 0.5rem;
-                            padding: 0.5rem 1rem;
-                            white-space: nowrap;
                         }
                     }
                 }

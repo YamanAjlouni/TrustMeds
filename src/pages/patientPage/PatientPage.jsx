@@ -8,33 +8,49 @@ import PatientNavbar from '../../components/patientNavbar/PatientNavbar';
 import { PatientSidebar } from '../../components/patientSidebar/PatientSidebar';
 import './PatientPage.scss'
 import { PatientHealthProfile } from './patientHealthProfile/PatientHealthProfile';
-import PatientSecurityCenter from './patientDashboard/patientSecurityCenter/PatientSecurityCenter';
+import PatientSecurityCenter from './patientSecurityCenter/PatientSecurityCenter';
+import PatientHelpResources from './patientHelpResources/PatientHelpResources';
+import { PatientNotificationPreferences } from './patientNotificationPreferences/PatientNotificationPreferences';
 
 export const PatientPage = () => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default closed on mobile
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
+    // Handle window resize
     useEffect(() => {
         const handleResize = () => {
-            if (window.innerWidth < 1120) {
+            // Auto-open sidebar on large screens
+            if (window.innerWidth >= 1120) {
+                setIsSidebarOpen(true);
+            } else {
                 setIsSidebarOpen(false);
             }
         };
+
+        // Set initial state
         handleResize();
+
+        // Add event listener
         window.addEventListener('resize', handleResize);
+
+        // Clean up
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     return (
         <div className='patient-out-container'>
+            <PatientNavbar toggleSidebar={toggleSidebar} />
+
             <div className="patient-container">
-                <PatientSidebar isSidebarOpen={isSidebarOpen} onLinkClick={() => {
-                    if (window.innerWidth < 1120) setIsSidebarOpen(false);
-                }} />
-                <PatientNavbar />
+                <PatientSidebar
+                    isSidebarOpen={isSidebarOpen}
+                    onLinkClick={() => {
+                        if (window.innerWidth < 1120) setIsSidebarOpen(false);
+                    }}
+                />
 
                 <div className={`patient-content ${isSidebarOpen ? '' : 'full-width'}`}>
                     <Routes>
@@ -44,6 +60,8 @@ export const PatientPage = () => {
                         <Route path="pharmacies" element={<PatientPharmacyConnection />} />
                         <Route path="health-info" element={<PatientHealthProfile />} />
                         <Route path="security-center" element={<PatientSecurityCenter />} />
+                        <Route path="help" element={<PatientHelpResources />} />
+                        <Route path="test" element={<PatientNotificationPreferences />} />
                     </Routes>
                 </div>
             </div>

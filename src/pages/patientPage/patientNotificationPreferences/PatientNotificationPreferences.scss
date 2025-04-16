@@ -1,0 +1,881 @@
+@use '../../../assets/styles/vars.scss' as *;
+
+// Variables
+$secondary-color: #ffffff;
+$accent-color: #fbbc05;
+$danger-color: #ea4335;
+$light-bg: #f8f9fa;
+$dark-text: #202124;
+$medium-text: #5f6368;
+$light-text: #9aa0a6;
+$border-radius: 12px;
+$shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 10px rgba(0, 0, 0, 0.08);
+$shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+$transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+// Channel colors
+$email-color: #4285F4;
+$sms-color: #34A853;
+$push-color: #EA4335;
+$inapp-color: #FBBC05;
+
+// Mixins
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin card {
+    background-color: white;
+    border-radius: $border-radius;
+    box-shadow: $shadow-md;
+    padding: 1.5rem;
+    transition: $transition-standard;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+
+    &:hover {
+        box-shadow: $shadow-lg;
+        transform: translateY(-2px);
+    }
+}
+
+.notification-preferences {
+    background-color: $light-bg;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    color: $dark-text;
+
+    // Loading state
+    .loading-container {
+        @include flex-center;
+        flex-direction: column;
+        height: 100vh;
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba($primary-color, 0.2);
+            border-radius: 50%;
+            border-top-color: $primary-color;
+            animation: spin 1s infinite ease-in-out;
+            margin-bottom: 1.5rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: $medium-text;
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    }
+
+    .notifications-container {
+        padding: 2rem;
+    }
+
+    // Header
+    .notifications-header {
+        margin-bottom: 2rem;
+
+        h2 {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem;
+
+            svg {
+                margin-right: 0.75rem;
+                color: $primary-color;
+            }
+        }
+
+        p {
+            color: $medium-text;
+            font-size: 1rem;
+            margin: 0;
+        }
+    }
+
+    // Content layout
+    .notifications-content {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 1.5rem;
+
+        @media (max-width: 992px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    // Sidebar with contact info and channel toggles
+    .notifications-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .contact-info-section,
+    .channels-section,
+    .section-filters {
+        @include card;
+    }
+
+    // Section styling
+    .section-desc {
+        font-size: 0.9rem;
+        color: $medium-text;
+        margin: 0 0 1.25rem;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0 0 0.5rem;
+        color: $dark-text;
+    }
+
+    // Contact information section
+    .contact-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        .contact-category {
+            h4 {
+                display: flex;
+                align-items: center;
+                font-size: 0.95rem;
+                font-weight: 600;
+                margin: 0 0 0.75rem;
+                color: $medium-text;
+
+                .category-icon {
+                    margin-right: 0.5rem;
+                    color: $primary-color;
+                }
+            }
+
+            .contact-item {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0.75rem;
+                background-color: $light-bg;
+                border-radius: 8px;
+                margin-bottom: 0.75rem;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                .contact-details {
+                    .contact-value {
+                        display: block;
+                        font-size: 0.95rem;
+                        margin-bottom: 0.25rem;
+                    }
+
+                    .contact-badges {
+                        display: flex;
+                        gap: 0.5rem;
+
+                        .badge {
+                            display: flex;
+                            align-items: center;
+                            font-size: 0.7rem;
+                            padding: 0.1rem 0.4rem;
+                            border-radius: 4px;
+                            font-weight: 500;
+
+                            &.verified {
+                                background-color: rgba($email-color, 0.1);
+                                color: $email-color;
+
+                                svg {
+                                    margin-right: 0.2rem;
+                                    font-size: 0.7rem;
+                                }
+                            }
+
+                            &.unverified {
+                                background-color: rgba($light-text, 0.1);
+                                color: $medium-text;
+                            }
+
+                            &.primary {
+                                background-color: rgba($primary-color, 0.1);
+                                color: $primary-color;
+                            }
+                        }
+                    }
+                }
+
+                .edit-btn {
+                    background: none;
+                    border: none;
+                    color: $primary-color;
+                    font-size: 0.85rem;
+                    cursor: pointer;
+                    padding: 0.25rem 0.5rem;
+                    border-radius: 4px;
+                    transition: $transition-standard;
+
+                    &:hover {
+                        background-color: rgba($primary-color, 0.1);
+                    }
+                }
+            }
+
+            .add-contact-btn {
+                background: none;
+                border: 1px dashed rgba($primary-color, 0.5);
+                border-radius: 8px;
+                padding: 0.6rem;
+                color: $primary-color;
+                font-size: 0.9rem;
+                width: 100%;
+                text-align: center;
+                cursor: pointer;
+                transition: $transition-standard;
+
+                &:hover {
+                    background-color: rgba($primary-color, 0.05);
+                    border-color: $primary-color;
+                }
+            }
+        }
+    }
+
+    // Channels section
+    .channel-toggles {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .channel-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background-color: $light-bg;
+            border-radius: 8px;
+
+            .channel-info {
+                display: flex;
+                align-items: center;
+
+                .channel-icon {
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 8px;
+                    @include flex-center;
+                    margin-right: 0.75rem;
+
+                    svg {
+                        color: white;
+                        font-size: 1rem;
+                    }
+
+                    &.email {
+                        background-color: $email-color;
+                    }
+
+                    &.sms {
+                        background-color: $sms-color;
+                    }
+
+                    &.push {
+                        background-color: $push-color;
+                    }
+
+                    &.inapp {
+                        background-color: $inapp-color;
+                    }
+                }
+
+                .channel-details {
+                    .channel-name {
+                        display: block;
+                        font-size: 0.95rem;
+                        font-weight: 500;
+                        margin-bottom: 0.2rem;
+                    }
+
+                    .channel-desc {
+                        font-size: 0.8rem;
+                        color: $medium-text;
+                    }
+                }
+            }
+        }
+    }
+
+    // Toggle switch styling
+    .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+
+        &.small {
+            width: 36px;
+            height: 20px;
+        }
+
+        input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+
+            &:checked+.toggle-slider {
+                background-color: $primary-color;
+            }
+
+            &:checked+.toggle-slider:before {
+                transform: translateX(26px);
+            }
+
+            &:disabled+.toggle-slider {
+                background-color: $light-text;
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            &:disabled+.toggle-slider:before {
+                background-color: $secondary-color;
+            }
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: $light-text;
+            transition: $transition-standard;
+            border-radius: 34px;
+
+            &:before {
+                position: absolute;
+                content: "";
+                height: 18px;
+                width: 18px;
+                left: 3px;
+                bottom: 3px;
+                background-color: white;
+                transition: $transition-standard;
+                border-radius: 50%;
+            }
+        }
+
+        &.small .toggle-slider:before {
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+        }
+
+        &.small input:checked+.toggle-slider:before {
+            transform: translateX(16px);
+        }
+    }
+
+    // Section filters
+    .section-filters {
+        .section-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            .section-btn {
+                display: flex;
+                align-items: center;
+                padding: 0.75rem;
+                background-color: transparent;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: $transition-standard;
+                text-align: left;
+                color: $dark-text;
+
+                svg {
+                    margin-right: 0.75rem;
+                    color: $medium-text;
+                    font-size: 1rem;
+                }
+
+                &:hover {
+                    background-color: rgba($light-bg, 0.7);
+                }
+
+                &.active {
+                    background-color: rgba($primary-color, 0.1);
+                    color: $primary-color;
+                    font-weight: 500;
+
+                    svg {
+                        color: $primary-color;
+                    }
+                }
+            }
+        }
+    }
+
+    // Preferences section
+    .preferences-section {
+        .preferences-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .preferences-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .preference-card {
+            @include card;
+            padding: 1.25rem;
+            transition: all 0.2s ease;
+            transform: none;
+
+            &:hover {
+                transform: none;
+            }
+
+            .preference-header {
+                display: flex;
+                align-items: flex-start;
+                margin-bottom: 1.25rem;
+
+                .preference-icon {
+                    width: 40px;
+                    height: 40px;
+                    background: linear-gradient(135deg, $primary-color, darken($primary-color, 15%));
+                    border-radius: 10px;
+                    @include flex-center;
+                    margin-right: 1rem;
+                    flex-shrink: 0;
+
+                    svg {
+                        color: white;
+                        font-size: 1.1rem;
+                    }
+                }
+
+                .preference-title {
+                    h4 {
+                        font-size: 1.05rem;
+                        font-weight: 600;
+                        margin: 0 0 0.25rem;
+                    }
+
+                    p {
+                        font-size: 0.9rem;
+                        color: $medium-text;
+                        margin: 0;
+                    }
+                }
+            }
+
+            .preference-channels {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                padding: 1rem;
+                background-color: $light-bg;
+                border-radius: 10px;
+                margin-bottom: 1rem;
+
+                .channel-toggle-group {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    min-width: 110px;
+                    flex-grow: 1;
+                    padding: 0.5rem 0.75rem;
+                    background-color: rgba(255, 255, 255, 0.5);
+                    border-radius: 6px;
+
+                    .channel-label {
+                        display: flex;
+                        align-items: center;
+                        font-size: 0.85rem;
+
+                        svg {
+                            margin-right: 0.4rem;
+                            font-size: 0.85rem;
+                        }
+                    }
+                }
+            }
+
+            .preference-actions {
+                display: flex;
+                justify-content: flex-end;
+
+                .advanced-btn {
+                    display: flex;
+                    align-items: center;
+                    background: none;
+                    border: none;
+                    color: $primary-color;
+                    font-size: 0.85rem;
+                    cursor: pointer;
+                    padding: 0.4rem 0.75rem;
+                    border-radius: 4px;
+                    transition: $transition-standard;
+
+                    svg {
+                        margin-left: 0.5rem;
+                        font-size: 0.7rem;
+                        transition: transform 0.3s ease;
+
+                        &.rotated {
+                            transform: rotate(90deg);
+                        }
+                    }
+
+                    &:hover {
+                        background-color: rgba($primary-color, 0.1);
+                    }
+                }
+            }
+
+            .advanced-options {
+                margin-top: 1rem;
+                padding: 1rem;
+                background-color: $light-bg;
+                border-radius: 10px;
+                animation: fadeIn 0.3s ease;
+
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                    }
+
+                    to {
+                        opacity: 1;
+                    }
+                }
+
+                .option-group {
+                    margin-bottom: 1rem;
+
+                    label {
+                        display: block;
+                        font-size: 0.9rem;
+                        font-weight: 500;
+                        margin-bottom: 0.5rem;
+                    }
+
+                    .radio-buttons {
+                        display: flex;
+                        gap: 0.75rem;
+
+                        .radio-label {
+                            display: flex;
+                            align-items: center;
+                            cursor: pointer;
+                            position: relative;
+                            padding: 0.5rem 0.75rem;
+                            border-radius: 6px;
+                            transition: $transition-standard;
+                            background-color: rgba(255, 255, 255, 0.7);
+
+                            input {
+                                position: absolute;
+                                opacity: 0;
+                                cursor: pointer;
+                            }
+
+                            .radio-text {
+                                font-size: 0.85rem;
+                            }
+
+                            &:hover {
+                                background-color: white;
+                            }
+
+                            &.active {
+                                background-color: white;
+                                border: 1px solid $primary-color;
+                                color: $primary-color;
+                                font-weight: 500;
+                            }
+                        }
+                    }
+                }
+
+                .option-info {
+                    display: flex;
+                    align-items: flex-start;
+                    padding: 0.75rem;
+                    background-color: rgba($primary-color, 0.05);
+                    border-radius: 6px;
+                    border-left: 3px solid $primary-color;
+
+                    svg {
+                        color: $primary-color;
+                        margin-right: 0.75rem;
+                        margin-top: 0.2rem;
+                        flex-shrink: 0;
+                    }
+
+                    p {
+                        font-size: 0.8rem;
+                        color: $medium-text;
+                        margin: 0;
+                        line-height: 1.5;
+                    }
+                }
+            }
+        }
+    }
+
+    // Modal
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.3s ease;
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 500px;
+            background-color: white;
+            border-radius: $border-radius;
+            overflow: hidden;
+            box-shadow: $shadow-lg;
+            animation: scaleIn 0.3s ease;
+
+            @keyframes scaleIn {
+                from {
+                    transform: scale(0.9);
+                }
+
+                to {
+                    transform: scale(1);
+                }
+            }
+        }
+
+        .modal-header {
+            @include flex-between;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+            h3 {
+                margin: 0;
+                font-size: 1.2rem;
+            }
+
+            .close-btn {
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: $medium-text;
+                cursor: pointer;
+                line-height: 1;
+                padding: 0;
+                transition: color 0.2s ease;
+
+                &:hover {
+                    color: $dark-text;
+                }
+            }
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+
+            .form-group {
+                margin-bottom: 1.25rem;
+
+                label {
+                    display: block;
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                    margin-bottom: 0.5rem;
+                }
+
+                input[type="email"],
+                input[type="tel"] {
+                    width: 100%;
+                    padding: 0.75rem 1rem;
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                    border-radius: 8px;
+                    font-size: 1rem;
+                    transition: $transition-standard;
+
+                    &:focus {
+                        outline: none;
+                        border-color: $primary-color;
+                        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+                    }
+                }
+            }
+
+            .form-checkbox {
+                display: flex;
+                align-items: center;
+                margin-bottom: 1.25rem;
+
+                input[type="checkbox"] {
+                    margin-right: 0.75rem;
+                }
+
+                label {
+                    font-size: 0.9rem;
+                }
+            }
+
+            .form-actions-secondary {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 1.5rem;
+                padding-top: 1rem;
+                border-top: 1px solid rgba(0, 0, 0, 0.05);
+
+                .text-btn {
+                    background: none;
+                    border: none;
+                    color: $primary-color;
+                    font-size: 0.85rem;
+                    cursor: pointer;
+                    padding: 0.4rem 0.75rem;
+                    border-radius: 4px;
+                    transition: $transition-standard;
+
+                    &:hover {
+                        background-color: rgba($primary-color, 0.1);
+                    }
+
+                    &.danger {
+                        color: $danger-color;
+
+                        &:hover {
+                            background-color: rgba($danger-color, 0.1);
+                        }
+                    }
+                }
+            }
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            padding: 1.25rem 1.5rem;
+            background-color: $light-bg;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+
+            .cancel-btn {
+                padding: 0.6rem 1.25rem;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                background-color: white;
+                color: $dark-text;
+                border-radius: 6px;
+                font-size: 0.9rem;
+                cursor: pointer;
+                transition: $transition-standard;
+
+                &:hover {
+                    background-color: darken(white, 5%);
+                }
+            }
+
+            .save-btn {
+                padding: 0.6rem 1.25rem;
+                border: none;
+                background-color: $primary-color;
+                color: white;
+                border-radius: 6px;
+                font-size: 0.9rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: $transition-standard;
+
+                &:hover {
+                    background-color: darken($primary-color, 10%);
+                }
+            }
+        }
+    }
+
+    // Responsive adjustments
+    @media (max-width: 992px) {
+        .notifications-content {
+            grid-template-columns: 1fr;
+        }
+
+        .notifications-sidebar {
+            order: 2;
+        }
+
+        .preferences-section {
+            order: 1;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .notifications-container {
+            padding: 1.5rem 1rem;
+        }
+
+        .preference-channels {
+            flex-direction: column;
+            gap: 0.5rem !important;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .notifications-header {
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        .advanced-options .option-group .radio-buttons {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+    }
+}

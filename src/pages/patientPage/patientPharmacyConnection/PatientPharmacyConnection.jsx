@@ -1,20 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import './PatientPharmacyConnection.scss';
-import {
-    FaClinicMedical,
-    FaMapMarkerAlt,
-    FaPhoneAlt,
-    FaClock,
-    FaSearch,
-    FaStar,
-    FaTruck,
-    FaWalking,
-    FaPills,
-    FaPlus,
-    FaHome,
-    FaHistory,
-    FaExclamationTriangle
+import { 
+    FaClinicMedical, FaMapMarkerAlt, FaPhoneAlt, FaClock, FaSearch, 
+    FaStar, FaTruck, FaWalking, FaPills, FaPlus, FaHome, FaHistory, 
+    FaExclamationTriangle, FaTimes, FaChevronLeft
 } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
@@ -131,6 +120,28 @@ export const PatientPharmacyConnection = () => {
 
     // State for delivery setup modal
     const [showDeliverySetup, setShowDeliverySetup] = useState(false);
+    
+    // State for mobile screen detection
+    const [isMobile, setIsMobile] = useState(false);
+    
+    // State for active filter
+    const [activeFilter, setActiveFilter] = useState('all');
+
+    // Check if screen is mobile
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        
+        // Initial check
+        checkMobile();
+        
+        // Add event listener for window resize
+        window.addEventListener('resize', checkMobile);
+        
+        // Cleanup
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     // Search functionality
     const filteredNearbyPharmacies = nearbyPharmacies.filter(pharmacy =>
@@ -166,6 +177,11 @@ export const PatientPharmacyConnection = () => {
             isPrimary: pharmacy.id === id
         }));
         setPreferredPharmacies(updatedPharmacies);
+        
+        // Close modal if open
+        if (selectedPharmacy && selectedPharmacy.id === id) {
+            setSelectedPharmacy(null);
+        }
     };
 
     // Add pharmacy to preferred
@@ -205,6 +221,12 @@ export const PatientPharmacyConnection = () => {
     const closePharmacyDetails = () => {
         setSelectedPharmacy(null);
     };
+    
+    // Handle filter click
+    const handleFilterClick = (filter) => {
+        setActiveFilter(filter);
+        // In a real app, you would filter the data based on the selected filter
+    };
 
     return (
         <div className="pharmacy-connection-container">
@@ -231,21 +253,21 @@ export const PatientPharmacyConnection = () => {
                     onClick={() => setActiveTab('preferred')}
                 >
                     <FaStar className="tab-icon" />
-                    <span>My Pharmacies</span>
+                    <span>{isMobile ? "My" : "My Pharmacies"}</span>
                 </button>
                 <button
                     className={`tab-btn ${activeTab === 'nearby' ? 'active' : ''}`}
                     onClick={() => setActiveTab('nearby')}
                 >
                     <FaMapMarkerAlt className="tab-icon" />
-                    <span>Find Pharmacies</span>
+                    <span>{isMobile ? "Find" : "Find Pharmacies"}</span>
                 </button>
                 <button
                     className={`tab-btn ${activeTab === 'delivery' ? 'active' : ''}`}
                     onClick={() => setActiveTab('delivery')}
                 >
                     <FaTruck className="tab-icon" />
-                    <span>Prescription Delivery</span>
+                    <span>{isMobile ? "Delivery" : "Prescription Delivery"}</span>
                 </button>
             </div>
 
@@ -357,13 +379,46 @@ export const PatientPharmacyConnection = () => {
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
+                            {searchQuery && (
+                                <FaTimes 
+                                    style={{ 
+                                        position: 'absolute', 
+                                        right: '15px', 
+                                        top: '50%', 
+                                        transform: 'translateY(-50%)',
+                                        cursor: 'pointer',
+                                        color: '#94a3b8'
+                                    }} 
+                                    onClick={() => setSearchQuery('')}
+                                />
+                            )}
                         </div>
                         <div className="search-filters">
                             <span className="filter-label">Filter by: </span>
-                            <button className="filter-pill active">All</button>
-                            <button className="filter-pill">Distance</button>
-                            <button className="filter-pill">Rating</button>
-                            <button className="filter-pill">Delivery</button>
+                            <button 
+                                className={`filter-pill ${activeFilter === 'all' ? 'active' : ''}`}
+                                onClick={() => handleFilterClick('all')}
+                            >
+                                All
+                            </button>
+                            <button 
+                                className={`filter-pill ${activeFilter === 'distance' ? 'active' : ''}`}
+                                onClick={() => handleFilterClick('distance')}
+                            >
+                                Distance
+                            </button>
+                            <button 
+                                className={`filter-pill ${activeFilter === 'rating' ? 'active' : ''}`}
+                                onClick={() => handleFilterClick('rating')}
+                            >
+                                Rating
+                            </button>
+                            <button 
+                                className={`filter-pill ${activeFilter === 'delivery' ? 'active' : ''}`}
+                                onClick={() => handleFilterClick('delivery')}
+                            >
+                                Delivery
+                            </button>
                         </div>
                     </div>
                     <div className="nearby-pharmacy-list">
@@ -411,7 +466,7 @@ export const PatientPharmacyConnection = () => {
                                             whileTap={{ scale: 0.95 }}
                                             onClick={() => addToPreferred(pharmacy)}
                                         >
-                                            <FaPlus className="btn-icon" /> Add to My Pharmacies
+                                            <FaPlus className="btn-icon" /> {isMobile ? "Add" : "Add to My Pharmacies"}
                                         </motion.button>
                                         <motion.button
                                             className="view-details-btn"
@@ -598,7 +653,13 @@ export const PatientPharmacyConnection = () => {
                     >
                         <div className="modal-header">
                             <h2>{selectedPharmacy.name}</h2>
-                            <button className="close-modal-btn" onClick={closePharmacyDetails}>×</button>
+                            <button 
+                                className="close-modal-btn" 
+                                onClick={closePharmacyDetails}
+                                aria-label="Close"
+                            >
+                                ×
+                            </button>
                         </div>
                         <div className="modal-content">
                             <div className="pharmacy-details-grid">
@@ -722,7 +783,13 @@ export const PatientPharmacyConnection = () => {
                     >
                         <div className="modal-header">
                             <h2>Delivery Settings</h2>
-                            <button className="close-modal-btn" onClick={toggleDeliverySetup}>×</button>
+                            <button 
+                                className="close-modal-btn" 
+                                onClick={toggleDeliverySetup}
+                                aria-label="Close"
+                            >
+                                ×
+                            </button>
                         </div>
                         <div className="modal-content">
                             <div className="delivery-form">
@@ -753,8 +820,9 @@ export const PatientPharmacyConnection = () => {
                                 {deliveryOptions.defaultOption === "scheduled" && (
                                     <div className="schedule-options">
                                         <div className="form-group">
-                                            <label>Preferred Day</label>
+                                            <label htmlFor="scheduledDay">Preferred Day</label>
                                             <select
+                                                id="scheduledDay"
                                                 value={deliveryOptions.scheduledDay}
                                                 onChange={(e) => setDeliveryOptions({ ...deliveryOptions, scheduledDay: e.target.value })}
                                             >
@@ -767,8 +835,9 @@ export const PatientPharmacyConnection = () => {
                                             </select>
                                         </div>
                                         <div className="form-group">
-                                            <label>Preferred Time</label>
+                                            <label htmlFor="scheduledTime">Preferred Time</label>
                                             <select
+                                                id="scheduledTime"
                                                 value={deliveryOptions.scheduledTime}
                                                 onChange={(e) => setDeliveryOptions({ ...deliveryOptions, scheduledTime: e.target.value })}
                                             >
@@ -787,6 +856,7 @@ export const PatientPharmacyConnection = () => {
                                         onChange={(e) => setDeliveryOptions({ ...deliveryOptions, address: e.target.value })}
                                         placeholder="Enter your delivery address"
                                         rows={3}
+                                        aria-label="Delivery address"
                                     ></textarea>
                                 </div>
 
@@ -825,8 +895,9 @@ export const PatientPharmacyConnection = () => {
 
                                 {(deliveryOptions.notificationPreference === "text" || deliveryOptions.notificationPreference === "both") && (
                                     <div className="form-group">
-                                        <label>Phone Number</label>
+                                        <label htmlFor="phoneNumber">Phone Number</label>
                                         <input
+                                            id="phoneNumber"
                                             type="tel"
                                             value={deliveryOptions.phoneNumber}
                                             onChange={(e) => setDeliveryOptions({ ...deliveryOptions, phoneNumber: e.target.value })}
@@ -837,8 +908,9 @@ export const PatientPharmacyConnection = () => {
 
                                 {(deliveryOptions.notificationPreference === "email" || deliveryOptions.notificationPreference === "both") && (
                                     <div className="form-group">
-                                        <label>Email Address</label>
+                                        <label htmlFor="emailAddress">Email Address</label>
                                         <input
+                                            id="emailAddress"
                                             type="email"
                                             value={deliveryOptions.email}
                                             onChange={(e) => setDeliveryOptions({ ...deliveryOptions, email: e.target.value })}
@@ -876,6 +948,33 @@ export const PatientPharmacyConnection = () => {
                             </div>
                         </div>
                     </motion.div>
+                </div>
+            )}
+
+            {/* Mobile bottom navigation - only shown on smaller screens */}
+            {isMobile && (
+                <div className="bottom-navigation">
+                    <button 
+                        className={`nav-item ${activeTab === 'preferred' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('preferred')}
+                    >
+                        <FaStar className="nav-icon" />
+                        <span>My Pharmacies</span>
+                    </button>
+                    <button 
+                        className={`nav-item ${activeTab === 'nearby' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('nearby')}
+                    >
+                        <FaMapMarkerAlt className="nav-icon" />
+                        <span>Find</span>
+                    </button>
+                    <button 
+                        className={`nav-item ${activeTab === 'delivery' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('delivery')}
+                    >
+                        <FaTruck className="nav-icon" />
+                        <span>Delivery</span>
+                    </button>
                 </div>
             )}
         </div>

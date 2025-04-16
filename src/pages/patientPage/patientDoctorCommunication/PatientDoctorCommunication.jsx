@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { FaUserMd, FaPaperPlane, FaRegClock, FaClinicMedical, FaRegStar, FaRegCalendarAlt, FaPhoneAlt, FaVideo, FaFileMedical, FaLock } from 'react-icons/fa';
+import React, { useState, useEffect, useRef } from 'react';
+import { FaUserMd, FaPaperPlane, FaRegClock, FaClinicMedical, FaRegStar, FaRegCalendarAlt, FaPhoneAlt, FaVideo, FaFileMedical, FaLock, FaBars, FaChevronLeft } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import './PatientDoctorCommunication.scss';
 
@@ -104,6 +104,24 @@ const PatientDoctorCommunication = () => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [activeTab, setActiveTab] = useState("messages");
     const [selectedMessage, setSelectedMessage] = useState(null);
+    const [isMobile, setIsMobile] = useState(false);
+    const [activeFilter, setActiveFilter] = useState("all");
+
+    // Check if window is mobile size
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        
+        // Initial check
+        checkMobile();
+        
+        // Listen for resize events
+        window.addEventListener('resize', checkMobile);
+        
+        // Cleanup
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     // Simulate loading state
     useEffect(() => {
@@ -167,6 +185,14 @@ const PatientDoctorCommunication = () => {
 
             setRecentMessages([newMessage, ...recentMessages]);
             setMessageText("");
+            
+            // If we're in a message detail view, close it and go back to list
+            if (selectedMessage) {
+                setSelectedMessage(null);
+            }
+            
+            // Close the new message modal
+            setSelectedDoctor(null);
         }
     };
 
@@ -187,6 +213,20 @@ const PatientDoctorCommunication = () => {
     const handleBackToMessages = () => {
         setSelectedMessage(null);
     };
+    
+    // Filter messages based on active filter
+    const getFilteredMessages = () => {
+        if (activeFilter === "all") {
+            return recentMessages;
+        } else if (activeFilter === "unread") {
+            return recentMessages.filter(msg => !msg.isRead);
+        } else if (activeFilter === "urgent") {
+            return recentMessages.filter(msg => msg.isUrgent);
+        }
+        return recentMessages;
+    };
+    
+    const filteredMessages = getFilteredMessages();
 
     return (
         <div className="doctor-communication-container">
@@ -219,23 +259,27 @@ const PatientDoctorCommunication = () => {
                             onClick={() => setActiveTab('messages')}
                         >
                             <FaPaperPlane className="tab-icon" />
-                            Messages
-                            <span className="badge">{recentMessages.filter(msg => !msg.isRead).length}</span>
+                            {isMobile ? "Messages" : "Messages"}
+                            {filteredMessages.filter(msg => !msg.isRead).length > 0 && (
+                                <span className="badge">{filteredMessages.filter(msg => !msg.isRead).length}</span>
+                            )}
                         </button>
                         <button
                             className={`tab-button ${activeTab === 'appointments' ? 'active' : ''}`}
                             onClick={() => setActiveTab('appointments')}
                         >
                             <FaRegCalendarAlt className="tab-icon" />
-                            Appointments
-                            <span className="badge">{upcomingAppointments.length}</span>
+                            {isMobile ? "Appts" : "Appointments"}
+                            {upcomingAppointments.length > 0 && (
+                                <span className="badge">{upcomingAppointments.length}</span>
+                            )}
                         </button>
                         <button
                             className={`tab-button ${activeTab === 'providers' ? 'active' : ''}`}
                             onClick={() => setActiveTab('providers')}
                         >
                             <FaUserMd className="tab-icon" />
-                            My Providers
+                            {isMobile ? "Providers" : "My Providers"}
                         </button>
                     </div>
 
@@ -250,45 +294,69 @@ const PatientDoctorCommunication = () => {
                                 <>
                                     <div className="message-toolbar">
                                         <div className="message-filters">
-                                            <button className="filter-btn active">All</button>
-                                            <button className="filter-btn">Unread</button>
-                                            <button className="filter-btn">Urgent</button>
+                                            <button 
+                                                className={`filter-btn ${activeFilter === 'all' ? 'active' : ''}`}
+                                                onClick={() => setActiveFilter('all')}
+                                            >
+                                                All
+                                            </button>
+                                            <button 
+                                                className={`filter-btn ${activeFilter === 'unread' ? 'active' : ''}`}
+                                                onClick={() => setActiveFilter('unread')}
+                                            >
+                                                Unread
+                                            </button>
+                                            <button 
+                                                className={`filter-btn ${activeFilter === 'urgent' ? 'active' : ''}`}
+                                                onClick={() => setActiveFilter('urgent')}
+                                            >
+                                                Urgent
+                                            </button>
                                         </div>
-                                        <button className="new-message-btn">
+                                        <button 
+                                            className="new-message-btn"
+                                            onClick={() => setSelectedDoctor(doctors[0])} // For demo, open with first doctor
+                                        >
                                             <FaPaperPlane className="btn-icon" />
-                                            New Message
+                                            {isMobile ? "New" : "New Message"}
                                         </button>
                                     </div>
 
                                     <div className="messages-list">
-                                        {recentMessages.map((message, index) => (
-                                            <motion.div
-                                                key={message.id}
-                                                className={`message-item ${!message.isRead ? 'unread' : ''} ${message.isUrgent ? 'urgent' : ''}`}
-                                                variants={itemVariants}
-                                                onClick={() => handleViewMessage(message)}
-                                            >
-                                                {message.isUrgent && <div className="urgent-indicator">Urgent</div>}
-                                                <div className="message-avatar">
-                                                    <img src={message.doctorImage} alt={message.doctorName} />
-                                                    {message.sentByMe && <div className="sent-indicator">You</div>}
-                                                </div>
-                                                <div className="message-content">
-                                                    <div className="message-header">
-                                                        <h3>{message.doctorName}</h3>
-                                                        <span className="message-time">{formatDate(message.date)} • {message.time}</span>
+                                        {filteredMessages.length > 0 ? (
+                                            filteredMessages.map((message) => (
+                                                <motion.div
+                                                    key={message.id}
+                                                    className={`message-item ${!message.isRead ? 'unread' : ''} ${message.isUrgent ? 'urgent' : ''}`}
+                                                    variants={itemVariants}
+                                                    onClick={() => handleViewMessage(message)}
+                                                >
+                                                    {message.isUrgent && <div className="urgent-indicator">Urgent</div>}
+                                                    <div className="message-avatar">
+                                                        <img src={message.doctorImage} alt={message.doctorName} />
+                                                        {message.sentByMe && <div className="sent-indicator">You</div>}
                                                     </div>
-                                                    <p className="message-preview">{message.messagePreview}</p>
-                                                </div>
-                                                {!message.isRead && <div className="unread-indicator"></div>}
-                                            </motion.div>
-                                        ))}
+                                                    <div className="message-content">
+                                                        <div className="message-header">
+                                                            <h3>{message.doctorName}</h3>
+                                                            <span className="message-time">{formatDate(message.date)} • {message.time}</span>
+                                                        </div>
+                                                        <p className="message-preview">{message.messagePreview}</p>
+                                                    </div>
+                                                    {!message.isRead && <div className="unread-indicator"></div>}
+                                                </motion.div>
+                                            ))
+                                        ) : (
+                                            <div className="no-messages">
+                                                <p>No messages match your filter.</p>
+                                            </div>
+                                        )}
                                     </div>
                                 </>
                             ) : (
                                 <div className="message-detail">
                                     <button className="back-button" onClick={handleBackToMessages}>
-                                        ← Back to messages
+                                        <FaChevronLeft /> Back to messages
                                     </button>
 
                                     <div className="message-detail-header">
@@ -314,11 +382,11 @@ const PatientDoctorCommunication = () => {
                                                 onChange={(e) => setMessageText(e.target.value)}
                                             ></textarea>
                                             <div className="reply-actions">
-                                                <button className="upload-btn">
-                                                    <FaFileMedical /> Attach
+                                                <button className="upload-btn" type="button">
+                                                    <FaFileMedical /> {isMobile ? "" : "Attach"}
                                                 </button>
                                                 <button className="send-btn" type="submit">
-                                                    <FaPaperPlane /> Send Reply
+                                                    <FaPaperPlane /> {isMobile ? "Send" : "Send Reply"}
                                                 </button>
                                             </div>
                                         </form>
@@ -339,12 +407,12 @@ const PatientDoctorCommunication = () => {
                                 <h2>Upcoming Appointments</h2>
                                 <button className="schedule-btn">
                                     <FaRegCalendarAlt className="btn-icon" />
-                                    Schedule New
+                                    {isMobile ? "Schedule" : "Schedule New"}
                                 </button>
                             </div>
 
                             <div className="appointments-list">
-                                {upcomingAppointments.map((appointment, index) => (
+                                {upcomingAppointments.map((appointment) => (
                                     <motion.div
                                         key={appointment.id}
                                         className="appointment-card"
@@ -405,12 +473,12 @@ const PatientDoctorCommunication = () => {
                                 <h2>My Healthcare Providers</h2>
                                 <button className="add-provider-btn">
                                     <FaUserMd className="btn-icon" />
-                                    Add Provider
+                                    {isMobile ? "Add" : "Add Provider"}
                                 </button>
                             </div>
 
                             <div className="providers-list">
-                                {doctors.map((doctor, index) => (
+                                {doctors.map((doctor) => (
                                     <motion.div
                                         key={doctor.id}
                                         className="provider-card"
@@ -421,7 +489,7 @@ const PatientDoctorCommunication = () => {
                                                 <img src={doctor.image} alt={doctor.name} />
                                                 <div className={`status-indicator ${doctor.status === 'Available' ? 'available' : 'away'}`}></div>
                                             </div>
-                                            <button className="favorite-btn">
+                                            <button className="favorite-btn" aria-label={doctor.isFavorite ? "Remove from favorites" : "Add to favorites"}>
                                                 <FaRegStar className={doctor.isFavorite ? 'favorite' : ''} />
                                             </button>
                                         </div>
@@ -455,7 +523,7 @@ const PatientDoctorCommunication = () => {
                             <div className="new-message-modal">
                                 <div className="modal-header">
                                     <h3>New Message</h3>
-                                    <button className="close-btn" onClick={() => setSelectedDoctor(null)}>×</button>
+                                    <button className="close-btn" onClick={() => setSelectedDoctor(null)} aria-label="Close">×</button>
                                 </div>
 
                                 <div className="modal-content">

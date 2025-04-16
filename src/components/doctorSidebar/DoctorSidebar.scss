@@ -1,0 +1,180 @@
+@use '../../assets/styles/vars.scss' as *;
+
+.doctor-sidebar {
+    background: linear-gradient(135deg, darken($primary-color, 15%), $primary-color);
+    height: 100%;
+    width: 240px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding-top: 70px;
+    color: white;
+    transition: transform 0.3s ease;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+
+    @media (min-width: 768px) {
+        padding-top: 80px;
+    }
+
+    @media (min-width: 1024px) {
+        padding-top: 100px;
+    }
+
+    // Hide sidebar on smaller screens
+    @media (max-width: 1119px) {
+        transform: translateX(-100%);
+
+        &.open {
+            transform: translateX(0);
+
+            // Add overlay when sidebar is open on mobile
+            &:after {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: -1;
+            }
+        }
+    }
+
+    // Handle closing animation
+    &.closed {
+        @media (min-width: 1120px) {
+            transform: translateX(-100%);
+        }
+    }
+
+    .doctor-sidebar-profile {
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+        .profile-avatar {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+
+            svg {
+                font-size: 1.75rem;
+                color: white;
+            }
+        }
+
+        .profile-info {
+            flex: 1;
+
+            h3 {
+                margin: 0;
+                font-size: 1rem;
+                font-weight: 600;
+            }
+
+            p {
+                margin: 0.25rem 0 0;
+                font-size: 0.85rem;
+                opacity: 0.8;
+            }
+        }
+    }
+
+    .doctor-sidebar-nav {
+        flex: 1;
+        padding: 1rem 0;
+        overflow-y: auto;
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                a {
+                    display: flex;
+                    align-items: center;
+                    padding: 0.85rem 1.5rem;
+                    color: rgba(255, 255, 255, 0.8);
+                    text-decoration: none;
+                    transition: background-color 0.3s, color 0.3s;
+                    position: relative;
+
+                    &:hover {
+                        background-color: rgba(255, 255, 255, 0.1);
+                        color: white;
+                    }
+
+                    &.active {
+                        background-color: rgba(255, 255, 255, 0.15);
+                        color: white;
+
+                        &::before {
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            height: 100%;
+                            width: 4px;
+                            background-color: white;
+                        }
+
+                        .nav-icon {
+                            color: white;
+                        }
+                    }
+
+                    .nav-icon {
+                        margin-right: 1rem;
+                        font-size: 1.1rem;
+                        min-width: 20px;
+                        transition: color 0.3s;
+                    }
+
+                    .nav-text {
+                        font-size: 0.95rem;
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+    }
+
+    .doctor-sidebar-footer {
+        padding: 1rem 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 0.85rem 1rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 6px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+
+            .logout-icon {
+                margin-right: 0.75rem;
+            }
+        }
+    }
+}

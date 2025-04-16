@@ -1,0 +1,225 @@
+// styles/_mobile-detail.scss
+.mobile-detail-view {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    z-index: 100;
+    overflow-y: auto;
+    flex-direction: column;
+
+    &.active {
+        display: flex;
+    }
+
+    .detail-header {
+        position: sticky;
+        top: 0;
+        background-color: white;
+        padding: 1rem;
+        border-bottom: 1px solid $border-color;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        z-index: 10;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            background: none;
+            border: none;
+            color: $primary-color;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.5rem;
+            margin: -0.5rem;
+
+            .back-icon {
+                margin-right: 0.5rem;
+            }
+        }
+
+        .prescription-title {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+        }
+    }
+
+    .detail-content {
+        flex: 1;
+        padding: 1rem;
+
+        .status-section {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .details-section {
+            margin-bottom: 1.5rem;
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.25rem;
+            box-shadow: $shadow-sm;
+
+            h5 {
+                @include section-heading;
+            }
+
+            .info-row {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 0.5rem;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                .info-label {
+                    font-size: 0.85rem;
+                    color: $medium-text;
+                    margin-bottom: 0.25rem;
+                }
+
+                .info-value {
+                    font-size: 0.95rem;
+                    color: $dark-text;
+
+                    a {
+                        color: $primary-color;
+                        text-decoration: none;
+
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+
+            .medications-grid {
+                display: grid;
+                gap: 0.75rem;
+
+                .medication-card {
+                    background-color: $light-bg;
+                    border-radius: 8px;
+                    padding: 0.75rem;
+
+                    .med-name {
+                        font-weight: 600;
+                        margin-bottom: 0.5rem;
+                    }
+
+                    .med-details {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        gap: 0.5rem;
+                        font-size: 0.85rem;
+
+                        @include small-mobile {
+                            grid-template-columns: 1fr;
+                        }
+
+                        .detail-item {
+                            display: flex;
+                            flex-direction: column;
+
+                            .detail-label {
+                                color: $medium-text;
+                                margin-bottom: 0.2rem;
+                            }
+
+                            .detail-value {
+                                color: $dark-text;
+                                font-weight: 500;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.notes-section {
+                p {
+                    margin: 0;
+                    font-size: 0.95rem;
+                    line-height: 1.5;
+                    color: $medium-text;
+                }
+            }
+
+            &.decline-section {
+                h5 svg {
+                    color: $declined-color;
+                }
+
+                p {
+                    margin: 0;
+                    font-size: 0.95rem;
+                    font-weight: 500;
+                    color: $declined-color;
+                }
+            }
+        }
+    }
+
+    .detail-actions {
+        position: sticky;
+        bottom: 0;
+        background-color: white;
+        padding: 1rem;
+        border-top: 1px solid $border-color;
+        display: flex;
+        justify-content: space-between;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+
+        .action-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: $transition-standard;
+            text-decoration: none;
+
+            &:not(:last-child) {
+                margin-right: 0.75rem;
+            }
+
+            svg {
+                margin-right: 0.5rem;
+            }
+
+            &.primary {
+                background-color: $primary-color;
+                color: white;
+                border: none;
+
+                &:hover {
+                    background-color: darken($primary-color, 5%);
+                }
+            }
+
+            &.secondary {
+                background-color: white;
+                color: $medium-text;
+                border: 1px solid $border-color;
+
+                &:hover {
+                    background-color: $light-bg;
+                    color: $dark-text;
+                }
+            }
+        }
+    }
+}

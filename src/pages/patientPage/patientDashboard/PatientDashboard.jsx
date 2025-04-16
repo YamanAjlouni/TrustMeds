@@ -9,7 +9,8 @@ import {
   FaShieldAlt,
   FaCheckCircle,
   FaArrowRight,
-  FaSearch
+  FaSearch,
+  FaBars
 } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 
@@ -88,6 +89,7 @@ export const PatientDashboard = () => {
   ]);
 
   const [isLoaded, setIsLoaded] = useState(false);
+  const [activeEvent, setActiveEvent] = useState(null);
 
   // Simulate loading state
   useEffect(() => {
@@ -96,10 +98,17 @@ export const PatientDashboard = () => {
     }, 800);
   }, []);
 
-
   // Get primary pharmacy
   const primaryPharmacy = preferredPharmacies.find(pharmacy => pharmacy.isPrimary);
 
+  // Function to handle event click on mobile
+  const toggleEventActions = (eventId) => {
+    if (activeEvent === eventId) {
+      setActiveEvent(null);
+    } else {
+      setActiveEvent(eventId);
+    }
+  };
 
   return (
     <div className="patient-dashboard">
@@ -125,11 +134,11 @@ export const PatientDashboard = () => {
                 </button>
                 <button className="quick-action-btn">
                   <FaCalendarAlt />
-                  <span>Schedule Appointment</span>
+                  <span>Schedule</span>
                 </button>
                 <NavLink to='/patient/doctors' className="quick-action-btn">
                   <FaPhoneAlt />
-                  <span>Message Doctor</span>
+                  <span>Message</span>
                 </NavLink>
               </div>
             </div>
@@ -229,7 +238,10 @@ export const PatientDashboard = () => {
               <section className="dashboard-section upcoming-section">
                 <h3 className="section-title">Upcoming Events</h3>
                 <div className="upcoming-events">
-                  <div className="upcoming-event">
+                  <div 
+                    className="upcoming-event"
+                    onClick={() => window.innerWidth < 576 && toggleEventActions(1)}
+                  >
                     <div className="event-date">
                       <div className="date-day">15</div>
                       <div className="date-month">APR</div>
@@ -247,7 +259,10 @@ export const PatientDashboard = () => {
                     </div>
                   </div>
 
-                  <div className="upcoming-event">
+                  <div 
+                    className="upcoming-event"
+                    onClick={() => window.innerWidth < 576 && toggleEventActions(2)}
+                  >
                     <div className="event-date">
                       <div className="date-day">22</div>
                       <div className="date-month">APR</div>

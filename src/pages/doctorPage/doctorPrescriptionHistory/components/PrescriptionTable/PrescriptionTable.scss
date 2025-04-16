@@ -1,0 +1,409 @@
+// styles/_prescription-table.scss
+.prescriptions-table-container {
+    @include card;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+
+    @include tablet {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    @include mobile {
+        display: none;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+
+        @include tablet {
+            min-width: 1000px;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid $border-color;
+        }
+
+        th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: $medium-text;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+
+            &.id-col,
+            &.date-col,
+            &.patient-col,
+            &.status-col {
+                cursor: pointer;
+
+                span {
+                    display: flex;
+                    align-items: center;
+
+                    svg {
+                        margin-left: 0.5rem;
+                        font-size: 0.8rem;
+                    }
+                }
+
+                &:hover {
+                    color: $primary-color;
+                }
+            }
+
+            &.id-col {
+                width: 100px;
+            }
+
+            &.date-col {
+                width: 100px;
+            }
+
+            &.patient-col {
+                width: 180px;
+            }
+
+            &.status-col {
+                width: 150px;
+            }
+
+            &.pharmacy-col {
+                width: 150px;
+            }
+
+            &.actions-col {
+                width: 60px;
+            }
+        }
+
+        .prescription-row {
+            transition: background-color 0.2s;
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba($primary-color, 0.02);
+            }
+
+            &.active {
+                background-color: rgba($primary-color, 0.05);
+            }
+
+            td {
+                font-size: 0.95rem;
+                vertical-align: middle;
+
+                &.patient-col {
+                    .patient-info {
+                        display: flex;
+                        flex-direction: column;
+
+                        .patient-name {
+                            font-weight: 500;
+                            margin-bottom: 0.25rem;
+                        }
+
+                        .patient-id {
+                            font-size: 0.8rem;
+                            color: $medium-text;
+                        }
+                    }
+                }
+
+                &.medications-col {
+                    .medications-summary {
+                        display: flex;
+                        flex-direction: column;
+
+                        .medication-primary {
+                            font-weight: 500;
+                            margin-bottom: 0.25rem;
+                        }
+
+                        .medication-count {
+                            font-size: 0.8rem;
+                            color: $medium-text;
+                        }
+                    }
+                }
+
+                &.actions-col {
+                    .actions-dropdown {
+                        position: relative;
+
+                        .actions-toggle {
+                            background: none;
+                            border: none;
+                            width: 30px;
+                            height: 30px;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            cursor: pointer;
+                            color: $medium-text;
+                            transition: background-color 0.2s;
+
+                            &:hover {
+                                background-color: rgba(0, 0, 0, 0.05);
+                            }
+                        }
+
+                        .dropdown-menu {
+                            position: absolute;
+                            right: 0;
+                            top: 100%;
+                            background-color: white;
+                            border-radius: 8px;
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                            z-index: 10;
+                            width: 200px;
+                            display: none;
+                            overflow: hidden;
+
+                            .dropdown-item {
+                                display: flex;
+                                align-items: center;
+                                padding: 0.7rem 1rem;
+                                font-size: 0.9rem;
+                                color: $dark-text;
+                                text-decoration: none;
+                                background: none;
+                                border: none;
+                                width: 100%;
+                                text-align: left;
+                                cursor: pointer;
+
+                                svg {
+                                    margin-right: 0.75rem;
+                                    color: $medium-text;
+                                }
+
+                                &:hover {
+                                    background-color: $light-bg;
+                                }
+
+                                &.delete {
+                                    color: $danger-color;
+
+                                    svg {
+                                        color: $danger-color;
+                                    }
+                                }
+                            }
+                        }
+
+                        &:hover .dropdown-menu {
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Prescription Details Row
+        .prescription-details-row {
+            td {
+                padding: 0;
+                background-color: $light-bg;
+            }
+
+            .prescription-details {
+                padding: 1.5rem;
+
+                .details-header {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 1.25rem;
+                    gap: 1rem;
+
+                    .prescription-id {
+                        display: flex;
+                        align-items: center;
+
+                        .details-icon {
+                            color: $primary-color;
+                            font-size: 1.1rem;
+                            margin-right: 0.75rem;
+                        }
+
+                        h4 {
+                            margin: 0;
+                            font-size: 1.1rem;
+                            font-weight: 600;
+                        }
+                    }
+
+                    .prescription-meta {
+                        display: flex;
+                        flex-wrap: wrap;
+                        align-items: center;
+                        gap: 1rem;
+                        font-size: 0.9rem;
+
+                        .issued-date,
+                        .patient-link {
+                            display: flex;
+                            align-items: center;
+                            color: $medium-text;
+
+                            svg {
+                                margin-right: 0.5rem;
+                            }
+
+                            a {
+                                color: $primary-color;
+                                text-decoration: none;
+                                margin-left: 5px;
+
+                                &:hover {
+                                    text-decoration: underline;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .details-body {
+                    background-color: white;
+                    border-radius: 8px;
+                    box-shadow: $shadow-sm;
+                    overflow: hidden;
+
+                    .medications-list {
+                        padding: 1.25rem;
+
+                        h5 {
+                            @include section-heading;
+                        }
+
+                        .medications-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            font-size: 0.9rem;
+
+                            th,
+                            td {
+                                padding: 0.75rem;
+                                text-align: left;
+                                border-bottom: 1px solid $border-color;
+                            }
+
+                            th {
+                                background-color: rgba(0, 0, 0, 0.02);
+                                font-weight: 600;
+                                color: $medium-text;
+                            }
+
+                            tr:last-child td {
+                                border-bottom: none;
+                            }
+                        }
+                    }
+
+                    .details-footer {
+                        padding: 1.25rem;
+                        border-top: 1px solid $border-color;
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                        gap: 1.5rem;
+
+                        h5 {
+                            margin: 0 0 0.5rem;
+                            font-size: 0.95rem;
+                            font-weight: 600;
+                            display: flex;
+                            align-items: center;
+
+                            svg {
+                                margin-right: 0.5rem;
+                            }
+                        }
+
+                        p {
+                            margin: 0;
+                            font-size: 0.9rem;
+                            color: $medium-text;
+                            line-height: 1.4;
+                        }
+
+                        .prescription-notes {
+                            h5 svg {
+                                color: $primary-color;
+                            }
+                        }
+
+                        .decline-reason {
+                            h5 svg {
+                                color: $declined-color;
+                            }
+
+                            p {
+                                color: $declined-color;
+                                font-weight: 500;
+                            }
+                        }
+                    }
+
+                    .details-actions {
+                        padding: 1rem 1.25rem;
+                        border-top: 1px solid $border-color;
+                        display: flex;
+                        justify-content: flex-end;
+                        gap: 0.75rem;
+
+                        .action-btn {
+                            @include action-button;
+                        }
+                    }
+                }
+            }
+        }
+
+        .no-results {
+            padding: 3rem 1rem;
+
+            .no-prescriptions-message {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+
+                .no-results-icon {
+                    font-size: 2.5rem;
+                    color: $light-text;
+                    opacity: 0.5;
+                }
+
+                p {
+                    font-size: 1rem;
+                    color: $medium-text;
+                    margin: 0;
+                }
+
+                button {
+                    background-color: transparent;
+                    color: $primary-color;
+                    border: 1px solid $primary-color;
+                    border-radius: 6px;
+                    padding: 0.5rem 1.5rem;
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: $transition-standard;
+
+                    &:hover {
+                        background-color: rgba($primary-color, 0.05);
+                    }
+                }
+            }
+        }
+    }
+}

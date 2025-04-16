@@ -474,6 +474,7 @@
                 font-size: 1.05rem;
                 cursor: pointer;
                 transition: all 0.3s ease;
+                text-decoration: none;
 
                 &.primary {
                     background: linear-gradient(135deg, $primary-color, lighten($primary-color, 10%));

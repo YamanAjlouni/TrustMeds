@@ -4,7 +4,8 @@ import './PatientMyPrescriptions.scss';
 import {
     FaPills, FaHistory, FaFilePrescription, FaHospitalUser,
     FaExclamationTriangle, FaSearch, FaFilter, FaPlusCircle,
-    FaTimes, FaChevronDown, FaChevronUp, FaBell, FaCalendarAlt
+    FaTimes, FaChevronDown, FaChevronUp, FaBell, FaCalendarAlt,
+    FaArrowRight
 } from 'react-icons/fa';
 
 export const PatientMyPrescriptions = () => {
@@ -114,6 +115,24 @@ export const PatientMyPrescriptions = () => {
     // State for showing filter panel
     const [showFilters, setShowFilters] = useState(false);
 
+    // Check if screen is mobile/small
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkIfMobile = () => {
+            setIsMobile(window.innerWidth < 576);
+        };
+
+        // Initial check
+        checkIfMobile();
+
+        // Add event listener for window resize
+        window.addEventListener('resize', checkIfMobile);
+
+        // Cleanup
+        return () => window.removeEventListener('resize', checkIfMobile);
+    }, []);
+
     // Get unique doctors and pharmacies for filter options
     const allDoctors = [...new Set([
         ...activePrescriptions.map(p => p.doctor),
@@ -214,17 +233,6 @@ export const PatientMyPrescriptions = () => {
         });
     };
 
-    // Variants for animations (no longer used)
-    const cardVariants = {
-        hidden: { opacity: 0, y: 10 },
-        visible: { opacity: 1, y: 0 }
-    };
-
-    const expandVariants = {
-        hidden: { opacity: 0, height: 0 },
-        visible: { opacity: 1, height: "auto" }
-    };
-
     return (
         <div className="my-prescriptions-container">
             <div className="page-header">
@@ -264,6 +272,7 @@ export const PatientMyPrescriptions = () => {
                     <button
                         className={`filter-btn ${showFilters ? 'active' : ''}`}
                         onClick={() => setShowFilters(!showFilters)}
+                        aria-label={showFilters ? "Hide filters" : "Show filters"}
                     >
                         <FaFilter className="filter-icon" />
                         <span>{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
@@ -271,6 +280,7 @@ export const PatientMyPrescriptions = () => {
                     <button
                         className="add-prescription-btn"
                         onClick={handleAddPrescriptionClick}
+                        aria-label="Request prescription"
                     >
                         <FaPlusCircle className="add-icon" />
                         <span>Request Prescription</span>
@@ -299,8 +309,9 @@ export const PatientMyPrescriptions = () => {
 
                     <div className="filter-options">
                         <div className="filter-group">
-                            <label>Doctor</label>
+                            <label htmlFor="doctor-filter">Doctor</label>
                             <select
+                                id="doctor-filter"
                                 value={filters.doctor}
                                 onChange={(e) => setFilters({ ...filters, doctor: e.target.value })}
                             >
@@ -312,8 +323,9 @@ export const PatientMyPrescriptions = () => {
                         </div>
 
                         <div className="filter-group">
-                            <label>Pharmacy</label>
+                            <label htmlFor="pharmacy-filter">Pharmacy</label>
                             <select
+                                id="pharmacy-filter"
                                 value={filters.pharmacy}
                                 onChange={(e) => setFilters({ ...filters, pharmacy: e.target.value })}
                             >
@@ -369,7 +381,7 @@ export const PatientMyPrescriptions = () => {
                     onClick={() => setActiveTab('active')}
                 >
                     <FaPills className="tab-icon" />
-                    <span>Active Prescriptions</span>
+                    <span>{isMobile ? 'Active' : 'Active Prescriptions'}</span>
                     {activeTab !== 'active' && (
                         <span className="count-badge">{activePrescriptions.length}</span>
                     )}
@@ -379,7 +391,7 @@ export const PatientMyPrescriptions = () => {
                     onClick={() => setActiveTab('history')}
                 >
                     <FaHistory className="tab-icon" />
-                    <span>Prescription History</span>
+                    <span>{isMobile ? 'History' : 'Prescription History'}</span>
                     {activeTab !== 'history' && (
                         <span className="count-badge">{prescriptionHistory.length}</span>
                     )}

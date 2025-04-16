@@ -1,0 +1,50 @@
+// styles/_status-badge.scss
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+
+    .status-icon {
+        margin-right: 0.5rem;
+        font-size: 0.9rem;
+
+        &.filled {
+            color: $filled-color;
+        }
+
+        &.pending {
+            color: $pending-color;
+        }
+
+        &.approval {
+            color: $approval-color;
+        }
+
+        &.declined {
+            color: $declined-color;
+        }
+    }
+
+    &.filled {
+        background-color: rgba($filled-color, 0.1);
+        color: $filled-color;
+    }
+
+    &.pending-pickup {
+        background-color: rgba($pending-color, 0.1);
+        color: darken($pending-color, 10%);
+    }
+
+    &.pending-approval {
+        background-color: rgba($approval-color, 0.1);
+        color: $approval-color;
+    }
+
+    &.declined {
+        background-color: rgba($declined-color, 0.1);
+        color: $declined-color;
+    }
+}

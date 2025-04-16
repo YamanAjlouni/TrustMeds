@@ -1,0 +1,1101 @@
+@import '../../../assets/styles/vars.scss';
+
+// Responsive mixins for better organization
+@mixin desktop {
+    @media (min-width: 1200px) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (max-width: 1199px) and (min-width: 768px) {
+        @content;
+    }
+}
+
+@mixin mobile {
+    @media (max-width: 767px) {
+        @content;
+    }
+}
+
+@mixin small-mobile {
+    @media (max-width: 480px) {
+        @content;
+    }
+}
+
+.doctor-help-resources {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    background-color: #f5f7fa;
+
+    @include tablet {
+        padding: 16px;
+    }
+
+    @include mobile {
+        padding: 12px;
+    }
+
+    @include small-mobile {
+        padding: 10px;
+    }
+
+    .help-header {
+        margin-bottom: 35px;
+        text-align: center !important;
+        padding-top: 15px;
+        width: 100%;
+
+        @include mobile {
+            margin-bottom: 25px;
+            padding-top: 10px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            color: $dark-text;
+            margin-bottom: 12px;
+            position: relative;
+            display: inline-block;
+
+            @include tablet {
+                font-size: 28px;
+            }
+
+            @include mobile {
+                font-size: 24px;
+                margin-bottom: 8px;
+            }
+
+            @include small-mobile {
+                font-size: 22px;
+            }
+
+            &:after {
+                content: '';
+                position: absolute;
+                width: 60px;
+                height: 4px;
+                background-color: $primary-color;
+                bottom: -8px;
+                left: 50%;
+                transform: translateX(-50%);
+                border-radius: 2px;
+
+                @include mobile {
+                    width: 50px;
+                    height: 3px;
+                    bottom: -6px;
+                }
+
+                @include small-mobile {
+                    width: 40px;
+                    height: 2px;
+                }
+            }
+        }
+
+        p {
+            font-size: 18px;
+            color: $medium-text;
+            margin-bottom: 30px;
+            font-weight: 300;
+
+            @include tablet {
+                font-size: 16px;
+                margin-bottom: 25px;
+            }
+
+            @include mobile {
+                font-size: 15px;
+                margin-bottom: 20px;
+                padding: 0 10px;
+            }
+
+            @include small-mobile {
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 650px;
+            margin: 0 auto;
+
+            @include mobile {
+                max-width: 100%;
+                padding: 0 10px;
+            }
+
+            .search-icon {
+                position: absolute;
+                left: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: $medium-text;
+                font-size: 20px;
+
+                @include mobile {
+                    left: 15px;
+                    font-size: 18px;
+                }
+
+                @include small-mobile {
+                    left: 15px;
+                    font-size: 16px;
+                }
+            }
+
+            input {
+                width: 100%;
+                padding: 16px 50px 16px 55px;
+                border-radius: 50px;
+                border: 1px solid rgba($border-color, 0.6);
+                font-size: 16px;
+                box-shadow: $shadow-md;
+                transition: $transition-standard;
+                background-color: white;
+                box-sizing: border-box;
+
+                @include tablet {
+                    padding: 14px 45px 14px 50px;
+                    font-size: 15px;
+                }
+
+                @include mobile {
+                    padding: 12px 40px 12px 45px;
+                    font-size: 14px;
+                }
+
+                @include small-mobile {
+                    padding: 10px 35px 10px 38px;
+                    font-size: 14px;
+                }
+
+                &:focus {
+                    outline: none;
+                    border-color: $primary-color;
+                    box-shadow: 0 0 0 4px rgba($primary-color, 0.15);
+                }
+
+                &::placeholder {
+                    color: $light-text;
+                }
+            }
+
+            .clear-search {
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: none;
+                border: none;
+                color: $medium-text;
+                font-size: 18px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                transition: $transition-standard;
+
+                @include mobile {
+                    right: 15px;
+                    font-size: 16px;
+                    width: 22px;
+                    height: 22px;
+                }
+
+                &:hover {
+                    background-color: rgba($light-text, 0.1);
+                    color: $dark-text;
+                }
+            }
+        }
+    }
+
+    .help-content {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+
+        @include mobile {
+            gap: 20px;
+        }
+
+        @include small-mobile {
+            gap: 15px;
+        }
+
+        .content-section {
+            background-color: white;
+            border-radius: $border-radius;
+            box-shadow: $shadow-md;
+            overflow: hidden;
+            transition: $transition-standard;
+            border: 1px solid rgba($border-color, 0.6);
+
+            .section-header {
+                padding: 20px 24px;
+                border-bottom: 1px solid $border-color;
+                position: relative;
+
+                @include mobile {
+                    padding: 16px 20px;
+                }
+
+                @include small-mobile {
+                    padding: 14px 16px;
+                }
+
+                &:before {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+                    width: 4px;
+
+                    @include small-mobile {
+                        width: 3px;
+                    }
+                }
+
+                &.category-primary:before {
+                    background-color: $primary-color;
+                }
+
+                &.category-secondary:before {
+                    background-color: $secondary-color;
+                }
+
+                &.category-accent:before {
+                    background-color: $accent-color;
+                }
+
+                &.category-info:before {
+                    background-color: #0ea5e9;
+                    /* light blue */
+                }
+
+                &.category-danger:before {
+                    background-color: $danger-color;
+                }
+
+                &.category-warning:before {
+                    background-color: #f59e0b;
+                    /* amber */
+                }
+
+                h2 {
+                    font-size: 22px;
+                    font-weight: 600;
+                    color: $dark-text;
+                    margin: 0;
+
+                    @include tablet {
+                        font-size: 20px;
+                    }
+
+                    @include mobile {
+                        font-size: 18px;
+                    }
+
+                    @include small-mobile {
+                        font-size: 16px;
+                    }
+                }
+            }
+
+            h2 {
+                font-size: 22px;
+                font-weight: 600;
+                color: $dark-text;
+                margin: 0 0 20px;
+                padding: 20px 24px;
+
+                @include tablet {
+                    font-size: 20px;
+                    padding: 18px 20px;
+                    margin: 0 0 16px;
+                }
+
+                @include mobile {
+                    font-size: 18px;
+                    padding: 16px 20px;
+                    margin: 0 0 12px;
+                }
+
+                @include small-mobile {
+                    font-size: 16px;
+                    padding: 14px 16px;
+                    margin: 0 0 10px;
+                }
+            }
+
+            .no-results {
+                padding: 40px 20px;
+                text-align: center;
+                background-color: rgba($light-bg, 0.4);
+                border-radius: $border-radius;
+                margin: 15px 24px 30px;
+
+                @include mobile {
+                    padding: 30px 15px;
+                    margin: 12px 20px 24px;
+                }
+
+                @include small-mobile {
+                    padding: 20px 12px;
+                    margin: 10px 16px 20px;
+                }
+
+                .no-results-icon {
+                    font-size: 48px;
+                    color: $light-text;
+                    margin-bottom: 15px;
+
+                    @include mobile {
+                        font-size: 40px;
+                        margin-bottom: 12px;
+                    }
+
+                    @include small-mobile {
+                        font-size: 36px;
+                        margin-bottom: 10px;
+                    }
+                }
+
+                h3 {
+                    font-size: 20px;
+                    color: $dark-text;
+                    margin: 0 0 10px;
+
+                    @include mobile {
+                        font-size: 18px;
+                        margin: 0 0 8px;
+                    }
+
+                    @include small-mobile {
+                        font-size: 16px;
+                        margin: 0 0 6px;
+                    }
+                }
+
+                p {
+                    color: $medium-text;
+                    margin: 0 0 20px;
+                    max-width: 500px;
+                    margin-left: auto;
+                    margin-right: auto;
+
+                    @include mobile {
+                        font-size: 14px;
+                        margin: 0 0 16px;
+                    }
+
+                    @include small-mobile {
+                        font-size: 13px;
+                        margin: 0 0 14px;
+                    }
+                }
+
+                .contact-support-btn {
+                    background-color: $primary-color;
+                    color: white;
+                    border: none;
+                    padding: 12px 24px;
+                    border-radius: 6px;
+                    font-weight: 500;
+                    font-size: 16px;
+                    cursor: pointer;
+                    transition: $transition-standard;
+
+                    @include mobile {
+                        padding: 10px 20px;
+                        font-size: 14px;
+                    }
+
+                    &:hover {
+                        background-color: darken($primary-color, 5%);
+                        transform: translateY(-2px);
+                    }
+                }
+            }
+        }
+
+        // FAQ Styles
+        .faq-list {
+            padding: 24px 24px;
+
+            @include mobile {
+                padding: 20px 20px;
+            }
+
+            @include small-mobile {
+                padding: 16px 16px;
+            }
+
+            .faq-item {
+                border-radius: $border-radius;
+                margin-bottom: 15px;
+                background-color: rgba($light-bg, 0.5);
+                overflow: hidden;
+                transition: $transition-standard;
+                border: 1px solid rgba($border-color, 0.6);
+                box-shadow: $shadow-sm;
+                position: relative;
+
+                @include mobile {
+                    margin-bottom: 12px;
+                }
+
+                @include small-mobile {
+                    margin-bottom: 10px;
+                }
+
+                &:before {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+                    width: 3px;
+                    background-color: transparent;
+                    transition: $transition-standard;
+                }
+
+                &:hover {
+                    box-shadow: $shadow-md;
+                    transform: translateY(-2px);
+
+                    @include mobile {
+                        transform: translateY(-1px);
+                    }
+                }
+
+                &.expanded {
+                    background-color: white;
+                    box-shadow: $shadow-md;
+                }
+
+                &.category-primary:before {
+                    background-color: $primary-color;
+                }
+
+                &.category-secondary:before {
+                    background-color: $secondary-color;
+                }
+
+                &.category-accent:before {
+                    background-color: $accent-color;
+                }
+
+                &.category-info:before {
+                    background-color: #0ea5e9;
+                    /* light blue */
+                }
+
+                &.category-danger:before {
+                    background-color: $danger-color;
+                }
+
+                &.category-warning:before {
+                    background-color: #f59e0b;
+                    /* amber */
+                }
+
+                .faq-question {
+                    padding: 18px 20px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    position: relative;
+
+                    @include mobile {
+                        padding: 15px 16px;
+                    }
+
+                    @include small-mobile {
+                        padding: 12px 14px;
+                    }
+
+                    .question-icon {
+                        color: $primary-color;
+                        font-size: 18px;
+                        margin-right: 14px;
+                        flex-shrink: 0;
+
+                        @include mobile {
+                            font-size: 16px;
+                            margin-right: 12px;
+                        }
+
+                        @include small-mobile {
+                            font-size: 14px;
+                            margin-right: 10px;
+                        }
+                    }
+
+                    .category-tag {
+                        position: absolute;
+                        top: 12px;
+                        right: 50px;
+                        font-size: 12px;
+                        font-weight: 500;
+                        padding: 3px 8px;
+                        border-radius: 4px;
+                        background-color: rgba($primary-color, 0.1);
+                        color: $primary-color;
+
+                        @include mobile {
+                            top: 10px;
+                            right: 40px;
+                            font-size: 10px;
+                            padding: 2px 6px;
+                        }
+
+                        @include small-mobile {
+                            display: none; // Hide on very small screens to save space
+                        }
+                    }
+
+                    h3 {
+                        margin: 0;
+                        font-size: 17px;
+                        color: $dark-text;
+                        flex: 1;
+                        font-weight: 500;
+                        line-height: 1.4;
+
+                        @include mobile {
+                            font-size: 15px;
+                            line-height: 1.3;
+                        }
+
+                        @include small-mobile {
+                            font-size: 14px;
+                            line-height: 1.3;
+                        }
+                    }
+
+                    .toggle-icon {
+                        color: $medium-text;
+                        font-size: 22px;
+                        flex-shrink: 0;
+
+                        @include mobile {
+                            font-size: 20px;
+                        }
+
+                        @include small-mobile {
+                            font-size: 18px;
+                        }
+                    }
+                }
+
+                .faq-answer {
+                    padding: 0 20px 18px 52px;
+
+                    @include mobile {
+                        padding: 0 16px 15px 46px;
+                    }
+
+                    @include small-mobile {
+                        padding: 0 14px 12px 38px;
+                    }
+
+                    p {
+                        margin: 0;
+                        color: $medium-text;
+                        line-height: 1.6;
+                        font-size: 16px;
+
+                        @include mobile {
+                            font-size: 14px;
+                            line-height: 1.5;
+                        }
+
+                        @include small-mobile {
+                            font-size: 13px;
+                            line-height: 1.4;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Contact Support Styles
+        .support-section {
+            margin-top: 10px;
+            margin-bottom: 30px;
+
+            @include mobile {
+                margin-top: 5px;
+                margin-bottom: 25px;
+            }
+
+            h2 {
+                text-align: center;
+                font-size: 24px;
+                position: relative;
+
+                @include tablet {
+                    font-size: 22px;
+                }
+
+                @include mobile {
+                    font-size: 20px;
+                }
+
+                @include small-mobile {
+                    font-size: 18px;
+                }
+
+                &:after {
+                    content: '';
+                    display: block;
+                    width: 80px;
+                    height: 3px;
+                    background-color: $primary-color;
+                    margin: 15px auto 0;
+                    border-radius: 2px;
+
+                    @include mobile {
+                        width: 60px;
+                        height: 2px;
+                        margin: 12px auto 0;
+                    }
+                }
+            }
+
+            .help-contact {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+                padding: 15px 24px 30px;
+
+                @include tablet {
+                    gap: 20px;
+                    padding: 15px 20px 25px;
+                }
+
+                @include mobile {
+                    grid-template-columns: 1fr;
+                    gap: 20px;
+                    padding: 10px 15px 20px;
+                }
+
+                .contact-option {
+                    background: linear-gradient(165deg, white 0%, rgba($light-bg, 0.8) 100%);
+                    border-radius: $border-radius;
+                    padding: 30px 20px;
+                    text-align: center;
+                    box-shadow: $shadow-md;
+                    transition: $transition-standard;
+                    border: 1px solid rgba($border-color, 0.3);
+
+                    @include tablet {
+                        padding: 25px 15px;
+                    }
+
+                    @include mobile {
+                        padding: 20px 15px;
+                    }
+
+                    &:hover {
+                        transform: translateY(-5px);
+                        box-shadow: $shadow-lg;
+
+                        @include mobile {
+                            transform: translateY(-3px);
+                        }
+                    }
+
+                    .contact-icon-wrapper {
+                        width: 80px;
+                        height: 80px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin: 0 auto 20px;
+                        background: linear-gradient(135deg, rgba($primary-color, 0.1) 0%, rgba($primary-color, 0.2) 100%);
+                        box-shadow: 0 4px 15px rgba($primary-color, 0.15);
+
+                        @include tablet {
+                            width: 70px;
+                            height: 70px;
+                            margin: 0 auto 15px;
+                        }
+
+                        @include mobile {
+                            width: 60px;
+                            height: 60px;
+                            margin: 0 auto 12px;
+                        }
+                    }
+
+                    .contact-icon {
+                        color: $primary-color;
+                        width: 36px;
+                        height: 36px;
+
+                        @include tablet {
+                            width: 32px;
+                            height: 32px;
+                        }
+
+                        @include mobile {
+                            width: 28px;
+                            height: 28px;
+                        }
+                    }
+
+                    h3 {
+                        font-size: 20px;
+                        color: $dark-text;
+                        margin: 0 0 8px;
+                        font-weight: 600;
+
+                        @include tablet {
+                            font-size: 18px;
+                        }
+
+                        @include mobile {
+                            font-size: 17px;
+                            margin: 0 0 6px;
+                        }
+
+                        @include small-mobile {
+                            font-size: 16px;
+                        }
+                    }
+
+                    p {
+                        font-size: 16px;
+                        color: $medium-text;
+                        margin: 0 0 20px;
+
+                        @include tablet {
+                            font-size: 15px;
+                            margin: 0 0 18px;
+                        }
+
+                        @include mobile {
+                            font-size: 14px;
+                            margin: 0 0 15px;
+                        }
+
+                        @include small-mobile {
+                            font-size: 13px;
+                        }
+                    }
+
+                    .contact-button {
+                        display: inline-block;
+                        padding: 12px 24px;
+                        border-radius: 50px;
+                        text-decoration: none;
+                        font-weight: 500;
+                        font-size: 16px;
+                        transition: $transition-standard;
+                        border: none;
+                        cursor: pointer;
+                        margin-bottom: 12px;
+                        width: 80%;
+                        max-width: 240px;
+
+                        @include tablet {
+                            padding: 10px 20px;
+                            font-size: 15px;
+                        }
+
+                        @include mobile {
+                            padding: 10px 20px;
+                            font-size: 14px;
+                            width: 100%;
+                        }
+
+                        &.phone {
+                            background: linear-gradient(135deg, $primary-color 0%, darken($primary-color, 10%) 100%);
+                            color: white;
+                            box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+
+                            &:hover {
+                                transform: translateY(-2px);
+                                box-shadow: 0 6px 15px rgba($primary-color, 0.4);
+                            }
+                        }
+
+                        &.email {
+                            background: linear-gradient(135deg, $secondary-color 0%, darken($secondary-color, 10%) 100%);
+                            color: white;
+                            box-shadow: 0 4px 12px rgba($secondary-color, 0.3);
+
+                            &:hover {
+                                transform: translateY(-2px);
+                                box-shadow: 0 6px 15px rgba($secondary-color, 0.4);
+                            }
+                        }
+                    }
+
+                    .support-hours {
+                        display: block;
+                        font-size: 14px;
+                        color: $light-text;
+                        font-style: italic;
+
+                        @include mobile {
+                            font-size: 13px;
+                        }
+
+                        @include small-mobile {
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Contact Form Styles
+        .contact-form-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+
+            @include mobile {
+                padding: 15px;
+                align-items: flex-start;
+                overflow-y: auto;
+            }
+
+            .contact-form-container {
+                background-color: white;
+                border-radius: $border-radius;
+                width: 100%;
+                max-width: 550px;
+                box-shadow: $shadow-lg;
+                overflow: hidden;
+                animation: slideIn 0.3s ease-out forwards;
+
+                @include mobile {
+                    max-width: 100%;
+                    margin: 20px 0;
+                }
+
+                @keyframes slideIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(30px);
+                    }
+
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                .form-header {
+                    padding: 20px 24px;
+                    background-color: $primary-color;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    @include mobile {
+                        padding: 15px 20px;
+                    }
+
+                    h3 {
+                        margin: 0;
+                        font-size: 20px;
+                        font-weight: 500;
+
+                        @include mobile {
+                            font-size: 18px;
+                        }
+
+                        @include small-mobile {
+                            font-size: 16px;
+                        }
+                    }
+
+                    .close-form {
+                        background: none;
+                        border: none;
+                        color: white;
+                        font-size: 20px;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 50%;
+                        transition: $transition-standard;
+
+                        @include mobile {
+                            font-size: 18px;
+                            width: 26px;
+                            height: 26px;
+                        }
+
+                        &:hover {
+                            background-color: rgba(white, 0.2);
+                        }
+                    }
+                }
+
+                form {
+                    padding: 24px;
+
+                    @include mobile {
+                        padding: 20px;
+                    }
+
+                    @include small-mobile {
+                        padding: 15px;
+                    }
+
+                    .form-group {
+                        margin-bottom: 20px;
+
+                        @include mobile {
+                            margin-bottom: 15px;
+                        }
+
+                        label {
+                            display: block;
+                            font-size: 16px;
+                            color: $dark-text;
+                            margin-bottom: 8px;
+                            font-weight: 500;
+
+                            @include mobile {
+                                font-size: 15px;
+                                margin-bottom: 6px;
+                            }
+
+                            @include small-mobile {
+                                font-size: 14px;
+                                margin-bottom: 4px;
+                            }
+                        }
+
+                        input,
+                        textarea,
+                        select {
+                            width: 100%;
+                            padding: 12px 16px;
+                            border-radius: 6px;
+                            border: 1px solid $border-color;
+                            font-size: 16px;
+                            transition: $transition-standard;
+                            box-sizing: border-box;
+
+                            @include mobile {
+                                padding: 10px 14px;
+                                font-size: 15px;
+                            }
+
+                            @include small-mobile {
+                                padding: 8px 12px;
+                                font-size: 14px;
+                            }
+
+                            &:focus {
+                                outline: none;
+                                border-color: $primary-color;
+                                box-shadow: 0 0 0 3px rgba($primary-color, 0.15);
+                            }
+                        }
+                    }
+
+                    .form-actions {
+                        display: flex;
+                        justify-content: flex-end;
+                        gap: 15px;
+                        margin-top: 30px;
+
+                        @include mobile {
+                            margin-top: 20px;
+                            gap: 10px;
+                        }
+
+                        @include small-mobile {
+                            flex-direction: column-reverse;
+                            gap: 8px;
+                        }
+
+                        button {
+                            padding: 12px 24px;
+                            border-radius: 6px;
+                            font-size: 16px;
+                            font-weight: 500;
+                            cursor: pointer;
+                            transition: $transition-standard;
+
+                            @include mobile {
+                                padding: 10px 20px;
+                                font-size: 15px;
+                            }
+
+                            @include small-mobile {
+                                padding: 10px 16px;
+                                font-size: 14px;
+                                width: 100%;
+                            }
+
+                            &.cancel-btn {
+                                background-color: transparent;
+                                color: $medium-text;
+                                border: 1px solid $border-color;
+
+                                &:hover {
+                                    background-color: $light-bg;
+                                    color: $dark-text;
+                                }
+                            }
+
+                            &.submit-btn {
+                                background-color: $primary-color;
+                                color: white;
+                                border: none;
+                                box-shadow: 0 4px 10px rgba($primary-color, 0.2);
+
+                                &:hover {
+                                    background-color: darken($primary-color, 5%);
+                                    transform: translateY(-2px);
+                                    box-shadow: 0 6px 15px rgba($primary-color, 0.3);
+
+                                    @include small-mobile {
+                                        transform: translateY(-1px);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

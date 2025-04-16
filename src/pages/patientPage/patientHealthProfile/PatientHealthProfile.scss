@@ -6,6 +6,7 @@ $green-color: hsl(145, 63%, 42%); // #27AE60 in HSL
 $light-color: hsl(210, 87%, 94%); // #E3F2FD in HSL
 $text-color: hsl(0, 0%, 26%); // #424242 in HSL
 $red-color: hsl(5, 100%, 69%); // #FF6F61 in HSL
+$accent-color: hsl(24, 97%, 63%); // #FF7A45 in HSL
 
 // Semantic colors
 $error-color: hsl(0, 89%, 58%); // #F44336 in HSL
@@ -16,39 +17,54 @@ $hover-color: hsl(0, 0%, 96%); // #f5f5f5 in HSL
 
 // Adding more colors for better visual hierarchy
 $muted-text: hsl(0, 0%, 46%); // #757575
-$background-color: hsl(0, 0%, 98%); // #f9f9f9
-$surface-alt: hsl(0, 0%, 97%); // #f7f7f7
+$background-color: hsl(220, 33%, 98%); // #f5f7fa in HSL
+$surface-alt: hsl(220, 20%, 97%); // #f5f6f9 in HSL
 
 // Shadows and elevations
-$card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
-$elevated-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.06);
+$card-shadow: 0 2px 8px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+$elevated-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+$floating-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08);
 
-// Typography
-$font-family: 'Roboto', 'Segoe UI', system-ui, -apple-system, sans-serif;
-$font-size-base: 1rem;
-$font-size-sm: 0.875rem;
-$font-size-xs: 0.75rem;
-$font-size-lg: 1.125rem;
-$font-size-xl: 1.25rem;
-$font-size-2xl: 1.5rem;
+// Typography 
+$font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+$font-size-xs: 0.75rem; // 12px
+$font-size-sm: 0.875rem; // 14px 
+$font-size-base: 1rem; // 16px
+$font-size-lg: 1.125rem; // 18px
+$font-size-xl: 1.25rem; // 20px
+$font-size-2xl: 1.5rem; // 24px
+$font-size-3xl: 1.875rem; // 30px
+
+// Line heights
+$line-height-tight: 1.2;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.8;
+
+// Font weights
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
 
 // Spacing
-$space-xs: 4px;
-$space-sm: 8px;
-$space-md: 16px;
-$space-lg: 24px;
-$space-xl: 32px;
-$space-2xl: 48px;
+$space-xs: 0.25rem; // 4px
+$space-sm: 0.5rem; // 8px
+$space-md: 1rem; // 16px
+$space-lg: 1.5rem; // 24px
+$space-xl: 2rem; // 32px
+$space-2xl: 3rem; // 48px
 
 // Border radius
-$radius-sm: 4px;
-$radius-md: 8px;
-$radius-lg: 12px;
+$radius-sm: 0.25rem; // 4px
+$radius-md: 0.5rem; // 8px
+$radius-lg: 0.75rem; // 12px
+$radius-xl: 1rem; // 16px
 $radius-circle: 50%;
 
 // Transitions
-$transition-fast: 150ms ease;
-$transition-standard: 250ms ease;
+$transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+$transition-standard: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+$transition-emphasis: 300ms cubic-bezier(0.25, 0.1, 0.25, 1);
 
 // Z-index levels
 $z-index-base: 1;
@@ -70,9 +86,10 @@ $z-index-modal: 100;
 
 @mixin card {
     background-color: $secondary-color;
-    border-radius: $radius-md;
+    border-radius: $radius-lg;
     box-shadow: $card-shadow;
     overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 @mixin badge($bg-color, $text-color) {
@@ -80,15 +97,17 @@ $z-index-modal: 100;
     padding: $space-xs $space-md;
     border-radius: $radius-lg;
     font-size: $font-size-xs;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     background-color: rgba($bg-color, 0.12);
     color: $text-color;
+    letter-spacing: 0.02em;
 }
 
 @mixin responsive-grid($min-width) {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax($min-width, 1fr));
     gap: $space-lg;
+    width: 100%;
 }
 
 @mixin card-header {
@@ -98,32 +117,45 @@ $z-index-modal: 100;
     border-bottom: 1px solid $border-color;
 }
 
+@mixin section-title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    color: $primary-color;
+    position: relative;
+    margin: 0;
+}
+
+// Main styles
 .patient-health-profile {
     font-family: $font-family;
     color: $text-color;
     background-color: $background-color;
     padding: $space-lg;
-    line-height: 1.5;
-    height: 100%;
+    line-height: $line-height-normal;
+    min-height: 100vh;
 
+    // Container with full width
     .profile-container {
         display: flex;
-        max-width: 1280px;
+        width: 100%;
         margin: 0 auto;
         min-height: 700px;
-        @include card;
+        background-color: $surface-alt;
+        border-radius: $radius-xl;
+        box-shadow: $elevated-shadow;
+        overflow: hidden;
     }
 
-    // Sidebar with improved visual design
+    // Enhanced sidebar with modern visual design
     .profile-sidebar {
         width: 280px;
-        background: linear-gradient(135deg, $primary-color, darken($primary-color, 15%));
+        background: linear-gradient(165deg, $primary-color, darken($primary-color, 15%));
         color: $secondary-color;
         flex-shrink: 0;
         display: flex;
         flex-direction: column;
         position: relative;
-
+        z-index: $z-index-base;
 
         &::after {
             content: '';
@@ -143,7 +175,7 @@ $z-index-modal: 100;
             h2 {
                 margin: 0;
                 font-size: $font-size-2xl;
-                font-weight: 500;
+                font-weight: $font-weight-semibold;
                 letter-spacing: 0.3px;
             }
         }
@@ -174,7 +206,7 @@ $z-index-modal: 100;
                 &.active {
                     background-color: rgba(255, 255, 255, 0.15);
                     color: $secondary-color;
-                    font-weight: 500;
+                    font-weight: $font-weight-medium;
 
                     &:before {
                         content: '';
@@ -183,7 +215,7 @@ $z-index-modal: 100;
                         top: 0;
                         bottom: 0;
                         width: 4px;
-                        background-color: $light-color;
+                        background-color: $secondary-color;
                         border-top-right-radius: $radius-sm;
                         border-bottom-right-radius: $radius-sm;
                     }
@@ -196,11 +228,14 @@ $z-index-modal: 100;
                 }
 
                 span {
-                    flex: 1;
+                    width: 100%;
                 }
 
                 .badge {
-                    @include badge($light-color, $primary-color);
+                    @include badge($light-color, white);
+                    font-weight: bold;
+                    width: auto;
+
                 }
             }
         }
@@ -223,7 +258,8 @@ $z-index-modal: 100;
 
                 &:hover {
                     background-color: rgba(255, 255, 255, 0.15);
-                    transform: translateY(-1px);
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
                 }
 
                 &:active {
@@ -238,63 +274,67 @@ $z-index-modal: 100;
         }
     }
 
-    // Content area with improved spacing
+    // Full-width content area
     .profile-content {
         flex: 1;
         padding: $space-xl;
         overflow-y: auto;
-        max-height: 85vh;
-    }
+        background-color: $secondary-color;
 
-    // Enhanced loading state
-    .loading-state {
-        @include flex-center;
-        flex-direction: column;
-        height: 300px;
-        color: $text-color;
-        opacity: 0.8;
+        .loading-state {
+            @include flex-center;
+            flex-direction: column;
+            height: 400px;
+            color: $text-color;
+            opacity: 0.8;
 
-        .spinner {
-            width: 48px;
-            height: 48px;
-            border: 3px solid rgba($primary-color, 0.2);
-            border-radius: $radius-circle;
-            border-top-color: $primary-color;
-            animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-            margin-bottom: $space-lg;
-        }
+            .spinner {
+                width: 48px;
+                height: 48px;
+                border: 3px solid rgba($primary-color, 0.2);
+                border-radius: $radius-circle;
+                border-top-color: $primary-color;
+                animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                margin-bottom: $space-lg;
+            }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
+            p {
+                font-size: $font-size-lg;
+                font-weight: $font-weight-medium;
+            }
+
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
             }
         }
     }
 
-    // Section headers with improved visual treatment
+    // Enhanced section headers
     .section-header {
         @include flex-between;
         margin-bottom: $space-xl;
         position: relative;
+        padding-bottom: $space-lg;
+        border-bottom: 1px solid $border-color;
 
-        h3 {
-            margin: 0;
-            font-size: $font-size-xl;
-            font-weight: 500;
-            color: $primary-color;
-            position: relative;
-            padding-bottom: $space-sm;
-
-            &::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 40px;
-                height: 3px;
-                background-color: $primary-color;
-                border-radius: $radius-sm;
+        .section-title-wrapper {
+            h3 {
+                @include section-title;
+                margin-bottom: $space-xs;
             }
+
+            .section-subtitle {
+                color: $muted-text;
+                margin: 0;
+                font-size: $font-size-sm;
+            }
+        }
+
+        .header-actions {
+            display: flex;
+            gap: $space-sm;
         }
     }
 
@@ -304,28 +344,55 @@ $z-index-modal: 100;
         margin: $space-xl 0 $space-lg;
         padding-bottom: $space-sm;
         border-bottom: 1px solid $border-color;
+        font-weight: $font-weight-medium;
     }
 
-    // Improved empty state design
-    .empty-state {
-        @include flex-center;
-        flex-direction: column;
-        padding: $space-2xl $space-lg;
-        background-color: $surface-alt;
+    // Alert box component
+    .alert-box {
+        display: flex;
+        align-items: center;
+        background-color: rgba($primary-color, 0.05);
+        border-left: 4px solid $primary-color;
+        padding: $space-lg;
         border-radius: $radius-md;
-        text-align: center;
+        margin-bottom: $space-xl;
 
-        .empty-icon {
-            font-size: 3rem;
-            color: lighten($muted-text, 20%);
-            margin-bottom: $space-lg;
-            opacity: 0.8;
+        .alert-box-icon {
+            font-size: $font-size-xl;
+            color: $primary-color;
+            margin-right: $space-lg;
         }
 
-        p {
-            color: $muted-text;
-            margin-bottom: $space-lg;
-            max-width: 400px;
+        .alert-box-content {
+            flex: 1;
+
+            h4 {
+                margin: 0 0 $space-xs;
+                color: $primary-color;
+                font-weight: $font-weight-medium;
+            }
+
+            p {
+                margin: 0;
+                color: $text-color;
+            }
+        }
+
+        .alert-box-action {
+            background-color: $primary-color;
+            color: $secondary-color;
+            border: none;
+            padding: $space-sm $space-lg;
+            border-radius: $radius-md;
+            font-weight: $font-weight-medium;
+            cursor: pointer;
+            transition: $transition-standard;
+
+            &:hover {
+                background-color: darken($primary-color, 5%);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba($primary-color, 0.25);
+            }
         }
     }
 
@@ -336,17 +403,19 @@ $z-index-modal: 100;
         margin-bottom: $space-xl;
         padding: $space-lg;
         background-color: $secondary-color;
-        border-radius: $radius-md;
+        border-radius: $radius-lg;
         box-shadow: $card-shadow;
 
         .profile-avatar {
-            width: 96px;
-            height: 96px;
+            width: 100px;
+            height: 100px;
             border-radius: $radius-circle;
             background: linear-gradient(135deg, $light-color, darken($light-color, 5%));
             @include flex-center;
             margin-right: $space-xl;
             border: 4px solid rgba($primary-color, 0.1);
+            position: relative;
+            box-shadow: 0 4px 10px rgba($primary-color, 0.15);
 
             svg {
                 font-size: 2.5rem;
@@ -359,8 +428,9 @@ $z-index-modal: 100;
 
             h3 {
                 margin: 0 0 $space-xs;
-                font-size: 1.75rem;
-                font-weight: 500;
+                font-size: $font-size-3xl;
+                font-weight: $font-weight-semibold;
+                color: $text-color;
             }
 
             .profile-subtitle {
@@ -369,11 +439,91 @@ $z-index-modal: 100;
                 font-size: $font-size-sm;
             }
         }
+
+        .profile-actions {
+            display: flex;
+            align-items: center;
+            gap: $space-lg;
+
+        }
+    }
+
+    // Biometric summary panel
+    .biometric-summary {
+        background-color: $surface-alt;
+        border-radius: $radius-lg;
+        padding: $space-lg;
+        margin-bottom: $space-xl;
+        box-shadow: $card-shadow;
+
+        .summary-title {
+            margin: 0 0 $space-md;
+            font-size: $font-size-lg;
+            font-weight: $font-weight-medium;
+            color: $text-color;
+        }
+
+        .biometric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: $space-lg;
+
+            .biometric-item {
+                background-color: $secondary-color;
+                padding: $space-md;
+                border-radius: $radius-md;
+                text-align: center;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+                transition: $transition-standard;
+
+                &:hover {
+                    transform: translateY(-3px);
+                    box-shadow: $elevated-shadow;
+                }
+
+                .biometric-value {
+                    font-size: $font-size-2xl;
+                    font-weight: $font-weight-bold;
+                    color: $primary-color;
+                    margin-bottom: $space-xs;
+                }
+
+                .biometric-label {
+                    font-size: $font-size-sm;
+                    color: $muted-text;
+                    margin-bottom: $space-sm;
+                }
+
+                .trend {
+                    display: inline-block;
+                    padding: $space-xs $space-sm;
+                    font-size: $font-size-xs;
+                    font-weight: $font-weight-medium;
+                    border-radius: $radius-sm;
+
+                    &.normal {
+                        background-color: rgba($green-color, 0.1);
+                        color: $green-color;
+                    }
+
+                    &.warning {
+                        background-color: rgba($warning-color, 0.1);
+                        color: darken($warning-color, 15%);
+                    }
+
+                    &.alert {
+                        background-color: rgba($red-color, 0.1);
+                        color: $red-color;
+                    }
+                }
+            }
+        }
     }
 
     // Info grid with better card design
     .info-grid {
         @include responsive-grid(280px);
+        margin-bottom: $space-xl;
 
         .info-group {
             @include card;
@@ -390,7 +540,7 @@ $z-index-modal: 100;
                 background: linear-gradient(to right, $light-color, lighten($light-color, 3%));
                 color: $primary-color;
                 font-size: $font-size-base;
-                font-weight: 500;
+                font-weight: $font-weight-medium;
                 border-bottom: 1px solid $border-color;
             }
 
@@ -408,7 +558,7 @@ $z-index-modal: 100;
                     }
 
                     .info-label {
-                        font-weight: 500;
+                        font-weight: $font-weight-medium;
                         color: $muted-text;
                     }
 
@@ -416,15 +566,173 @@ $z-index-modal: 100;
                         color: $text-color;
                         text-align: right;
                         word-break: break-word;
+                        font-weight: $font-weight-medium;
                     }
                 }
             }
         }
     }
 
+    // Filter component for history
+    .history-filter {
+        display: flex;
+        align-items: center;
+        margin-bottom: $space-lg;
+        padding: $space-md;
+        background-color: $surface-alt;
+        border-radius: $radius-md;
+
+        .filter-label {
+            font-weight: $font-weight-medium;
+            margin-right: $space-md;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: $space-sm;
+            flex-wrap: wrap;
+
+            .filter-btn {
+                padding: $space-xs $space-md;
+                background: none;
+                border: 1px solid $border-color;
+                border-radius: $radius-md;
+                font-size: $font-size-sm;
+                cursor: pointer;
+                transition: $transition-standard;
+                color: $muted-text;
+
+                &:hover {
+                    background-color: $hover-color;
+                    color: $text-color;
+                }
+
+                &.active {
+                    background-color: $primary-color;
+                    color: $secondary-color;
+                    border-color: $primary-color;
+                }
+            }
+        }
+    }
+
+    // Benefits summary panel
+    .benefits-summary {
+        background-color: $surface-alt;
+        border-radius: $radius-lg;
+        padding: $space-lg;
+        margin-top: $space-xl;
+        box-shadow: $card-shadow;
+
+        h4 {
+            margin: 0 0 $space-lg;
+            font-size: $font-size-lg;
+            font-weight: $font-weight-medium;
+            color: $text-color;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: $space-lg;
+
+            .benefit-item {
+                background-color: $secondary-color;
+                padding: $space-lg;
+                border-radius: $radius-md;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+
+                h5 {
+                    margin: 0 0 $space-sm;
+                    font-size: $font-size-base;
+                    font-weight: $font-weight-medium;
+                    color: $text-color;
+                }
+
+                .benefit-value {
+                    display: block;
+                    font-size: $font-size-xl;
+                    font-weight: $font-weight-semibold;
+                    color: $primary-color;
+                    margin-bottom: $space-sm;
+                }
+
+                .benefit-progress {
+                    display: block;
+                    font-size: $font-size-sm;
+                    color: $muted-text;
+                    margin-bottom: $space-sm;
+                }
+
+                .progress-bar {
+                    height: 8px;
+                    background-color: rgba($primary-color, 0.1);
+                    border-radius: $radius-lg;
+                    overflow: hidden;
+
+                    .progress {
+                        height: 100%;
+                        background: linear-gradient(to right, $primary-color, darken($primary-color, 10%));
+                        border-radius: $radius-lg;
+                    }
+                }
+
+                .benefit-status {
+                    display: inline-block;
+                    margin-top: $space-sm;
+                    padding: $space-xs $space-sm;
+                    font-size: $font-size-xs;
+                    font-weight: $font-weight-medium;
+                    border-radius: $radius-sm;
+
+                    &.covered {
+                        background-color: rgba($green-color, 0.1);
+                        color: $green-color;
+                    }
+
+                    &.limited {
+                        background-color: rgba($warning-color, 0.1);
+                        color: darken($warning-color, 15%);
+                    }
+
+                    &.not-covered {
+                        background-color: rgba($red-color, 0.1);
+                        color: $red-color;
+                    }
+                }
+            }
+        }
+    }
+
+    // Enhanced empty state design
+    .empty-state {
+        @include flex-center;
+        flex-direction: column;
+        padding: $space-2xl $space-lg;
+        background-color: $surface-alt;
+        border-radius: $radius-lg;
+        text-align: center;
+        margin: $space-lg 0;
+
+        .empty-icon {
+            font-size: 3rem;
+            color: lighten($muted-text, 20%);
+            margin-bottom: $space-lg;
+            opacity: 0.8;
+        }
+
+        p {
+            color: $muted-text;
+            margin-bottom: $space-lg;
+            max-width: 400px;
+            font-size: $font-size-base;
+        }
+    }
+
     // Enhanced allergy cards
     .allergies-list {
         @include responsive-grid(280px);
+        margin-bottom: $space-xl;
 
         .allergy-card {
             @include card;
@@ -442,7 +750,7 @@ $z-index-modal: 100;
                     h4 {
                         margin: 0 0 $space-sm;
                         font-size: $font-size-lg;
-                        font-weight: 500;
+                        font-weight: $font-weight-medium;
                     }
 
                     .severity-badge {
@@ -482,7 +790,7 @@ $z-index-modal: 100;
                     }
 
                     .allergy-label {
-                        font-weight: 500;
+                        font-weight: $font-weight-medium;
                         color: $muted-text;
                         margin-right: $space-sm;
                         min-width: 80px;
@@ -500,6 +808,7 @@ $z-index-modal: 100;
     // Enhanced medical condition cards
     .conditions-list {
         @include responsive-grid(280px);
+        margin-bottom: $space-xl;
 
         .condition-card {
             @include card;
@@ -517,7 +826,7 @@ $z-index-modal: 100;
                     h4 {
                         margin: 0 0 $space-sm;
                         font-size: $font-size-lg;
-                        font-weight: 500;
+                        font-weight: $font-weight-medium;
                     }
 
                     .status-badge {
@@ -560,7 +869,7 @@ $z-index-modal: 100;
                     }
 
                     .condition-label {
-                        font-weight: 500;
+                        font-weight: $font-weight-medium;
                         color: $muted-text;
                         margin-right: $space-sm;
                         min-width: 80px;
@@ -590,20 +899,8 @@ $z-index-modal: 100;
             h3 {
                 margin: 0;
                 font-size: $font-size-xl;
-                font-weight: 500;
+                font-weight: $font-weight-medium;
                 letter-spacing: 0.3px;
-            }
-
-            .card-actions {
-                .edit-btn {
-                    background-color: rgba(255, 255, 255, 0.2);
-                    color: $secondary-color;
-                    border-radius: $radius-md;
-
-                    &:hover {
-                        background-color: rgba(255, 255, 255, 0.3);
-                    }
-                }
             }
         }
 
@@ -634,7 +931,7 @@ $z-index-modal: 100;
 
                         .value {
                             font-size: $font-size-base;
-                            font-weight: 500;
+                            font-weight: $font-weight-medium;
 
                             &.highlight {
                                 font-size: $font-size-lg;
@@ -662,6 +959,7 @@ $z-index-modal: 100;
 
                         .value {
                             font-size: $font-size-base;
+                            font-weight: $font-weight-medium;
                         }
                     }
                 }
@@ -677,6 +975,7 @@ $z-index-modal: 100;
                     color: $primary-color;
                     position: relative;
                     display: inline-block;
+                    font-weight: $font-weight-medium;
 
                     &::after {
                         content: '';
@@ -715,7 +1014,7 @@ $z-index-modal: 100;
 
                         .copay-value {
                             font-size: $font-size-lg;
-                            font-weight: 500;
+                            font-weight: $font-weight-semibold;
                             color: $primary-color;
                         }
                     }
@@ -749,6 +1048,7 @@ $z-index-modal: 100;
     .timeline {
         position: relative;
         padding-left: $space-md;
+        margin: $space-xl 0;
 
         &:before {
             content: '';
@@ -800,7 +1100,7 @@ $z-index-modal: 100;
                     font-size: $font-size-xs;
                     color: $muted-text;
                     text-align: center;
-                    font-weight: 500;
+                    font-weight: $font-weight-medium;
                 }
             }
 
@@ -824,7 +1124,7 @@ $z-index-modal: 100;
                     h4 {
                         margin: 0;
                         font-size: $font-size-lg;
-                        font-weight: 500;
+                        font-weight: $font-weight-medium;
                         flex: 1;
                     }
 
@@ -854,7 +1154,7 @@ $z-index-modal: 100;
                         }
 
                         .detail-label {
-                            font-weight: 500;
+                            font-weight: $font-weight-medium;
                             color: $muted-text;
                             margin-right: $space-sm;
                             min-width: 80px;
@@ -890,7 +1190,7 @@ $z-index-modal: 100;
                 label {
                     display: block;
                     margin-bottom: $space-sm;
-                    font-weight: 500;
+                    font-weight: $font-weight-medium;
                     color: $text-color;
                 }
 
@@ -945,7 +1245,8 @@ $z-index-modal: 100;
     // Enhanced buttons
     .edit-btn,
     .add-btn,
-    .action-btn {
+    .action-btn,
+    .download-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -953,7 +1254,7 @@ $z-index-modal: 100;
         border: none;
         border-radius: $radius-md;
         font-size: $font-size-sm;
-        font-weight: 500;
+        font-weight: $font-weight-medium;
         cursor: pointer;
         transition: all $transition-standard;
 
@@ -986,6 +1287,7 @@ $z-index-modal: 100;
 
         &:hover {
             background-color: #e0e0e0;
+            transform: translateY(-1px);
         }
 
         &.small {
@@ -1004,6 +1306,19 @@ $z-index-modal: 100;
 
         &:hover {
             background-color: darken($light-color, 5%);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba($primary-color, 0.1);
+        }
+    }
+
+    .download-btn {
+        background-color: $surface-alt;
+        color: $primary-color;
+        border: 1px solid rgba($primary-color, 0.2);
+
+        &:hover {
+            background-color: $light-color;
+            transform: translateY(-1px);
         }
     }
 
@@ -1030,6 +1345,7 @@ $z-index-modal: 100;
 
             &:hover {
                 background-color: darken($light-color, 5%);
+                transform: translateY(-1px);
             }
         }
 
@@ -1039,24 +1355,29 @@ $z-index-modal: 100;
 
             &:hover {
                 background-color: darken($red-color, 8%);
+                transform: translateY(-1px);
             }
         }
     }
 
     // Enhanced responsive design
-    @media (max-width: 1024px) {
+    @media (max-width: 1200px) {
         .profile-container {
             max-width: 100%;
         }
 
         .info-grid,
         .allergies-list,
-        .conditions-list {
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        .conditions-list,
+        .benefits-grid,
+        .biometric-grid {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         }
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 1100px) {
+        padding: $space-md;
+
         .profile-container {
             flex-direction: column;
             min-height: auto;
@@ -1064,6 +1385,7 @@ $z-index-modal: 100;
 
         .profile-sidebar {
             width: 100%;
+            border-radius: $radius-xl $radius-xl 0 0;
 
             .sidebar-nav {
                 display: flex;
@@ -1095,10 +1417,15 @@ $z-index-modal: 100;
             .sidebar-header {
                 text-align: center;
             }
+
+            .sidebar-footer {
+                display: none;
+            }
         }
 
         .profile-content {
             padding: $space-lg;
+            border-radius: 0 0 $radius-xl $radius-xl;
         }
 
         .info-grid {
@@ -1117,22 +1444,88 @@ $z-index-modal: 100;
         .timeline-item .timeline-marker {
             width: 60px;
         }
-    }
-
-    @media (max-width: 600px) {
-        padding: 10px;
 
         .profile-header {
             flex-direction: column;
             text-align: center;
+            padding: $space-lg $space-md;
 
             .profile-avatar {
                 margin-right: 0;
-                margin-bottom: 16px;
+                margin-bottom: $space-md;
             }
 
             .profile-name {
-                margin-bottom: 16px;
+                margin-bottom: $space-md;
+                text-align: center;
+            }
+
+            .profile-actions {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .biometric-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .benefits-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .resources-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .alert-box {
+            flex-direction: column;
+            text-align: center;
+
+            .alert-box-icon {
+                margin-right: 0;
+                margin-bottom: $space-sm;
+                font-size: $font-size-2xl;
+            }
+
+            .alert-box-content {
+                margin-bottom: $space-md;
+                text-align: center;
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        padding: $space-sm;
+
+        .profile-container {
+            border-radius: $radius-lg;
+        }
+
+        .profile-content {
+            padding: $space-md;
+        }
+
+        .section-header {
+            flex-direction: column;
+            align-items: flex-start;
+
+            .section-title-wrapper {
+                margin-bottom: $space-md;
+            }
+
+            .add-btn,
+            .header-actions {
+                align-self: flex-start;
+            }
+
+            .header-actions {
+                display: flex;
+                width: 100%;
+
+                button {
+                    flex: 1;
+                }
             }
         }
 
@@ -1146,11 +1539,15 @@ $z-index-modal: 100;
 
         .member-info-section {
             flex-direction: column;
-            gap: 10px !important;
+            gap: $space-md !important;
         }
 
         .copay-grid {
             grid-template-columns: 1fr 1fr !important;
+        }
+
+        .biometric-grid {
+            grid-template-columns: 1fr;
         }
 
         .timeline-item {
@@ -1159,10 +1556,10 @@ $z-index-modal: 100;
             .timeline-marker {
                 width: 100%;
                 flex-direction: row;
-                margin-bottom: 10px;
+                margin-bottom: $space-sm;
 
                 .timeline-icon {
-                    margin-right: 10px;
+                    margin-right: $space-sm;
                     margin-bottom: 0;
                 }
             }
@@ -1170,6 +1567,69 @@ $z-index-modal: 100;
 
         .timeline:before {
             display: none;
+        }
+
+        .sidebar-nav {
+            .nav-item {
+                min-width: unset;
+
+                span {
+                    display: none;
+                }
+
+                .nav-icon {
+                    margin-right: 0;
+                    font-size: $font-size-xl;
+                }
+
+                .badge {
+                    position: absolute;
+                    top: 5px;
+                    right: 5px;
+                    padding: 2px 5px;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 480px) {
+        padding: $space-xs;
+
+        .profile-header {
+            h3 {
+                font-size: $font-size-2xl;
+            }
+        }
+
+        .insurance-card-content {
+            padding: $space-md !important;
+        }
+
+        .copay-grid {
+            grid-template-columns: 1fr !important;
+        }
+
+        .timeline-content {
+            .timeline-header {
+                flex-wrap: wrap;
+
+                h4 {
+                    width: 100%;
+                    margin-bottom: $space-xs;
+                }
+
+                .badge {
+                    margin-bottom: $space-xs;
+                }
+            }
+        }
+
+        .edit-btn,
+        .add-btn,
+        .action-btn,
+        .download-btn {
+            padding: $space-xs $space-sm;
+            font-size: $font-size-xs;
         }
     }
 }

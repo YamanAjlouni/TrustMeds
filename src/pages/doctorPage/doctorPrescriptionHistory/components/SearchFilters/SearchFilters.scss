@@ -1,0 +1,216 @@
+// styles/_filters.scss
+// Mobile filters toggle
+.filters-toggle {
+    display: none;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: white;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: $medium-text;
+    cursor: pointer;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .toggle-icon {
+        transition: transform 0.3s ease;
+
+        &.open {
+            transform: rotate(180deg);
+        }
+    }
+
+    @include mobile {
+        display: flex;
+    }
+}
+
+// Toolbar
+.prescriptions-toolbar {
+    @include flex-between;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    @include tablet {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+    }
+
+    @include mobile {
+        display: none;
+
+        &.visible {
+            display: flex;
+        }
+    }
+
+    .search-container {
+        position: relative;
+        flex: 1;
+        min-width: 280px;
+        max-width: 450px;
+
+        @include tablet {
+            width: 100%;
+            max-width: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: $medium-text;
+            font-size: 0.9rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid $border-color;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: $transition-standard;
+
+            &:focus {
+                outline: none;
+                border-color: $primary-color;
+                box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+            }
+
+            &::placeholder {
+                color: $light-text;
+            }
+        }
+    }
+
+    .filters {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        flex-wrap: wrap;
+
+        @include tablet {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .filter {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            @include tablet {
+
+                &.date-filter,
+                &.status-filter {
+                    width: 100%;
+                }
+            }
+
+            .filter-label {
+                display: flex;
+                align-items: center;
+                font-size: 0.9rem;
+                color: $medium-text;
+                white-space: nowrap;
+
+                svg {
+                    margin-right: 0.35rem;
+                    font-size: 0.8rem;
+                }
+            }
+
+            &.date-filter {
+                .date-buttons {
+                    display: flex;
+                    gap: 0.25rem;
+
+                    @include tablet {
+                        width: 100%;
+                        flex: 1;
+                    }
+
+                    .date-btn {
+                        padding: 0.45rem 0.75rem;
+                        border: 1px solid $border-color;
+                        background-color: white;
+                        color: $medium-text;
+                        font-size: 0.85rem;
+                        cursor: pointer;
+                        transition: $transition-standard;
+
+                        @include tablet {
+                            flex: 1;
+                            text-align: center;
+                        }
+
+                        @include large-desktop {
+                            padding: 0.45rem 0.5rem;
+                        }
+
+                        &:first-child {
+                            border-top-left-radius: 6px;
+                            border-bottom-left-radius: 6px;
+                        }
+
+                        &:last-child {
+                            border-top-right-radius: 6px;
+                            border-bottom-right-radius: 6px;
+                        }
+
+                        &.active {
+                            background-color: rgba($primary-color, 0.1);
+                            color: $primary-color;
+                            border-color: rgba($primary-color, 0.3);
+                        }
+
+                        &:hover:not(.active) {
+                            background-color: $light-bg;
+                        }
+                    }
+                }
+            }
+
+            &.status-filter {
+                @include tablet {
+                    margin-top: 0.75rem;
+                }
+
+                .status-select {
+                    padding: 0.45rem 2rem 0.45rem 0.75rem;
+                    border: 1px solid $border-color;
+                    border-radius: 6px;
+                    background-color: white;
+                    font-size: 0.9rem;
+                    appearance: none;
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%235f6368' d='M0 0h10L5 6z'/%3E%3C/svg%3E");
+                    background-repeat: no-repeat;
+                    background-position: right 0.75rem center;
+                    transition: $transition-standard;
+                    cursor: pointer;
+
+                    @include tablet {
+                        width: 100%;
+                    }
+
+                    &:focus {
+                        outline: none;
+                        border-color: $primary-color;
+                        box-shadow: 0 0 0 2px rgba($primary-color, 0.1);
+                    }
+                }
+            }
+        }
+    }
+}

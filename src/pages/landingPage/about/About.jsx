@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import './About.scss';
 import { Shield, Clock, FileCheck, Users, Award, RefreshCw, ChevronRight } from 'lucide-react';
 import { motion, useInView, useAnimation } from 'framer-motion';
+import { NavLink } from 'react-router-dom';
 
 const About = () => {
 
@@ -332,7 +333,7 @@ const About = () => {
             <p>Join thousands of healthcare professionals already using TrustMeds</p>
           </div>
           <div className="cta-actions">
-            <button className="cta-button primary">Get Started</button>
+            <NavLink to='/patient/overview' className="cta-button primary">Get Started</NavLink>
             <button className="cta-button secondary">Schedule Demo</button>
           </div>
         </motion.div>

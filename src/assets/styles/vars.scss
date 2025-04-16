@@ -1,6 +1,54 @@
 $primary-color: #2C78BE;
-$secondary-color: #ffffff;
-$green-color: #27AE60;
-$light-color: #E3F2FD;
-$text-color: #424242;
-$red-color: #FF6F61;
+$secondary-color: #34a853;
+$accent-color: #fbbc05;
+$danger-color: #ea4335;
+$light-bg: #f8f9fa;
+$dark-text: #202124;
+$medium-text: #5f6368;
+$light-text: #9aa0a6;
+$border-color: #e0e0e0;
+
+// Status colors
+$stable-color: #43a047;
+$follow-up-color: #ffab00;
+$urgent-color: #e53935;
+$med-adjust-color: #7b1fa2;
+
+// Sizing and Layout
+$border-radius: 12px;
+$shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 10px rgba(0, 0, 0, 0.08);
+$shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+$transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+// Common Mixins
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin card {
+    background-color: white;
+    border-radius: $border-radius;
+    box-shadow: $shadow-md;
+    transition: $transition-standard;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+
+    &:hover {
+        box-shadow: $shadow-lg;
+        transform: translateY(-3px);
+    }
+}
+
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1200px;
