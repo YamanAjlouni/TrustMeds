@@ -1,0 +1,1062 @@
+@use '../../../assets/styles/vars.scss' as *;
+
+// Pharmacy-specific colors
+$pharmacy-primary: $secondary-color; // Green for pharmacy
+$pharmacy-accent: $accent-color;
+$pharmacy-light: rgba($pharmacy-primary, 0.1);
+
+// Category colors
+$beginner-color: $stable-color;
+$workflow-color: $primary-color;
+$advanced-color: $med-adjust-color;
+$security-color: $follow-up-color;
+$technical-color: $primary-color;
+$account-color: $med-adjust-color;
+
+// Mixins
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin card {
+    background-color: white;
+    border-radius: $border-radius;
+    box-shadow: $shadow-md;
+    padding: 1.5rem;
+    transition: $transition-standard;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.pharmacy-help {
+    padding: 2rem;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background-color: $light-bg;
+    min-height: 100%;
+
+    // Loading state
+    .loading-container {
+        @include flex-center;
+        flex-direction: column;
+        height: 80vh;
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba($pharmacy-primary, 0.2);
+            border-radius: 50%;
+            border-top-color: $pharmacy-primary;
+            animation: spin 1s infinite ease-in-out;
+            margin-bottom: 1.5rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: $medium-text;
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    }
+
+    .help-container {
+
+        .page-header {
+            margin-bottom: 1.5rem;
+
+            h1 {
+                font-size: 1.8rem;
+                font-weight: 600;
+                color: $dark-text;
+                margin: 0 0 0.5rem;
+            }
+
+            p {
+                color: $medium-text;
+                font-size: 1rem;
+                margin: 0;
+            }
+        }
+
+        // Tabs
+        .help-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            background-color: white;
+            border-radius: $border-radius;
+            padding: 0.5rem;
+            box-shadow: $shadow-sm;
+
+            .tab-btn {
+                display: flex;
+                align-items: center;
+                padding: 0.85rem 1.25rem;
+                border: none;
+                background: none;
+                color: $medium-text;
+                border-radius: 6px;
+                font-size: 0.95rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                flex: 1;
+                justify-content: center;
+
+                .tab-icon {
+                    margin-right: 0.5rem;
+                    font-size: 1rem;
+                }
+
+                &:hover {
+                    color: $dark-text;
+                    background-color: rgba($pharmacy-primary, 0.1);
+                    color: $pharmacy-primary;
+                }
+
+                &.active {
+                    background-color: rgba($pharmacy-primary, 0.1);
+                    color: $pharmacy-primary;
+                }
+            }
+        }
+
+        // Content
+        .help-content {
+            background-color: white;
+            border-radius: $border-radius;
+            box-shadow: $shadow-sm;
+            overflow: hidden;
+
+            .help-content-section {
+
+                // Common header styling
+                .guides-header,
+                .faqs-header,
+                .support-header,
+                .security-header {
+                    @include flex-between;
+                    padding: 1.5rem;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+                    h3 {
+                        margin: 0;
+                        font-size: 1.25rem;
+                        font-weight: 600;
+                        color: $dark-text;
+                    }
+
+                    .guides-search,
+                    .faqs-search {
+                        position: relative;
+                        width: 300px;
+
+                        .search-icon {
+                            position: absolute;
+                            left: 1rem;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            color: $medium-text;
+                            font-size: 0.9rem;
+                        }
+
+                        .search-input {
+                            width: 100%;
+                            padding: 0.65rem 1rem 0.65rem 2.5rem;
+                            border: 1px solid rgba(0, 0, 0, 0.1);
+                            border-radius: 8px;
+                            font-size: 0.9rem;
+                            color: $dark-text;
+                            box-sizing: border-box;
+                            transition: all 0.2s ease;
+
+                            &:focus {
+                                outline: none;
+                                border-color: $pharmacy-primary;
+                                box-shadow: 0 0 0 2px rgba($pharmacy-primary, 0.1);
+                            }
+
+                            &::placeholder {
+                                color: $light-text;
+                            }
+                        }
+                    }
+                }
+
+                // No results styling
+                .no-results {
+                    @include flex-center;
+                    flex-direction: column;
+                    padding: 3rem 2rem;
+                    text-align: center;
+                    color: $medium-text;
+
+                    .no-results-icon {
+                        font-size: 2.5rem;
+                        color: $light-text;
+                        margin-bottom: 1.25rem;
+                    }
+
+                    h4 {
+                        margin: 0 0 0.5rem;
+                        font-size: 1.2rem;
+                        font-weight: 600;
+                        color: $dark-text;
+                    }
+
+                    p {
+                        margin: 0 0 1.5rem;
+                        font-size: 0.95rem;
+                        max-width: 400px;
+                    }
+
+                    .clear-search-btn {
+                        padding: 0.75rem 1.5rem;
+                        background-color: $primary-color;
+                        color: white;
+                        border: none;
+                        border-radius: 8px;
+                        font-size: 0.9rem;
+                        font-weight: 500;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+
+                        &:hover {
+                            background-color: darken($primary-color, 5%);
+                            transform: translateY(-2px);
+                            box-shadow: $shadow-sm;
+                        }
+                    }
+                }
+
+                // Guides tab content
+                .guides-grid {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 1.5rem;
+                    padding: 1.5rem;
+
+                    .guide-card {
+                        background-color: white;
+                        border-radius: 10px;
+                        overflow: hidden;
+                        box-shadow: $shadow-sm;
+                        transition: all 0.25s ease;
+
+                        &:hover {
+                            transform: translateY(-5px);
+                            box-shadow: $shadow-md;
+                        }
+
+                        .guide-header {
+                            position: relative;
+                            height: 140px;
+                            background-color: $light-bg;
+                            @include flex-center;
+
+                            .guide-thumbnail {
+                                @include flex-center;
+                                width: 100%;
+                                height: 100%;
+
+                                .guide-type-icon {
+                                    font-size: 3rem;
+
+                                    &.video {
+                                        color: $primary-color;
+                                    }
+
+                                    &.document {
+                                        color: $pharmacy-primary;
+                                    }
+                                }
+                            }
+
+                            .bookmark-btn {
+                                position: absolute;
+                                top: 0.75rem;
+                                right: 0.75rem;
+                                width: 32px;
+                                height: 32px;
+                                border-radius: 50%;
+                                background-color: rgba(255, 255, 255, 0.9);
+                                border: none;
+                                @include flex-center;
+                                color: $medium-text;
+                                font-size: 1rem;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+
+                                &:hover {
+                                    background-color: white;
+                                    color: $pharmacy-primary;
+                                    transform: scale(1.1);
+                                }
+
+                                .bookmarked {
+                                    color: $pharmacy-primary;
+                                }
+                            }
+                        }
+
+                        .guide-content {
+                            padding: 1.25rem;
+                            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+                            .guide-title {
+                                margin: 0 0 0.5rem;
+                                font-size: 1.1rem;
+                                font-weight: 600;
+                                color: $dark-text;
+                            }
+
+                            .guide-description {
+                                margin: 0 0 1rem;
+                                font-size: 0.9rem;
+                                color: $medium-text;
+                                line-height: 1.5;
+                                display: -webkit-box;
+                                line-clamp: 2;
+                                -webkit-box-orient: vertical;
+                                overflow: hidden;
+                            }
+
+                            .guide-meta {
+                                @include flex-between;
+
+                                .guide-category {
+                                    display: inline-block;
+                                    padding: 0.2rem 0.5rem;
+                                    border-radius: 4px;
+                                    font-size: 0.75rem;
+                                    font-weight: 500;
+
+                                    &.beginner {
+                                        background-color: rgba($beginner-color, 0.1);
+                                        color: $beginner-color;
+                                    }
+
+                                    &.workflow {
+                                        background-color: rgba($workflow-color, 0.1);
+                                        color: $workflow-color;
+                                    }
+
+                                    &.advanced {
+                                        background-color: rgba($advanced-color, 0.1);
+                                        color: $advanced-color;
+                                    }
+
+                                    &.security {
+                                        background-color: rgba($security-color, 0.1);
+                                        color: $security-color;
+                                    }
+                                }
+
+                                .guide-info {
+                                    font-size: 0.8rem;
+                                    color: $medium-text;
+                                }
+                            }
+                        }
+
+                        .guide-actions {
+                            padding: 1rem 1.25rem;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+
+                            .view-guide-btn {
+                                flex: 1;
+                                padding: 0.65rem 1rem;
+                                background-color: $pharmacy-primary;
+                                color: white;
+                                border: none;
+                                border-radius: 6px;
+                                font-size: 0.9rem;
+                                font-weight: 500;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+
+                                &:hover {
+                                    background-color: darken($pharmacy-primary, 5%);
+                                }
+                            }
+
+                            .download-btn {
+                                width: 36px;
+                                height: 36px;
+                                margin-left: 0.75rem;
+                                border-radius: 6px;
+                                background-color: rgba($pharmacy-primary, 0.1);
+                                border: none;
+                                color: $pharmacy-primary;
+                                @include flex-center;
+                                font-size: 0.9rem;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+
+                                &:hover {
+                                    background-color: rgba($pharmacy-primary, 0.2);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // FAQs tab content
+                .faqs-list {
+                    padding: 1.5rem;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+
+                    .faq-item {
+                        background-color: white;
+                        border-radius: 10px;
+                        overflow: hidden;
+                        box-shadow: $shadow-sm;
+
+                        .faq-question {
+                            @include flex-between;
+                            padding: 1.25rem;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+
+                            &:hover {
+                                background-color: rgba($light-bg, 0.5);
+                            }
+
+                            .question-text {
+                                flex: 1;
+
+                                .faq-category {
+                                    display: inline-block;
+                                    padding: 0.2rem 0.5rem;
+                                    border-radius: 4px;
+                                    font-size: 0.75rem;
+                                    font-weight: 500;
+                                    margin-bottom: 0.5rem;
+
+                                    &.workflow {
+                                        background-color: rgba($workflow-color, 0.1);
+                                        color: $workflow-color;
+                                    }
+
+                                    &.technical {
+                                        background-color: rgba($technical-color, 0.1);
+                                        color: $technical-color;
+                                    }
+
+                                    &.account {
+                                        background-color: rgba($account-color, 0.1);
+                                        color: $account-color;
+                                    }
+
+                                    &.security {
+                                        background-color: rgba($security-color, 0.1);
+                                        color: $security-color;
+                                    }
+                                }
+
+                                h4 {
+                                    margin: 0;
+                                    font-size: 1.05rem;
+                                    font-weight: 600;
+                                    color: $dark-text;
+                                }
+                            }
+
+                            .expand-icon {
+                                color: $medium-text;
+                                font-size: 1rem;
+                                margin-left: 1rem;
+                            }
+                        }
+
+                        .faq-answer {
+                            padding: 0 1.25rem 1.25rem;
+                            border-top: 1px solid rgba(0, 0, 0, 0.05);
+
+                            p {
+                                margin: 1rem 0;
+                                font-size: 0.95rem;
+                                color: $dark-text;
+                                line-height: 1.6;
+                            }
+
+                            .answer-actions {
+                                display: flex;
+                                justify-content: flex-end;
+
+                                .was-helpful-btn {
+                                    display: flex;
+                                    align-items: center;
+                                    padding: 0.5rem 1rem;
+                                    background-color: rgba($stable-color, 0.1);
+                                    color: $stable-color;
+                                    border: none;
+                                    border-radius: 6px;
+                                    font-size: 0.85rem;
+                                    font-weight: 500;
+                                    cursor: pointer;
+                                    transition: all 0.2s ease;
+
+                                    svg {
+                                        margin-right: 0.5rem;
+                                    }
+
+                                    &:hover {
+                                        background-color: rgba($stable-color, 0.2);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Support tab content
+                .support-content {
+                    padding: 1.5rem;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2rem;
+
+                    .support-card {
+                        background-color: $light-bg;
+                        border-radius: 10px;
+                        padding: 1.5rem;
+
+                        .support-info {
+                            display: grid;
+                            grid-template-columns: 3fr 2fr;
+                            gap: 2rem;
+                            margin-bottom: 1.5rem;
+                            padding-bottom: 1.5rem;
+                            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+                            .support-contact {
+                                h4 {
+                                    margin: 0 0 0.5rem;
+                                    font-size: 1.2rem;
+                                    font-weight: 600;
+                                    color: $dark-text;
+                                }
+
+                                p {
+                                    margin: 0 0 1.5rem;
+                                    font-size: 0.95rem;
+                                    color: $medium-text;
+                                }
+
+                                .contact-method {
+                                    display: flex;
+                                    align-items: center;
+                                    margin-bottom: 1.25rem;
+
+                                    &:last-child {
+                                        margin-bottom: 0;
+                                    }
+
+                                    .method-icon {
+                                        @include flex-center;
+                                        width: 42px;
+                                        height: 42px;
+                                        background-color: rgba($primary-color, 0.1);
+                                        color: $primary-color;
+                                        border-radius: 8px;
+                                        margin-right: 1rem;
+                                        font-size: 1.1rem;
+                                    }
+
+                                    .method-details {
+                                        flex: 1;
+
+                                        .method-label {
+                                            display: block;
+                                            font-size: 0.85rem;
+                                            color: $medium-text;
+                                            margin-bottom: 0.25rem;
+                                        }
+
+                                        .method-value {
+                                            font-size: 1rem;
+                                            font-weight: 500;
+                                            color: $dark-text;
+                                        }
+
+                                        .method-copy {
+                                            @include flex-between;
+
+                                            .copy-btn {
+                                                background: none;
+                                                border: none;
+                                                color: $primary-color;
+                                                font-size: 0.85rem;
+                                                cursor: pointer;
+                                                transition: all 0.2s ease;
+                                                padding: 0.25rem 0.5rem;
+                                                border-radius: 4px;
+
+                                                &:hover {
+                                                    background-color: rgba($primary-color, 0.1);
+                                                }
+
+                                                .success {
+                                                    color: $stable-color;
+                                                }
+                                            }
+                                        }
+
+                                        .start-chat-btn {
+                                            display: inline-block;
+                                            padding: 0.5rem 1rem;
+                                            background-color: $primary-color;
+                                            color: white;
+                                            border: none;
+                                            border-radius: 6px;
+                                            font-size: 0.9rem;
+                                            font-weight: 500;
+                                            cursor: pointer;
+                                            transition: all 0.2s ease;
+
+                                            &:hover {
+                                                background-color: darken($primary-color, 5%);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            .support-hours {
+                                h4 {
+                                    margin: 0 0 0.5rem;
+                                    font-size: 1.1rem;
+                                    font-weight: 600;
+                                    color: $dark-text;
+                                }
+
+                                p {
+                                    margin: 0 0 1.5rem;
+                                    font-size: 0.95rem;
+                                    color: $medium-text;
+                                }
+
+                                .emergency-support {
+                                    display: flex;
+                                    background-color: rgba($urgent-color, 0.07);
+                                    border-radius: 8px;
+                                    padding: 1rem;
+
+                                    .emergency-icon {
+                                        font-size: 1.5rem;
+                                        color: $urgent-color;
+                                        margin-right: 1rem;
+                                    }
+
+                                    .emergency-info {
+                                        h5 {
+                                            margin: 0 0 0.25rem;
+                                            font-size: 1rem;
+                                            font-weight: 600;
+                                            color: $dark-text;
+                                        }
+
+                                        p {
+                                            margin: 0 0 0.75rem;
+                                            font-size: 0.85rem;
+                                            color: $medium-text;
+                                        }
+
+                                        .emergency-btn {
+                                            padding: 0.5rem 1rem;
+                                            background-color: $urgent-color;
+                                            color: white;
+                                            border: none;
+                                            border-radius: 6px;
+                                            font-size: 0.85rem;
+                                            font-weight: 500;
+                                            cursor: pointer;
+                                            transition: all 0.2s ease;
+
+                                            &:hover {
+                                                background-color: darken($urgent-color, 5%);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        .feedback-section {
+                            h4 {
+                                margin: 0 0 0.5rem;
+                                font-size: 1.1rem;
+                                font-weight: 600;
+                                color: $dark-text;
+                            }
+
+                            p {
+                                margin: 0 0 1rem;
+                                font-size: 0.95rem;
+                                color: $medium-text;
+                            }
+
+                            .feedback-btn {
+                                padding: 0.75rem 1.25rem;
+                                background-color: $pharmacy-primary;
+                                color: white;
+                                border: none;
+                                border-radius: 6px;
+                                font-size: 0.95rem;
+                                font-weight: 500;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+
+                                &:hover {
+                                    background-color: darken($pharmacy-primary, 5%);
+                                }
+                            }
+                        }
+                    }
+
+                    .resources-section {
+                        h4 {
+                            margin: 0 0 1rem;
+                            font-size: 1.2rem;
+                            font-weight: 600;
+                            color: $dark-text;
+                        }
+
+                        .resources-list {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 0.75rem;
+
+                            .resource-link {
+                                display: flex;
+                                align-items: center;
+                                padding: 1rem 1.25rem;
+                                background-color: white;
+                                border-radius: 8px;
+                                color: $dark-text;
+                                text-decoration: none;
+                                box-shadow: $shadow-sm;
+                                transition: all 0.2s ease;
+
+                                &:hover {
+                                    background-color: $light-bg;
+                                    transform: translateY(-2px);
+                                    box-shadow: $shadow-md;
+                                }
+
+                                .resource-icon {
+                                    margin-right: 1rem;
+                                    font-size: 1.1rem;
+                                    color: $pharmacy-primary;
+                                }
+
+                                .resource-text {
+                                    flex: 1;
+                                    font-size: 0.95rem;
+                                    font-weight: 500;
+                                }
+
+                                .external-icon {
+                                    font-size: 0.85rem;
+                                    color: $medium-text;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Security tab content
+                .security-content {
+                    padding: 1.5rem;
+
+                    .security-intro {
+                        display: flex;
+                        align-items: center;
+                        background-color: $light-bg;
+                        border-radius: 10px;
+                        padding: 1.5rem;
+                        margin-bottom: 2rem;
+
+                        .security-icon {
+                            @include flex-center;
+                            width: 70px;
+                            height: 70px;
+                            background-color: rgba($security-color, 0.1);
+                            color: $security-color;
+                            border-radius: 50%;
+                            margin-right: 1.5rem;
+                            font-size: 1.8rem;
+                        }
+
+                        .security-intro-text {
+                            flex: 1;
+
+                            h4 {
+                                margin: 0 0 0.5rem;
+                                font-size: 1.2rem;
+                                font-weight: 600;
+                                color: $dark-text;
+                            }
+
+                            p {
+                                margin: 0;
+                                font-size: 0.95rem;
+                                color: $medium-text;
+                                line-height: 1.6;
+                            }
+                        }
+                    }
+
+                    .guidelines-list {
+                        margin-bottom: 2rem;
+
+                        .guideline-item {
+                            display: flex;
+                            align-items: flex-start;
+                            margin-bottom: 1.5rem;
+                            padding-bottom: 1.5rem;
+                            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+                            &:last-child {
+                                margin-bottom: 0;
+                                padding-bottom: 0;
+                                border-bottom: none;
+                            }
+
+                            .guideline-number {
+                                @include flex-center;
+                                min-width: 36px;
+                                height: 36px;
+                                background-color: $pharmacy-primary;
+                                color: white;
+                                border-radius: 50%;
+                                font-size: 1rem;
+                                font-weight: 600;
+                                margin-right: 1.25rem;
+                                margin-top: 0.25rem;
+                            }
+
+                            .guideline-content {
+                                flex: 1;
+
+                                h4 {
+                                    margin: 0 0 0.5rem;
+                                    font-size: 1.1rem;
+                                    font-weight: 600;
+                                    color: $dark-text;
+                                }
+
+                                p {
+                                    margin: 0;
+                                    font-size: 0.95rem;
+                                    color: $medium-text;
+                                    line-height: 1.6;
+                                }
+                            }
+                        }
+                    }
+
+                    .security-resources {
+                        margin-bottom: 2rem;
+
+                        h4 {
+                            margin: 0 0 1rem;
+                            font-size: 1.2rem;
+                            font-weight: 600;
+                            color: $dark-text;
+                        }
+
+                        .security-resources-grid {
+                            display: grid;
+                            grid-template-columns: repeat(3, 1fr);
+                            gap: 1.25rem;
+
+                            .security-resource-card {
+                                background-color: white;
+                                border-radius: 10px;
+                                padding: 1.5rem;
+                                box-shadow: $shadow-sm;
+                                text-align: center;
+                                transition: all 0.2s ease;
+
+                                &:hover {
+                                    transform: translateY(-3px);
+                                    box-shadow: $shadow-md;
+                                }
+
+                                .resource-icon {
+                                    font-size: 2rem;
+                                    color: $pharmacy-primary;
+                                    margin-bottom: 1rem;
+                                }
+
+                                h5 {
+                                    margin: 0 0 0.5rem;
+                                    font-size: 1.05rem;
+                                    font-weight: 600;
+                                    color: $dark-text;
+                                }
+
+                                p {
+                                    margin: 0 0 1.25rem;
+                                    font-size: 0.9rem;
+                                    color: $medium-text;
+                                }
+
+                                .resource-btn {
+                                    padding: 0.65rem 1.25rem;
+                                    background-color: rgba($pharmacy-primary, 0.1);
+                                    color: $pharmacy-primary;
+                                    border: none;
+                                    border-radius: 6px;
+                                    font-size: 0.9rem;
+                                    font-weight: 500;
+                                    cursor: pointer;
+                                    transition: all 0.2s ease;
+
+                                    &:hover {
+                                        background-color: rgba($pharmacy-primary, 0.2);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .compliance-info {
+                        background-color: $light-bg;
+                        border-radius: 10px;
+                        padding: 1.5rem;
+
+                        h4 {
+                            margin: 0 0 0.75rem;
+                            font-size: 1.2rem;
+                            font-weight: 600;
+                            color: $dark-text;
+                        }
+
+                        p {
+                            margin: 0;
+                            font-size: 0.95rem;
+                            color: $medium-text;
+                            line-height: 1.6;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Responsive styles
+    @media (max-width: 1024px) {
+        padding: 1.5rem;
+
+        .help-container {
+            .help-content {
+                .help-content-section {
+                    .guides-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+
+                    .support-content {
+                        .support-card {
+                            .support-info {
+                                grid-template-columns: 1fr;
+                                gap: 1.5rem;
+                            }
+                        }
+                    }
+
+                    .security-content {
+                        .security-resources {
+                            .security-resources-grid {
+                                grid-template-columns: repeat(2, 1fr);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        padding: 1rem;
+
+        .help-container {
+            .page-header {
+                h1 {
+                    font-size: 1.6rem;
+                }
+            }
+
+            .help-tabs {
+                overflow-x: auto;
+                padding: 0.5rem;
+
+                .tab-btn {
+                    white-space: nowrap;
+                    padding: 0.75rem 1rem;
+                    font-size: 0.9rem;
+                }
+            }
+
+            .help-content {
+                .help-content-section {
+
+                    .guides-header,
+                    .faqs-header {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 1rem;
+
+                        .guides-search,
+                        .faqs-search {
+                            width: 100%;
+                        }
+                    }
+
+                    .guides-grid {
+                        grid-template-columns: 1fr;
+                        padding: 1rem;
+                    }
+
+                    .security-content {
+                        .security-intro {
+                            flex-direction: column;
+                            text-align: center;
+
+                            .security-icon {
+                                margin-right: 0;
+                                margin-bottom: 1rem;
+                            }
+                        }
+
+                        .security-resources {
+                            .security-resources-grid {
+                                grid-template-columns: 1fr;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

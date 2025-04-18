@@ -1,0 +1,1109 @@
+@use '../../../assets/styles/vars.scss' as *;
+
+// Pharmacy-specific colors
+$pharmacy-primary: $secondary-color; // Green for pharmacy
+$pharmacy-accent: $accent-color;
+$pharmacy-light: rgba($pharmacy-primary, 0.1);
+
+// Payment method colors
+$insurance-color: $primary-color;
+$cash-color: $pharmacy-accent;
+$card-color: $med-adjust-color;
+
+// Status colors
+$completed-color: $stable-color;
+$pending-color: $follow-up-color;
+$failed-color: $urgent-color;
+
+// Mixins
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin card {
+    background-color: white;
+    border-radius: $border-radius;
+    box-shadow: $shadow-md;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: $transition-standard;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.pharmacy-billing {
+    padding: 2rem;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background-color: $light-bg;
+    min-height: 100%;
+
+    // Loading state
+    .loading-container {
+        @include flex-center;
+        flex-direction: column;
+        height: 80vh;
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba($pharmacy-primary, 0.2);
+            border-radius: 50%;
+            border-top-color: $pharmacy-primary;
+            animation: spin 1s infinite ease-in-out;
+            margin-bottom: 1.5rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: $medium-text;
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    }
+
+    .billing-container {
+        max-width: 1400px;
+        margin: 0 auto;
+
+        .page-header {
+            margin-bottom: 1.5rem;
+
+            h1 {
+                font-size: 1.8rem;
+                font-weight: 600;
+                color: $dark-text;
+                margin: 0 0 0.5rem;
+            }
+
+            p {
+                color: $medium-text;
+                font-size: 1rem;
+                margin: 0;
+            }
+        }
+
+        // Tabs
+        .billing-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            background-color: white;
+            border-radius: $border-radius;
+            padding: 0.5rem;
+            box-shadow: $shadow-sm;
+
+            .tab-btn {
+                display: flex;
+                align-items: center;
+                padding: 0.85rem 1.25rem;
+                border: none;
+                background: none;
+                color: $medium-text;
+                border-radius: 6px;
+                font-size: 0.95rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                flex: 1;
+                justify-content: center;
+
+                svg {
+                    margin-right: 0.5rem;
+                    font-size: 1rem;
+                }
+
+                &:hover {
+                    color: $dark-text;
+                    background-color: rgba($pharmacy-primary, 0.1);
+                    color: $pharmacy-primary;
+                }
+            }
+        }
+
+        // Tab content
+        .tab-content {
+            @include card;
+            padding: 0;
+            overflow: hidden;
+
+            // Overview Tab
+            .billing-overview {
+                padding: 1.5rem;
+
+                .stats-section {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 1.25rem;
+                    margin-bottom: 1.5rem;
+
+                    .stat-card {
+                        background-color: white;
+                        border-radius: 10px;
+                        padding: 1.25rem;
+                        display: flex;
+                        box-shadow: $shadow-sm;
+                        transition: all 0.2s ease;
+
+                        &:hover {
+                            transform: translateY(-3px);
+                            box-shadow: $shadow-md;
+                        }
+
+                        .stat-icon {
+                            @include flex-center;
+                            width: 48px;
+                            height: 48px;
+                            border-radius: 12px;
+                            margin-right: 1rem;
+                            color: white;
+                            font-size: 1.25rem;
+                        }
+
+                        .stat-content {
+                            flex: 1;
+
+                            h4 {
+                                margin: 0 0 0.5rem;
+                                font-size: 0.9rem;
+                                font-weight: 500;
+                                color: $medium-text;
+                            }
+
+                            .stat-value {
+                                font-size: 1.5rem;
+                                font-weight: 700;
+                                margin: 0 0 0.25rem;
+                                color: $dark-text;
+                            }
+
+                            .stat-meta {
+                                font-size: 0.8rem;
+                                color: $medium-text;
+                                margin: 0;
+                            }
+                        }
+
+                        &.total-revenue .stat-icon {
+                            background: linear-gradient(135deg, $primary-color, darken($primary-color, 15%));
+                        }
+
+                        &.insurance .stat-icon {
+                            background: linear-gradient(135deg, $insurance-color, darken($insurance-color, 15%));
+                        }
+
+                        &.cash .stat-icon {
+                            background: linear-gradient(135deg, $cash-color, darken($cash-color, 15%));
+                        }
+
+                        &.card .stat-icon {
+                            background: linear-gradient(135deg, $card-color, darken($card-color, 15%));
+                        }
+                    }
+                }
+
+                .chart-section {
+                    background-color: white;
+                    border-radius: 10px;
+                    padding: 1.5rem;
+                    margin-bottom: 1.5rem;
+                    box-shadow: $shadow-sm;
+
+                    .section-header {
+                        @include flex-between;
+                        margin-bottom: 1.25rem;
+
+                        h3 {
+                            margin: 0;
+                            font-size: 1.1rem;
+                            font-weight: 600;
+                            color: $dark-text;
+                        }
+
+                        .time-filter {
+                            display: flex;
+                            gap: 0.5rem;
+
+                            .time-filter-btn {
+                                padding: 0.5rem 0.75rem;
+                                border: none;
+                                border-radius: 6px;
+                                background-color: transparent;
+                                color: $medium-text;
+                                font-size: 0.85rem;
+                                font-weight: 500;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+
+                                &:hover {
+                                    background-color: rgba(0, 0, 0, 0.05);
+                                    color: $dark-text;
+                                }
+
+                                &.active {
+                                    background-color: rgba($pharmacy-primary, 0.1);
+                                    color: $pharmacy-primary;
+                                }
+                            }
+                        }
+                    }
+
+                    .revenue-chart {
+                        height: 300px;
+
+                        .chart-placeholder {
+                            @include flex-center;
+                            flex-direction: column;
+                            height: 100%;
+                            background-color: $light-bg;
+                            border-radius: 8px;
+                            color: $medium-text;
+
+                            .chart-icon {
+                                font-size: 2.5rem;
+                                color: rgba($medium-text, 0.5);
+                                margin-bottom: 1rem;
+                            }
+
+                            p {
+                                margin: 0 0 0.5rem;
+                                font-size: 1rem;
+                                font-weight: 500;
+                            }
+
+                            .chart-note {
+                                font-size: 0.85rem;
+                                color: $light-text;
+                            }
+                        }
+                    }
+                }
+
+                .recent-transactions-section {
+                    margin-bottom: 1.5rem;
+
+                    .section-header {
+                        @include flex-between;
+                        margin-bottom: 1rem;
+
+                        h3 {
+                            margin: 0;
+                            font-size: 1.1rem;
+                            font-weight: 600;
+                            color: $dark-text;
+                        }
+
+                        .view-all-btn {
+                            font-size: 0.85rem;
+                            color: $pharmacy-primary;
+                            background: none;
+                            border: none;
+                            cursor: pointer;
+                            padding: 0.3rem 0.75rem;
+                            border-radius: 4px;
+                            font-weight: 500;
+                            transition: $transition-standard;
+
+                            &:hover {
+                                background-color: rgba($pharmacy-primary, 0.1);
+                            }
+                        }
+                    }
+
+                    .transactions-list {
+                        display: grid;
+                        grid-template-columns: repeat(3, 1fr);
+                        gap: 1rem;
+
+                        .transaction-card {
+                            background-color: white;
+                            border-radius: 10px;
+                            padding: 1.25rem;
+                            box-shadow: $shadow-sm;
+                            transition: all 0.2s ease;
+
+                            &:hover {
+                                transform: translateY(-3px);
+                                box-shadow: $shadow-md;
+                            }
+
+                            .transaction-header {
+                                @include flex-between;
+                                margin-bottom: 1rem;
+                                padding-bottom: 0.75rem;
+                                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+                                .transaction-id {
+                                    h4 {
+                                        margin: 0 0 0.25rem;
+                                        font-size: 0.95rem;
+                                        font-weight: 600;
+                                        color: $dark-text;
+                                    }
+
+                                    .transaction-date {
+                                        font-size: 0.8rem;
+                                        color: $medium-text;
+                                    }
+                                }
+
+                                .transaction-status {
+                                    .status-badge {
+                                        display: inline-flex;
+                                        align-items: center;
+                                        padding: 0.25rem 0.5rem;
+                                        border-radius: 4px;
+                                        font-size: 0.75rem;
+                                        font-weight: 500;
+
+                                        svg {
+                                            margin-right: 0.35rem;
+                                            font-size: 0.8rem;
+                                        }
+
+                                        &.completed {
+                                            background-color: rgba($completed-color, 0.1);
+                                            color: $completed-color;
+                                        }
+
+                                        &.pending {
+                                            background-color: rgba($pending-color, 0.1);
+                                            color: $pending-color;
+                                        }
+
+                                        &.failed {
+                                            background-color: rgba($failed-color, 0.1);
+                                            color: $failed-color;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .transaction-details {
+                                display: grid;
+                                grid-template-columns: 1fr 1fr;
+                                gap: 0.75rem;
+
+                                .detail-group {
+                                    .detail-label {
+                                        display: block;
+                                        font-size: 0.75rem;
+                                        color: $medium-text;
+                                        margin-bottom: 0.25rem;
+                                    }
+
+                                    .detail-value {
+                                        font-size: 0.85rem;
+                                        font-weight: 500;
+                                        color: $dark-text;
+                                    }
+
+                                    &.amount {
+                                        grid-column: span 2;
+                                        margin-top: 0.5rem;
+                                        padding-top: 0.5rem;
+                                        border-top: 1px dashed rgba(0, 0, 0, 0.1);
+
+                                        .detail-value {
+                                            font-size: 1rem;
+                                            font-weight: 600;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .insurance-section {
+                    .section-header {
+                        @include flex-between;
+                        margin-bottom: 1rem;
+
+                        h3 {
+                            margin: 0;
+                            font-size: 1.1rem;
+                            font-weight: 600;
+                            color: $dark-text;
+                        }
+
+                        .view-all-btn {
+                            font-size: 0.85rem;
+                            color: $pharmacy-primary;
+                            background: none;
+                            border: none;
+                            cursor: pointer;
+                            padding: 0.3rem 0.75rem;
+                            border-radius: 4px;
+                            font-weight: 500;
+                            transition: $transition-standard;
+
+                            &:hover {
+                                background-color: rgba($pharmacy-primary, 0.1);
+                            }
+                        }
+                    }
+
+                    .insurance-summary {
+                        display: grid;
+                        grid-template-columns: repeat(3, 1fr);
+                        gap: 1rem;
+
+                        .summary-item {
+                            background-color: white;
+                            border-radius: 10px;
+                            padding: 1.25rem;
+                            display: flex;
+                            align-items: center;
+                            box-shadow: $shadow-sm;
+                            transition: all 0.2s ease;
+
+                            &:hover {
+                                transform: translateY(-3px);
+                                box-shadow: $shadow-md;
+                            }
+
+                            .summary-icon {
+                                @include flex-center;
+                                width: 42px;
+                                height: 42px;
+                                border-radius: 10px;
+                                margin-right: 1rem;
+                                color: white;
+                                font-size: 1.1rem;
+                            }
+
+                            .summary-content {
+                                h4 {
+                                    margin: 0 0 0.25rem;
+                                    font-size: 0.9rem;
+                                    font-weight: 500;
+                                    color: $medium-text;
+                                }
+
+                                .summary-value {
+                                    font-size: 1.25rem;
+                                    font-weight: 600;
+                                    margin: 0;
+                                    color: $dark-text;
+                                }
+                            }
+
+                            &.approved .summary-icon {
+                                background-color: $completed-color;
+                            }
+
+                            &.pending .summary-icon {
+                                background-color: $pending-color;
+                            }
+
+                            &.rejected .summary-icon {
+                                background-color: $failed-color;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Transactions Tab
+            .transactions-content,
+            .insurance-content {
+                .filter-bar {
+                    padding: 1.5rem;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+                    background-color: $light-bg;
+
+                    .search-container {
+                        margin-bottom: 1.25rem;
+                        position: relative;
+
+                        .search-icon {
+                            position: absolute;
+                            left: 1rem;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            color: $medium-text;
+                            font-size: 1rem;
+                        }
+
+                        .search-input {
+                            width: 100%;
+                            padding: 0.85rem 1rem 0.85rem 2.5rem;
+                            border: 1px solid rgba(0, 0, 0, 0.1);
+                            border-radius: 8px;
+                            font-size: 0.95rem;
+                            color: $dark-text;
+                            transition: all 0.2s ease;
+
+                            &:focus {
+                                outline: none;
+                                border-color: $pharmacy-primary;
+                                box-shadow: 0 0 0 2px rgba($pharmacy-primary, 0.1);
+                            }
+
+                            &::placeholder {
+                                color: $light-text;
+                            }
+                        }
+                    }
+
+                    .filters {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 1rem;
+                        align-items: flex-end;
+
+                        .filter-group {
+                            display: flex;
+                            flex-direction: column;
+                            min-width: 180px;
+
+                            label {
+                                font-size: 0.8rem;
+                                color: $medium-text;
+                                margin-bottom: 0.35rem;
+                            }
+
+                            .filter-select {
+                                padding: 0.75rem 2rem 0.75rem 0.75rem;
+                                border: 1px solid rgba(0, 0, 0, 0.1);
+                                border-radius: 8px;
+                                font-size: 0.9rem;
+                                color: $dark-text;
+                                appearance: none;
+                                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235f6368' d='M6 8.5L1 3h10z'/%3E%3C/svg%3E");
+                                background-repeat: no-repeat;
+                                background-position: right 10px center;
+                                transition: all 0.2s ease;
+                                cursor: pointer;
+
+                                &:focus {
+                                    outline: none;
+                                    border-color: $pharmacy-primary;
+                                    box-shadow: 0 0 0 2px rgba($pharmacy-primary, 0.1);
+                                }
+                            }
+
+                            .date-inputs {
+                                display: flex;
+                                align-items: center;
+                                gap: 0.5rem;
+
+                                .date-input-wrapper {
+                                    position: relative;
+                                    flex: 1;
+
+                                    .calendar-icon {
+                                        position: absolute;
+                                        left: 0.75rem;
+                                        top: 50%;
+                                        transform: translateY(-50%);
+                                        color: $medium-text;
+                                        font-size: 0.9rem;
+                                    }
+
+                                    .date-input {
+                                        width: 100%;
+                                        padding: 0.75rem 0.75rem 0.75rem 2.25rem;
+                                        border: 1px solid rgba(0, 0, 0, 0.1);
+                                        border-radius: 8px;
+                                        font-size: 0.9rem;
+                                        color: $dark-text;
+                                        transition: all 0.2s ease;
+
+                                        &:focus {
+                                            outline: none;
+                                            border-color: $pharmacy-primary;
+                                            box-shadow: 0 0 0 2px rgba($pharmacy-primary, 0.1);
+                                        }
+                                    }
+                                }
+
+                                .date-separator {
+                                    color: $medium-text;
+                                    font-size: 0.9rem;
+                                }
+                            }
+                        }
+
+                        .refresh-btn {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            padding: 0.75rem 1rem;
+                            border: 1px solid rgba(0, 0, 0, 0.1);
+                            border-radius: 8px;
+                            background-color: white;
+                            color: $medium-text;
+                            font-size: 0.9rem;
+                            font-weight: 500;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                            align-self: flex-end;
+
+                            svg {
+                                margin-right: 0.5rem;
+                                font-size: 0.9rem;
+                            }
+
+                            &:hover {
+                                color: $dark-text;
+                                background-color: $light-bg;
+                                transform: translateY(-2px);
+                                box-shadow: $shadow-sm;
+                            }
+                        }
+                    }
+                }
+
+                .transactions-results,
+                .insurance-results {
+                    padding: 1.5rem;
+
+                    .results-header {
+                        @include flex-between;
+                        margin-bottom: 1.5rem;
+
+                        h3 {
+                            margin: 0;
+                            font-size: 1.1rem;
+                            font-weight: 600;
+                            color: $dark-text;
+                        }
+
+                        .export-options {
+                            display: flex;
+                            gap: 0.75rem;
+
+                            .export-btn,
+                            .print-btn {
+                                display: flex;
+                                align-items: center;
+                                padding: 0.6rem 1rem;
+                                border: 1px solid rgba(0, 0, 0, 0.1);
+                                border-radius: 6px;
+                                background-color: white;
+                                color: $medium-text;
+                                font-size: 0.85rem;
+                                font-weight: 500;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+
+                                svg {
+                                    margin-right: 0.5rem;
+                                    font-size: 0.9rem;
+                                }
+
+                                &:hover {
+                                    color: $dark-text;
+                                    background-color: $light-bg;
+                                    transform: translateY(-2px);
+                                    box-shadow: $shadow-sm;
+                                }
+                            }
+                        }
+                    }
+
+                    // Empty state
+                    .empty-state {
+                        @include flex-center;
+                        flex-direction: column;
+                        padding: 3rem 2rem;
+                        text-align: center;
+                        color: $medium-text;
+
+                        .empty-icon {
+                            @include flex-center;
+                            width: 70px;
+                            height: 70px;
+                            border-radius: 50%;
+                            background-color: rgba($light-text, 0.1);
+                            margin-bottom: 1.25rem;
+
+                            svg {
+                                font-size: 2rem;
+                                color: $light-text;
+                            }
+                        }
+
+                        h3 {
+                            margin: 0 0 0.5rem;
+                            font-size: 1.2rem;
+                            font-weight: 600;
+                            color: $dark-text;
+                        }
+
+                        p {
+                            margin: 0 0 1.5rem;
+                            font-size: 0.95rem;
+                            max-width: 400px;
+                        }
+
+                        .clear-search-btn {
+                            padding: 0.75rem 1.5rem;
+                            background-color: $primary-color;
+                            color: white;
+                            border: none;
+                            border-radius: 8px;
+                            font-size: 0.9rem;
+                            font-weight: 500;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+
+                            &:hover {
+                                background-color: darken($primary-color, 5%);
+                                transform: translateY(-2px);
+                                box-shadow: $shadow-sm;
+                            }
+                        }
+                    }
+
+                    // Tables
+                    .transactions-table-container,
+                    .insurance-table-container {
+                        overflow-x: auto;
+
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            font-size: 0.9rem;
+
+                            th {
+                                background-color: $light-bg;
+                                padding: 1rem;
+                                text-align: left;
+                                font-weight: 600;
+                                color: $dark-text;
+                                white-space: nowrap;
+                            }
+
+                            td {
+                                padding: 1rem;
+                                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                                color: $dark-text;
+
+                                &.id-cell {
+                                    font-weight: 500;
+                                    color: $primary-color;
+                                }
+                            }
+
+                            tbody tr {
+                                transition: all 0.2s ease;
+
+                                &:hover {
+                                    background-color: rgba($pharmacy-primary, 0.05);
+                                }
+
+                                &.pending {
+                                    background-color: rgba($pending-color, 0.05);
+                                }
+
+                                &.failed,
+                                &.rejected {
+                                    background-color: rgba($failed-color, 0.05);
+                                }
+                            }
+
+                            .cell-with-meta {
+                                display: flex;
+                                flex-direction: column;
+
+                                .primary-text {
+                                    font-weight: 500;
+                                    color: $dark-text;
+                                    margin-bottom: 0.25rem;
+                                }
+
+                                .secondary-text {
+                                    font-size: 0.8rem;
+                                    color: $medium-text;
+                                }
+                            }
+
+                            .payment-badge {
+                                display: inline-flex;
+                                align-items: center;
+                                padding: 0.25rem 0.5rem;
+                                border-radius: 4px;
+                                font-size: 0.8rem;
+                                font-weight: 500;
+
+                                svg {
+                                    margin-right: 0.35rem;
+                                    font-size: 0.85rem;
+                                }
+
+                                &.insurance {
+                                    background-color: rgba($insurance-color, 0.1);
+                                    color: $insurance-color;
+                                }
+
+                                &.cash {
+                                    background-color: rgba($cash-color, 0.1);
+                                    color: darken($cash-color, 15%);
+                                }
+
+                                &.card {
+                                    background-color: rgba($card-color, 0.1);
+                                    color: $card-color;
+                                }
+                            }
+
+                            .status-badge {
+                                display: inline-flex;
+                                align-items: center;
+                                padding: 0.25rem 0.5rem;
+                                border-radius: 4px;
+                                font-size: 0.8rem;
+                                font-weight: 500;
+
+                                svg {
+                                    margin-right: 0.35rem;
+                                    font-size: 0.85rem;
+                                }
+
+                                &.completed,
+                                &.approved {
+                                    background-color: rgba($completed-color, 0.1);
+                                    color: $completed-color;
+                                }
+
+                                &.pending {
+                                    background-color: rgba($pending-color, 0.1);
+                                    color: $pending-color;
+                                }
+
+                                &.failed,
+                                &.rejected {
+                                    background-color: rgba($failed-color, 0.1);
+                                    color: $failed-color;
+                                }
+                            }
+
+                            .amount-cell {
+                                font-weight: 600;
+                            }
+
+                            .action-btn {
+                                display: inline-flex;
+                                align-items: center;
+                                background-color: rgba($primary-color, 0.1);
+                                color: $primary-color;
+                                border: none;
+                                border-radius: 4px;
+                                padding: 0.4rem 0.75rem;
+                                font-size: 0.8rem;
+                                font-weight: 500;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+
+                                svg {
+                                    margin-right: 0.35rem;
+                                    font-size: 0.85rem;
+                                }
+
+                                &:hover {
+                                    background-color: rgba($primary-color, 0.2);
+                                }
+
+                                &.view-btn {
+                                    background-color: rgba($primary-color, 0.1);
+                                    color: $primary-color;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .transaction-details,
+                .claim-details {
+                    padding: 0 1.5rem 1.5rem;
+
+                    .transaction-detail-card,
+                    .claim-detail-card {
+                        background-color: $light-bg;
+                        border-radius: 10px;
+                        overflow: hidden;
+                        box-shadow: $shadow-sm;
+
+                        .card-header {
+                            @include flex-between;
+                            padding: 1.25rem 1.5rem;
+                            background-color: white;
+                            cursor: pointer;
+
+                            h3 {
+                                margin: 0;
+                                font-size: 1.1rem;
+                                font-weight: 600;
+                                color: $dark-text;
+                            }
+
+                            .toggle-btn {
+                                background: none;
+                                border: none;
+                                color: $medium-text;
+                                font-size: 1rem;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+
+                                &:hover {
+                                    color: $dark-text;
+                                }
+                            }
+                        }
+
+                        .card-body {
+                            padding: 1.5rem;
+                            display: none;
+
+                            .detail-note {
+                                text-align: center;
+                                color: $medium-text;
+                                margin: 0;
+                                padding: 2rem 0;
+                            }
+                        }
+
+                        &.expanded {
+                            .card-body {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Responsive styles
+    @media (max-width: 1200px) {
+        padding: 1.5rem;
+
+        .billing-container {
+            .tab-content {
+                .billing-overview {
+                    .stats-section {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+
+                    .recent-transactions-section {
+                        .transactions-list {
+                            grid-template-columns: repeat(2, 1fr);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 992px) {
+        padding: 1.5rem;
+
+        .billing-container {
+            .billing-tabs {
+                .tab-btn {
+                    font-size: 0.85rem;
+                    padding: 0.75rem 1rem;
+
+                    svg {
+                        margin-right: 0.35rem;
+                    }
+                }
+            }
+
+            .tab-content {
+                .filter-bar {
+                    .filters {
+                        .filter-group {
+                            min-width: 45%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        padding: 1rem;
+
+        .billing-container {
+            .page-header {
+                h1 {
+                    font-size: 1.6rem;
+                }
+            }
+
+            .billing-tabs {
+                .tab-btn {
+                    padding: 0.75rem;
+
+                    span {
+                        display: none;
+                    }
+
+                    svg {
+                        margin-right: 0;
+                        font-size: 1.1rem;
+                    }
+                }
+            }
+
+            .tab-content {
+                .billing-overview {
+                    .stats-section {
+                        grid-template-columns: 1fr;
+                    }
+
+                    .recent-transactions-section {
+                        .transactions-list {
+                            grid-template-columns: 1fr;
+                        }
+                    }
+
+                    .insurance-section {
+                        .insurance-summary {
+                            grid-template-columns: 1fr;
+                        }
+                    }
+                }
+
+                .filter-bar {
+                    .filters {
+                        .filter-group {
+                            min-width: 100%;
+                        }
+
+                        .refresh-btn {
+                            width: 100%;
+                        }
+                    }
+                }
+
+                .transactions-results,
+                .insurance-results {
+                    .results-header {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 1rem;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -9,9 +9,11 @@ $light-text: #9aa0a6;
 $border-color: #e0e0e0;
 
 // Status colors
+$pending-color: #039BE5; // Light blue (friendly, indicates waiting or in-progress)
 $stable-color: #43a047;
 $follow-up-color: #ffab00;
 $urgent-color: #e53935;
+$neutral-color: #dcdcdc;
 $med-adjust-color: #7b1fa2;
 
 // Sizing and Layout
@@ -48,7 +50,9 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 // Breakpoints
+$breakpoint-xs: 480px;
 $breakpoint-sm: 576px;
 $breakpoint-md: 768px;
-$breakpoint-lg: 1024px;
+$breakpoint-lg: 992px;
 $breakpoint-xl: 1200px;
+$breakpoint-xxl: 1400px;

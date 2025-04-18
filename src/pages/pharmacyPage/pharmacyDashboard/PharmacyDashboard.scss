@@ -1,0 +1,868 @@
+@use '../../../assets/styles/vars.scss' as *;
+
+// Pharmacy-specific colors
+$pharmacy-primary: $secondary-color; // Using the green color for pharmacy
+$pharmacy-accent: $accent-color;
+$pharmacy-light: rgba($pharmacy-primary, 0.1);
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin card {
+  background-color: white;
+  border-radius: $border-radius;
+  box-shadow: $shadow-md;
+  padding: 1.5rem;
+  transition: $transition-standard;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+
+  &:hover {
+    box-shadow: $shadow-lg;
+    transform: translateY(-3px);
+  }
+}
+
+// Main pharmacy dashboard styles
+.pharmacy-dashboard {
+  padding: 2rem;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background-color: $light-bg;
+  min-height: 100%;
+
+  // Loading state
+  .loading-container {
+    @include flex-center;
+    flex-direction: column;
+    height: 80vh;
+
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba($pharmacy-primary, 0.2);
+      border-radius: 50%;
+      border-top-color: $pharmacy-primary;
+      animation: spin 1s infinite ease-in-out;
+      margin-bottom: 1.5rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: $medium-text;
+      font-weight: 500;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
+  // Dashboard content
+  .dashboard-content {
+    width: 100%;
+
+    // Welcome section
+    .welcome-section {
+      @include flex-between;
+      margin-bottom: 2rem;
+      background: white;
+      padding: 1.75rem 2rem;
+      border-radius: $border-radius;
+      box-shadow: $shadow-sm;
+
+      .welcome-message {
+        h2 {
+          font-size: 1.6rem;
+          font-weight: 600;
+          margin: 0 0 0.5rem;
+          color: $dark-text;
+
+          .highlight {
+            color: $pharmacy-primary;
+            position: relative;
+
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: -2px;
+              left: 0;
+              width: 100%;
+              height: 2px;
+              background-color: $pharmacy-primary;
+            }
+          }
+        }
+
+        p {
+          color: $medium-text;
+          margin: 0;
+          font-size: 0.95rem;
+        }
+      }
+
+      .quick-actions {
+        display: flex;
+        gap: 0.75rem;
+
+        .quick-action-btn {
+          display: flex;
+          align-items: center;
+          padding: 0.8rem 1.25rem;
+          border-radius: 8px;
+          font-size: 0.95rem;
+          font-weight: 500;
+          cursor: pointer;
+          box-shadow: $shadow-sm;
+          transition: all 0.2s ease;
+          text-decoration: none;
+          box-sizing: border-box;
+
+          svg {
+            margin-right: 0.5rem;
+            font-size: 1.1rem;
+          }
+
+          &.primary {
+            background-color: $pharmacy-primary;
+            color: white;
+            border: none;
+
+            &:hover {
+              background-color: darken($pharmacy-primary, 5%);
+              transform: translateY(-2px);
+              box-shadow: $shadow-md;
+            }
+          }
+
+          &.secondary {
+            background-color: white;
+            color: $medium-text;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+
+            &:hover {
+              color: $dark-text;
+              transform: translateY(-2px);
+              box-shadow: $shadow-md;
+            }
+          }
+        }
+      }
+    }
+
+    // Dashboard grid layout
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 1.5rem;
+
+      // Common section styling
+      .stats-section,
+      .activity-section,
+      .pending-section,
+      .scanner-section {
+        @include card;
+      }
+
+      .section-title {
+        margin-top: 0;
+        margin-bottom: 1.25rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: $dark-text;
+      }
+
+      .section-header {
+        @include flex-between;
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+        .view-all {
+          font-size: 0.85rem;
+          color: $pharmacy-primary;
+          text-decoration: none;
+          padding: 0.25rem 0.5rem;
+          border-radius: 4px;
+          transition: background-color 0.2s ease;
+
+          &:hover {
+            background-color: $pharmacy-light;
+          }
+        }
+
+        .header-actions {
+          .refresh-btn {
+            display: flex;
+            align-items: center;
+            background: none;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: $medium-text;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            svg {
+              margin-right: 0.35rem;
+              font-size: 0.9rem;
+            }
+
+            &:hover {
+              background-color: $light-bg;
+              color: $dark-text;
+            }
+          }
+        }
+      }
+
+      // Stats section (spans full width)
+      .stats-section {
+        grid-column: span 2;
+
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1.25rem;
+
+          .stat-card {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            background-color: rgba($light-bg, 0.5);
+            border-radius: 10px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+            &:hover {
+              transform: translateY(-3px);
+              box-shadow: $shadow-sm;
+            }
+
+            .stat-icon {
+              @include flex-center;
+              width: 48px;
+              height: 48px;
+              border-radius: 12px;
+              margin-right: 1rem;
+              color: white;
+
+              svg {
+                font-size: 1.25rem;
+              }
+
+              &.pending-icon {
+                background: linear-gradient(135deg, $pending-color, darken($pending-color, 15%));
+              }
+
+              &.dispensed-icon {
+                background: linear-gradient(135deg, $stable-color, darken($stable-color, 15%));
+              }
+
+              &.patients-icon {
+                background: linear-gradient(135deg, $primary-color, darken($primary-color, 15%));
+              }
+
+              &.meds-icon {
+                background: linear-gradient(135deg, $pharmacy-primary, darken($pharmacy-primary, 15%));
+              }
+            }
+
+            .stat-content {
+              h4 {
+                margin: 0 0 0.5rem;
+                font-size: 0.9rem;
+                font-weight: 500;
+                color: $medium-text;
+              }
+
+              .stat-value {
+                font-size: 1.8rem;
+                font-weight: 700;
+                margin: 0;
+                color: $dark-text;
+              }
+            }
+          }
+        }
+      }
+
+      // Activity section (right column, first row)
+      .activity-section {
+        grid-column: 2;
+        grid-row: span 2;
+
+        .activity-list {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          max-height: 500px;
+          overflow-y: auto;
+
+          .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 0.85rem;
+            background-color: rgba($light-bg, 0.5);
+            border-radius: 8px;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+
+            &:hover {
+              background-color: rgba($light-bg, 0.8);
+              transform: translateY(-2px);
+            }
+
+            .activity-time {
+              min-width: 60px;
+              font-size: 0.8rem;
+              color: $medium-text;
+              margin-right: 0.75rem;
+            }
+
+            .activity-icon-container {
+              margin-right: 0.75rem;
+
+              .activity-icon {
+                font-size: 1.1rem;
+
+                &.dispensed {
+                  color: $stable-color;
+                }
+
+                &.received {
+                  color: $pharmacy-primary;
+                }
+
+                &.alert {
+                  color: $urgent-color;
+                }
+
+                &.communication {
+                  color: $primary-color;
+                }
+              }
+            }
+
+            .activity-details {
+              flex: 1;
+
+              .activity-description {
+                margin: 0;
+                font-size: 0.9rem;
+                color: $dark-text;
+                line-height: 1.4;
+              }
+            }
+
+            .action-btn {
+              width: 28px;
+              height: 28px;
+              border-radius: 50%;
+              background: none;
+              border: none;
+              color: $medium-text;
+              cursor: pointer;
+              @include flex-center;
+              transition: all 0.2s ease;
+
+              &:hover {
+                background-color: rgba($pharmacy-primary, 0.1);
+                color: $pharmacy-primary;
+              }
+            }
+          }
+        }
+      }
+
+      // Pending prescriptions section (left column, second row)
+      .pending-section {
+        grid-column: 1;
+
+        .pending-prescriptions {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+
+          .prescription-card {
+            display: flex;
+            flex-direction: column;
+            background-color: rgba($light-bg, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+            &:hover {
+              transform: translateY(-3px);
+              box-shadow: $shadow-sm;
+            }
+
+            .priority-indicator {
+              position: absolute;
+              top: 0;
+              bottom: 0;
+              left: 0;
+              width: 4px;
+
+              &.normal {
+                background-color: $neutral-color;
+              }
+
+              &.urgent {
+                background-color: $urgent-color;
+              }
+            }
+
+            .prescription-header {
+              @include flex-between;
+              padding: 1rem;
+              padding-left: 1.25rem;
+              border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+              .prescription-id {
+                display: flex;
+                align-items: center;
+
+                h4 {
+                  margin: 0;
+                  font-size: 1rem;
+                  font-weight: 600;
+                  margin-right: 0.75rem;
+                }
+
+                .urgent-badge {
+                  display: inline-flex;
+                  align-items: center;
+                  padding: 0.2rem 0.5rem;
+                  border-radius: 4px;
+                  font-size: 0.75rem;
+                  font-weight: 500;
+                  background-color: rgba($urgent-color, 0.1);
+                  color: $urgent-color;
+
+                  svg {
+                    margin-right: 0.25rem;
+                    font-size: 0.7rem;
+                  }
+                }
+              }
+
+              .prescription-date {
+                font-size: 0.85rem;
+                color: $medium-text;
+              }
+            }
+
+            .prescription-details {
+              padding: 1rem;
+              padding-left: 1.25rem;
+
+              .detail-row {
+                display: flex;
+                align-items: center;
+                margin-bottom: 0.5rem;
+
+                &:last-child {
+                  margin-bottom: 0;
+                }
+
+                .detail-label {
+                  width: 80px;
+                  font-size: 0.85rem;
+                  color: $medium-text;
+                }
+
+                .detail-value {
+                  font-size: 0.9rem;
+                  font-weight: 500;
+                  color: $dark-text;
+                }
+              }
+            }
+
+            .prescription-actions {
+              padding: 1rem;
+              display: flex;
+              justify-content: space-between;
+              border-top: 1px solid rgba(0, 0, 0, 0.05);
+
+              .action-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0.5rem 1rem;
+                border-radius: 6px;
+                font-size: 0.85rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                border: none;
+                text-decoration: none;
+
+                svg {
+                  margin-right: 0.4rem;
+                  font-size: 0.9rem;
+                }
+
+                &.view-btn {
+                  background-color: rgba($primary-color, 0.1);
+                  color: $primary-color;
+
+                  &:hover {
+                    background-color: rgba($primary-color, 0.2);
+                  }
+                }
+
+                &.approve-btn {
+                  background-color: $stable-color;
+                  color: white;
+
+                  &:hover {
+                    background-color: darken($stable-color, 5%);
+                  }
+                }
+              }
+
+              .action-group {
+                display: flex;
+                gap: 0.5rem;
+              }
+            }
+          }
+        }
+      }
+
+      // Scanner section (right column, second row)
+      .scanner-section {
+        grid-column: 1;
+
+        .scanner-content {
+          .scanner-cta {
+            @include flex-center;
+            flex-direction: column;
+            padding: 2rem;
+            text-align: center;
+
+            .scanner-icon {
+              @include flex-center;
+              width: 80px;
+              height: 80px;
+              border-radius: 50%;
+              background: linear-gradient(135deg, rgba($pharmacy-primary, 0.1), rgba($pharmacy-primary, 0.2));
+              margin-bottom: 1.5rem;
+
+              svg {
+                font-size: 2rem;
+                color: $pharmacy-primary;
+              }
+            }
+
+            h4 {
+              margin: 0 0 0.5rem;
+              font-size: 1.2rem;
+              font-weight: 600;
+              color: $dark-text;
+            }
+
+            p {
+              margin: 0 0 1.5rem;
+              color: $medium-text;
+              max-width: 300px;
+            }
+
+            .scanner-btn {
+              display: inline-flex;
+              align-items: center;
+              padding: 0.75rem 1.5rem;
+              background-color: $pharmacy-primary;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              font-weight: 500;
+              cursor: pointer;
+              transition: all 0.2s ease;
+
+              &:hover {
+                background-color: darken($pharmacy-primary, 5%);
+                transform: translateY(-2px);
+              }
+            }
+          }
+
+          .scanner-active {
+            .scanner-processing {
+              @include flex-center;
+              flex-direction: column;
+              padding: 2rem;
+              text-align: center;
+
+              .scanner-animation {
+                @include flex-center;
+                width: 100px;
+                height: 100px;
+                margin-bottom: 1.5rem;
+                position: relative;
+
+                .scanner-pulse {
+                  font-size: 3rem;
+                  color: $pharmacy-primary;
+                  animation: pulse 1.5s infinite;
+                }
+
+                @keyframes pulse {
+                  0% {
+                    transform: scale(0.95);
+                    opacity: 0.8;
+                  }
+                  50% {
+                    transform: scale(1.05);
+                    opacity: 1;
+                  }
+                  100% {
+                    transform: scale(0.95);
+                    opacity: 0.8;
+                  }
+                }
+              }
+
+              p {
+                margin: 0 0 1.5rem;
+                color: $medium-text;
+              }
+
+              .cancel-btn {
+                display: inline-flex;
+                align-items: center;
+                padding: 0.5rem 1rem;
+                background-color: rgba($danger-color, 0.1);
+                color: $danger-color;
+                border: none;
+                border-radius: 6px;
+                font-weight: 500;
+                font-size: 0.9rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &:hover {
+                  background-color: rgba($danger-color, 0.2);
+                }
+              }
+            }
+
+            .scanned-result {
+              padding: 1.5rem;
+
+              .result-header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 1.5rem;
+
+                .success-icon {
+                  color: $stable-color;
+                  font-size: 1.25rem;
+                  margin-right: 0.75rem;
+                }
+
+                h4 {
+                  margin: 0;
+                  font-size: 1.2rem;
+                  font-weight: 600;
+                  color: $dark-text;
+                }
+              }
+
+              .result-details {
+                margin-bottom: 1.5rem;
+                background-color: rgba($light-bg, 0.5);
+                border-radius: 8px;
+                padding: 1.25rem;
+
+                .detail-row {
+                  display: flex;
+                  margin-bottom: 0.75rem;
+
+                  &:last-of-type {
+                    margin-bottom: 1.25rem;
+                  }
+
+                  .detail-label {
+                    width: 60px;
+                    font-size: 0.85rem;
+                    color: $medium-text;
+                    margin-right: 0.5rem;
+                  }
+
+                  .detail-value {
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                    color: $dark-text;
+                  }
+                }
+
+                .medications-list {
+                  h5 {
+                    margin: 0 0 0.75rem;
+                    font-size: 0.95rem;
+                    font-weight: 600;
+                    color: $dark-text;
+                  }
+
+                  .medication-item {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 0.5rem;
+                    padding-bottom: 0.5rem;
+                    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+
+                    &:last-child {
+                      margin-bottom: 0;
+                      padding-bottom: 0;
+                      border-bottom: none;
+                    }
+
+                    .med-name {
+                      font-size: 0.9rem;
+                      font-weight: 500;
+                    }
+
+                    .med-qty {
+                      font-size: 0.85rem;
+                      color: $medium-text;
+                    }
+                  }
+                }
+              }
+
+              .result-actions {
+                display: flex;
+                gap: 0.75rem;
+
+                .action-btn {
+                  flex: 1;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  padding: 0.75rem 1rem;
+                  border-radius: 6px;
+                  font-size: 0.9rem;
+                  font-weight: 500;
+                  cursor: pointer;
+                  transition: all 0.2s ease;
+                  border: none;
+
+                  svg {
+                    margin-right: 0.5rem;
+                  }
+
+                  &.approve-btn {
+                    background-color: $stable-color;
+                    color: white;
+
+                    &:hover {
+                      background-color: darken($stable-color, 5%);
+                    }
+                  }
+
+                  &.cancel-btn {
+                    background-color: rgba(0, 0, 0, 0.05);
+                    color: $medium-text;
+
+                    &:hover {
+                      background-color: rgba(0, 0, 0, 0.1);
+                      color: $dark-text;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Empty state
+  .empty-state {
+    @include flex-center;
+    flex-direction: column;
+    padding: 2rem;
+    text-align: center;
+
+    .empty-icon {
+      font-size: 2.5rem;
+      color: lighten($medium-text, 20%);
+      margin-bottom: 1rem;
+      opacity: 0.8;
+    }
+
+    p {
+      color: $medium-text;
+      margin: 0;
+      font-size: 0.95rem;
+    }
+  }
+
+  // Responsive adjustments
+  @media (max-width: 1200px) {
+    .dashboard-content {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+        
+        .stats-section,
+        .activity-section,
+        .pending-section,
+        .scanner-section {
+          grid-column: span 1;
+        }
+
+        .stats-section .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+
+    .dashboard-content {
+      .welcome-section {
+        flex-direction: column;
+        align-items: flex-start;
+
+        .welcome-message {
+          margin-bottom: 1.5rem;
+        }
+
+        .quick-actions {
+          width: 100%;
+          flex-direction: column;
+
+          .quick-action-btn {
+            width: 100%;
+          }
+        }
+      }
+
+      .dashboard-grid {
+        .stats-section .stats-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    }
+  }
+}

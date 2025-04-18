@@ -1,0 +1,172 @@
+@use '../../assets/styles/vars.scss' as *;
+
+// Additional colors for pharmacy
+$pharmacy-primary: #34a853; // Green for pharmacy
+$pharmacy-secondary: #1976d2; // Blue for accent
+
+.pharmacy-sidebar {
+    background: linear-gradient(135deg, darken($pharmacy-primary, 15%), $pharmacy-primary);
+    height: 100%;
+    width: 240px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 70px;
+    color: white;
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    z-index: 50;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+
+    @media (min-width: 768px) {
+        padding-top: 80px;
+    }
+
+    @media (min-width: 1024px) {
+        padding-top: 100px;
+    }
+
+    // Mobile view handling
+    @media (max-width: 1119px) {
+        transform: translateX(-100%);
+        z-index: 150;
+
+        &.open {
+            transform: translateX(0);
+        }
+    }
+
+    .pharmacy-sidebar-profile {
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+        .profile-avatar {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+
+            svg {
+                font-size: 1.5rem;
+                color: white;
+            }
+        }
+
+        .profile-info {
+            flex: 1;
+            overflow: hidden;
+
+            h3 {
+                margin: 0;
+                font-size: 1rem;
+                font-weight: 600;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+
+            p {
+                margin: 0.25rem 0 0;
+                font-size: 0.8rem;
+                opacity: 0.8;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+    }
+
+    .pharmacy-sidebar-nav {
+        padding: 1rem 0;
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                a {
+                    display: flex;
+                    align-items: center;
+                    padding: 0.85rem 1.5rem;
+                    color: rgba(255, 255, 255, 0.8);
+                    text-decoration: none;
+                    transition: all 0.2s ease;
+                    position: relative;
+
+                    &:hover {
+                        background-color: rgba(255, 255, 255, 0.1);
+                        color: white;
+                    }
+
+                    &.active {
+                        background-color: rgba(255, 255, 255, 0.15);
+                        color: white;
+                        position: relative;
+
+                        &:before {
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            width: 4px;
+                            height: 100%;
+                            background-color: white;
+                        }
+                    }
+
+                    .nav-icon {
+                        margin-right: 1rem;
+                        font-size: 1.1rem;
+                        min-width: 24px;
+                        display: flex;
+                        justify-content: center;
+                    }
+
+                    .nav-text {
+                        font-size: 0.95rem;
+                        font-weight: 500;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+            }
+        }
+    }
+
+    .pharmacy-sidebar-footer {
+        padding: 1rem 1.5rem 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: auto;
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 0.85rem 1rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+
+            .logout-icon {
+                margin-right: 0.75rem;
+            }
+        }
+    }
+}

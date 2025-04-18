@@ -1,0 +1,50 @@
+@use '../../assets/styles/vars.scss' as *;
+
+.pharmacy-out-container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    padding-top: 70px;
+
+    @media (min-width: 768px) {
+        padding-top: 80px;
+    }
+
+    @media (min-width: 1024px) {
+        padding-top: 100px;
+    }
+
+    .pharmacy-container {
+        display: flex;
+        height: calc(100vh - 70px); // Use viewport height for consistency
+        position: relative; // Establish positioning context
+
+        @media (min-width: 768px) {
+            height: calc(100vh - 80px);
+        }
+
+        @media (min-width: 1024px) {
+            height: calc(100vh - 100px);
+        }
+
+        .pharmacy-content {
+            width: 100%;
+            margin-left: 0;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+            box-sizing: border-box;
+            min-height: 100%;
+            overflow-y: auto;
+            background-color: $light-bg;
+
+            @media (min-width: 1120px) {
+                width: calc(100% - 240px);
+                margin-left: 240px;
+
+                &.full-width {
+                    margin-left: 0;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

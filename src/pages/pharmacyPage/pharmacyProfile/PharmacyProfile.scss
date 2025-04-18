@@ -1,0 +1,962 @@
+@use '../../../assets/styles/vars.scss' as *;
+
+// Pharmacy-specific colors
+$pharmacy-primary: $secondary-color; // Green for pharmacy
+$pharmacy-accent: $accent-color;
+$pharmacy-light: rgba($pharmacy-primary, 0.1);
+
+// Mixins
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin card {
+    background-color: white;
+    border-radius: $border-radius;
+    box-shadow: $shadow-md;
+    padding: 1.5rem;
+    transition: $transition-standard;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.pharmacy-profile {
+    padding: 2rem;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background-color: $light-bg;
+    min-height: 100%;
+
+    // Loading state
+    .loading-container {
+        @include flex-center;
+        flex-direction: column;
+        height: 80vh;
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba($pharmacy-primary, 0.2);
+            border-radius: 50%;
+            border-top-color: $pharmacy-primary;
+            animation: spin 1s infinite ease-in-out;
+            margin-bottom: 1.5rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: $medium-text;
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    }
+
+    .profile-container {
+        max-width: 1200px;
+        margin: 0 auto;
+
+        .page-header {
+            margin-bottom: 1.5rem;
+
+            h1 {
+                font-size: 1.8rem;
+                font-weight: 600;
+                color: $dark-text;
+                margin: 0 0 0.5rem;
+            }
+
+            p {
+                color: $medium-text;
+                font-size: 1rem;
+                margin: 0;
+            }
+        }
+
+        .profile-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+
+            // Tabs
+            .profile-tabs {
+                display: flex;
+                background-color: white;
+                border-radius: $border-radius;
+                overflow: hidden;
+                box-shadow: $shadow-sm;
+                padding: 0.5rem;
+
+                .tab-btn {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0.85rem 1.25rem;
+                    border: none;
+                    background: none;
+                    color: $medium-text;
+                    border-radius: 6px;
+                    font-size: 0.95rem;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    flex: 1;
+
+                    .tab-icon {
+                        margin-right: 0.5rem;
+                        font-size: 1rem;
+                    }
+
+                    &:hover {
+                        color: $dark-text;
+                        background-color: rgba($pharmacy-primary, 0.1);
+                        color: $pharmacy-primary;
+                    }
+
+                    &.active {
+                        background-color: rgba($pharmacy-primary, 0.1);
+                        color: $pharmacy-primary;
+                        font-weight: 600;
+                    }
+                }
+            }
+
+            // Tab content
+            .tab-content {
+                flex: 1;
+                background-color: white;
+                border-radius: $border-radius;
+                box-shadow: $shadow-sm;
+                overflow: hidden;
+
+                .profile-content-section {
+                    .section-header {
+                        @include flex-between;
+                        padding: 1.5rem;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+                        h3 {
+                            margin: 0;
+                            font-size: 1.25rem;
+                            font-weight: 600;
+                            color: $dark-text;
+                        }
+
+                        .edit-btn, .save-btn, .cancel-btn {
+                            display: flex;
+                            align-items: center;
+                            padding: 0.6rem 1rem;
+                            border-radius: 6px;
+                            font-size: 0.9rem;
+                            font-weight: 500;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+
+                            svg {
+                                margin-right: 0.5rem;
+                                font-size: 0.9rem;
+                            }
+                        }
+
+                        .edit-btn {
+                            background-color: rgba($primary-color, 0.1);
+                            color: $primary-color;
+                            border: none;
+
+                            &:hover {
+                                background-color: rgba($primary-color, 0.2);
+                            }
+                        }
+
+                        .action-buttons {
+                            display: flex;
+                            gap: 0.75rem;
+
+                            .cancel-btn {
+                                background-color: rgba($danger-color, 0.1);
+                                color: $danger-color;
+                                border: none;
+
+                                &:hover {
+                                    background-color: rgba($danger-color, 0.2);
+                                }
+                            }
+
+                            .save-btn {
+                                background-color: $pharmacy-primary;
+                                color: white;
+                                border: none;
+
+                                &:hover {
+                                    background-color: darken($pharmacy-primary, 5%);
+                                }
+                            }
+                        }
+                    }
+
+                    .success-message {
+                        display: flex;
+                        align-items: center;
+                        background-color: rgba($stable-color, 0.1);
+                        color: $stable-color;
+                        padding: 1rem;
+                        margin: 1rem 1.5rem;
+                        border-radius: 6px;
+
+                        .success-icon {
+                            margin-right: 0.75rem;
+                            font-size: 1.1rem;
+                        }
+                    }
+
+                    // Personal Information tab content
+                    .profile-info-container {
+                        padding: 1.5rem;
+
+                        .profile-image-section {
+                            display: flex;
+                            align-items: center;
+                            margin-bottom: 2rem;
+
+                            .profile-image {
+                                position: relative;
+                                width: 100px;
+                                height: 100px;
+                                background-color: $light-bg;
+                                border-radius: 50%;
+                                @include flex-center;
+                                margin-right: 1.5rem;
+                                color: $medium-text;
+                                font-size: 2.5rem;
+
+                                .change-photo-btn {
+                                    position: absolute;
+                                    bottom: 0;
+                                    right: 0;
+                                    width: 32px;
+                                    height: 32px;
+                                    background-color: $pharmacy-primary;
+                                    color: white;
+                                    border: none;
+                                    border-radius: 50%;
+                                    font-size: 0.9rem;
+                                    @include flex-center;
+                                    cursor: pointer;
+                                    transition: all 0.2s ease;
+
+                                    &:hover {
+                                        background-color: darken($pharmacy-primary, 5%);
+                                        transform: scale(1.1);
+                                    }
+                                }
+                            }
+
+                            .profile-basic-info {
+                                h3 {
+                                    font-size: 1.5rem;
+                                    font-weight: 600;
+                                    color: $dark-text;
+                                    margin: 0 0 0.5rem;
+                                }
+
+                                .role {
+                                    color: $pharmacy-primary;
+                                    font-weight: 500;
+                                    margin: 0 0 0.25rem;
+                                    font-size: 1rem;
+                                }
+
+                                .employee-id {
+                                    color: $medium-text;
+                                    margin: 0;
+                                    font-size: 0.9rem;
+                                }
+                            }
+                        }
+
+                        .profile-details {
+                            .details-grid {
+                                display: grid;
+                                grid-template-columns: repeat(2, 1fr);
+                                gap: 1.5rem;
+
+                                .detail-item {
+                                    .detail-label {
+                                        display: block;
+                                        font-size: 0.85rem;
+                                        color: $medium-text;
+                                        margin-bottom: 0.5rem;
+                                    }
+
+                                    .detail-value {
+                                        font-size: 1rem;
+                                        color: $dark-text;
+                                        font-weight: 500;
+
+                                        &.with-icon {
+                                            display: flex;
+                                            align-items: center;
+
+                                            .detail-icon {
+                                                margin-right: 0.5rem;
+                                                color: $pharmacy-primary;
+                                                font-size: 0.9rem;
+                                            }
+                                        }
+                                    }
+
+                                    .password-section {
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: space-between;
+
+                                        .password-mask {
+                                            font-size: 1rem;
+                                            color: $dark-text;
+                                            letter-spacing: 2px;
+                                        }
+
+                                        .change-password-btn {
+                                            background: none;
+                                            border: none;
+                                            color: $primary-color;
+                                            font-size: 0.85rem;
+                                            font-weight: 500;
+                                            cursor: pointer;
+                                            padding: 0.35rem 0.75rem;
+                                            border-radius: 4px;
+                                            transition: all 0.2s ease;
+
+                                            &:hover {
+                                                background-color: rgba($primary-color, 0.1);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            .edit-form {
+                                display: grid;
+                                grid-template-columns: repeat(2, 1fr);
+                                gap: 1.25rem;
+
+                                .form-group {
+                                    label {
+                                        display: block;
+                                        font-size: 0.85rem;
+                                        color: $medium-text;
+                                        margin-bottom: 0.5rem;
+                                    }
+
+                                    input {
+                                        width: 100%;
+                                        padding: 0.75rem 1rem;
+                                        border: 1px solid rgba(0, 0, 0, 0.1);
+                                        border-radius: 6px;
+                                        font-size: 0.95rem;
+                                        color: $dark-text;
+                                        transition: all 0.2s ease;
+
+                                        &:focus {
+                                            outline: none;
+                                            border-color: $pharmacy-primary;
+                                            box-shadow: 0 0 0 2px rgba($pharmacy-primary, 0.1);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Account Settings tab content
+                    .settings-container {
+                        padding: 1.5rem;
+
+                        .settings-group {
+                            margin-bottom: 2rem;
+
+                            &:last-child {
+                                margin-bottom: 0;
+                            }
+
+                            .settings-title {
+                                font-size: 1.1rem;
+                                font-weight: 600;
+                                color: $dark-text;
+                                margin: 0 0 1rem;
+                                padding-bottom: 0.75rem;
+                                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                            }
+
+                            .language-options {
+                                display: flex;
+                                gap: 1rem;
+
+                                .language-btn {
+                                    display: flex;
+                                    align-items: center;
+                                    padding: 0.85rem 1.25rem;
+                                    border: 1px solid rgba(0, 0, 0, 0.1);
+                                    border-radius: 8px;
+                                    background-color: white;
+                                    color: $medium-text;
+                                    font-size: 0.95rem;
+                                    font-weight: 500;
+                                    cursor: pointer;
+                                    transition: all 0.2s ease;
+
+                                    .language-icon {
+                                        margin-right: 0.75rem;
+                                        font-size: 1.1rem;
+                                    }
+
+                                    &:hover {
+                                        background-color: $light-bg;
+                                        color: $dark-text;
+                                    }
+
+                                    &.active {
+                                        background-color: $pharmacy-light;
+                                        color: $pharmacy-primary;
+                                        border-color: $pharmacy-primary;
+                                    }
+                                }
+                            }
+
+                            .notification-options, .security-options {
+                                display: flex;
+                                flex-direction: column;
+                                gap: 1rem;
+
+                                .notification-option, .security-option {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                    padding: 1rem 1.25rem;
+                                    background-color: $light-bg;
+                                    border-radius: 8px;
+
+                                    .option-info {
+                                        display: flex;
+                                        align-items: center;
+
+                                        .option-icon {
+                                            margin-right: 1rem;
+                                            font-size: 1.1rem;
+                                            color: $pharmacy-primary;
+                                        }
+
+                                        .option-text {
+                                            .option-title {
+                                                display: block;
+                                                font-size: 0.95rem;
+                                                font-weight: 500;
+                                                color: $dark-text;
+                                                margin-bottom: 0.25rem;
+                                            }
+
+                                            .option-desc {
+                                                font-size: 0.85rem;
+                                                color: $medium-text;
+                                            }
+                                        }
+                                    }
+
+                                    .toggle-switch {
+                                        position: relative;
+                                        display: inline-block;
+                                        width: 48px;
+                                        height: 24px;
+
+                                        input {
+                                            opacity: 0;
+                                            width: 0;
+                                            height: 0;
+
+                                            &:checked + .toggle-slider {
+                                                background-color: $pharmacy-primary;
+
+                                                &:before {
+                                                    transform: translateX(24px);
+                                                }
+                                            }
+                                        }
+
+                                        .toggle-slider {
+                                            position: absolute;
+                                            cursor: pointer;
+                                            top: 0;
+                                            left: 0;
+                                            right: 0;
+                                            bottom: 0;
+                                            background-color: rgba(0, 0, 0, 0.1);
+                                            transition: 0.3s;
+                                            border-radius: 34px;
+
+                                            &:before {
+                                                position: absolute;
+                                                content: "";
+                                                height: 20px;
+                                                width: 20px;
+                                                left: 2px;
+                                                bottom: 2px;
+                                                background-color: white;
+                                                transition: 0.3s;
+                                                border-radius: 50%;
+                                            }
+                                        }
+                                    }
+
+                                    .option-btn {
+                                        padding: 0.5rem 1rem;
+                                        background-color: rgba($primary-color, 0.1);
+                                        color: $primary-color;
+                                        border: none;
+                                        border-radius: 6px;
+                                        font-size: 0.85rem;
+                                        font-weight: 500;
+                                        cursor: pointer;
+                                        transition: all 0.2s ease;
+
+                                        &:hover {
+                                            background-color: rgba($primary-color, 0.2);
+                                        }
+                                    }
+
+                                    .timeout-select {
+                                        padding: 0.5rem 2rem 0.5rem 0.75rem;
+                                        border: 1px solid rgba(0, 0, 0, 0.1);
+                                        border-radius: 6px;
+                                        background-color: white;
+                                        color: $dark-text;
+                                        font-size: 0.9rem;
+                                        cursor: pointer;
+                                        appearance: none;
+                                        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235f6368' d='M6 8.5L1 3h10z'/%3E%3C/svg%3E");
+                                        background-repeat: no-repeat;
+                                        background-position: right 8px center;
+
+                                        &:focus {
+                                            outline: none;
+                                            border-color: $pharmacy-primary;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Account Activity tab content
+                    .activity-container {
+                        padding: 1.5rem;
+                        display: grid;
+                        grid-template-columns: 2fr 1fr;
+                        gap: 1.5rem;
+
+                        .activity-card, .devices-card {
+                            background-color: $light-bg;
+                            border-radius: 10px;
+                            padding: 1.25rem;
+
+                            .activity-title, .devices-title {
+                                font-size: 1.1rem;
+                                font-weight: 600;
+                                color: $dark-text;
+                                margin: 0 0 1.25rem;
+                                padding-bottom: 0.75rem;
+                                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                            }
+
+                            .activity-list {
+                                display: flex;
+                                flex-direction: column;
+                                gap: 1rem;
+
+                                .activity-item {
+                                    display: flex;
+                                    background-color: white;
+                                    border-radius: 8px;
+                                    padding: 1rem;
+                                    box-shadow: $shadow-sm;
+
+                                    .activity-icon-container {
+                                        margin-right: 1rem;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        min-width: 24px;
+                                        min-height: 24px;
+
+                                        .activity-icon {
+                                            font-size: 1rem;
+                                            display: block;
+                                            
+                                            &.login {
+                                                color: $primary-color;
+                                            }
+                                            
+                                            &.password {
+                                                color: $pharmacy-primary;
+                                            }
+                                        }
+                                    }
+
+                                    .activity-details {
+                                        flex: 1;
+
+                                        .activity-header {
+                                            @include flex-between;
+                                            margin-bottom: 0.5rem;
+
+                                            .activity-type {
+                                                font-size: 0.95rem;
+                                                font-weight: 500;
+                                                color: $dark-text;
+                                            }
+
+                                            .activity-date {
+                                                font-size: 0.8rem;
+                                                color: $medium-text;
+                                            }
+                                        }
+
+                                        .activity-info {
+                                            display: flex;
+                                            justify-content: space-between;
+                                            
+                                            .activity-device {
+                                                font-size: 0.85rem;
+                                                color: $medium-text;
+                                            }
+                                            
+                                            .activity-location {
+                                                font-size: 0.85rem;
+                                                color: $medium-text;
+                                                
+                                                .activity-ip {
+                                                    margin-left: 0.5rem;
+                                                    opacity: 0.7;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            .device-item {
+                                display: flex;
+                                background-color: white;
+                                border-radius: 8px;
+                                padding: 1rem;
+                                box-shadow: $shadow-sm;
+
+                                &.current {
+                                    border-left: 3px solid $stable-color;
+                                }
+
+                                .device-icon {
+                                    @include flex-center;
+                                    width: 40px;
+                                    height: 40px;
+                                    background-color: rgba($primary-color, 0.1);
+                                    color: $primary-color;
+                                    border-radius: 8px;
+                                    margin-right: 1rem;
+                                }
+
+                                .device-details {
+                                    flex: 1;
+
+                                    .device-header {
+                                        @include flex-between;
+                                        margin-bottom: 0.5rem;
+
+                                        .device-name {
+                                            font-size: 0.95rem;
+                                            font-weight: 500;
+                                            color: $dark-text;
+                                        }
+
+                                        .device-status {
+                                            font-size: 0.75rem;
+                                            background-color: rgba($stable-color, 0.1);
+                                            color: $stable-color;
+                                            padding: 0.25rem 0.5rem;
+                                            border-radius: 4px;
+                                        }
+                                    }
+
+                                    .device-info {
+                                        font-size: 0.85rem;
+                                        color: $medium-text;
+                                        display: flex;
+                                        justify-content: space-between;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Password Change Modal
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+
+        .password-modal {
+            background-color: white;
+            border-radius: $border-radius;
+            width: 500px;
+            max-width: 90%;
+            box-shadow: $shadow-lg;
+            overflow: hidden;
+
+            .modal-header {
+                @include flex-between;
+                padding: 1.25rem 1.5rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+                h3 {
+                    margin: 0;
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    color: $dark-text;
+                }
+
+                .close-btn {
+                    background: none;
+                    border: none;
+                    color: $medium-text;
+                    font-size: 1.1rem;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        color: $danger-color;
+                    }
+                }
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+
+                .error-message {
+                    display: flex;
+                    align-items: center;
+                    background-color: rgba($danger-color, 0.1);
+                    color: $danger-color;
+                    padding: 0.85rem 1rem;
+                    border-radius: 6px;
+                    margin-bottom: 1.25rem;
+
+                    .error-icon {
+                        margin-right: 0.75rem;
+                    }
+                }
+
+                .form-group {
+                    margin-bottom: 1.25rem;
+
+                    label {
+                        display: block;
+                        font-size: 0.85rem;
+                        color: $medium-text;
+                        margin-bottom: 0.5rem;
+                    }
+
+                    input {
+                        width: 100%;
+                        padding: 0.75rem 1rem;
+                        border: 1px solid rgba(0, 0, 0, 0.1);
+                        border-radius: 6px;
+                        font-size: 0.95rem;
+                        color: $dark-text;
+                        transition: all 0.2s ease;
+
+                        &:focus {
+                            outline: none;
+                            border-color: $pharmacy-primary;
+                            box-shadow: 0 0 0 2px rgba($pharmacy-primary, 0.1);
+                        }
+                    }
+                }
+
+                .password-requirements {
+                    background-color: $light-bg;
+                    padding: 1rem 1.25rem;
+                    border-radius: 6px;
+
+                    h4 {
+                        font-size: 0.95rem;
+                        font-weight: 600;
+                        color: $dark-text;
+                        margin: 0 0 0.5rem;
+                    }
+
+                    ul {
+                        margin: 0;
+                        padding-left: 1.5rem;
+
+                        li {
+                            font-size: 0.85rem;
+                            color: $medium-text;
+                            margin-bottom: 0.25rem;
+                        }
+                    }
+                }
+            }
+
+            .modal-footer {
+                padding: 1.25rem 1.5rem;
+                border-top: 1px solid rgba(0, 0, 0, 0.05);
+                display: flex;
+                justify-content: flex-end;
+                gap: 1rem;
+
+                .cancel-btn {
+                    padding: 0.75rem 1.25rem;
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                    border-radius: 6px;
+                    background-color: white;
+                    color: $medium-text;
+                    font-size: 0.95rem;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        background-color: $light-bg;
+                        color: $dark-text;
+                    }
+                }
+
+                .save-btn {
+                    padding: 0.75rem 1.25rem;
+                    border: none;
+                    border-radius: 6px;
+                    background-color: $pharmacy-primary;
+                    color: white;
+                    font-size: 0.95rem;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        background-color: darken($pharmacy-primary, 5%);
+                    }
+                }
+            }
+        }
+    }
+
+    // Responsive styles
+    @media (max-width: 1024px) {
+        padding: 1.5rem;
+
+        .profile-container {
+            .profile-content {
+                .profile-tabs {
+                    overflow-x: auto;
+
+                    .tab-btn {
+                        white-space: nowrap;
+                    }
+                }
+
+                .tab-content {
+                    .profile-content-section {
+                        .activity-container {
+                            grid-template-columns: 1fr;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        padding: 1rem;
+
+        .profile-container {
+            .page-header {
+                h1 {
+                    font-size: 1.6rem;
+                }
+            }
+
+            .profile-content {
+                .profile-tabs {
+                    .tab-btn {
+                        padding: 0.75rem 0.5rem;
+                        
+                        span {
+                            display: none;
+                        }
+                        
+                        .tab-icon {
+                            margin-right: 0;
+                            font-size: 1.2rem;
+                        }
+                    }
+                }
+                
+                .tab-content {
+                    .profile-content-section {
+                        .section-header {
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 1rem;
+                        }
+
+                        .profile-info-container {
+                            .profile-image-section {
+                                flex-direction: column;
+                                text-align: center;
+                                margin-bottom: 1.5rem;
+
+                                .profile-image {
+                                    margin-right: 0;
+                                    margin-bottom: 1rem;
+                                }
+                            }
+
+                            .profile-details {
+                                .details-grid {
+                                    grid-template-columns: 1fr;
+                                }
+
+                                .edit-form {
+                                    grid-template-columns: 1fr;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
