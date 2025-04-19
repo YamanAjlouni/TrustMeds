@@ -61,7 +61,6 @@ export const PharmacyPage = () => {
                         <Route path="communication" element={<PharmacyCommunication />} />
                         <Route path="billing" element={<PharmacyBilling />} />
                         <Route path="profile" element={<PharmacyProfile />} />
-
                         <Route path="help" element={<PharmacyHelp />} />
                     </Routes>
                 </div>

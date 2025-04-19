@@ -547,6 +547,7 @@ $failed-color: $urgent-color;
                             border-radius: 8px;
                             font-size: 0.95rem;
                             color: $dark-text;
+                            box-sizing: border-box;
                             transition: all 0.2s ease;
 
                             &:focus {
@@ -624,6 +625,7 @@ $failed-color: $urgent-color;
                                         font-size: 0.9rem;
                                         color: $dark-text;
                                         transition: all 0.2s ease;
+                                        box-sizing: border-box;
 
                                         &:focus {
                                             outline: none;

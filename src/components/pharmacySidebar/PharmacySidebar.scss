@@ -29,7 +29,6 @@ $pharmacy-secondary: #1976d2; // Blue for accent
     // Mobile view handling
     @media (max-width: 1119px) {
         transform: translateX(-100%);
-        z-index: 150;
 
         &.open {
             transform: translateX(0);

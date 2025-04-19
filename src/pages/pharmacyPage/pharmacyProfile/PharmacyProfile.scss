@@ -31,7 +31,6 @@ $pharmacy-light: rgba($pharmacy-primary, 0.1);
     padding: 2rem;
     font-family: 'Inter', 'Segoe UI', sans-serif;
     background-color: $light-bg;
-    min-height: 100%;
 
     // Loading state
     .loading-container {
@@ -66,9 +65,6 @@ $pharmacy-light: rgba($pharmacy-primary, 0.1);
     }
 
     .profile-container {
-        max-width: 1200px;
-        margin: 0 auto;
-
         .page-header {
             margin-bottom: 1.5rem;
 
