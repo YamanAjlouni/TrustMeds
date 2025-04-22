@@ -1,0 +1,33 @@
+{
+    "companyDescription": "منصة آمنة لإدارة الوصفات الطبية تربط المرضى والأطباء والصيدليات مع تشفير متقدم وتتبع سلس للأدوية.",
+    "quickLinks": "روابط سريعة",
+    "quickLinksItems": {
+        "home": "الرئيسية",
+        "about": "من نحن",
+        "howItWorks": "كيف يعمل",
+        "featuresAndSecurity": "الميزات والأمان",
+        "testimonials": "الشهادات",
+        "pricing": "الأسعار",
+        "contact": "اتصل بنا"
+    },
+    "resources": "الموارد",
+    "resourcesItems": {
+        "documentation": "التوثيق",
+        "knowledgeBase": "قاعدة المعرفة",
+        "userGuides": "أدلة المستخدم",
+        "blog": "المدونة",
+        "partnerProgram": "برنامج الشركاء",
+        "integrationAPI": "واجهة برمجة التكامل"
+    },
+    "contactUs": "اتصل بنا",
+    "stayUpdated": "ابق على اطلاع",
+    "emailPlaceholder": "بريدك الإلكتروني",
+    "subscribeButton": "اشترك",
+    "copyright": "جميع الحقوق محفوظة.",
+    "legalLinks": {
+        "privacyPolicy": "سياسة الخصوصية",
+        "termsOfService": "شروط الخدمة",
+        "hipaaCompliance": "الامتثال لـ HIPAA",
+        "accessibility": "إمكانية الوصول"
+    }
+}

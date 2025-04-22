@@ -3,8 +3,12 @@ import './About.scss';
 import { Shield, Clock, FileCheck, Users, Award, RefreshCw, ChevronRight } from 'lucide-react';
 import { motion, useInView, useAnimation } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
+import { useLanguage } from '../../../context/LanguageContext';
 
 const About = () => {
+  const { loadSection, direction } = useLanguage();
+  // Load about section translations
+  const aboutText = loadSection('landingPage.about');
 
   const controls = useAnimation();
   const ref = useRef(null);
@@ -36,51 +40,26 @@ const About = () => {
     }
   };
 
-  const benefits = [
-    {
-      icon: <Shield className="benefit-icon" />,
-      title: "Advanced Security",
-      description: "End-to-end encryption and blockchain verification protect sensitive prescription data from unauthorized access."
-    },
-    {
-      icon: <Clock className="benefit-icon" />,
-      title: "Instant Availability",
-      description: "Access your prescriptions immediately after doctor approval, no waiting or physical paperwork required."
-    },
-    {
-      icon: <FileCheck className="benefit-icon" />,
-      title: "Full Compliance",
-      description: "Meets all regulatory requirements for electronic prescriptions including HIPAA and relevant healthcare standards."
-    },
-    {
-      icon: <Users className="benefit-icon" />,
-      title: "Seamless Integration",
-      description: "Connects patients, doctors, and pharmacies in one unified ecosystem for better coordination of care."
-    },
-    {
-      icon: <Award className="benefit-icon" />,
-      title: "Improved Accuracy",
-      description: "Eliminates handwriting errors and ensures precise medication details for safer healthcare delivery."
-    },
-    {
-      icon: <RefreshCw className="benefit-icon" />,
-      title: "Easy Refills",
-      description: "Request prescription renewals with a single click and receive notifications when it's time to refill."
-    }
+  // Define benefit icons
+  const benefitIcons = [
+    <Shield className="benefit-icon" />,
+    <Clock className="benefit-icon" />,
+    <FileCheck className="benefit-icon" />,
+    <Users className="benefit-icon" />,
+    <Award className="benefit-icon" />,
+    <RefreshCw className="benefit-icon" />
   ];
 
   return (
-    <section className="about-section" id="about" ref={ref}>
-
-
+    <section className="about-section" id="about" ref={ref} dir={direction}>
       <div className="container">
         {/* 1. Section Header */}
         <div className='section-header'>
           <h2 className="section-title">
-            About <span className="highlight">TrustMeds</span>
+            {aboutText.title} <span className="highlight">{aboutText.titleHighlight}</span>
           </h2>
           <p className="section-subtitle">
-            Revolutionizing the prescription experience with advanced technology and patient-centered design
+            {aboutText.subtitle}
           </p>
         </div>
 
@@ -92,13 +71,11 @@ const About = () => {
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
         >
           <p className="about-description">
-            TrustMeds is a cutting-edge digital prescription platform designed to bridge the gap between healthcare providers,
-            pharmacies, and patients. Our system leverages blockchain technology to ensure tamper-proof prescriptions while
-            providing a seamless user experience for all stakeholders in the healthcare ecosystem.
+            {aboutText.description}
           </p>
           <div className="description-actions">
             <button className="learn-more-btn">
-              Learn more <ChevronRight size={16} />
+              {aboutText.learnMore} <ChevronRight size={16} />
             </button>
             <div className="trust-indicator">
               <div className="trust-dots">
@@ -107,7 +84,7 @@ const About = () => {
                 <span className="dot"></span>
                 <span className="dot"></span>
               </div>
-              <span>Trusted by 2000+ healthcare professionals</span>
+              <span>{aboutText.trustedBy}</span>
             </div>
           </div>
         </motion.div>
@@ -286,7 +263,7 @@ const About = () => {
                 <div className="badge-icon">
                   <Shield size={14} />
                 </div>
-                <span>Blockchain Secured</span>
+                <span>{aboutText.blockchainSecured}</span>
               </div>
             </div>
           </motion.div>
@@ -298,14 +275,14 @@ const About = () => {
             initial="hidden"
             animate={controls}
           >
-            <h3 className="benefits-title">Key Benefits</h3>
+            <h3 className="benefits-title">{aboutText.benefitsTitle}</h3>
 
             <div className="benefits-grid">
-              {benefits.map((benefit, index) => (
+              {aboutText.benefits.map((benefit, index) => (
                 <div key={index} className='benefit-item'>
                   <div className="benefit-card">
                     <div className="icon-wrapper">
-                      {benefit.icon}
+                      {benefitIcons[index]}
                     </div>
                     <div className="benefit-content">
                       <h3 className="benefit-title">{benefit.title}</h3>
@@ -329,20 +306,18 @@ const About = () => {
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
         >
           <div className="cta-content">
-            <h3>Ready to transform your prescription experience?</h3>
-            <p>Join thousands of healthcare professionals already using TrustMeds</p>
+            <h3>{aboutText.ctaTitle}</h3>
+            <p>{aboutText.ctaSubtitle}</p>
           </div>
           <div className="cta-actions">
-            <NavLink to='/patient/overview' className="cta-button primary">Get Started</NavLink>
-            <button className="cta-button secondary">Schedule Demo</button>
+            <NavLink to='/patient/overview' className="cta-button primary">{aboutText.getStarted}</NavLink>
+            <button className="cta-button secondary">{aboutText.scheduleDemo}</button>
           </div>
         </motion.div>
       </div>
 
       <div className="decorative-shape shape-1"></div>
       <div className="decorative-shape shape-2"></div>
-
-
     </section>
   );
 };

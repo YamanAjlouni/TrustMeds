@@ -1,0 +1,73 @@
+{
+    "title": "Features & Security",
+    "subtitle": "Powerful features combined with industry-leading security to revolutionize prescription management",
+    "tabs": {
+        "features": "Key Features",
+        "security": "Security Measures"
+    },
+    "features": [
+        {
+            "icon": "mobile",
+            "title": "Mobile Access",
+            "description": "Access your prescriptions anytime, anywhere through our secure website application."
+        },
+        {
+            "icon": "realtime",
+            "title": "Real-time Updates",
+            "description": "Receive instant notifications on prescription status changes and medication reminders."
+        },
+        {
+            "icon": "family",
+            "title": "Family Management",
+            "description": "Manage prescriptions for family members with designated access controls."
+        },
+        {
+            "icon": "instant",
+            "title": "Instant Transfers",
+            "description": "Send prescriptions to any pharmacy in our network with just one click."
+        },
+        {
+            "icon": "tracking",
+            "title": "Medication Tracking",
+            "description": "Monitor your medication history and adherence with detailed analytics."
+        },
+        {
+            "icon": "integration",
+            "title": "Provider Integration",
+            "description": "Seamlessly connect with healthcare providers and pharmacies in our secure network."
+        }
+    ],
+    "securityOverview": "TrustMeds employs industry-leading security protocols to protect your sensitive medical information. Our multi-layered approach ensures that your prescription data remains private and secure.",
+    "security": [
+        {
+            "icon": "encryption",
+            "title": "End-to-End Encryption",
+            "description": "All prescription data is encrypted using military-grade encryption protocols, ensuring your information is protected from end to end."
+        },
+        {
+            "icon": "authentication",
+            "title": "Multi-Factor Authentication",
+            "description": "Access to your account is secured through multiple verification steps, preventing unauthorized access even if credentials are compromised."
+        },
+        {
+            "icon": "compliance",
+            "title": "HIPAA Compliance",
+            "description": "Our platform is fully compliant with healthcare privacy regulations, ensuring your medical information is handled according to strict legal standards."
+        },
+        {
+            "icon": "blockchain",
+            "title": "Blockchain Verification",
+            "description": "Prescriptions are verified using blockchain technology, creating an immutable record that prevents unauthorized alterations."
+        },
+        {
+            "icon": "storage",
+            "title": "Secure Data Storage",
+            "description": "Your data is stored in redundant, encrypted databases with continuous monitoring to detect and prevent potential security threats."
+        },
+        {
+            "icon": "audits",
+            "title": "Regular Security Audits",
+            "description": "Our systems undergo rigorous third-party security assessments to identify and address potential vulnerabilities."
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "companyDescription": "Secure prescription management platform connecting patients, doctors, and pharmacies with advanced encryption and seamless medication tracking.",
+    "quickLinks": "Quick Links",
+    "quickLinksItems": {
+        "home": "Home",
+        "about": "About Us",
+        "howItWorks": "How It Works",
+        "featuresAndSecurity": "Features & Security",
+        "testimonials": "Testimonials",
+        "pricing": "Pricing",
+        "contact": "Contact"
+    },
+    "resources": "Resources",
+    "resourcesItems": {
+        "documentation": "Documentation",
+        "knowledgeBase": "Knowledge Base",
+        "userGuides": "User Guides",
+        "blog": "Blog",
+        "partnerProgram": "Partner Program",
+        "integrationAPI": "Integration API"
+    },
+    "contactUs": "Contact Us",
+    "stayUpdated": "Stay Updated",
+    "emailPlaceholder": "Your email",
+    "subscribeButton": "Subscribe",
+    "copyright": "All rights reserved.",
+    "legalLinks": {
+        "privacyPolicy": "Privacy Policy",
+        "termsOfService": "Terms of Service",
+        "hipaaCompliance": "HIPAA Compliance",
+        "accessibility": "Accessibility"
+    }
+}

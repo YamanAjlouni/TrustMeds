@@ -1,0 +1,52 @@
+/* Arabic Font Imports */
+
+/* Tajawal is a modern, versatile Arabic font family with multiple weights */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap');
+
+/* Noto Sans Arabic is part of Google's effort to support all languages */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* Additional fonts that work well with Arabic */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap');
+
+/* Variables for the Arabic font stacks */
+:root {
+  --font-arabic-primary: 'Tajawal', 'Noto Sans Arabic', sans-serif;
+  --font-arabic-secondary: 'Cairo', sans-serif;
+}
+
+/* Apply Arabic fonts to RTL content */
+[dir="rtl"] {
+  font-family: var(--font-arabic-primary);
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-arabic-primary);
+    letter-spacing: 0;
+  }
+  
+  button, input, select, textarea {
+    font-family: var(--font-arabic-primary);
+  }
+}
+
+/* Specific adjustments for Arabic typography */
+[dir="rtl"] {
+  /* Increase line height for better readability in Arabic */
+  line-height: 1.6;
+  
+  /* Font size adjustments - Arabic typically needs to be slightly larger */
+  p, li, input, button {
+    font-size: 1.05em;
+  }
+  
+  /* Heading size adjustments */
+  h1 { font-size: 2.2em; }
+  h2 { font-size: 1.8em; }
+  h3 { font-size: 1.4em; }
+  h4 { font-size: 1.2em; }
+  
+  /* Remove letter-spacing which can break Arabic letter connections */
+  * {
+    letter-spacing: 0 !important;
+  }
+}

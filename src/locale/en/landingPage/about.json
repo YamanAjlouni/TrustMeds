@@ -1,0 +1,40 @@
+{
+    "title": "About",
+    "titleHighlight": "TrustMeds",
+    "subtitle": "Revolutionizing the prescription experience with advanced technology and patient-centered design",
+    "description": "TrustMeds is a cutting-edge digital prescription platform designed to bridge the gap between healthcare providers, pharmacies, and patients. Our system leverages blockchain technology to ensure tamper-proof prescriptions while providing a seamless user experience for all stakeholders in the healthcare ecosystem.",
+    "learnMore": "Learn more",
+    "trustedBy": "Trusted by 2000+ healthcare professionals",
+    "benefitsTitle": "Key Benefits",
+    "benefits": [
+        {
+            "title": "Advanced Security",
+            "description": "End-to-end encryption and blockchain verification protect sensitive prescription data from unauthorized access."
+        },
+        {
+            "title": "Instant Availability",
+            "description": "Access your prescriptions immediately after doctor approval, no waiting or physical paperwork required."
+        },
+        {
+            "title": "Full Compliance",
+            "description": "Meets all regulatory requirements for electronic prescriptions including HIPAA and relevant healthcare standards."
+        },
+        {
+            "title": "Seamless Integration",
+            "description": "Connects patients, doctors, and pharmacies in one unified ecosystem for better coordination of care."
+        },
+        {
+            "title": "Improved Accuracy",
+            "description": "Eliminates handwriting errors and ensures precise medication details for safer healthcare delivery."
+        },
+        {
+            "title": "Easy Refills",
+            "description": "Request prescription renewals with a single click and receive notifications when it's time to refill."
+        }
+    ],
+    "blockchainSecured": "Blockchain Secured",
+    "ctaTitle": "Ready to transform your prescription experience?",
+    "ctaSubtitle": "Join thousands of healthcare professionals already using TrustMeds",
+    "getStarted": "Get Started",
+    "scheduleDemo": "Schedule Demo"
+}

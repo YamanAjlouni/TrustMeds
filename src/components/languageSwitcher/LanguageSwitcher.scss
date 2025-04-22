@@ -1,0 +1,35 @@
+@use '../../assets/styles/vars.scss' as *;
+
+.language-switcher {
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 1.5px solid $primary-color;
+    color: $primary-color;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:hover {
+        background-color: rgba($primary-color, 0.1);
+    }
+
+    // Styling for scrolled navbar
+    .scrolled & {
+        color: $primary-color;
+
+        &:hover {
+            background-color: rgba($primary-color, 0.1);
+        }
+    }
+
+    // Mobile styling
+    @media (max-width: 1150px) {
+        margin: 5px 0;
+        width: 70%;
+        text-align: center;
+        border-radius: 8px;
+        padding: 10px 0;
+    }
+}

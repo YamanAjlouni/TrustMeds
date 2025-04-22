@@ -1,0 +1,182 @@
+/* RTL Support Styles */
+
+// RTL Helper Mixins
+@mixin rtl-property($property, $ltr-value, $rtl-value) {
+    #{$property}: $ltr-value;
+    
+    [dir="rtl"] & {
+      #{$property}: $rtl-value;
+    }
+  }
+  
+  @mixin rtl-margin($top, $right, $bottom, $left) {
+    margin: $top $right $bottom $left;
+    
+    [dir="rtl"] & {
+      margin: $top $left $bottom $right;
+    }
+  }
+  
+  @mixin rtl-padding($top, $right, $bottom, $left) {
+    padding: $top $right $bottom $left;
+    
+    [dir="rtl"] & {
+      padding: $top $left $bottom $right;
+    }
+  }
+  
+  @mixin rtl-position($top, $right, $bottom, $left) {
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+    
+    [dir="rtl"] & {
+      top: $top;
+      right: $left;
+      bottom: $bottom;
+      left: $right;
+    }
+  }
+  
+  @mixin rtl-transform($ltr-transform, $rtl-transform) {
+    transform: $ltr-transform;
+    
+    [dir="rtl"] & {
+      transform: $rtl-transform;
+    }
+  }
+  
+  // Common RTL Adjustments
+  [dir="rtl"] {
+    // Text alignment
+    .text-left {
+      text-align: right;
+    }
+    
+    .text-right {
+      text-align: left;
+    }
+    
+    // Flexbox
+    .flex-row {
+      flex-direction: row-reverse;
+    }
+    
+    // Icon flipping for directional icons
+    .icon-arrow-right,
+    .icon-chevron-right,
+    .fa-arrow-right,
+    .fa-chevron-right {
+      transform: scaleX(-1);
+    }
+    
+    .icon-arrow-left,
+    .icon-chevron-left,
+    .fa-arrow-left,
+    .fa-chevron-left {
+      transform: scaleX(-1);
+    }
+    
+    // Border adjustments
+    .border-left {
+      border-left: 0;
+      border-right-width: 1px;
+      border-right-style: solid;
+    }
+    
+    .border-right {
+      border-right: 0;
+      border-left-width: 1px;
+      border-left-style: solid;
+    }
+    
+    // Adjust shadows
+    .shadow-left {
+      box-shadow: 5px 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .shadow-right {
+      box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  // Specific component overrides for RTL
+  [dir="rtl"] {
+    // Landing page specific adjustments
+    .hero-section {
+      .hero-image {
+        transform: scaleX(-1); // Flip hero images if they have directional content
+      }
+      
+      .hero-content {
+        text-align: right;
+      }
+    }
+    
+    // About section adjustments
+    .about-section {
+      .feature-item {
+        .feature-icon {
+          margin-right: 0;
+          margin-left: 15px;
+        }
+      }
+    }
+    
+    // How it works section
+    .how-it-works {
+      .step-container {
+        &::before {
+          left: auto;
+          right: 20px;
+        }
+        
+        .step-number {
+          left: auto;
+          right: 0;
+        }
+        
+        .step-content {
+          padding-left: 0;
+          padding-right: 60px;
+        }
+      }
+    }
+    
+    // Forms and inputs
+    form {
+      label {
+        text-align: right;
+      }
+      
+      .input-icon {
+        left: auto;
+        right: 15px;
+      }
+      
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      textarea {
+        padding-left: 15px;
+        padding-right: 40px; // For inputs with icons
+      }
+    }
+  }
+  
+  // Responsive overrides for RTL
+  @media (max-width: 768px) {
+    [dir="rtl"] {
+      // Mobile menu adjustments
+      .mobile-menu {
+        left: auto;
+        right: 0;
+        transform: translateX(100%);
+        
+        &.active {
+          transform: translateX(0);
+        }
+      }
+    }
+  }

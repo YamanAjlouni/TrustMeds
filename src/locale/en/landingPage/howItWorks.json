@@ -1,0 +1,89 @@
+{
+    "title": "How It Works",
+    "subtitle": "Our seamless process ensures secure, efficient prescription management for everyone involved",
+    "tabs": {
+      "patients": "For Patients",
+      "doctors": "For Doctors",
+      "pharmacists": "For Pharmacists"
+    },
+    "steps": {
+      "patients": [
+        {
+          "title": "Create Account",
+          "description": "Sign up with your personal information and connect with your healthcare providers."
+        },
+        {
+          "title": "Receive Notifications",
+          "description": "Get instant alerts when your doctor issues a new prescription."
+        },
+        {
+          "title": "Access Prescriptions",
+          "description": "View all your prescriptions securely through the TrustMeds mobile app or web portal."
+        },
+        {
+          "title": "Send to Pharmacy",
+          "description": "Choose your preferred pharmacy and send your prescription with one click."
+        },
+        {
+          "title": "Stay Updated",
+          "description": "Receive status updates and communicate with your pharmacy about your medication."
+        },
+        {
+          "title": "Manage Refills",
+          "description": "Request prescription renewals and set up reminders for medication refills."
+        }
+      ],
+      "doctors": [
+        {
+          "title": "Secure Login",
+          "description": "Access the TrustMeds platform using multi-factor authentication."
+        },
+        {
+          "title": "Create Prescription",
+          "description": "Generate digital prescriptions with comprehensive medication details."
+        },
+        {
+          "title": "Digital Signature",
+          "description": "Authenticate prescriptions with your secure digital signature and encryption."
+        },
+        {
+          "title": "Transmit Securely",
+          "description": "Send the prescription directly to the patient's TrustMeds account."
+        },
+        {
+          "title": "Manage Records",
+          "description": "Track prescription history and monitor patient medication compliance."
+        },
+        {
+          "title": "Patient Communication",
+          "description": "Securely message patients about their prescriptions and answer questions."
+        }
+      ],
+      "pharmacists": [
+        {
+          "title": "Receive Orders",
+          "description": "Get immediate notifications when new prescriptions are sent to your pharmacy."
+        },
+        {
+          "title": "Verify Authenticity",
+          "description": "Confirm prescription validity through blockchain verification and doctor credentials."
+        },
+        {
+          "title": "Process Prescription",
+          "description": "Review medication details and check for potential drug interactions."
+        },
+        {
+          "title": "Prepare Medication",
+          "description": "Fill the prescription and prepare it for pickup or delivery."
+        },
+        {
+          "title": "Patient Communication",
+          "description": "Send notifications about prescription status and answer medication questions."
+        },
+        {
+          "title": "Update Records",
+          "description": "Maintain complete digital records of all dispensed medications."
+        }
+      ]
+    }
+  }

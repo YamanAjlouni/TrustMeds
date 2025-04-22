@@ -1,10 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Navbar.scss';
 import logo from '../../assets/images/trustMeds-logo-blue-nobg-HD.png';
+import { useLanguage } from '../../context/LanguageContext';
+import LanguageSwitcher from '../languageSwitcher/LanguageSwitcher';
 
 export const Navbar = () => {
+  const { loadSection, direction } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Load navbar translations
+  const navbarText = loadSection('landingPage.navbar');
 
   // Creating refs for each section
   const homeRef = useRef(null);
@@ -49,7 +55,7 @@ export const Navbar = () => {
   }, [mobileMenuOpen]);
 
   return (
-    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
+    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`} dir={direction}>
       <div className="navbar-container">
         <div className="navbar-logo">
           <img src={logo} alt="TrustMeds Logo" />
@@ -57,15 +63,15 @@ export const Navbar = () => {
 
         <div className={`navbar-links ${mobileMenuOpen ? 'active' : ''}`}>
           <img src={logo} alt="TrustMeds Logo" className="mobile-logo" />
-          <button onClick={() => scrollToSection(homeRef)}>Home</button>
-          <button onClick={() => scrollToSection(aboutRef)}>About Us</button>
-          <button onClick={() => scrollToSection(aboutRef)}>How It Works</button>
-          <button onClick={() => scrollToSection(servicesRef)}>Features & Security</button>
-          <button onClick={() => scrollToSection(contactRef)}>Contact Us</button>
-          <button className="btn-login">Login</button>
-          <button className="btn-signup">Sign Up</button>
+          <button onClick={() => scrollToSection(homeRef)}>{navbarText.home}</button>
+          <button onClick={() => scrollToSection(aboutRef)}>{navbarText.aboutUs}</button>
+          <button onClick={() => scrollToSection(aboutRef)}>{navbarText.howItWorks}</button>
+          <button onClick={() => scrollToSection(servicesRef)}>{navbarText.featuresAndSecurity}</button>
+          <button onClick={() => scrollToSection(contactRef)}>{navbarText.contactUs}</button>
+          <button className="btn-login">{navbarText.login}</button>
+          <button className="btn-signup">{navbarText.signUp}</button>
+          <LanguageSwitcher />
         </div>
-
 
         <div
           className={`hamburger ${mobileMenuOpen ? 'active' : ''}`}

@@ -21,7 +21,7 @@
                 color: darken($primary-color, 15%);
             }
         }
-        
+
         .btn-signup {
             color: white !important;
         }
@@ -57,7 +57,7 @@
         align-items: center;
         gap: 30px;
 
-        .mobile-logo{
+        .mobile-logo {
             display: none;
         }
 
@@ -81,6 +81,11 @@
                 left: 0;
                 background-color: $primary-color;
                 transition: width 0.3s ease;
+
+                [dir="rtl"] & {
+                    left: auto;
+                    right: 0;
+                }
             }
 
             &:hover {
@@ -112,6 +117,11 @@
             border: 1.5px solid $primary-color;
             color: $primary-color;
             margin-left: 15px;
+
+            [dir="rtl"] & {
+                margin-left: 0;
+                margin-right: 15px;
+            }
 
             &:hover {
                 background-color: rgba($primary-color, 0.1);
@@ -204,6 +214,13 @@
             gap: 25px;
             z-index: 1000;
 
+            [dir="rtl"] & {
+                right: auto;
+                left: -100%;
+                box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+                transition: left 0.3s ease;
+            }
+
             &::before {
                 content: '';
                 position: absolute;
@@ -212,10 +229,20 @@
                 width: 5px;
                 height: 100%;
                 background: linear-gradient(to bottom, $primary-color, lighten($primary-color, 20%));
+
+                [dir="rtl"] & {
+                    left: auto;
+                    right: 0;
+                }
             }
 
             &.active {
                 right: 0;
+
+                [dir="rtl"] & {
+                    right: auto;
+                    left: 0;
+                }
             }
 
             button {
@@ -288,8 +315,20 @@
             gap: 25px;
             z-index: 1000;
 
+            [dir="rtl"] & {
+                right: auto;
+                left: -100%;
+                box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+                transition: left 0.3s ease;
+            }
+
             &.active {
                 right: 0;
+
+                [dir="rtl"] & {
+                    right: auto;
+                    left: 0;
+                }
             }
 
             .mobile-logo {
@@ -297,6 +336,17 @@
                 width: 200px; // Adjust size
                 height: auto;
                 margin-bottom: 20px;
+            }
+        }
+    }
+}
+
+// Add styles for RTL specific adjustments
+[dir="rtl"] {
+    .navbar {
+        .navbar-links {
+            button {
+                font-family: 'Tajawal', 'Noto Sans Arabic', sans-serif;
             }
         }
     }

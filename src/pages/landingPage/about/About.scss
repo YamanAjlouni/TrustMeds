@@ -6,7 +6,6 @@
     position: relative;
     overflow: hidden;
 
-
     .decorative-shape {
         position: absolute;
         z-index: 0;
@@ -19,6 +18,11 @@
             background-color: rgba($primary-color, 0.05);
             border-radius: 20px;
             transform: rotate(25deg);
+            
+            [dir="rtl"] & {
+                right: auto;
+                left: 5%;
+            }
         }
 
         &.shape-2 {
@@ -29,9 +33,13 @@
             background-color: rgba($primary-color, 0.08);
             border-radius: 30px;
             transform: rotate(-15deg);
+            
+            [dir="rtl"] & {
+                left: auto;
+                right: 8%;
+            }
         }
     }
-
 
     .container {
         margin: 0 auto;
@@ -95,6 +103,10 @@
             margin-bottom: 25px;
             font-weight: 800;
             letter-spacing: -0.02em;
+            
+            [dir="rtl"] & {
+                letter-spacing: 0;
+            }
 
             .highlight {
                 color: $primary-color;
@@ -109,6 +121,10 @@
             margin: 20px auto 0;
             line-height: 1.5;
             font-weight: 400;
+            
+            [dir="rtl"] & {
+                line-height: 1.7;
+            }
         }
     }
 
@@ -130,6 +146,13 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             margin-bottom: 30px;
+            
+            [dir="rtl"] & {
+                border-left: none;
+                border-right: 4px solid $primary-color;
+                border-radius: 20px 0 0 20px;
+                line-height: 2.1;
+            }
         }
 
         .description-actions {
@@ -151,6 +174,14 @@
                 cursor: pointer;
                 box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
                 transition: all 0.3s ease;
+                
+                [dir="rtl"] & {
+                    flex-direction: row-reverse;
+                    
+                    svg {
+                        transform: scaleX(-1);
+                    }
+                }
 
                 &:hover {
                     transform: translateY(-3px);
@@ -165,6 +196,10 @@
                 gap: 10px;
                 font-size: 0.85rem;
                 color: #6b7280;
+                
+                [dir="rtl"] & {
+                    flex-direction: row-reverse;
+                }
 
                 .trust-dots {
                     display: flex;
@@ -280,6 +315,11 @@
                     font-size: 0.9rem;
                     color: $primary-color;
                     z-index: 10;
+                    
+                    [dir="rtl"] & {
+                        right: auto;
+                        left: 20px;
+                    }
 
                     .badge-icon {
                         display: flex;
@@ -293,8 +333,6 @@
                     }
                 }
             }
-
-
         }
 
         .benefits-section {
@@ -303,7 +341,6 @@
             z-index: 10;
             opacity: 1 !important;
             box-sizing: border-box;
-
 
             .benefits-title {
                 font-size: 1.8rem;
@@ -322,6 +359,11 @@
                     height: 4px;
                     background: linear-gradient(to right, $primary-color, lighten($primary-color, 15%));
                     border-radius: 10px;
+                    
+                    [dir="rtl"] & {
+                        left: auto;
+                        right: 0;
+                    }
                 }
             }
 
@@ -331,7 +373,6 @@
                 gap: 25px;
                 box-sizing: border-box;
                 position: relative;
-
 
                 .benefit-item {
                     position: relative;
@@ -360,6 +401,10 @@
                             background: linear-gradient(to right, $primary-color, transparent);
                             opacity: 0;
                             transition: all 0.3s ease;
+                            
+                            [dir="rtl"] & {
+                                background: linear-gradient(to left, $primary-color, transparent);
+                            }
                         }
 
                         &:hover {
@@ -413,6 +458,10 @@
                                 font-size: 1rem;
                                 line-height: 1.7;
                                 color: #4b5563;
+                                
+                                [dir="rtl"] & {
+                                    line-height: 1.9;
+                                }
                             }
                         }
                     }
@@ -448,6 +497,10 @@
 
         .cta-content {
             z-index: 1;
+            
+            [dir="rtl"] & {
+                text-align: right;
+            }
 
             h3 {
                 font-size: 1.8rem;
@@ -512,8 +565,6 @@
         }
     }
 
-
-
     @media (max-width: 1100px) {
         padding: 100px 0;
 
@@ -537,6 +588,10 @@
             flex-direction: column;
             text-align: center;
             padding: 50px 40px;
+            
+            [dir="rtl"] & {
+                text-align: center; // Keep centered for both RTL and LTR in mobile
+            }
 
             .cta-actions {
                 margin-top: 30px;
@@ -592,6 +647,10 @@
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 20px;
+                
+                [dir="rtl"] & {
+                    align-items: flex-end;
+                }
             }
         }
 
@@ -650,7 +709,6 @@
                 }
             }
         }
-
 
         .cta-container {
             padding: 30px 20px;

@@ -1,0 +1,46 @@
+{
+    "title": "Testimonials & Success Stories",
+    "subtitle": "See how TrustMeds is transforming prescription management for healthcare providers and patients alike",
+    "readFullStory": "Read Full Story",
+    "successStoriesTitle": "Success Stories",
+    "testimonials": [
+        {
+            "id": 1,
+            "quote": "TrustMeds has completely transformed how I manage prescriptions for my patients. The security features give me confidence that sensitive information is protected, and the instant transfer functionality saves valuable time.",
+            "author": "Dr. Sarah Johnson",
+            "role": "Family Physician",
+            "stars": 5
+        },
+        {
+            "id": 2,
+            "quote": "As someone who manages multiple medications for chronic conditions, this platform has been life-changing. I can track everything in one place and never miss a refill. The medication tracking analytics have helped me better understand my treatment.",
+            "author": "Michael Rodriguez",
+            "role": "Patient",
+            "stars": 5
+        },
+        {
+            "id": 3,
+            "quote": "The integration with our pharmacy systems is seamless. We've reduced prescription processing errors by 68% since implementing TrustMeds, and our customers appreciate the convenience of instant transfers and real-time updates.",
+            "author": "Emily Chen",
+            "role": "Lead Pharmacist, MedCare Pharmacy",
+            "stars": 5
+        }
+    ],
+    "caseStudies": [
+        {
+            "id": 1,
+            "title": "Regional Hospital Network Implementation",
+            "description": "How Northwest Medical reduced prescription errors by 72% and improved patient satisfaction scores by implementing TrustMeds across their 12-hospital network."
+        },
+        {
+            "id": 2,
+            "title": "Multi-Generation Family Management",
+            "description": "The Patel family's story of coordinating care for three generations using TrustMeds' family management features."
+        },
+        {
+            "id": 3,
+            "title": "Rural Pharmacy Access Improvement",
+            "description": "How TrustMeds helped connect patients in remote areas with pharmacy services, reducing medication gaps by 84%."
+        }
+    ]
+}
