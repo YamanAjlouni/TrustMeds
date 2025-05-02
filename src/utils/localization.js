@@ -11,6 +11,20 @@ import enTestimonials from '../locale/en/landingPage/testimonials.json';
 import arTestimonials from '../locale/ar/landingPage/testimonials.json';
 import enFooter from '../locale/en/landingPage/footer.json';
 import arFooter from '../locale/ar/landingPage/footer.json';
+import enPatientNavbar from '../locale/en/patientPage/navbar.json';
+import arPatientNavbar from '../locale/ar/patientPage/navbar.json';
+import enPatientSidebar from '../locale/en/patientPage/sidebar.json';
+import arPatientSidebar from '../locale/ar/patientPage/sidebar.json';
+import enPatientDashboard from '../locale/en/patientPage/dashboard.json';
+import arPatientDashboard from '../locale/ar/patientPage/dashboard.json';
+import enPatientPrescriptions from '../locale/en/patientPage/prescriptions.json';
+import arPatientPrescriptions from '../locale/ar/patientPage/prescriptions.json';
+import enPatientDoctors from '../locale/en/patientPage/doctors.json';
+import arPatientDoctors from '../locale/ar/patientPage/doctors.json';
+import enPatientPharmacyConnection from '../locale/en/patientPage/pharmacyConnection.json';
+import arPatientPharmacyConnection from '../locale/ar/patientPage/pharmacyConnection.json';
+
+
 
 // Import other localization files as needed
 
@@ -27,6 +41,12 @@ const translations = {
             // Add other sections as needed
         },
         patientPage: {
+            navbar: enPatientNavbar,
+            sidebar: enPatientSidebar,
+            dashboard: enPatientDashboard,
+            prescriptions: enPatientPrescriptions,
+            doctors: enPatientDoctors,
+            pharmacyConnection: enPatientPharmacyConnection, // English
             // Add patient page translations
         },
         doctorPage: {
@@ -47,6 +67,12 @@ const translations = {
             // Add other sections as needed
         },
         patientPage: {
+            navbar: arPatientNavbar,
+            sidebar: arPatientSidebar,
+            dashboard: arPatientDashboard,
+            prescriptions: arPatientPrescriptions,
+            doctors: arPatientDoctors,
+            pharmacyConnection: arPatientPharmacyConnection, // Arabic
             // Add patient page translations
         },
         doctorPage: {

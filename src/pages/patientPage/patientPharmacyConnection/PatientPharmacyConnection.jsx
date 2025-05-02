@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import './PatientPharmacyConnection.scss';
-import { 
-    FaClinicMedical, FaMapMarkerAlt, FaPhoneAlt, FaClock, FaSearch, 
-    FaStar, FaTruck, FaWalking, FaPills, FaPlus, FaHome, FaHistory, 
+import {
+    FaClinicMedical, FaMapMarkerAlt, FaPhoneAlt, FaClock, FaSearch,
+    FaStar, FaTruck, FaWalking, FaPills, FaPlus, FaHome, FaHistory,
     FaExclamationTriangle, FaTimes, FaChevronLeft
 } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../../../context/LanguageContext';
+import { formatDate } from '../../../utils/dateFormatter';
 
 export const PatientPharmacyConnection = () => {
+    // Use language context for localization
+
+    const { t, language, isRTL } = useLanguage();
+
     // State for preferred pharmacies
     const [preferredPharmacies, setPreferredPharmacies] = useState([
         {
@@ -120,10 +126,10 @@ export const PatientPharmacyConnection = () => {
 
     // State for delivery setup modal
     const [showDeliverySetup, setShowDeliverySetup] = useState(false);
-    
+
     // State for mobile screen detection
     const [isMobile, setIsMobile] = useState(false);
-    
+
     // State for active filter
     const [activeFilter, setActiveFilter] = useState('all');
 
@@ -132,13 +138,13 @@ export const PatientPharmacyConnection = () => {
         const checkMobile = () => {
             setIsMobile(window.innerWidth < 768);
         };
-        
+
         // Initial check
         checkMobile();
-        
+
         // Add event listener for window resize
         window.addEventListener('resize', checkMobile);
-        
+
         // Cleanup
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
@@ -177,7 +183,7 @@ export const PatientPharmacyConnection = () => {
             isPrimary: pharmacy.id === id
         }));
         setPreferredPharmacies(updatedPharmacies);
-        
+
         // Close modal if open
         if (selectedPharmacy && selectedPharmacy.id === id) {
             setSelectedPharmacy(null);
@@ -221,7 +227,7 @@ export const PatientPharmacyConnection = () => {
     const closePharmacyDetails = () => {
         setSelectedPharmacy(null);
     };
-    
+
     // Handle filter click
     const handleFilterClick = (filter) => {
         setActiveFilter(filter);
@@ -232,17 +238,17 @@ export const PatientPharmacyConnection = () => {
         <div className="pharmacy-connection-container">
             <div className="page-header">
                 <div className="header-content">
-                    <h1><FaClinicMedical className="header-icon" /> Pharmacy Connection</h1>
-                    <p>Manage your pharmacy preferences and medication delivery options</p>
+                    <h1><FaClinicMedical className="header-icon" /> {t('patientPage.pharmacyConnection.pageHeader.title')}</h1>
+                    <p>{t('patientPage.pharmacyConnection.pageHeader.subtitle')}</p>
                 </div>
                 <div className="pharmacy-stats">
                     <div className="stat-item">
                         <span className="stat-value">{preferredPharmacies.length}</span>
-                        <span className="stat-label">Saved</span>
+                        <span className="stat-label">{t('patientPage.pharmacyConnection.pageHeader.stats.saved')}</span>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-value">{deliveryOptions.enabled ? "On" : "Off"}</span>
-                        <span className="stat-label">Delivery</span>
+                        <span className="stat-value">{deliveryOptions.enabled ? t('patientPage.pharmacyConnection.delivery.status.enabled') : t('patientPage.pharmacyConnection.delivery.status.disabled')}</span>
+                        <span className="stat-label">{t('patientPage.pharmacyConnection.pageHeader.stats.delivery')}</span>
                     </div>
                 </div>
             </div>
@@ -253,21 +259,21 @@ export const PatientPharmacyConnection = () => {
                     onClick={() => setActiveTab('preferred')}
                 >
                     <FaStar className="tab-icon" />
-                    <span>{isMobile ? "My" : "My Pharmacies"}</span>
+                    <span>{isMobile ? t('patientPage.pharmacyConnection.tabs.myPharmaciesMobile') : t('patientPage.pharmacyConnection.tabs.myPharmacies')}</span>
                 </button>
                 <button
                     className={`tab-btn ${activeTab === 'nearby' ? 'active' : ''}`}
                     onClick={() => setActiveTab('nearby')}
                 >
                     <FaMapMarkerAlt className="tab-icon" />
-                    <span>{isMobile ? "Find" : "Find Pharmacies"}</span>
+                    <span>{isMobile ? t('patientPage.pharmacyConnection.tabs.findPharmaciesMobile') : t('patientPage.pharmacyConnection.tabs.findPharmacies')}</span>
                 </button>
                 <button
                     className={`tab-btn ${activeTab === 'delivery' ? 'active' : ''}`}
                     onClick={() => setActiveTab('delivery')}
                 >
                     <FaTruck className="tab-icon" />
-                    <span>{isMobile ? "Delivery" : "Prescription Delivery"}</span>
+                    <span>{isMobile ? t('patientPage.pharmacyConnection.tabs.prescriptionDeliveryMobile') : t('patientPage.pharmacyConnection.tabs.prescriptionDelivery')}</span>
                 </button>
             </div>
 
@@ -281,8 +287,8 @@ export const PatientPharmacyConnection = () => {
                     {preferredPharmacies.length > 0 ? (
                         <>
                             <div className="section-intro">
-                                <h2>My Preferred Pharmacies</h2>
-                                <p>These are the pharmacies where your prescriptions can be sent</p>
+                                <h2>{t('patientPage.pharmacyConnection.preferred.title')}</h2>
+                                <p>{t('patientPage.pharmacyConnection.preferred.subtitle')}</p>
                             </div>
                             <div className="preferred-pharmacy-list">
                                 {preferredPharmacies.map((pharmacy) => (
@@ -294,7 +300,7 @@ export const PatientPharmacyConnection = () => {
                                     >
                                         {pharmacy.isPrimary && (
                                             <div className="primary-badge">
-                                                Primary
+                                                {t('patientPage.pharmacyConnection.preferred.primary')}
                                             </div>
                                         )}
                                         <div className="pharmacy-info">
@@ -322,12 +328,14 @@ export const PatientPharmacyConnection = () => {
                                                 </span>
                                                 {pharmacy.deliveryAvailable && (
                                                     <span className="delivery-available">
-                                                        <FaTruck className="meta-icon" /> Delivery Available
+                                                        <FaTruck className="meta-icon" /> {t('patientPage.pharmacyConnection.common.pharmacy.deliveryAvailable')}
                                                     </span>
                                                 )}
                                             </div>
                                             <div className="last-visit">
-                                                Last visit: {pharmacy.lastVisited !== "Never" ? new Date(pharmacy.lastVisited).toLocaleDateString() : "Never"}
+                                                {t('patientPage.pharmacyConnection.preferred.details.lastVisit')} {pharmacy.lastVisited !== "Never"
+                                                    ? formatDate(pharmacy.lastVisited, language)
+                                                    : t('patientPage.pharmacyConnection.preferred.details.never')}
                                             </div>
                                         </div>
                                         <div className="pharmacy-actions">
@@ -338,7 +346,7 @@ export const PatientPharmacyConnection = () => {
                                                     whileTap={{ scale: 0.95 }}
                                                     onClick={() => setPrimaryPharmacy(pharmacy.id)}
                                                 >
-                                                    Set as Primary
+                                                    {t('patientPage.pharmacyConnection.preferred.actions.setPrimary')}
                                                 </motion.button>
                                             )}
                                             <motion.button
@@ -347,7 +355,7 @@ export const PatientPharmacyConnection = () => {
                                                 whileTap={{ scale: 0.95 }}
                                                 onClick={() => viewPharmacyDetails(pharmacy)}
                                             >
-                                                View Details
+                                                {t('patientPage.pharmacyConnection.preferred.actions.viewDetails')}
                                             </motion.button>
                                         </div>
                                     </motion.div>
@@ -357,8 +365,8 @@ export const PatientPharmacyConnection = () => {
                     ) : (
                         <div className="no-results">
                             <FaExclamationTriangle className="no-results-icon" />
-                            <h3>No preferred pharmacies found</h3>
-                            <p>Switch to "Find Pharmacies" tab to add pharmacies</p>
+                            <h3>{t('patientPage.pharmacyConnection.preferred.noResults.title')}</h3>
+                            <p>{t('patientPage.pharmacyConnection.preferred.noResults.subtitle')}</p>
                         </div>
                     )}
                 </motion.div>
@@ -367,57 +375,58 @@ export const PatientPharmacyConnection = () => {
             {activeTab === 'nearby' && (
                 <div className="nearby-pharmacies-section">
                     <div className="section-intro">
-                        <h2>Find Pharmacies</h2>
-                        <p>Discover pharmacies near you and add them to your preferences</p>
+                        <h2>{t('patientPage.pharmacyConnection.nearby.title')}</h2>
+                        <p>{t('patientPage.pharmacyConnection.nearby.subtitle')}</p>
                     </div>
                     <div className="pharmacy-search">
                         <div className="search-bar">
                             <FaSearch className="search-icon" />
                             <input
                                 type="text"
-                                placeholder="Search by name, address, or zip code..."
+                                placeholder={t('patientPage.pharmacyConnection.nearby.search.placeholder')}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                             {searchQuery && (
-                                <FaTimes 
-                                    style={{ 
-                                        position: 'absolute', 
-                                        right: '15px', 
-                                        top: '50%', 
+                                <FaTimes
+                                    style={{
+                                        position: 'absolute',
+                                        right: isRTL ? 'auto' : '15px',
+                                        left: isRTL ? '15px' : 'auto',
+                                        top: '50%',
                                         transform: 'translateY(-50%)',
                                         cursor: 'pointer',
                                         color: '#94a3b8'
-                                    }} 
+                                    }}
                                     onClick={() => setSearchQuery('')}
                                 />
                             )}
                         </div>
                         <div className="search-filters">
-                            <span className="filter-label">Filter by: </span>
-                            <button 
+                            <span className="filter-label">{t('patientPage.pharmacyConnection.nearby.filters.label')} </span>
+                            <button
                                 className={`filter-pill ${activeFilter === 'all' ? 'active' : ''}`}
                                 onClick={() => handleFilterClick('all')}
                             >
-                                All
+                                {t('patientPage.pharmacyConnection.nearby.filters.all')}
                             </button>
-                            <button 
+                            <button
                                 className={`filter-pill ${activeFilter === 'distance' ? 'active' : ''}`}
                                 onClick={() => handleFilterClick('distance')}
                             >
-                                Distance
+                                {t('patientPage.pharmacyConnection.nearby.filters.distance')}
                             </button>
-                            <button 
+                            <button
                                 className={`filter-pill ${activeFilter === 'rating' ? 'active' : ''}`}
                                 onClick={() => handleFilterClick('rating')}
                             >
-                                Rating
+                                {t('patientPage.pharmacyConnection.nearby.filters.rating')}
                             </button>
-                            <button 
+                            <button
                                 className={`filter-pill ${activeFilter === 'delivery' ? 'active' : ''}`}
                                 onClick={() => handleFilterClick('delivery')}
                             >
-                                Delivery
+                                {t('patientPage.pharmacyConnection.nearby.filters.delivery')}
                             </button>
                         </div>
                     </div>
@@ -454,7 +463,7 @@ export const PatientPharmacyConnection = () => {
                                             </span>
                                             {pharmacy.deliveryAvailable && (
                                                 <span className="delivery-available">
-                                                    <FaTruck className="meta-icon" /> Delivery Available
+                                                    <FaTruck className="meta-icon" /> {t('patientPage.pharmacyConnection.common.pharmacy.deliveryAvailable')}
                                                 </span>
                                             )}
                                         </div>
@@ -466,7 +475,9 @@ export const PatientPharmacyConnection = () => {
                                             whileTap={{ scale: 0.95 }}
                                             onClick={() => addToPreferred(pharmacy)}
                                         >
-                                            <FaPlus className="btn-icon" /> {isMobile ? "Add" : "Add to My Pharmacies"}
+                                            <FaPlus className="btn-icon" /> {isMobile
+                                                ? t('patientPage.pharmacyConnection.nearby.actions.add')
+                                                : t('patientPage.pharmacyConnection.nearby.actions.addToMyPharmacies')}
                                         </motion.button>
                                         <motion.button
                                             className="view-details-btn"
@@ -474,7 +485,7 @@ export const PatientPharmacyConnection = () => {
                                             whileTap={{ scale: 0.95 }}
                                             onClick={() => viewPharmacyDetails(pharmacy)}
                                         >
-                                            View Details
+                                            {t('patientPage.pharmacyConnection.nearby.actions.viewDetails')}
                                         </motion.button>
                                     </div>
                                 </motion.div>
@@ -482,8 +493,8 @@ export const PatientPharmacyConnection = () => {
                         ) : (
                             <div className="no-results">
                                 <FaExclamationTriangle className="no-results-icon" />
-                                <h3>No pharmacies found</h3>
-                                <p>Try adjusting your search or filters</p>
+                                <h3>{t('patientPage.pharmacyConnection.nearby.noResults.title')}</h3>
+                                <p>{t('patientPage.pharmacyConnection.nearby.noResults.subtitle')}</p>
                             </div>
                         )}
                     </div>
@@ -493,34 +504,38 @@ export const PatientPharmacyConnection = () => {
             {activeTab === 'delivery' && (
                 <div className="delivery-section">
                     <div className="section-intro">
-                        <h2>Prescription Delivery</h2>
-                        <p>Set up and manage your prescription delivery options</p>
+                        <h2>{t('patientPage.pharmacyConnection.delivery.title')}</h2>
+                        <p>{t('patientPage.pharmacyConnection.delivery.subtitle')}</p>
                     </div>
                     <div className="delivery-options-card">
                         <div className="delivery-status">
-                            <h3>Delivery Status: <span className={deliveryOptions.enabled ? "status-active" : "status-inactive"}>
-                                {deliveryOptions.enabled ? "Enabled" : "Disabled"}
+                            <h3>{t('patientPage.pharmacyConnection.delivery.status.title')} <span className={deliveryOptions.enabled ? "status-active" : "status-inactive"}>
+                                {deliveryOptions.enabled
+                                    ? t('patientPage.pharmacyConnection.delivery.status.enabled')
+                                    : t('patientPage.pharmacyConnection.delivery.status.disabled')}
                             </span></h3>
                         </div>
                         {deliveryOptions.enabled ? (
                             <div className="delivery-details">
                                 <div className="detail-group">
-                                    <h4>Delivery Preferences</h4>
+                                    <h4>{t('patientPage.pharmacyConnection.delivery.preferences.title')}</h4>
                                     <div className="delivery-preferences">
                                         <div className="preference-item">
-                                            <span className="preference-label">Default Option:</span>
+                                            <span className="preference-label">{t('patientPage.pharmacyConnection.delivery.preferences.defaultOption')}</span>
                                             <span className="preference-value">
-                                                {deliveryOptions.defaultOption === "scheduled" ? "Scheduled Weekly" : "As Needed"}
+                                                {deliveryOptions.defaultOption === "scheduled"
+                                                    ? t('patientPage.pharmacyConnection.delivery.preferences.scheduledWeekly')
+                                                    : t('patientPage.pharmacyConnection.delivery.preferences.asNeeded')}
                                             </span>
                                         </div>
                                         {deliveryOptions.defaultOption === "scheduled" && (
                                             <>
                                                 <div className="preference-item">
-                                                    <span className="preference-label">Scheduled Day:</span>
-                                                    <span className="preference-value">{deliveryOptions.scheduledDay}</span>
+                                                    <span className="preference-label">{t('patientPage.pharmacyConnection.delivery.preferences.scheduledDay')}</span>
+                                                    <span className="preference-value">{t(`patientPage.pharmacyConnection.common.days.${deliveryOptions.scheduledDay.toLowerCase()}`)}</span>
                                                 </div>
                                                 <div className="preference-item">
-                                                    <span className="preference-label">Preferred Time:</span>
+                                                    <span className="preference-label">{t('patientPage.pharmacyConnection.delivery.preferences.preferredTime')}</span>
                                                     <span className="preference-value">{deliveryOptions.scheduledTime}</span>
                                                 </div>
                                             </>
@@ -528,30 +543,33 @@ export const PatientPharmacyConnection = () => {
                                     </div>
                                 </div>
                                 <div className="detail-group">
-                                    <h4>Delivery Address</h4>
+                                    <h4>{t('patientPage.pharmacyConnection.delivery.address.title')}</h4>
                                     <div className="address-block">
                                         {deliveryOptions.address}
                                     </div>
                                 </div>
                                 <div className="detail-group">
-                                    <h4>Notifications</h4>
+                                    <h4>{t('patientPage.pharmacyConnection.delivery.notifications.title')}</h4>
                                     <div className="notification-preferences">
                                         <div className="preference-item">
-                                            <span className="preference-label">Notification Method:</span>
+                                            <span className="preference-label">{t('patientPage.pharmacyConnection.delivery.notifications.method')}</span>
                                             <span className="preference-value">{
-                                                deliveryOptions.notificationPreference === "text" ? "Text Message" :
-                                                    deliveryOptions.notificationPreference === "email" ? "Email" : "Both"
+                                                deliveryOptions.notificationPreference === "text"
+                                                    ? t('patientPage.pharmacyConnection.delivery.notifications.textMessage')
+                                                    : deliveryOptions.notificationPreference === "email"
+                                                        ? t('patientPage.pharmacyConnection.delivery.notifications.email')
+                                                        : t('patientPage.pharmacyConnection.delivery.notifications.both')
                                             }</span>
                                         </div>
                                         {(deliveryOptions.notificationPreference === "text" || deliveryOptions.notificationPreference === "both") && (
                                             <div className="preference-item">
-                                                <span className="preference-label">Phone Number:</span>
+                                                <span className="preference-label">{t('patientPage.pharmacyConnection.delivery.notifications.phoneNumber')}</span>
                                                 <span className="preference-value">{deliveryOptions.phoneNumber}</span>
                                             </div>
                                         )}
                                         {(deliveryOptions.notificationPreference === "email" || deliveryOptions.notificationPreference === "both") && (
                                             <div className="preference-item">
-                                                <span className="preference-label">Email:</span>
+                                                <span className="preference-label">{t('patientPage.pharmacyConnection.delivery.notifications.emailAddress')}</span>
                                                 <span className="preference-value">{deliveryOptions.email}</span>
                                             </div>
                                         )}
@@ -564,7 +582,7 @@ export const PatientPharmacyConnection = () => {
                                         whileTap={{ scale: 0.95 }}
                                         onClick={toggleDeliverySetup}
                                     >
-                                        Edit Delivery Settings
+                                        {t('patientPage.pharmacyConnection.delivery.actions.editSettings')}
                                     </motion.button>
                                     <motion.button
                                         className="disable-delivery-btn"
@@ -572,15 +590,14 @@ export const PatientPharmacyConnection = () => {
                                         whileTap={{ scale: 0.95 }}
                                         onClick={() => setDeliveryOptions({ ...deliveryOptions, enabled: false })}
                                     >
-                                        Disable Delivery
+                                        {t('patientPage.pharmacyConnection.delivery.actions.disableDelivery')}
                                     </motion.button>
                                 </div>
                             </div>
                         ) : (
                             <div className="delivery-setup">
                                 <p className="delivery-info">
-                                    Prescription delivery allows you to receive your medications directly at your doorstep.
-                                    Enable this feature to set up your delivery preferences.
+                                    {t('patientPage.pharmacyConnection.delivery.setup.info')}
                                 </p>
                                 <motion.button
                                     className="setup-delivery-btn"
@@ -588,14 +605,14 @@ export const PatientPharmacyConnection = () => {
                                     whileTap={{ scale: 0.95 }}
                                     onClick={() => setDeliveryOptions({ ...deliveryOptions, enabled: true })}
                                 >
-                                    Enable Delivery
+                                    {t('patientPage.pharmacyConnection.delivery.actions.enableDelivery')}
                                 </motion.button>
                             </div>
                         )}
                     </div>
 
                     <div className="delivery-history-section">
-                        <h3>Delivery History</h3>
+                        <h3>{t('patientPage.pharmacyConnection.delivery.history.title')}</h3>
                         {deliveryHistory.length > 0 ? (
                             <div className="delivery-history-list">
                                 {deliveryHistory.map((delivery) => (
@@ -605,28 +622,28 @@ export const PatientPharmacyConnection = () => {
                                         whileHover={{ scale: 1.02 }}
                                     >
                                         <div className="delivery-date">
-                                            {new Date(delivery.date).toLocaleDateString()}
+                                            {formatDate(delivery.date, language)}
                                         </div>
                                         <div className="delivery-info">
                                             <div className="delivery-status">
                                                 <span className={`status-badge ${delivery.status.toLowerCase()}`}>
-                                                    {delivery.status}
+                                                    {t(`patientPage.pharmacyConnection.common.status.${delivery.status.toLowerCase()}`)}
                                                 </span>
                                             </div>
                                             <div className="delivery-meds">
-                                                <h4>Medications:</h4>
+                                                <h4>{t('patientPage.pharmacyConnection.delivery.history.details.medications')}</h4>
                                                 <p>{delivery.prescriptions.join(", ")}</p>
                                             </div>
                                             <div className="delivery-pharmacy">
-                                                <h4>From:</h4>
+                                                <h4>{t('patientPage.pharmacyConnection.delivery.history.details.from')}</h4>
                                                 <p>{delivery.pharmacy}</p>
                                             </div>
                                             <div className="delivery-tracking">
-                                                <h4>Tracking #:</h4>
+                                                <h4>{t('patientPage.pharmacyConnection.delivery.history.details.tracking')}</h4>
                                                 <p>{delivery.trackingNumber}</p>
                                             </div>
                                             <div className="delivery-signature">
-                                                <h4>Received by:</h4>
+                                                <h4>{t('patientPage.pharmacyConnection.delivery.history.details.receivedBy')}</h4>
                                                 <p>{delivery.signature}</p>
                                             </div>
                                         </div>
@@ -635,7 +652,7 @@ export const PatientPharmacyConnection = () => {
                             </div>
                         ) : (
                             <div className="no-delivery-history">
-                                <p>No delivery history available</p>
+                                <p>{t('patientPage.pharmacyConnection.delivery.history.noHistory')}</p>
                             </div>
                         )}
                     </div>
@@ -653,8 +670,8 @@ export const PatientPharmacyConnection = () => {
                     >
                         <div className="modal-header">
                             <h2>{selectedPharmacy.name}</h2>
-                            <button 
-                                className="close-modal-btn" 
+                            <button
+                                className="close-modal-btn"
                                 onClick={closePharmacyDetails}
                                 aria-label="Close"
                             >
@@ -666,73 +683,75 @@ export const PatientPharmacyConnection = () => {
                                 <div className="detail-item">
                                     <FaMapMarkerAlt className="detail-icon" />
                                     <div>
-                                        <h4>Address</h4>
+                                        <h4>{t('patientPage.pharmacyConnection.pharmacyDetails.details.address')}</h4>
                                         <p>{selectedPharmacy.address}</p>
                                     </div>
                                 </div>
                                 <div className="detail-item">
                                     <FaPhoneAlt className="detail-icon" />
                                     <div>
-                                        <h4>Phone</h4>
+                                        <h4>{t('patientPage.pharmacyConnection.pharmacyDetails.details.phone')}</h4>
                                         <p>{selectedPharmacy.phone}</p>
                                     </div>
                                 </div>
                                 <div className="detail-item">
                                     <FaClock className="detail-icon" />
                                     <div>
-                                        <h4>Hours</h4>
+                                        <h4>{t('patientPage.pharmacyConnection.pharmacyDetails.details.hours')}</h4>
                                         <p>{selectedPharmacy.hours}</p>
                                     </div>
                                 </div>
                                 <div className="detail-item">
                                     <FaWalking className="detail-icon" />
                                     <div>
-                                        <h4>Distance</h4>
+                                        <h4>{t('patientPage.pharmacyConnection.pharmacyDetails.details.distance')}</h4>
                                         <p>{selectedPharmacy.distance}</p>
                                     </div>
                                 </div>
                                 <div className="detail-item">
                                     <FaStar className="detail-icon" />
                                     <div>
-                                        <h4>Rating</h4>
-                                        <p>{selectedPharmacy.rating} out of 5 ({selectedPharmacy.numRatings} reviews)</p>
+                                        <h4>{t('patientPage.pharmacyConnection.pharmacyDetails.details.rating')}</h4>
+                                        <p>{selectedPharmacy.rating} {t('patientPage.pharmacyConnection.pharmacyDetails.details.outOf5')} ({selectedPharmacy.numRatings} {t('patientPage.pharmacyConnection.pharmacyDetails.details.reviews')})</p>
                                     </div>
                                 </div>
                                 <div className="detail-item">
                                     <FaTruck className="detail-icon" />
                                     <div>
-                                        <h4>Delivery</h4>
-                                        <p>{selectedPharmacy.deliveryAvailable ? "Available" : "Not Available"}</p>
+                                        <h4>{t('patientPage.pharmacyConnection.pharmacyDetails.details.delivery')}</h4>
+                                        <p>{selectedPharmacy.deliveryAvailable
+                                            ? t('patientPage.pharmacyConnection.pharmacyDetails.details.available')
+                                            : t('patientPage.pharmacyConnection.pharmacyDetails.details.notAvailable')}</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="pharmacy-services">
-                                <h3>Services Available</h3>
+                                <h3>{t('patientPage.pharmacyConnection.pharmacyDetails.services.title')}</h3>
                                 <div className="services-grid">
                                     <div className="service-item">
                                         <div className="service-icon check">✓</div>
-                                        <p>Prescription Filling</p>
+                                        <p>{t('patientPage.pharmacyConnection.pharmacyDetails.services.types.prescriptionFilling')}</p>
                                     </div>
                                     <div className="service-item">
                                         <div className="service-icon check">✓</div>
-                                        <p>Medication Consulting</p>
+                                        <p>{t('patientPage.pharmacyConnection.pharmacyDetails.services.types.medicationConsulting')}</p>
                                     </div>
                                     <div className="service-item">
                                         <div className="service-icon check">✓</div>
-                                        <p>Flu Shots</p>
+                                        <p>{t('patientPage.pharmacyConnection.pharmacyDetails.services.types.fluShots')}</p>
                                     </div>
                                     <div className="service-item">
                                         <div className="service-icon check">✓</div>
-                                        <p>Compounding</p>
+                                        <p>{t('patientPage.pharmacyConnection.pharmacyDetails.services.types.compounding')}</p>
                                     </div>
                                     <div className="service-item">
                                         <div className="service-icon check">✓</div>
-                                        <p>Health Screenings</p>
+                                        <p>{t('patientPage.pharmacyConnection.pharmacyDetails.services.types.healthScreenings')}</p>
                                     </div>
                                     <div className="service-item">
                                         <div className="service-icon cross">✗</div>
-                                        <p>Drive-Through</p>
+                                        <p>{t('patientPage.pharmacyConnection.pharmacyDetails.services.types.driveThrough')}</p>
                                     </div>
                                 </div>
                             </div>
@@ -745,7 +764,7 @@ export const PatientPharmacyConnection = () => {
                                         whileTap={{ scale: 0.95 }}
                                         onClick={() => addToPreferred(selectedPharmacy)}
                                     >
-                                        <FaPlus className="btn-icon" /> Add to My Pharmacies
+                                        <FaPlus className="btn-icon" /> {t('patientPage.pharmacyConnection.pharmacyDetails.actions.addToMyPharmacies')}
                                     </motion.button>
                                 ) : (
                                     !selectedPharmacy.isPrimary && (
@@ -755,7 +774,7 @@ export const PatientPharmacyConnection = () => {
                                             whileTap={{ scale: 0.95 }}
                                             onClick={() => setPrimaryPharmacy(selectedPharmacy.id)}
                                         >
-                                            Set as Primary Pharmacy
+                                            {t('patientPage.pharmacyConnection.pharmacyDetails.actions.setPrimaryPharmacy')}
                                         </motion.button>
                                     )
                                 )}
@@ -764,7 +783,7 @@ export const PatientPharmacyConnection = () => {
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                 >
-                                    Get Directions
+                                    {t('patientPage.pharmacyConnection.pharmacyDetails.actions.getDirections')}
                                 </motion.button>
                             </div>
                         </div>
@@ -782,9 +801,9 @@ export const PatientPharmacyConnection = () => {
                         exit={{ opacity: 0, y: 50 }}
                     >
                         <div className="modal-header">
-                            <h2>Delivery Settings</h2>
-                            <button 
-                                className="close-modal-btn" 
+                            <h2>{t('patientPage.pharmacyConnection.deliverySetup.title')}</h2>
+                            <button
+                                className="close-modal-btn"
                                 onClick={toggleDeliverySetup}
                                 aria-label="Close"
                             >
@@ -794,7 +813,7 @@ export const PatientPharmacyConnection = () => {
                         <div className="modal-content">
                             <div className="delivery-form">
                                 <div className="form-group">
-                                    <h3>Delivery Preference</h3>
+                                    <h3>{t('patientPage.pharmacyConnection.deliverySetup.preference.title')}</h3>
                                     <div className="radio-group">
                                         <label className="radio-label">
                                             <input
@@ -803,7 +822,7 @@ export const PatientPharmacyConnection = () => {
                                                 checked={deliveryOptions.defaultOption === "scheduled"}
                                                 onChange={() => setDeliveryOptions({ ...deliveryOptions, defaultOption: "scheduled" })}
                                             />
-                                            <span>Scheduled Weekly Delivery</span>
+                                            <span>{t('patientPage.pharmacyConnection.deliverySetup.preference.scheduledWeekly')}</span>
                                         </label>
                                         <label className="radio-label">
                                             <input
@@ -812,7 +831,7 @@ export const PatientPharmacyConnection = () => {
                                                 checked={deliveryOptions.defaultOption === "asNeeded"}
                                                 onChange={() => setDeliveryOptions({ ...deliveryOptions, defaultOption: "asNeeded" })}
                                             />
-                                            <span>As Needed</span>
+                                            <span>{t('patientPage.pharmacyConnection.deliverySetup.preference.asNeeded')}</span>
                                         </label>
                                     </div>
                                 </div>
@@ -820,48 +839,48 @@ export const PatientPharmacyConnection = () => {
                                 {deliveryOptions.defaultOption === "scheduled" && (
                                     <div className="schedule-options">
                                         <div className="form-group">
-                                            <label htmlFor="scheduledDay">Preferred Day</label>
+                                            <label htmlFor="scheduledDay">{t('patientPage.pharmacyConnection.deliverySetup.schedule.preferredDay')}</label>
                                             <select
                                                 id="scheduledDay"
                                                 value={deliveryOptions.scheduledDay}
                                                 onChange={(e) => setDeliveryOptions({ ...deliveryOptions, scheduledDay: e.target.value })}
                                             >
-                                                <option value="Monday">Monday</option>
-                                                <option value="Tuesday">Tuesday</option>
-                                                <option value="Wednesday">Wednesday</option>
-                                                <option value="Thursday">Thursday</option>
-                                                <option value="Friday">Friday</option>
-                                                <option value="Saturday">Saturday</option>
+                                                <option value="Monday">{t('patientPage.pharmacyConnection.common.days.monday')}</option>
+                                                <option value="Tuesday">{t('patientPage.pharmacyConnection.common.days.tuesday')}</option>
+                                                <option value="Wednesday">{t('patientPage.pharmacyConnection.common.days.wednesday')}</option>
+                                                <option value="Thursday">{t('patientPage.pharmacyConnection.common.days.thursday')}</option>
+                                                <option value="Friday">{t('patientPage.pharmacyConnection.common.days.friday')}</option>
+                                                <option value="Saturday">{t('patientPage.pharmacyConnection.common.days.saturday')}</option>
                                             </select>
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="scheduledTime">Preferred Time</label>
+                                            <label htmlFor="scheduledTime">{t('patientPage.pharmacyConnection.deliverySetup.schedule.preferredTime')}</label>
                                             <select
                                                 id="scheduledTime"
                                                 value={deliveryOptions.scheduledTime}
                                                 onChange={(e) => setDeliveryOptions({ ...deliveryOptions, scheduledTime: e.target.value })}
                                             >
-                                                <option value="Morning (9AM-12PM)">Morning (9AM-12PM)</option>
-                                                <option value="Afternoon (2-5PM)">Afternoon (2-5PM)</option>
-                                                <option value="Evening (6-8PM)">Evening (6-8PM)</option>
+                                                <option value="Morning (9AM-12PM)">{t('patientPage.pharmacyConnection.deliverySetup.schedule.morning')}</option>
+                                                <option value="Afternoon (2-5PM)">{t('patientPage.pharmacyConnection.deliverySetup.schedule.afternoon')}</option>
+                                                <option value="Evening (6-8PM)">{t('patientPage.pharmacyConnection.deliverySetup.schedule.evening')}</option>
                                             </select>
                                         </div>
                                     </div>
                                 )}
 
                                 <div className="form-group">
-                                    <h3>Delivery Address</h3>
+                                    <h3>{t('patientPage.pharmacyConnection.deliverySetup.address.title')}</h3>
                                     <textarea
                                         value={deliveryOptions.address}
                                         onChange={(e) => setDeliveryOptions({ ...deliveryOptions, address: e.target.value })}
-                                        placeholder="Enter your delivery address"
+                                        placeholder={t('patientPage.pharmacyConnection.deliverySetup.address.placeholder')}
                                         rows={3}
                                         aria-label="Delivery address"
                                     ></textarea>
                                 </div>
 
                                 <div className="form-group">
-                                    <h3>Notification Preferences</h3>
+                                    <h3>{t('patientPage.pharmacyConnection.deliverySetup.notifications.title')}</h3>
                                     <div className="radio-group">
                                         <label className="radio-label">
                                             <input
@@ -870,7 +889,7 @@ export const PatientPharmacyConnection = () => {
                                                 checked={deliveryOptions.notificationPreference === "text"}
                                                 onChange={() => setDeliveryOptions({ ...deliveryOptions, notificationPreference: "text" })}
                                             />
-                                            <span>Text Message</span>
+                                            <span>{t('patientPage.pharmacyConnection.deliverySetup.notifications.textMessage')}</span>
                                         </label>
                                         <label className="radio-label">
                                             <input
@@ -879,7 +898,7 @@ export const PatientPharmacyConnection = () => {
                                                 checked={deliveryOptions.notificationPreference === "email"}
                                                 onChange={() => setDeliveryOptions({ ...deliveryOptions, notificationPreference: "email" })}
                                             />
-                                            <span>Email</span>
+                                            <span>{t('patientPage.pharmacyConnection.deliverySetup.notifications.email')}</span>
                                         </label>
                                         <label className="radio-label">
                                             <input
@@ -888,42 +907,43 @@ export const PatientPharmacyConnection = () => {
                                                 checked={deliveryOptions.notificationPreference === "both"}
                                                 onChange={() => setDeliveryOptions({ ...deliveryOptions, notificationPreference: "both" })}
                                             />
-                                            <span>Both</span>
+                                            <span>{t('patientPage.pharmacyConnection.deliverySetup.notifications.both')}</span>
                                         </label>
                                     </div>
                                 </div>
 
                                 {(deliveryOptions.notificationPreference === "text" || deliveryOptions.notificationPreference === "both") && (
                                     <div className="form-group">
-                                        <label htmlFor="phoneNumber">Phone Number</label>
+                                        <label htmlFor="phoneNumber">{t('patientPage.pharmacyConnection.deliverySetup.notifications.phoneNumber')}</label>
                                         <input
                                             id="phoneNumber"
                                             type="tel"
                                             value={deliveryOptions.phoneNumber}
                                             onChange={(e) => setDeliveryOptions({ ...deliveryOptions, phoneNumber: e.target.value })}
-                                            placeholder="Enter your phone number"
+                                            placeholder={t('patientPage.pharmacyConnection.deliverySetup.notifications.phoneNumberPlaceholder')}
                                         />
                                     </div>
                                 )}
 
                                 {(deliveryOptions.notificationPreference === "email" || deliveryOptions.notificationPreference === "both") && (
                                     <div className="form-group">
-                                        <label htmlFor="emailAddress">Email Address</label>
+                                        <label htmlFor="emailAddress">{t('patientPage.pharmacyConnection.deliverySetup.notifications.emailAddress')}</label>
                                         <input
                                             id="emailAddress"
                                             type="email"
                                             value={deliveryOptions.email}
                                             onChange={(e) => setDeliveryOptions({ ...deliveryOptions, email: e.target.value })}
-                                            placeholder="Enter your email address"
+                                            placeholder={t('patientPage.pharmacyConnection.deliverySetup.notifications.emailAddressPlaceholder')}
                                         />
                                     </div>
                                 )}
 
                                 <div className="form-group privacy-notice">
-                                    <h3>Privacy Notice</h3>
+                                    <h3>{t('patientPage.pharmacyConnection.deliverySetup.privacy.title')}</h3>
                                     <p>
-                                        Your personal information is secure and will only be used for delivery purposes.
-                                        See our <a href="/privacy" className="privacy-link">Privacy Policy</a> for more details.
+                                        {t('patientPage.pharmacyConnection.deliverySetup.privacy.text')}{' '}
+                                        <a href="/privacy" className="privacy-link">{t('patientPage.pharmacyConnection.deliverySetup.privacy.policyLink')}</a>{' '}
+                                        {t('patientPage.pharmacyConnection.deliverySetup.privacy.forMore')}
                                     </p>
                                 </div>
                             </div>
@@ -935,7 +955,7 @@ export const PatientPharmacyConnection = () => {
                                     whileTap={{ scale: 0.95 }}
                                     onClick={() => saveDeliveryOptions(deliveryOptions)}
                                 >
-                                    Save Settings
+                                    {t('patientPage.pharmacyConnection.deliverySetup.actions.saveSettings')}
                                 </motion.button>
                                 <motion.button
                                     className="cancel-btn"
@@ -943,38 +963,11 @@ export const PatientPharmacyConnection = () => {
                                     whileTap={{ scale: 0.95 }}
                                     onClick={toggleDeliverySetup}
                                 >
-                                    Cancel
+                                    {t('patientPage.pharmacyConnection.deliverySetup.actions.cancel')}
                                 </motion.button>
                             </div>
                         </div>
                     </motion.div>
-                </div>
-            )}
-
-            {/* Mobile bottom navigation - only shown on smaller screens */}
-            {isMobile && (
-                <div className="bottom-navigation">
-                    <button 
-                        className={`nav-item ${activeTab === 'preferred' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('preferred')}
-                    >
-                        <FaStar className="nav-icon" />
-                        <span>My Pharmacies</span>
-                    </button>
-                    <button 
-                        className={`nav-item ${activeTab === 'nearby' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('nearby')}
-                    >
-                        <FaMapMarkerAlt className="nav-icon" />
-                        <span>Find</span>
-                    </button>
-                    <button 
-                        className={`nav-item ${activeTab === 'delivery' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('delivery')}
-                    >
-                        <FaTruck className="nav-icon" />
-                        <span>Delivery</span>
-                    </button>
                 </div>
             )}
         </div>

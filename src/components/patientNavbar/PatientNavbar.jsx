@@ -2,14 +2,19 @@ import React, { useState, useEffect, useRef } from 'react';
 import './PatientNavbar.scss';
 import logo from '../../assets/images/trustMeds-logo-blue-nobg-HD.png';
 import { FaBell, FaSearch, FaBars } from 'react-icons/fa';
+import { BiGlobe } from 'react-icons/bi'; // Adding globe icon for language
 import { NavLink } from 'react-router-dom';
+import { useLanguage } from '../../context/LanguageContext'; // Import the language hook
 
 export const PatientNavbar = ({ toggleSidebar }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const notificationRef = useRef(null);
   const searchRef = useRef(null);
+  const languageRef = useRef(null);
+  const { language, changeLanguage, t } = useLanguage(); // Use the language context
 
   // Check scroll position to change navbar style
   useEffect(() => {
@@ -25,15 +30,18 @@ export const PatientNavbar = ({ toggleSidebar }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Handle clicks outside notifications dropdown
+  // Handle clicks outside dropdowns
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (notificationRef.current && !notificationRef.current.contains(event.target)) {
         setShowNotifications(false);
       }
-      if (searchRef.current && !searchRef.current.contains(event.target) && 
-          !event.target.classList.contains('mobile-search-button')) {
+      if (searchRef.current && !searchRef.current.contains(event.target) &&
+        !event.target.classList.contains('mobile-search-button')) {
         setShowMobileSearch(false);
+      }
+      if (languageRef.current && !languageRef.current.contains(event.target)) {
+        setShowLanguageDropdown(false);
       }
     };
 
@@ -58,27 +66,61 @@ export const PatientNavbar = ({ toggleSidebar }) => {
     }
   ];
 
+  // Handle language change
+  const handleLanguageChange = (lang) => {
+    changeLanguage(lang);
+    setShowLanguageDropdown(false);
+  };
+
   return (
     <>
       <header className="dashboard-header">
         <div className="hamburger-menu" onClick={toggleSidebar}>
           <FaBars />
         </div>
-        
+
         <NavLink to='/' className="logo-section">
           <img src={logo} alt="TrustMeds Logo" />
         </NavLink>
-        
+
         <div className="search-bar">
           <FaSearch className="search-icon" />
-          <input type="text" placeholder="Search for medications, doctors, or pharmacies..." />
+          <input type="text" placeholder={t('patientPage.navbar.searchPlaceholder')} />
         </div>
-        
+
         <div className="mobile-search-button" onClick={() => setShowMobileSearch(!showMobileSearch)}>
           <FaSearch />
         </div>
-        
+
         <div className="header-actions">
+          {/* Language Selector */}
+          <div className="language-wrapper" ref={languageRef}>
+            <div
+              className="language-icon-wrapper"
+              onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
+            >
+              <BiGlobe className="language-icon" />
+              <span className="current-language">{language.toUpperCase()}</span>
+            </div>
+
+            {showLanguageDropdown && (
+              <div className="language-dropdown">
+                <div
+                  className={`language-option ${language === 'en' ? 'active' : ''}`}
+                  onClick={() => handleLanguageChange('en')}
+                >
+                  English
+                </div>
+                <div
+                  className={`language-option ${language === 'ar' ? 'active' : ''}`}
+                  onClick={() => handleLanguageChange('ar')}
+                >
+                  العربية
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="notification-wrapper" ref={notificationRef}>
             <div
               className="notification-icon-wrapper"
@@ -91,8 +133,8 @@ export const PatientNavbar = ({ toggleSidebar }) => {
             {showNotifications && (
               <div className="notification-dropdown">
                 <div className="notification-header">
-                  <h3>Notifications</h3>
-                  <span className="mark-all-read">Mark all as read</span>
+                  <h3>{t('patientPage.navbar.notifications')}</h3>
+                  <span className="mark-all-read">{t('patientPage.navbar.markAllRead')}</span>
                 </div>
                 <div className="notification-list">
                   {notifications.map(notification => (
@@ -109,7 +151,7 @@ export const PatientNavbar = ({ toggleSidebar }) => {
                   ))}
                 </div>
                 <div className="notification-footer">
-                  <button className="view-all-btn">View all notifications</button>
+                  <button className="view-all-btn">{t('patientPage.navbar.viewAllNotifications')}</button>
                 </div>
               </div>
             )}
@@ -120,15 +162,15 @@ export const PatientNavbar = ({ toggleSidebar }) => {
           </div>
         </div>
       </header>
-      
+
       {/* Mobile search overlay */}
       {showMobileSearch && (
         <div className="mobile-search-overlay" ref={searchRef}>
           <div className="mobile-search-container">
             <FaSearch className="search-icon" />
-            <input 
-              type="text" 
-              placeholder="Search for medications, doctors, or pharmacies..." 
+            <input
+              type="text"
+              placeholder={t('patientPage.navbar.searchPlaceholder')}
               autoFocus
             />
           </div>

@@ -7,20 +7,29 @@ import {
     FaTimes, FaChevronDown, FaChevronUp, FaBell, FaCalendarAlt,
     FaArrowRight
 } from 'react-icons/fa';
+import { useLanguage } from '../../../context/LanguageContext'; // Import language context
 
 export const PatientMyPrescriptions = () => {
-    // State for active prescriptions
+    const { language, t } = useLanguage(); // Get language and translation function
+    const isArabic = language === 'ar';
+
+    // State for active prescriptions with both English and Arabic data
     const [activePrescriptions, setActivePrescriptions] = useState([
         {
             id: 1,
-            name: "Amoxicillin",
+            nameEn: "Amoxicillin",
+            nameAr: "أموكسيسيلين",
             dosage: "500mg",
-            frequency: "3 times daily",
+            frequencyEn: "3 times daily",
+            frequencyAr: "3 مرات يوميًا",
             refillsRemaining: 2,
             nextRefillDate: "2025-04-15",
-            doctor: "Dr. Smith",
-            instructions: "Take with food. Complete full course of treatment.",
-            pharmacy: "Main Street Pharmacy",
+            doctorEn: "Dr. Smith",
+            doctorAr: "د. سميث",
+            instructionsEn: "Take with food. Complete full course of treatment.",
+            instructionsAr: "تناول مع الطعام. أكمل المدة العلاجية كاملة.",
+            pharmacyEn: "Main Street Pharmacy",
+            pharmacyAr: "صيدلية الشارع الرئيسي",
             prescribedDate: "2025-03-10",
             expirationDate: "2025-09-10",
             color: "#4B9CD3",
@@ -29,14 +38,19 @@ export const PatientMyPrescriptions = () => {
         },
         {
             id: 2,
-            name: "Lisinopril",
+            nameEn: "Lisinopril",
+            nameAr: "ليسينوبريل",
             dosage: "10mg",
-            frequency: "Once daily",
+            frequencyEn: "Once daily",
+            frequencyAr: "مرة واحدة يوميًا",
             refillsRemaining: 3,
             nextRefillDate: "2025-04-20",
-            doctor: "Dr. Johnson",
-            instructions: "Take in the morning. May cause dizziness.",
-            pharmacy: "Main Street Pharmacy",
+            doctorEn: "Dr. Johnson",
+            doctorAr: "د. جونسون",
+            instructionsEn: "Take in the morning. May cause dizziness.",
+            instructionsAr: "تناول في الصباح. قد يسبب الدوار.",
+            pharmacyEn: "Main Street Pharmacy",
+            pharmacyAr: "صيدلية الشارع الرئيسي",
             prescribedDate: "2025-02-15",
             expirationDate: "2026-02-15",
             color: "#2AAC8A",
@@ -45,14 +59,19 @@ export const PatientMyPrescriptions = () => {
         },
         {
             id: 3,
-            name: "Atorvastatin",
+            nameEn: "Atorvastatin",
+            nameAr: "أتورفاستاتين",
             dosage: "20mg",
-            frequency: "Once daily",
+            frequencyEn: "Once daily",
+            frequencyAr: "مرة واحدة يوميًا",
             refillsRemaining: 5,
             nextRefillDate: "2025-05-05",
-            doctor: "Dr. Johnson",
-            instructions: "Take in the evening. Report muscle pain.",
-            pharmacy: "Central Pharmacy",
+            doctorEn: "Dr. Johnson",
+            doctorAr: "د. جونسون",
+            instructionsEn: "Take in the evening. Report muscle pain.",
+            instructionsAr: "تناول في المساء. أبلغ عن آلام العضلات.",
+            pharmacyEn: "Central Pharmacy",
+            pharmacyAr: "الصيدلية المركزية",
             prescribedDate: "2025-03-05",
             expirationDate: "2026-03-05",
             color: "#F6B93B",
@@ -61,17 +80,22 @@ export const PatientMyPrescriptions = () => {
         }
     ]);
 
-    // State for prescription history
+    // State for prescription history with both English and Arabic data
     const [prescriptionHistory, setPrescriptionHistory] = useState([
         {
             id: 101,
-            name: "Doxycycline",
+            nameEn: "Doxycycline",
+            nameAr: "دوكسيسيكلين",
             dosage: "100mg",
-            frequency: "Twice daily",
+            frequencyEn: "Twice daily",
+            frequencyAr: "مرتين يوميًا",
             refillsRemaining: 0,
-            doctor: "Dr. Smith",
-            instructions: "Take with food. Avoid sun exposure.",
-            pharmacy: "Main Street Pharmacy",
+            doctorEn: "Dr. Smith",
+            doctorAr: "د. سميث",
+            instructionsEn: "Take with food. Avoid sun exposure.",
+            instructionsAr: "تناول مع الطعام. تجنب التعرض للشمس.",
+            pharmacyEn: "Main Street Pharmacy",
+            pharmacyAr: "صيدلية الشارع الرئيسي",
             prescribedDate: "2025-01-05",
             expirationDate: "2025-02-05",
             color: "#975BA5",
@@ -80,13 +104,18 @@ export const PatientMyPrescriptions = () => {
         },
         {
             id: 102,
-            name: "Prednisone",
+            nameEn: "Prednisone",
+            nameAr: "بريدنيزون",
             dosage: "10mg",
-            frequency: "Once daily",
+            frequencyEn: "Once daily",
+            frequencyAr: "مرة واحدة يوميًا",
             refillsRemaining: 0,
-            doctor: "Dr. Lee",
-            instructions: "Take with food. Taper as directed.",
-            pharmacy: "Central Pharmacy",
+            doctorEn: "Dr. Lee",
+            doctorAr: "د. لي",
+            instructionsEn: "Take with food. Taper as directed.",
+            instructionsAr: "تناول مع الطعام. قلل الجرعة حسب التوجيهات.",
+            pharmacyEn: "Central Pharmacy",
+            pharmacyAr: "الصيدلية المركزية",
             prescribedDate: "2024-12-10",
             expirationDate: "2025-01-10",
             color: "#E74C3C",
@@ -133,31 +162,40 @@ export const PatientMyPrescriptions = () => {
         return () => window.removeEventListener('resize', checkIfMobile);
     }, []);
 
-    // Get unique doctors and pharmacies for filter options
+    // Helper function to get localized value
+    const getLocalizedValue = (enValue, arValue) => {
+        return isArabic ? arValue : enValue;
+    };
+
+    // Get unique doctors and pharmacies for filter options based on current language
     const allDoctors = [...new Set([
-        ...activePrescriptions.map(p => p.doctor),
-        ...prescriptionHistory.map(p => p.doctor)
+        ...activePrescriptions.map(p => isArabic ? p.doctorAr : p.doctorEn),
+        ...prescriptionHistory.map(p => isArabic ? p.doctorAr : p.doctorEn)
     ])];
 
     const allPharmacies = [...new Set([
-        ...activePrescriptions.map(p => p.pharmacy),
-        ...prescriptionHistory.map(p => p.pharmacy)
+        ...activePrescriptions.map(p => isArabic ? p.pharmacyAr : p.pharmacyEn),
+        ...prescriptionHistory.map(p => isArabic ? p.pharmacyAr : p.pharmacyEn)
     ])];
 
     // Function to apply filters
     const applyFilters = (prescriptions) => {
         return prescriptions.filter(prescription => {
+            const name = isArabic ? prescription.nameAr : prescription.nameEn;
+            const doctor = isArabic ? prescription.doctorAr : prescription.doctorEn;
+            const pharmacy = isArabic ? prescription.pharmacyAr : prescription.pharmacyEn;
+
             // Filter by search query
             const matchesSearch =
-                prescription.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                prescription.doctor.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                prescription.pharmacy.toLowerCase().includes(searchQuery.toLowerCase());
+                name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                doctor.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                pharmacy.toLowerCase().includes(searchQuery.toLowerCase());
 
             // Filter by doctor
-            const matchesDoctor = !filters.doctor || prescription.doctor === filters.doctor;
+            const matchesDoctor = !filters.doctor || doctor === filters.doctor;
 
             // Filter by pharmacy
-            const matchesPharmacy = !filters.pharmacy || prescription.pharmacy === filters.pharmacy;
+            const matchesPharmacy = !filters.pharmacy || pharmacy === filters.pharmacy;
 
             // Filter by refills needed (refillsRemaining <= 1)
             const matchesRefills = !filters.refillsNeeded ||
@@ -223,31 +261,38 @@ export const PatientMyPrescriptions = () => {
         }, 3000);
     };
 
-    // Format date function
+    // Format date function with language support
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric'
-        });
+        if (isArabic) {
+            // Arabic date format
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return date.toLocaleDateString('ar-SA', options);
+        } else {
+            // English date format
+            return date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
     };
 
     return (
         <div className="my-prescriptions-container">
             <div className="page-header">
                 <div className="header-content">
-                    <h1><FaFilePrescription className="header-icon" /> My Prescriptions</h1>
-                    <p>Manage and view all your prescription medications</p>
+                    <h1><FaFilePrescription className="header-icon" /> {t('patientPage.prescriptions.title')}</h1>
+                    <p>{t('patientPage.prescriptions.subtitle')}</p>
                 </div>
                 <div className="prescription-stats">
                     <div className="stat-item">
                         <span className="stat-value">{activePrescriptions.length}</span>
-                        <span className="stat-label">Active</span>
+                        <span className="stat-label">{t('patientPage.prescriptions.active')}</span>
                     </div>
                     <div className="stat-item">
                         <span className="stat-value">{prescriptionHistory.length}</span>
-                        <span className="stat-label">Past</span>
+                        <span className="stat-label">{t('patientPage.prescriptions.past')}</span>
                     </div>
                 </div>
             </div>
@@ -257,7 +302,7 @@ export const PatientMyPrescriptions = () => {
                     <FaSearch className="search-icon" />
                     <input
                         type="text"
-                        placeholder="Search medications, doctors, or pharmacies..."
+                        placeholder={t('patientPage.prescriptions.searchPlaceholder')}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -272,50 +317,49 @@ export const PatientMyPrescriptions = () => {
                     <button
                         className={`filter-btn ${showFilters ? 'active' : ''}`}
                         onClick={() => setShowFilters(!showFilters)}
-                        aria-label={showFilters ? "Hide filters" : "Show filters"}
+                        aria-label={showFilters ? t('patientPage.prescriptions.hideFilters') : t('patientPage.prescriptions.showFilters')}
                     >
                         <FaFilter className="filter-icon" />
-                        <span>{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
+                        <span>{showFilters ? t('patientPage.prescriptions.hideFilters') : t('patientPage.prescriptions.showFilters')}</span>
                     </button>
                     <button
                         className="add-prescription-btn"
                         onClick={handleAddPrescriptionClick}
-                        aria-label="Request prescription"
+                        aria-label={t('patientPage.prescriptions.requestPrescription')}
                     >
                         <FaPlusCircle className="add-icon" />
-                        <span>Request Prescription</span>
+                        <span>{t('patientPage.prescriptions.requestPrescription')}</span>
                     </button>
                 </div>
             </div>
 
             {showAddInfo && (
                 <div className="add-info-message">
-                    <FaBell className="info-icon" /> This feature allows you to request a new prescription from your doctor.
-                    Your doctor will review and approve it if appropriate.
+                    <FaBell className="info-icon" /> {t('patientPage.prescriptions.requestInfo')}
                 </div>
             )}
 
             {showFilters && (
                 <div className="filter-panel">
                     <div className="filter-panel-header">
-                        <h3>Filter Prescriptions</h3>
+                        <h3>{t('patientPage.prescriptions.filterPrescriptions')}</h3>
                         <button
                             className="reset-filters-btn"
                             onClick={resetFilters}
                         >
-                            Reset All
+                            {t('patientPage.prescriptions.resetAll')}
                         </button>
                     </div>
 
                     <div className="filter-options">
                         <div className="filter-group">
-                            <label htmlFor="doctor-filter">Doctor</label>
+                            <label htmlFor="doctor-filter">{t('patientPage.prescriptions.doctor')}</label>
                             <select
                                 id="doctor-filter"
                                 value={filters.doctor}
                                 onChange={(e) => setFilters({ ...filters, doctor: e.target.value })}
                             >
-                                <option value="">All Doctors</option>
+                                <option value="">{t('patientPage.prescriptions.allDoctors')}</option>
                                 {allDoctors.map(doctor => (
                                     <option key={doctor} value={doctor}>{doctor}</option>
                                 ))}
@@ -323,13 +367,13 @@ export const PatientMyPrescriptions = () => {
                         </div>
 
                         <div className="filter-group">
-                            <label htmlFor="pharmacy-filter">Pharmacy</label>
+                            <label htmlFor="pharmacy-filter">{t('patientPage.prescriptions.pharmacy')}</label>
                             <select
                                 id="pharmacy-filter"
                                 value={filters.pharmacy}
                                 onChange={(e) => setFilters({ ...filters, pharmacy: e.target.value })}
                             >
-                                <option value="">All Pharmacies</option>
+                                <option value="">{t('patientPage.prescriptions.allPharmacies')}</option>
                                 {allPharmacies.map(pharmacy => (
                                     <option key={pharmacy} value={pharmacy}>{pharmacy}</option>
                                 ))}
@@ -343,7 +387,7 @@ export const PatientMyPrescriptions = () => {
                                 checked={filters.refillsNeeded}
                                 onChange={(e) => setFilters({ ...filters, refillsNeeded: e.target.checked })}
                             />
-                            <label htmlFor="refillsNeeded">Needs Refill Soon (≤ 1 refill left)</label>
+                            <label htmlFor="refillsNeeded">{t('patientPage.prescriptions.needsRefill')}</label>
                         </div>
 
                         <div className="filter-checkbox">
@@ -353,7 +397,7 @@ export const PatientMyPrescriptions = () => {
                                 checked={filters.expiringWithin30Days}
                                 onChange={(e) => setFilters({ ...filters, expiringWithin30Days: e.target.checked })}
                             />
-                            <label htmlFor="expiringWithin30Days">Expiring Within 30 Days</label>
+                            <label htmlFor="expiringWithin30Days">{t('patientPage.prescriptions.expiringWithin30Days')}</label>
                         </div>
                     </div>
 
@@ -362,14 +406,14 @@ export const PatientMyPrescriptions = () => {
                             (typeof value === 'boolean' && value === true) || (typeof value === 'string' && value !== '')
                         ) ? (
                             <div className="active-filters-list">
-                                <span>Active filters:</span>
-                                {filters.doctor && <span className="filter-tag">Doctor: {filters.doctor}</span>}
-                                {filters.pharmacy && <span className="filter-tag">Pharmacy: {filters.pharmacy}</span>}
-                                {filters.refillsNeeded && <span className="filter-tag">Needs Refill</span>}
-                                {filters.expiringWithin30Days && <span className="filter-tag">Expiring Soon</span>}
+                                <span>{t('patientPage.prescriptions.activeFilters')}:</span>
+                                {filters.doctor && <span className="filter-tag">{t('patientPage.prescriptions.doctor')}: {filters.doctor}</span>}
+                                {filters.pharmacy && <span className="filter-tag">{t('patientPage.prescriptions.pharmacy')}: {filters.pharmacy}</span>}
+                                {filters.refillsNeeded && <span className="filter-tag">{t('patientPage.prescriptions.needsRefillShort')}</span>}
+                                {filters.expiringWithin30Days && <span className="filter-tag">{t('patientPage.prescriptions.expiringSoon')}</span>}
                             </div>
                         ) : (
-                            <span>No active filters</span>
+                            <span>{t('patientPage.prescriptions.noActiveFilters')}</span>
                         )}
                     </div>
                 </div>
@@ -381,7 +425,7 @@ export const PatientMyPrescriptions = () => {
                     onClick={() => setActiveTab('active')}
                 >
                     <FaPills className="tab-icon" />
-                    <span>{isMobile ? 'Active' : 'Active Prescriptions'}</span>
+                    <span>{isMobile ? t('patientPage.prescriptions.activeShort') : t('patientPage.prescriptions.activePrescriptions')}</span>
                     {activeTab !== 'active' && (
                         <span className="count-badge">{activePrescriptions.length}</span>
                     )}
@@ -391,7 +435,7 @@ export const PatientMyPrescriptions = () => {
                     onClick={() => setActiveTab('history')}
                 >
                     <FaHistory className="tab-icon" />
-                    <span>{isMobile ? 'History' : 'Prescription History'}</span>
+                    <span>{isMobile ? t('patientPage.prescriptions.historyShort') : t('patientPage.prescriptions.prescriptionHistory')}</span>
                     {activeTab !== 'history' && (
                         <span className="count-badge">{prescriptionHistory.length}</span>
                     )}
@@ -419,10 +463,12 @@ export const PatientMyPrescriptions = () => {
                                 >
                                     <div className="prescription-name-section">
                                         <h3>
-                                            {prescription.name}
+                                            {getLocalizedValue(prescription.nameEn, prescription.nameAr)}
                                             <span className="prescription-dosage">{prescription.dosage}</span>
                                         </h3>
-                                        <p className="prescription-frequency">{prescription.frequency}</p>
+                                        <p className="prescription-frequency">
+                                            {getLocalizedValue(prescription.frequencyEn, prescription.frequencyAr)}
+                                        </p>
                                     </div>
                                     <div className="prescription-refills">
                                         <span
@@ -430,7 +476,7 @@ export const PatientMyPrescriptions = () => {
                                         >
                                             {prescription.refillsRemaining}
                                         </span>
-                                        <span className="refills-label">Refills Left</span>
+                                        <span className="refills-label">{t('patientPage.prescriptions.refillsLeft')}</span>
                                     </div>
                                 </div>
 
@@ -439,15 +485,19 @@ export const PatientMyPrescriptions = () => {
                                     onClick={() => toggleExpand(prescription.id)}
                                 >
                                     <div className="info-item">
-                                        <span className="info-label">Doctor</span>
-                                        <span className="info-value">{prescription.doctor}</span>
+                                        <span className="info-label">{t('patientPage.prescriptions.doctor')}</span>
+                                        <span className="info-value">
+                                            {getLocalizedValue(prescription.doctorEn, prescription.doctorAr)}
+                                        </span>
                                     </div>
                                     <div className="info-item">
-                                        <span className="info-label">Pharmacy</span>
-                                        <span className="info-value">{prescription.pharmacy}</span>
+                                        <span className="info-label">{t('patientPage.prescriptions.pharmacy')}</span>
+                                        <span className="info-value">
+                                            {getLocalizedValue(prescription.pharmacyEn, prescription.pharmacyAr)}
+                                        </span>
                                     </div>
                                     <div className="info-item">
-                                        <span className="info-label">Next Refill</span>
+                                        <span className="info-label">{t('patientPage.prescriptions.nextRefill')}</span>
                                         <span className="info-value next-refill">
                                             <FaCalendarAlt className="calendar-icon" />
                                             {formatDate(prescription.nextRefillDate)}
@@ -455,29 +505,21 @@ export const PatientMyPrescriptions = () => {
                                     </div>
                                 </div>
 
-                                <div className="expand-indicator" onClick={() => toggleExpand(prescription.id)}>
-                                    {expandedPrescription === prescription.id ? (
-                                        <FaChevronUp className="expand-icon" />
-                                    ) : (
-                                        <FaChevronDown className="expand-icon" />
-                                    )}
-                                </div>
-
                                 {expandedPrescription === prescription.id && (
                                     <div className="prescription-details">
                                         <div className="details-section">
-                                            <h4>Prescription Details</h4>
+                                            <h4>{t('patientPage.prescriptions.prescriptionDetails')}</h4>
                                             <div className="details-grid">
                                                 <div className="detail-item">
-                                                    <span className="detail-label">NDC</span>
+                                                    <span className="detail-label">{t('patientPage.prescriptions.ndc')}</span>
                                                     <span className="detail-value">{prescription.ndc}</span>
                                                 </div>
                                                 <div className="detail-item">
-                                                    <span className="detail-label">Prescribed</span>
+                                                    <span className="detail-label">{t('patientPage.prescriptions.prescribed')}</span>
                                                     <span className="detail-value">{formatDate(prescription.prescribedDate)}</span>
                                                 </div>
                                                 <div className="detail-item">
-                                                    <span className="detail-label">Expires</span>
+                                                    <span className="detail-label">{t('patientPage.prescriptions.expires')}</span>
                                                     <span className={`detail-value ${isExpiringWithin30Days(prescription.expirationDate) ? 'expiring-soon' : ''}`}>
                                                         {formatDate(prescription.expirationDate)}
                                                     </span>
@@ -486,16 +528,16 @@ export const PatientMyPrescriptions = () => {
                                         </div>
 
                                         <div className="instructions-section">
-                                            <h4>Instructions</h4>
-                                            <p>{prescription.instructions}</p>
+                                            <h4>{t('patientPage.prescriptions.instructions')}</h4>
+                                            <p>{getLocalizedValue(prescription.instructionsEn, prescription.instructionsAr)}</p>
                                         </div>
 
                                         <div className="action-buttons">
                                             <button className="renew-btn action-btn">
-                                                Request Renewal
+                                                {t('patientPage.prescriptions.requestRenewal')}
                                             </button>
                                             <button className="info-btn action-btn">
-                                                Medication Info
+                                                {t('patientPage.prescriptions.medicationInfo')}
                                             </button>
                                         </div>
                                     </div>
@@ -505,8 +547,8 @@ export const PatientMyPrescriptions = () => {
                     ) : (
                         <div className="no-results">
                             <FaExclamationTriangle className="no-results-icon" />
-                            <h3>No active prescriptions found</h3>
-                            <p>Try adjusting your search or filters</p>
+                            <h3>{t('patientPage.prescriptions.noActivePrescriptions')}</h3>
+                            <p>{t('patientPage.prescriptions.tryAdjusting')}</p>
                         </div>
                     )
                 ) : (
@@ -523,13 +565,15 @@ export const PatientMyPrescriptions = () => {
                                 >
                                     <div className="prescription-name-section">
                                         <h3>
-                                            {prescription.name}
+                                            {getLocalizedValue(prescription.nameEn, prescription.nameAr)}
                                             <span className="prescription-dosage">{prescription.dosage}</span>
                                         </h3>
-                                        <p className="prescription-frequency">{prescription.frequency}</p>
+                                        <p className="prescription-frequency">
+                                            {getLocalizedValue(prescription.frequencyEn, prescription.frequencyAr)}
+                                        </p>
                                     </div>
                                     <div className="prescription-status">
-                                        <span className="status-label">Completed</span>
+                                        <span className="status-label">{t('patientPage.prescriptions.completed')}</span>
                                     </div>
                                 </div>
 
@@ -538,61 +582,57 @@ export const PatientMyPrescriptions = () => {
                                     onClick={() => toggleExpand(prescription.id)}
                                 >
                                     <div className="info-item">
-                                        <span className="info-label">Doctor</span>
-                                        <span className="info-value">{prescription.doctor}</span>
+                                        <span className="info-label">{t('patientPage.prescriptions.doctor')}</span>
+                                        <span className="info-value">
+                                            {getLocalizedValue(prescription.doctorEn, prescription.doctorAr)}
+                                        </span>
                                     </div>
                                     <div className="info-item">
-                                        <span className="info-label">Pharmacy</span>
-                                        <span className="info-value">{prescription.pharmacy}</span>
+                                        <span className="info-label">{t('patientPage.prescriptions.pharmacy')}</span>
+                                        <span className="info-value">
+                                            {getLocalizedValue(prescription.pharmacyEn, prescription.pharmacyAr)}
+                                        </span>
                                     </div>
                                     <div className="info-item">
-                                        <span className="info-label">Prescribed</span>
+                                        <span className="info-label">{t('patientPage.prescriptions.prescribed')}</span>
                                         <span className="info-value">
                                             <FaCalendarAlt className="calendar-icon" />
                                             {formatDate(prescription.prescribedDate)}
                                         </span>
                                     </div>
                                 </div>
-
-                                <div className="expand-indicator" onClick={() => toggleExpand(prescription.id)}>
-                                    {expandedPrescription === prescription.id ? (
-                                        <FaChevronUp className="expand-icon" />
-                                    ) : (
-                                        <FaChevronDown className="expand-icon" />
-                                    )}
-                                </div>
-
+                                
                                 {expandedPrescription === prescription.id && (
                                     <div className="prescription-details">
                                         <div className="details-section">
-                                            <h4>Prescription Details</h4>
+                                            <h4>{t('patientPage.prescriptions.prescriptionDetails')}</h4>
                                             <div className="details-grid">
                                                 <div className="detail-item">
-                                                    <span className="detail-label">NDC</span>
+                                                    <span className="detail-label">{t('patientPage.prescriptions.ndc')}</span>
                                                     <span className="detail-value">{prescription.ndc}</span>
                                                 </div>
                                                 <div className="detail-item">
-                                                    <span className="detail-label">Prescribed</span>
+                                                    <span className="detail-label">{t('patientPage.prescriptions.prescribed')}</span>
                                                     <span className="detail-value">{formatDate(prescription.prescribedDate)}</span>
                                                 </div>
                                                 <div className="detail-item">
-                                                    <span className="detail-label">Expired</span>
+                                                    <span className="detail-label">{t('patientPage.prescriptions.expired')}</span>
                                                     <span className="detail-value">{formatDate(prescription.expirationDate)}</span>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="instructions-section">
-                                            <h4>Instructions</h4>
-                                            <p>{prescription.instructions}</p>
+                                            <h4>{t('patientPage.prescriptions.instructions')}</h4>
+                                            <p>{getLocalizedValue(prescription.instructionsEn, prescription.instructionsAr)}</p>
                                         </div>
 
                                         <div className="action-buttons">
                                             <button className="renew-btn action-btn">
-                                                Request Renewal
+                                                {t('patientPage.prescriptions.requestRenewal')}
                                             </button>
                                             <button className="info-btn action-btn">
-                                                Medication Info
+                                                {t('patientPage.prescriptions.medicationInfo')}
                                             </button>
                                         </div>
                                     </div>
@@ -602,8 +642,8 @@ export const PatientMyPrescriptions = () => {
                     ) : (
                         <div className="no-results">
                             <FaExclamationTriangle className="no-results-icon" />
-                            <h3>No prescription history found</h3>
-                            <p>Try adjusting your search or filters</p>
+                            <h3>{t('patientPage.prescriptions.noPrescriptionHistory')}</h3>
+                            <p>{t('patientPage.prescriptions.tryAdjusting')}</p>
                         </div>
                     )
                 )}

@@ -2,6 +2,7 @@
 
 .my-prescriptions-container {
     width: 100%;
+    min-height: 100vh;
     margin: 0 auto;
     box-sizing: border-box;
     padding: 1rem;
@@ -1108,60 +1109,7 @@
             }
         }
 
-        .expand-indicator {
-            position: absolute;
-            right: 1rem;
-            bottom: 1rem;
-            width: 1.75rem;
-            height: 1.75rem;
-            background-color: rgba(0, 0, 0, 0.03);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-
-            @media (min-width: 576px) {
-                right: 1.25rem;
-                bottom: 1.25rem;
-                width: 1.9rem;
-                height: 1.9rem;
-            }
-
-            @media (min-width: 768px) {
-                right: 1.5rem;
-                bottom: 1.5rem;
-                width: 2rem;
-                height: 2rem;
-            }
-
-            &:hover {
-                background-color: rgba($primary-color, 0.1);
-                transform: translateY(-2px);
-            }
-
-            .expand-icon {
-                color: #64748b;
-                font-size: 0.8rem;
-                transition: all 0.3s ease;
-
-                @media (min-width: 576px) {
-                    font-size: 0.85rem;
-                }
-
-                @media (min-width: 768px) {
-                    font-size: 0.9rem;
-                }
-            }
-
-            &:hover .expand-icon {
-                color: $primary-color;
-            }
-        }
-
         .prescription-details {
-            background-color: #f8fafc;
             padding: 1.25rem 1.25rem 1.25rem 1.75rem;
             border-top: 1px solid rgba(0, 0, 0, 0.06);
 
@@ -1380,6 +1328,235 @@
 
                     &:hover {
                         background-color: #e2e8f0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+// Add this to your PatientMyPrescriptions.scss file
+
+// RTL-specific styles
+.lang-ar {
+    .my-prescriptions-container {
+        .page-header {
+            border-left: 0;
+            border-right: 4px solid $primary-color;
+
+            @media (min-width: 768px) {
+                border-right-width: 6px;
+            }
+
+            .header-content {
+                h1 {
+                    .header-icon {
+                        margin-right: 0;
+                        margin-left: 0.5rem;
+
+                        @media (min-width: 576px) {
+                            margin-right: 0;
+                            margin-left: 0.6rem;
+                        }
+
+                        @media (min-width: 768px) {
+                            margin-right: 0;
+                            margin-left: 0.75rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        .prescription-controls {
+            .search-bar {
+                .search-icon {
+                    left: auto;
+                    right: 1rem;
+                }
+
+                input {
+                    padding: 0.8rem 2.75rem 0.8rem 1rem;
+
+                    @media (min-width: 768px) {
+                        padding: 0.9rem 2.75rem 0.9rem 1rem;
+                    }
+                }
+
+                .clear-search-icon {
+                    right: auto;
+                    left: 1rem;
+                }
+            }
+
+            .filter-controls {
+
+                .filter-btn,
+                .add-prescription-btn {
+
+                    .filter-icon,
+                    .add-icon {
+                        margin-right: 0;
+                        margin-left: 0.5rem;
+                    }
+                }
+            }
+        }
+
+        .add-info-message {
+            border-left: 0;
+            border-right: 4px solid $primary-color;
+
+            .info-icon {
+                margin-right: 0;
+                margin-left: 0.5rem;
+
+                @media (min-width: 768px) {
+                    margin-right: 0;
+                    margin-left: 0.75rem;
+                }
+            }
+        }
+
+        .filter-panel {
+            .filter-panel-header {
+                &::after {
+                    left: auto;
+                    right: 0;
+                }
+            }
+
+            .filter-checkbox {
+                gap: 0.75rem;
+
+                label {
+                    order: -1;
+                }
+            }
+        }
+
+        .prescription-tabs {
+            .tab-btn {
+                .tab-icon {
+                    margin-right: 0;
+                    margin-left: 0.5rem;
+
+                    @media (min-width: 768px) {
+                        margin-right: 0;
+                        margin-left: 0.75rem;
+                    }
+                }
+
+                .count-badge {
+                    margin-left: 0;
+                    margin-right: 0.5rem;
+
+                    @media (min-width: 768px) {
+                        margin-left: 0;
+                        margin-right: 0.75rem;
+                    }
+                }
+            }
+        }
+
+        .prescription-list {
+            .prescription-card {
+                .prescription-color-bar {
+                    left: auto;
+                    right: 0;
+
+                    .attention-indicator {
+                        left: auto;
+                        right: 0;
+                        transform: translateX(-50%);
+                    }
+                }
+
+                .prescription-header {
+                    padding: 1rem 1.75rem 1rem 1.25rem;
+
+                    @media (min-width: 576px) {
+                        padding: 1.25rem 2rem 1.25rem 1.5rem;
+                    }
+
+                    @media (min-width: 768px) {
+                        padding: 1.5rem 2.5rem 1.5rem 1.75rem;
+                    }
+
+                    .prescription-name-section {
+                        h3 {
+                            .prescription-dosage {
+                                margin-left: 0;
+                                margin-right: 0.3rem;
+
+                                @media (min-width: 576px) {
+                                    margin-left: 0;
+                                    margin-right: 0.4rem;
+                                }
+
+                                @media (min-width: 768px) {
+                                    margin-left: 0;
+                                    margin-right: 0.5rem;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .prescription-basic-info {
+                    padding: 1rem 1.75rem 1rem 1.25rem;
+
+                    @media (min-width: 576px) {
+                        padding: 1.25rem 2rem 1.25rem 1.5rem;
+                    }
+
+                    @media (min-width: 768px) {
+                        padding: 1.5rem 2.5rem 1.5rem 1.75rem;
+                    }
+
+                    .info-item {
+                        .calendar-icon {
+                            margin-right: 0;
+                            margin-left: 0.4rem;
+
+                            @media (min-width: 576px) {
+                                margin-right: 0;
+                                margin-left: 0.45rem;
+                            }
+
+                            @media (min-width: 768px) {
+                                margin-right: 0;
+                                margin-left: 0.5rem;
+                            }
+                        }
+                    }
+                }
+
+                .prescription-details {
+                    padding: 1.25rem 1.75rem 1.25rem 1.25rem;
+
+                    @media (min-width: 576px) {
+                        padding: 1.5rem 2rem 1.5rem 1.5rem;
+                    }
+
+                    @media (min-width: 768px) {
+                        padding: 1.75rem 2.5rem 1.75rem 1.75rem;
+                    }
+
+                    h4 {
+                        padding-left: 0;
+                        padding-right: 0.75rem;
+
+                        @media (min-width: 768px) {
+                            padding-left: 0;
+                            padding-right: 1rem;
+                        }
+
+                        &::before {
+                            left: auto;
+                            right: 0;
+                        }
                     }
                 }
             }

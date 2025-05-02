@@ -3,6 +3,7 @@
 .pharmacy-connection-container {
   padding: 1rem;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #f8fafc;
   position: relative;
 
   @media (min-width: 576px) {
@@ -28,7 +29,6 @@
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 1.25rem;
-    background-color: #fff;
     padding: 1.25rem;
     border-radius: 12px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
@@ -1591,53 +1591,256 @@
       }
     }
   }
+}
 
-  // Bottom navigation for mobile
-  .bottom-navigation {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
-    display: flex;
-    justify-content: space-around;
-    padding: 0.625rem 0;
-    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
-    z-index: 900;
+// RTL-specific styles for Pharmacy Connection
+.lang-ar {
+  .pharmacy-connection-container {
 
-    @media (min-width: 768px) {
-      display: none; // Hide on larger screens
+    // Page header
+    .page-header {
+      .header-content {
+        h1 {
+          .header-icon {
+            margin-right: 0;
+            margin-left: 0.75rem;
+
+            @media (min-width: 992px) {
+              margin-left: 10px;
+            }
+          }
+        }
+      }
     }
 
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: #64748b;
-      font-size: 0.7rem;
-      padding: 0.5rem 0;
-      width: 25%;
+    // Tab navigation
+    .pharmacy-tabs {
+      .tab-btn {
+        .tab-icon {
+          margin-right: 0;
+          margin-left: 0.375rem;
 
-      @media (min-width: 576px) {
-        font-size: 0.75rem;
-        padding: 0.625rem 0;
+          @media (min-width: 576px) {
+            margin-left: 0.5rem;
+          }
+
+          @media (min-width: 992px) {
+            margin-left: 8px;
+          }
+        }
       }
+    }
 
-      .nav-icon {
-        font-size: 1.1rem;
-        margin-bottom: 0.25rem;
+    // Pharmacy cards
+    .pharmacy-card {
+      &.primary-pharmacy {
+        border-left: none;
+        border-right: 5px solid $primary-color;
 
-        @media (min-width: 576px) {
-          font-size: 1.15rem;
-          margin-bottom: 0.3125rem;
+        .primary-badge {
+          left: 1.25rem;
+          right: auto;
+
+          @media (min-width: 992px) {
+            left: 20px;
+            right: auto;
+          }
         }
       }
 
-      &.active {
-        color: $primary-color;
-        font-weight: 500;
+      .pharmacy-details {
+        p {
+          .detail-icon {
+            margin-right: 0;
+            margin-left: 0.625rem;
+
+            @media (min-width: 768px) {
+              margin-left: 10px;
+            }
+          }
+        }
+      }
+
+      .pharmacy-meta {
+        span {
+          .meta-icon {
+            margin-right: 0;
+            margin-left: 5px;
+          }
+        }
       }
     }
+
+    // Search styling
+    .pharmacy-search {
+      .search-bar {
+        .search-icon {
+          left: auto;
+          right: 15px;
+        }
+
+        input {
+          padding: 0.875rem 2.5rem 0.875rem 1rem;
+
+          @media (min-width: 576px) {
+            padding: 0.9375rem 2.75rem 0.9375rem 1rem;
+          }
+
+          @media (min-width: 992px) {
+            padding: 15px 45px 15px 15px;
+          }
+        }
+      }
+
+      .search-filters {
+        .filter-pill {
+          &:first-child {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+
+    // Delivery section
+    .delivery-section {
+      .delivery-options-card {
+        .delivery-details {
+          .detail-group {
+
+            .delivery-preferences,
+            .notification-preferences {
+              .preference-item {
+                @media (min-width: 576px) {
+                  .preference-label {
+                    text-align: right;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .delivery-history-section {
+        .delivery-history-list {
+          .delivery-history-item {
+            @media (min-width: 576px) {
+              flex-direction: row-reverse;
+            }
+
+            .delivery-date {
+              @media (min-width: 576px) {
+                margin-left: 0;
+                margin-right: 0;
+              }
+            }
+
+            .delivery-info {
+              .status-badge {
+                text-align: right;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Nearby pharmacies
+    .nearby-pharmacies-section {
+      .nearby-pharmacy-list {
+        .pharmacy-card {
+          .pharmacy-actions {
+            .add-preferred-btn {
+              .btn-icon {
+                margin-right: 0;
+                margin-left: 5px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Modal styling
+    .pharmacy-details-modal,
+    .delivery-setup-modal {
+      .modal-header {
+        .close-modal-btn {
+          margin-left: 0;
+          margin-right: auto;
+        }
+      }
+
+      .modal-content {
+        .pharmacy-details-grid {
+          .detail-item {
+            .detail-icon {
+              margin-right: 0;
+              margin-left: 0.625rem;
+
+              @media (min-width: 576px) {
+                margin-left: 0.75rem;
+              }
+
+              @media (min-width: 992px) {
+                margin-left: 10px;
+              }
+            }
+          }
+        }
+
+        .pharmacy-services {
+          .services-grid {
+            .service-item {
+              .service-icon {
+                margin-right: 0;
+                margin-left: 0.625rem;
+
+                @media (min-width: 576px) {
+                  margin-left: 0.75rem;
+                }
+
+                @media (min-width: 992px) {
+                  margin-left: 10px;
+                }
+              }
+            }
+          }
+        }
+
+        .delivery-form {
+          .radio-group {
+            .radio-label {
+              input[type="radio"] {
+                margin-right: 0;
+                margin-left: 0.5rem;
+
+                @media (min-width: 576px) {
+                  margin-left: 0.625rem;
+                }
+
+                @media (min-width: 992px) {
+                  margin-left: 8px;
+                }
+              }
+            }
+          }
+
+          .privacy-notice {
+            p {
+              text-align: right;
+            }
+          }
+        }
+
+        .modal-actions {
+          @media (min-width: 576px) {
+            justify-content: flex-start;
+          }
+        }
+      }
+    }
+
+    // Bottom navigation for mobile
   }
 }

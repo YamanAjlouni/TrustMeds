@@ -10,21 +10,59 @@ import {
 } from 'react-icons/fa';
 import './PatientSidebar.scss';
 import { NavLink } from 'react-router-dom';
+import { useLanguage } from '../../context/LanguageContext'; // Import language context
 
 export const PatientSidebar = ({ isSidebarOpen, onLinkClick }) => {
+    const { t, isRTL } = useLanguage(); // Get translations and RTL status
+    
     const navItems = [
-        { id: 'overview', icon: <FaChartLine />, label: 'Overview', path: '/patient/overview' },
-        { id: 'medications', icon: <FaPills />, label: 'Medications', path: '/patient/prescriptions' },
-        { id: 'doctor', icon: <FaPhoneAlt />, label: 'Doctors', path: '/patient/doctors' },
-        { id: 'pharmacies', icon: <FaClinicMedical />, label: 'Pharmacies', path: '/patient/pharmacies' },
-        { id: 'health-info', icon: <FaIdCard />, label: 'Health Info', path: '/patient/health-info' },
-        { id: 'security-center', icon: <FaShieldAlt />, label: 'Security Center', path: '/patient/security-center' },
-        { id: 'help-resources', icon: <FaQuestionCircle />, label: 'Help & Resources', path: '/patient/help' }
+        { 
+            id: 'overview', 
+            icon: <FaChartLine />, 
+            label: t('patientPage.sidebar.overview'), 
+            path: '/patient/overview' 
+        },
+        { 
+            id: 'medications', 
+            icon: <FaPills />, 
+            label: t('patientPage.sidebar.medications'), 
+            path: '/patient/prescriptions' 
+        },
+        { 
+            id: 'doctor', 
+            icon: <FaPhoneAlt />, 
+            label: t('patientPage.sidebar.doctors'), 
+            path: '/patient/doctors' 
+        },
+        { 
+            id: 'pharmacies', 
+            icon: <FaClinicMedical />, 
+            label: t('patientPage.sidebar.pharmacies'), 
+            path: '/patient/pharmacies' 
+        },
+        { 
+            id: 'health-info', 
+            icon: <FaIdCard />, 
+            label: t('patientPage.sidebar.healthInfo'), 
+            path: '/patient/health-info' 
+        },
+        { 
+            id: 'security-center', 
+            icon: <FaShieldAlt />, 
+            label: t('patientPage.sidebar.securityCenter'), 
+            path: '/patient/security-center' 
+        },
+        { 
+            id: 'help-resources', 
+            icon: <FaQuestionCircle />, 
+            label: t('patientPage.sidebar.help'), 
+            path: '/patient/help' 
+        }
     ];
 
     return (
         <>
-            <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+            <aside className={`sidebar ${isSidebarOpen ? 'open' : ''} ${isRTL ? 'rtl' : 'ltr'}`}>
                 <nav className="main-nav">
                     <ul>
                         {navItems.map(item => (
@@ -61,8 +99,8 @@ export const PatientSidebar = ({ isSidebarOpen, onLinkClick }) => {
                             </svg>
                         </div>
                         <div className="adherence-info">
-                            <h4>Medication Adherence</h4>
-                            <p>Great job this week!</p>
+                            <h4>{t('patientPage.sidebar.medicationAdherence')}</h4>
+                            <p>{t('patientPage.sidebar.adherenceStatus')}</p>
                         </div>
                     </div>
                 </div>

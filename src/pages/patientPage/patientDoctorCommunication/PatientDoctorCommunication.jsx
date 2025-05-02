@@ -2,38 +2,59 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaUserMd, FaPaperPlane, FaRegClock, FaClinicMedical, FaRegStar, FaRegCalendarAlt, FaPhoneAlt, FaVideo, FaFileMedical, FaLock, FaBars, FaChevronLeft } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import './PatientDoctorCommunication.scss';
+import { useLanguage } from '../../../context/LanguageContext'; // Import language context
 
 const PatientDoctorCommunication = () => {
-    // Sample data - in a real app, this would come from your API/backend
+    const { language, t } = useLanguage(); // Get language and translation function
+    const isArabic = language === 'ar';
+
+    // Helper function to get localized value
+    const getLocalizedValue = (enValue, arValue) => {
+        return isArabic ? arValue : enValue;
+    };
+
+    // Sample data with both English and Arabic versions
     const [doctors, setDoctors] = useState([
         {
             id: 1,
-            name: "Dr. Sarah Smith",
-            specialty: "Primary Care Physician",
+            nameEn: "Dr. Sarah Smith",
+            nameAr: "د. سارة سميث",
+            specialtyEn: "Primary Care Physician",
+            specialtyAr: "طبيب الرعاية الأولية",
             image: "/api/placeholder/64/64",
             lastContact: "2025-04-02",
-            status: "Available",
-            responseTime: "Usually responds in 24 hours",
+            statusEn: "Available",
+            statusAr: "متاح",
+            responseTimeEn: "Usually responds in 24 hours",
+            responseTimeAr: "عادة ما يستجيب في غضون 24 ساعة",
             isFavorite: true
         },
         {
             id: 2,
-            name: "Dr. Michael Johnson",
-            specialty: "Cardiologist",
+            nameEn: "Dr. Michael Johnson",
+            nameAr: "د. مايكل جونسون",
+            specialtyEn: "Cardiologist",
+            specialtyAr: "طبيب قلب",
             image: "/api/placeholder/64/64",
             lastContact: "2025-03-27",
-            status: "Available",
-            responseTime: "Usually responds in 48 hours",
+            statusEn: "Available",
+            statusAr: "متاح",
+            responseTimeEn: "Usually responds in 48 hours",
+            responseTimeAr: "عادة ما يستجيب في غضون 48 ساعة",
             isFavorite: false
         },
         {
             id: 3,
-            name: "Dr. Emily Chen",
-            specialty: "Dermatologist",
+            nameEn: "Dr. Emily Chen",
+            nameAr: "د. إيميلي تشن",
+            specialtyEn: "Dermatologist",
+            specialtyAr: "طبيب جلدية",
             image: "/api/placeholder/64/64",
             lastContact: "2025-03-15",
-            status: "Away until April 12",
-            responseTime: "Out of office until April 12",
+            statusEn: "Away until April 12",
+            statusAr: "غائب حتى 12 أبريل",
+            responseTimeEn: "Out of office until April 12",
+            responseTimeAr: "خارج المكتب حتى 12 أبريل",
             isFavorite: false
         }
     ]);
@@ -42,33 +63,42 @@ const PatientDoctorCommunication = () => {
         {
             id: 1,
             doctorId: 1,
-            doctorName: "Dr. Sarah Smith",
+            doctorNameEn: "Dr. Sarah Smith",
+            doctorNameAr: "د. سارة سميث",
             doctorImage: "/api/placeholder/48/48",
             date: "2025-04-02",
             time: "10:30 AM",
-            messagePreview: "Your recent blood test results look good. Let's discuss your medication dosage at your next appointment.",
+            timeAr: "10:30 ص",
+            messagePreviewEn: "Your recent blood test results look good. Let's discuss your medication dosage at your next appointment.",
+            messagePreviewAr: "نتائج فحص الدم الأخيرة الخاصة بك تبدو جيدة. دعنا نناقش جرعة الدواء الخاصة بك في موعدك القادم.",
             isRead: true,
             isUrgent: false
         },
         {
             id: 2,
             doctorId: 2,
-            doctorName: "Dr. Michael Johnson",
+            doctorNameEn: "Dr. Michael Johnson",
+            doctorNameAr: "د. مايكل جونسون",
             doctorImage: "/api/placeholder/48/48",
             date: "2025-03-27",
             time: "2:15 PM",
-            messagePreview: "I've reviewed your heart monitor data. Please continue with your current medication regimen.",
+            timeAr: "2:15 م",
+            messagePreviewEn: "I've reviewed your heart monitor data. Please continue with your current medication regimen.",
+            messagePreviewAr: "لقد راجعت بيانات مراقبة القلب الخاصة بك. يرجى الاستمرار في نظام الدواء الحالي.",
             isRead: true,
             isUrgent: false
         },
         {
             id: 3,
             doctorId: 1,
-            doctorName: "Dr. Sarah Smith",
+            doctorNameEn: "Dr. Sarah Smith",
+            doctorNameAr: "د. سارة سميث",
             doctorImage: "/api/placeholder/48/48",
             date: "2025-03-20",
             time: "9:45 AM",
-            messagePreview: "Your prescription for Lisinopril has been renewed. You can pick it up at your pharmacy.",
+            timeAr: "9:45 ص",
+            messagePreviewEn: "Your prescription for Lisinopril has been renewed. You can pick it up at your pharmacy.",
+            messagePreviewAr: "تم تجديد وصفتك الطبية لليسينوبريل. يمكنك استلامها من الصيدلية.",
             isRead: false,
             isUrgent: true
         }
@@ -78,24 +108,36 @@ const PatientDoctorCommunication = () => {
         {
             id: 1,
             doctorId: 1,
-            doctorName: "Dr. Sarah Smith",
-            specialty: "Primary Care Physician",
+            doctorNameEn: "Dr. Sarah Smith",
+            doctorNameAr: "د. سارة سميث",
+            specialtyEn: "Primary Care Physician",
+            specialtyAr: "طبيب الرعاية الأولية",
             date: "2025-04-22",
             time: "2:30 PM",
-            type: "In-person",
-            location: "Main Street Medical Center, Room 305",
-            preAppointmentInstructions: "Please bring your current medication list"
+            timeAr: "2:30 م",
+            typeEn: "In-person",
+            typeAr: "شخصي",
+            locationEn: "Main Street Medical Center, Room 305",
+            locationAr: "المركز الطبي بالشارع الرئيسي، غرفة 305",
+            preAppointmentInstructionsEn: "Please bring your current medication list",
+            preAppointmentInstructionsAr: "يرجى إحضار قائمة الأدوية الحالية الخاصة بك"
         },
         {
             id: 2,
             doctorId: 2,
-            doctorName: "Dr. Michael Johnson",
-            specialty: "Cardiologist",
+            doctorNameEn: "Dr. Michael Johnson",
+            doctorNameAr: "د. مايكل جونسون",
+            specialtyEn: "Cardiologist",
+            specialtyAr: "طبيب قلب",
             date: "2025-05-10",
             time: "10:15 AM",
-            type: "Virtual",
-            location: "Video Conference",
-            preAppointmentInstructions: "Have your blood pressure readings from the past month ready"
+            timeAr: "10:15 ص",
+            typeEn: "Virtual",
+            typeAr: "عن بعد",
+            locationEn: "Video Conference",
+            locationAr: "مؤتمر فيديو",
+            preAppointmentInstructionsEn: "Have your blood pressure readings from the past month ready",
+            preAppointmentInstructionsAr: "يرجى تجهيز قراءات ضغط الدم الخاصة بك من الشهر الماضي"
         }
     ]);
 
@@ -112,13 +154,13 @@ const PatientDoctorCommunication = () => {
         const checkMobile = () => {
             setIsMobile(window.innerWidth < 768);
         };
-        
+
         // Initial check
         checkMobile();
-        
+
         // Listen for resize events
         window.addEventListener('resize', checkMobile);
-        
+
         // Cleanup
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
@@ -130,10 +172,18 @@ const PatientDoctorCommunication = () => {
         }, 500);
     }, []);
 
-    // Format date to display in readable format
+    // Format date to display in readable format based on current language
     const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: 'short', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
+        const date = new Date(dateString);
+        if (isArabic) {
+            // Arabic date format
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return date.toLocaleDateString('ar-SA', options);
+        } else {
+            // English date format
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return date.toLocaleDateString(undefined, options);
+        }
     };
 
     // Animation variants
@@ -167,17 +217,22 @@ const PatientDoctorCommunication = () => {
         e.preventDefault();
         if (messageText.trim() && selectedDoctor) {
             // In a real app, you would send this to your API
-            console.log(`Message to ${selectedDoctor.name}: ${messageText}`);
+            console.log(`Message to ${selectedDoctor.nameEn}: ${messageText}`);
 
             // Add the message to recent messages for demo purposes
             const newMessage = {
                 id: recentMessages.length + 1,
                 doctorId: selectedDoctor.id,
-                doctorName: selectedDoctor.name,
+                doctorNameEn: selectedDoctor.nameEn,
+                doctorNameAr: selectedDoctor.nameAr,
                 doctorImage: selectedDoctor.image,
                 date: new Date().toISOString().split('T')[0],
                 time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                messagePreview: messageText,
+                timeAr: isArabic ?
+                    new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }) :
+                    new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                messagePreviewEn: messageText,
+                messagePreviewAr: messageText, // In a real app, this would be translated
                 isRead: true,
                 isUrgent: false,
                 sentByMe: true
@@ -185,12 +240,12 @@ const PatientDoctorCommunication = () => {
 
             setRecentMessages([newMessage, ...recentMessages]);
             setMessageText("");
-            
+
             // If we're in a message detail view, close it and go back to list
             if (selectedMessage) {
                 setSelectedMessage(null);
             }
-            
+
             // Close the new message modal
             setSelectedDoctor(null);
         }
@@ -213,7 +268,7 @@ const PatientDoctorCommunication = () => {
     const handleBackToMessages = () => {
         setSelectedMessage(null);
     };
-    
+
     // Filter messages based on active filter
     const getFilteredMessages = () => {
         if (activeFilter === "all") {
@@ -225,7 +280,7 @@ const PatientDoctorCommunication = () => {
         }
         return recentMessages;
     };
-    
+
     const filteredMessages = getFilteredMessages();
 
     return (
@@ -233,7 +288,7 @@ const PatientDoctorCommunication = () => {
             {!isLoaded ? (
                 <div className="loading-overlay">
                     <div className="loader"></div>
-                    <p>Loading doctor communication...</p>
+                    <p>{t('patientPage.doctors.loading')}</p>
                 </div>
             ) : (
                 <>
@@ -244,12 +299,12 @@ const PatientDoctorCommunication = () => {
                         transition={{ duration: 0.5 }}
                     >
                         <div className="header-content">
-                            <h1>Doctor Communication</h1>
-                            <p className="subtitle">Securely message your healthcare providers and manage appointments</p>
+                            <h1>{t('patientPage.doctors.title')}</h1>
+                            <p className="subtitle">{t('patientPage.doctors.subtitle')}</p>
                         </div>
                         <div className="secure-badge">
                             <FaLock className="lock-icon" />
-                            <span>End-to-end encrypted</span>
+                            <span>{t('patientPage.doctors.encrypted')}</span>
                         </div>
                     </motion.div>
 
@@ -259,7 +314,7 @@ const PatientDoctorCommunication = () => {
                             onClick={() => setActiveTab('messages')}
                         >
                             <FaPaperPlane className="tab-icon" />
-                            {isMobile ? "Messages" : "Messages"}
+                            {isMobile ? t('patientPage.doctors.messagesShort') : t('patientPage.doctors.messages')}
                             {filteredMessages.filter(msg => !msg.isRead).length > 0 && (
                                 <span className="badge">{filteredMessages.filter(msg => !msg.isRead).length}</span>
                             )}
@@ -269,7 +324,7 @@ const PatientDoctorCommunication = () => {
                             onClick={() => setActiveTab('appointments')}
                         >
                             <FaRegCalendarAlt className="tab-icon" />
-                            {isMobile ? "Appts" : "Appointments"}
+                            {isMobile ? t('patientPage.doctors.apptsShort') : t('patientPage.doctors.appointments')}
                             {upcomingAppointments.length > 0 && (
                                 <span className="badge">{upcomingAppointments.length}</span>
                             )}
@@ -279,7 +334,7 @@ const PatientDoctorCommunication = () => {
                             onClick={() => setActiveTab('providers')}
                         >
                             <FaUserMd className="tab-icon" />
-                            {isMobile ? "Providers" : "My Providers"}
+                            {isMobile ? t('patientPage.doctors.providersShort') : t('patientPage.doctors.myProviders')}
                         </button>
                     </div>
 
@@ -294,31 +349,31 @@ const PatientDoctorCommunication = () => {
                                 <>
                                     <div className="message-toolbar">
                                         <div className="message-filters">
-                                            <button 
+                                            <button
                                                 className={`filter-btn ${activeFilter === 'all' ? 'active' : ''}`}
                                                 onClick={() => setActiveFilter('all')}
                                             >
-                                                All
+                                                {t('patientPage.doctors.all')}
                                             </button>
-                                            <button 
+                                            <button
                                                 className={`filter-btn ${activeFilter === 'unread' ? 'active' : ''}`}
                                                 onClick={() => setActiveFilter('unread')}
                                             >
-                                                Unread
+                                                {t('patientPage.doctors.unread')}
                                             </button>
-                                            <button 
+                                            <button
                                                 className={`filter-btn ${activeFilter === 'urgent' ? 'active' : ''}`}
                                                 onClick={() => setActiveFilter('urgent')}
                                             >
-                                                Urgent
+                                                {t('patientPage.doctors.urgent')}
                                             </button>
                                         </div>
-                                        <button 
+                                        <button
                                             className="new-message-btn"
                                             onClick={() => setSelectedDoctor(doctors[0])} // For demo, open with first doctor
                                         >
                                             <FaPaperPlane className="btn-icon" />
-                                            {isMobile ? "New" : "New Message"}
+                                            {isMobile ? t('patientPage.doctors.newShort') : t('patientPage.doctors.newMessage')}
                                         </button>
                                     </div>
 
@@ -331,24 +386,24 @@ const PatientDoctorCommunication = () => {
                                                     variants={itemVariants}
                                                     onClick={() => handleViewMessage(message)}
                                                 >
-                                                    {message.isUrgent && <div className="urgent-indicator">Urgent</div>}
+                                                    {message.isUrgent && <div className="urgent-indicator">{t('patientPage.doctors.urgentLabel')}</div>}
                                                     <div className="message-avatar">
-                                                        <img src={message.doctorImage} alt={message.doctorName} />
-                                                        {message.sentByMe && <div className="sent-indicator">You</div>}
+                                                        <img src={message.doctorImage} alt={getLocalizedValue(message.doctorNameEn, message.doctorNameAr)} />
+                                                        {message.sentByMe && <div className="sent-indicator">{t('patientPage.doctors.you')}</div>}
                                                     </div>
                                                     <div className="message-content">
                                                         <div className="message-header">
-                                                            <h3>{message.doctorName}</h3>
-                                                            <span className="message-time">{formatDate(message.date)} • {message.time}</span>
+                                                            <h3>{getLocalizedValue(message.doctorNameEn, message.doctorNameAr)}</h3>
+                                                            <span className="message-time">{formatDate(message.date)} • {getLocalizedValue(message.time, message.timeAr)}</span>
                                                         </div>
-                                                        <p className="message-preview">{message.messagePreview}</p>
+                                                        <p className="message-preview">{getLocalizedValue(message.messagePreviewEn, message.messagePreviewAr)}</p>
                                                     </div>
                                                     {!message.isRead && <div className="unread-indicator"></div>}
                                                 </motion.div>
                                             ))
                                         ) : (
                                             <div className="no-messages">
-                                                <p>No messages match your filter.</p>
+                                                <p>{t('patientPage.doctors.noMessagesFilter')}</p>
                                             </div>
                                         )}
                                     </div>
@@ -356,37 +411,37 @@ const PatientDoctorCommunication = () => {
                             ) : (
                                 <div className="message-detail">
                                     <button className="back-button" onClick={handleBackToMessages}>
-                                        <FaChevronLeft /> Back to messages
+                                        <FaChevronLeft /> {t('patientPage.doctors.backToMessages')}
                                     </button>
 
                                     <div className="message-detail-header">
                                         <div className="message-detail-avatar">
-                                            <img src={selectedMessage.doctorImage} alt={selectedMessage.doctorName} />
+                                            <img src={selectedMessage.doctorImage} alt={getLocalizedValue(selectedMessage.doctorNameEn, selectedMessage.doctorNameAr)} />
                                         </div>
                                         <div className="message-detail-info">
-                                            <h3 className="doctor-name">{selectedMessage.doctorName}</h3>
-                                            <p className="message-timestamp">{formatDate(selectedMessage.date)} at {selectedMessage.time}</p>
+                                            <h3 className="doctor-name">{getLocalizedValue(selectedMessage.doctorNameEn, selectedMessage.doctorNameAr)}</h3>
+                                            <p className="message-timestamp">{formatDate(selectedMessage.date)} {t('patientPage.doctors.atTime')} {getLocalizedValue(selectedMessage.time, selectedMessage.timeAr)}</p>
                                         </div>
-                                        {selectedMessage.isUrgent && <div className="message-detail-urgent">Urgent</div>}
+                                        {selectedMessage.isUrgent && <div className="message-detail-urgent">{t('patientPage.doctors.urgentLabel')}</div>}
                                     </div>
 
                                     <div className="message-detail-content">
-                                        <p className="message-text">{selectedMessage.messagePreview}</p>
+                                        <p className="message-text">{getLocalizedValue(selectedMessage.messagePreviewEn, selectedMessage.messagePreviewAr)}</p>
                                     </div>
 
                                     <div className="message-reply">
                                         <form onSubmit={handleSendMessage}>
                                             <textarea
-                                                placeholder="Type your reply here..."
+                                                placeholder={t('patientPage.doctors.replyPlaceholder')}
                                                 value={messageText}
                                                 onChange={(e) => setMessageText(e.target.value)}
                                             ></textarea>
                                             <div className="reply-actions">
                                                 <button className="upload-btn" type="button">
-                                                    <FaFileMedical /> {isMobile ? "" : "Attach"}
+                                                    <FaFileMedical /> {isMobile ? "" : t('patientPage.doctors.attach')}
                                                 </button>
                                                 <button className="send-btn" type="submit">
-                                                    <FaPaperPlane /> {isMobile ? "Send" : "Send Reply"}
+                                                    <FaPaperPlane /> {isMobile ? t('patientPage.doctors.sendShort') : t('patientPage.doctors.sendReply')}
                                                 </button>
                                             </div>
                                         </form>
@@ -404,10 +459,10 @@ const PatientDoctorCommunication = () => {
                             animate="visible"
                         >
                             <div className="appointments-toolbar">
-                                <h2>Upcoming Appointments</h2>
+                                <h2>{t('patientPage.doctors.upcomingAppointments')}</h2>
                                 <button className="schedule-btn">
                                     <FaRegCalendarAlt className="btn-icon" />
-                                    {isMobile ? "Schedule" : "Schedule New"}
+                                    {isMobile ? t('patientPage.doctors.scheduleShort') : t('patientPage.doctors.scheduleNew')}
                                 </button>
                             </div>
 
@@ -420,34 +475,40 @@ const PatientDoctorCommunication = () => {
                                     >
                                         <div className="appointment-date">
                                             <div className="calendar">
-                                                <span className="month">{new Date(appointment.date).toLocaleString('default', { month: 'short' })}</span>
+                                                <span className="month">
+                                                    {isArabic
+                                                        ? new Date(appointment.date).toLocaleString('ar-SA', { month: 'short' })
+                                                        : new Date(appointment.date).toLocaleString('default', { month: 'short' })}
+                                                </span>
                                                 <span className="day">{new Date(appointment.date).getDate()}</span>
                                             </div>
-                                            <span className="time">{appointment.time}</span>
+                                            <span className="time">{getLocalizedValue(appointment.time, appointment.timeAr)}</span>
                                         </div>
 
                                         <div className="appointment-details">
-                                            <h3>{appointment.doctorName}</h3>
-                                            <p className="specialty">{appointment.specialty}</p>
+                                            <h3>{getLocalizedValue(appointment.doctorNameEn, appointment.doctorNameAr)}</h3>
+                                            <p className="specialty">{getLocalizedValue(appointment.specialtyEn, appointment.specialtyAr)}</p>
                                             <div className="appointment-type">
-                                                {appointment.type === 'Virtual' ? (
+                                                {getLocalizedValue(appointment.typeEn, appointment.typeAr) === 'Virtual' || getLocalizedValue(appointment.typeEn, appointment.typeAr) === 'عن بعد' ? (
                                                     <span className="virtual-badge">
-                                                        <FaVideo /> Virtual Visit
+                                                        <FaVideo /> {t('patientPage.doctors.virtualVisit')}
                                                     </span>
                                                 ) : (
                                                     <span className="in-person-badge">
-                                                        <FaClinicMedical /> In-Person
+                                                        <FaClinicMedical /> {t('patientPage.doctors.inPerson')}
                                                     </span>
                                                 )}
                                             </div>
-                                            <p className="location">{appointment.location}</p>
+                                            <p className="location">{getLocalizedValue(appointment.locationEn, appointment.locationAr)}</p>
                                         </div>
 
                                         <div className="appointment-actions">
                                             <button className="action-btn primary">
-                                                {appointment.type === 'Virtual' ? 'Join Call' : 'Check In'}
+                                                {getLocalizedValue(appointment.typeEn, appointment.typeAr) === 'Virtual' || getLocalizedValue(appointment.typeEn, appointment.typeAr) === 'عن بعد'
+                                                    ? t('patientPage.doctors.joinCall')
+                                                    : t('patientPage.doctors.checkIn')}
                                             </button>
-                                            <button className="action-btn secondary">Reschedule</button>
+                                            <button className="action-btn secondary">{t('patientPage.doctors.reschedule')}</button>
                                         </div>
                                     </motion.div>
                                 ))}
@@ -455,9 +516,9 @@ const PatientDoctorCommunication = () => {
 
                             <div className="no-appointments" style={{ display: upcomingAppointments.length > 0 ? 'none' : 'flex' }}>
                                 <FaRegCalendarAlt className="empty-icon" />
-                                <h3>No upcoming appointments</h3>
-                                <p>Schedule your next visit with your healthcare provider</p>
-                                <button className="schedule-empty-btn">Schedule Appointment</button>
+                                <h3>{t('patientPage.doctors.noAppointments')}</h3>
+                                <p>{t('patientPage.doctors.scheduleNextVisit')}</p>
+                                <button className="schedule-empty-btn">{t('patientPage.doctors.scheduleAppointment')}</button>
                             </div>
                         </motion.div>
                     )}
@@ -470,10 +531,10 @@ const PatientDoctorCommunication = () => {
                             animate="visible"
                         >
                             <div className="providers-toolbar">
-                                <h2>My Healthcare Providers</h2>
+                                <h2>{t('patientPage.doctors.myHealthcareProviders')}</h2>
                                 <button className="add-provider-btn">
                                     <FaUserMd className="btn-icon" />
-                                    {isMobile ? "Add" : "Add Provider"}
+                                    {isMobile ? t('patientPage.doctors.addShort') : t('patientPage.doctors.addProvider')}
                                 </button>
                             </div>
 
@@ -486,30 +547,30 @@ const PatientDoctorCommunication = () => {
                                     >
                                         <div className="provider-header">
                                             <div className="provider-avatar">
-                                                <img src={doctor.image} alt={doctor.name} />
-                                                <div className={`status-indicator ${doctor.status === 'Available' ? 'available' : 'away'}`}></div>
+                                                <img src={doctor.image} alt={getLocalizedValue(doctor.nameEn, doctor.nameAr)} />
+                                                <div className={`status-indicator ${getLocalizedValue(doctor.statusEn, doctor.statusAr) === 'Available' || getLocalizedValue(doctor.statusEn, doctor.statusAr) === 'متاح' ? 'available' : 'away'}`}></div>
                                             </div>
-                                            <button className="favorite-btn" aria-label={doctor.isFavorite ? "Remove from favorites" : "Add to favorites"}>
+                                            <button className="favorite-btn" aria-label={doctor.isFavorite ? t('patientPage.doctors.removeFromFavorites') : t('patientPage.doctors.addToFavorites')}>
                                                 <FaRegStar className={doctor.isFavorite ? 'favorite' : ''} />
                                             </button>
                                         </div>
 
                                         <div className="provider-info">
-                                            <h3>{doctor.name}</h3>
-                                            <p className="specialty">{doctor.specialty}</p>
-                                            <p className="status">{doctor.status}</p>
+                                            <h3>{getLocalizedValue(doctor.nameEn, doctor.nameAr)}</h3>
+                                            <p className="specialty">{getLocalizedValue(doctor.specialtyEn, doctor.specialtyAr)}</p>
+                                            <p className="status">{getLocalizedValue(doctor.statusEn, doctor.statusAr)}</p>
                                             <p className="response-time">
                                                 <FaRegClock className="time-icon" />
-                                                {doctor.responseTime}
+                                                {getLocalizedValue(doctor.responseTimeEn, doctor.responseTimeAr)}
                                             </p>
                                         </div>
 
                                         <div className="provider-actions">
                                             <button className="action-btn message" onClick={() => handleSelectDoctor(doctor)}>
-                                                <FaPaperPlane /> Message
+                                                <FaPaperPlane /> {t('patientPage.doctors.message')}
                                             </button>
                                             <button className="action-btn call">
-                                                <FaPhoneAlt /> Call Office
+                                                <FaPhoneAlt /> {t('patientPage.doctors.callOffice')}
                                             </button>
                                         </div>
                                     </motion.div>
@@ -522,36 +583,36 @@ const PatientDoctorCommunication = () => {
                         <div className="new-message-overlay">
                             <div className="new-message-modal">
                                 <div className="modal-header">
-                                    <h3>New Message</h3>
-                                    <button className="close-btn" onClick={() => setSelectedDoctor(null)} aria-label="Close">×</button>
+                                    <h3>{t('patientPage.doctors.newMessage')}</h3>
+                                    <button className="close-btn" onClick={() => setSelectedDoctor(null)} aria-label={t('patientPage.doctors.close')}>×</button>
                                 </div>
 
                                 <div className="modal-content">
                                     <div className="recipient-info">
-                                        <span>To:</span>
+                                        <span>{t('patientPage.doctors.to')}:</span>
                                         <div className="recipient-chip">
-                                            <img src={selectedDoctor.image} alt={selectedDoctor.name} />
-                                            <span>{selectedDoctor.name}</span>
+                                            <img src={selectedDoctor.image} alt={getLocalizedValue(selectedDoctor.nameEn, selectedDoctor.nameAr)} />
+                                            <span>{getLocalizedValue(selectedDoctor.nameEn, selectedDoctor.nameAr)}</span>
                                         </div>
                                     </div>
 
                                     <form onSubmit={handleSendMessage}>
                                         <div className="form-group">
-                                            <label htmlFor="messageSubject">Subject:</label>
+                                            <label htmlFor="messageSubject">{t('patientPage.doctors.subject')}:</label>
                                             <select id="messageSubject">
-                                                <option value="medication">Medication Question</option>
-                                                <option value="prescription">Prescription Refill</option>
-                                                <option value="appointment">Appointment Request</option>
-                                                <option value="results">Test Results</option>
-                                                <option value="other">Other</option>
+                                                <option value="medication">{t('patientPage.doctors.medicationQuestion')}</option>
+                                                <option value="prescription">{t('patientPage.doctors.prescriptionRefill')}</option>
+                                                <option value="appointment">{t('patientPage.doctors.appointmentRequest')}</option>
+                                                <option value="results">{t('patientPage.doctors.testResults')}</option>
+                                                <option value="other">{t('patientPage.doctors.other')}</option>
                                             </select>
                                         </div>
 
                                         <div className="form-group">
-                                            <label htmlFor="messageContent">Message:</label>
+                                            <label htmlFor="messageContent">{t('patientPage.doctors.messageLabel')}:</label>
                                             <textarea
                                                 id="messageContent"
-                                                placeholder="Type your message here..."
+                                                placeholder={t('patientPage.doctors.messagePlaceholder')}
                                                 value={messageText}
                                                 onChange={(e) => setMessageText(e.target.value)}
                                             ></textarea>
@@ -559,20 +620,20 @@ const PatientDoctorCommunication = () => {
 
                                         <div className="form-group urgent-checkbox">
                                             <input type="checkbox" id="isUrgent" />
-                                            <label htmlFor="isUrgent">Mark as urgent</label>
-                                            <span className="urgent-note">Only use for time-sensitive medical issues</span>
+                                            <label htmlFor="isUrgent">{t('patientPage.doctors.markAsUrgent')}</label>
+                                            <span className="urgent-note">{t('patientPage.doctors.urgentNote')}</span>
                                         </div>
 
                                         <div className="form-actions">
                                             <div className="attachment-section">
                                                 <button type="button" className="attach-btn">
-                                                    <FaFileMedical /> Attach Files
+                                                    <FaFileMedical /> {t('patientPage.doctors.attachFiles')}
                                                 </button>
-                                                <span className="attachment-note">Max size: 10MB</span>
+                                                <span className="attachment-note">{t('patientPage.doctors.maxSize')}</span>
                                             </div>
 
                                             <button type="submit" className="send-message-btn">
-                                                <FaPaperPlane /> Send Message
+                                                <FaPaperPlane /> {t('patientPage.doctors.sendMessage')}
                                             </button>
                                         </div>
                                     </form>
@@ -581,7 +642,7 @@ const PatientDoctorCommunication = () => {
                                 <div className="modal-footer">
                                     <div className="security-note">
                                         <FaLock className="lock-icon" />
-                                        <span>All messages are securely encrypted and HIPAA compliant</span>
+                                        <span>{t('patientPage.doctors.securityNote')}</span>
                                     </div>
                                 </div>
                             </div>

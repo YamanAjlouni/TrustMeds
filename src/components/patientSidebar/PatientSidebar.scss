@@ -1,7 +1,4 @@
-$primary-color: #4285f4;
-$secondary-color: #34a853;
-$medium-text: #5f6368;
-$transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+@use '../../assets/styles/vars.scss' as *;
 
 @mixin flex-center {
     display: flex;
@@ -12,11 +9,9 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 .sidebar {
     position: fixed;
     top: 0;
-    left: 0;
     height: calc(100vh - 70px);
     width: 240px;
     background-color: white;
-    border-right: 1px solid rgba(0, 0, 0, 0.06);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -25,29 +20,110 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     transition: transform 0.3s ease;
     z-index: 90;
     overflow-y: auto;
-    
-    @media (max-width: 1120px) {
-        transform: translateX(-100%);
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+
+    // LTR styles
+    &.ltr {
+        left: 0;
+        right: auto;
+        border-right: 1px solid rgba(0, 0, 0, 0.06);
+
+        @media (max-width: 1120px) {
+            transform: translateX(-100%);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        &.open {
+            transform: translateX(0);
+        }
+
+        .main-nav {
+            ul {
+                a {
+                    justify-content: flex-start;
+
+                    .nav-icon {
+                        margin-right: 0.75rem;
+                        margin-left: 0;
+                    }
+                }
+            }
+        }
+
+        .sidebar-footer {
+            .health-status {
+                .adherence-chart {
+                    margin-right: 0.75rem;
+                    margin-left: 0;
+
+                    @media (min-width: 768px) {
+                        margin-right: 1rem;
+                        margin-left: 0;
+                    }
+                }
+            }
+        }
     }
-    
+
+    // RTL styles
+    &.rtl {
+        left: auto;
+        right: 0;
+        border-left: 1px solid rgba(0, 0, 0, 0.06);
+
+        @media (max-width: 1120px) {
+            transform: translateX(100%);
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        &.open {
+            transform: translateX(0);
+        }
+
+        .main-nav {
+            ul {
+                li {
+                    a {
+                        justify-content: flex-start;
+
+                        .nav-icon {
+                            margin-left: 0.75rem;
+                            margin-right: 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        .sidebar-footer {
+            .health-status {
+                flex-direction: row-reverse;
+
+                .adherence-chart {
+                    margin-left: 0.75rem;
+                    margin-right: 0;
+
+                    @media (min-width: 768px) {
+                        margin-left: 1rem;
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+    }
+
     @media (min-width: 768px) {
         margin-top: 80px;
         height: calc(100vh - 80px);
     }
-    
+
     @media (min-width: 1024px) {
         margin-top: 100px;
         height: calc(100vh - 100px);
     }
-    
-    &.open {
-        transform: translateX(0);
-    }
 
     .main-nav {
         padding: 1rem 0;
-        
+
         @media (min-width: 768px) {
             padding: 1.5rem 0;
         }
@@ -59,7 +135,7 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
             li {
                 margin: 0.15rem 0;
-                
+
                 @media (min-width: 768px) {
                     margin: 0.25rem 0;
                 }
@@ -71,20 +147,18 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                 border-radius: 8px;
                 cursor: pointer;
                 @include flex-center;
-                justify-content: flex-start;
                 color: $medium-text;
                 text-decoration: none;
                 transition: $transition-standard;
-                
+
                 @media (min-width: 768px) {
                     padding: 0.5rem 1.25rem;
                     margin: 0.25rem 0.75rem;
                 }
-                
+
                 .nav-icon {
-                    margin-right: 0.75rem;
                     font-size: 1rem;
-                    
+
                     @media (min-width: 768px) {
                         font-size: 1.1rem;
                     }
@@ -93,7 +167,7 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                 .nav-label {
                     font-size: 0.9rem;
                     font-weight: 500;
-                    
+
                     @media (min-width: 768px) {
                         font-size: 0.95rem;
                     }
@@ -117,7 +191,7 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         padding: 0.75rem 1rem;
         border-top: 1px solid rgba(0, 0, 0, 0.06);
         margin: 0 0.5rem 0.5rem;
-        
+
         @media (min-width: 768px) {
             padding: 1rem 1.25rem;
             margin: 0 0.75rem;
@@ -130,12 +204,10 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                 position: relative;
                 width: 50px;
                 height: 50px;
-                margin-right: 0.75rem;
-                
+
                 @media (min-width: 768px) {
                     width: 60px;
                     height: 60px;
-                    margin-right: 1rem;
                 }
 
                 .percentage {
@@ -146,7 +218,7 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                     font-size: 0.8rem;
                     font-weight: 700;
                     color: $secondary-color;
-                    
+
                     @media (min-width: 768px) {
                         font-size: 0.9rem;
                     }
@@ -179,7 +251,7 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                     font-size: 0.75rem;
                     margin: 0 0 0.2rem;
                     color: $medium-text;
-                    
+
                     @media (min-width: 768px) {
                         font-size: 0.8rem;
                         margin: 0 0 0.25rem;
@@ -191,7 +263,7 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                     font-size: 0.8rem;
                     font-weight: 600;
                     color: $secondary-color;
-                    
+
                     @media (min-width: 768px) {
                         font-size: 0.9rem;
                     }
@@ -211,11 +283,11 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 80;
     display: none;
-    
+
     &.active {
         display: block;
     }
-    
+
     @media (min-width: 1120px) {
         display: none !important;
     }

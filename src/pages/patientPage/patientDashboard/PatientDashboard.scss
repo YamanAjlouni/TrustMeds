@@ -1,16 +1,4 @@
 @use '../../../assets/styles/vars.scss' as *;
-$secondary-color: #34a853;
-$accent-color: #fbbc05;
-$danger-color: #ea4335;
-$light-bg: #f8f9fa;
-$dark-text: #202124;
-$medium-text: #5f6368;
-$light-text: #9aa0a6;
-$border-radius: 12px;
-$shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
-$shadow-md: 0 4px 10px rgba(0, 0, 0, 0.08);
-$shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
-$transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
 // Mixins
 @mixin flex-center {
@@ -1071,6 +1059,133 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+
+// Add RTL-specific styles to your PatientDashboard.scss
+.lang-ar {
+    .patient-dashboard {
+        .welcome-section {
+            border-left: 0;
+            border-right: 4px solid $primary-color;
+
+            .quick-action-btn {
+                svg {
+                    margin-right: 0;
+                    margin-left: 0.4rem;
+
+                    @media (min-width: 768px) {
+                        margin-right: 0;
+                        margin-left: 0.5rem;
+                    }
+                }
+            }
+        }
+
+        .health-metrics {
+            .health-metric-card {
+                .metric-icon {
+                    margin-right: 0;
+                    margin-left: 0.75rem;
+
+                    @media (min-width: 768px) {
+                        margin-right: 0;
+                        margin-left: 1rem;
+                    }
+                }
+            }
+        }
+
+        .medication-card {
+            @media (min-width: 768px) {
+                .medication-color-bar {
+                    order: 2;
+                }
+
+                .medication-details {
+                    order: 1;
+                }
+
+                .medication-actions {
+                    order: 0;
+                    padding: 0 1.25rem 0 0;
+                }
+            }
+        }
+
+        .upcoming-event {
+            .event-date {
+                margin-right: 0;
+                margin-left: 0.75rem;
+
+                @media (min-width: 768px) {
+                    margin-right: 0;
+                    margin-left: 1rem;
+                }
+            }
+
+            .event-time {
+                .time-icon {
+                    margin-right: 0;
+                    margin-left: 0.3rem;
+
+                    @media (min-width: 768px) {
+                        margin-right: 0;
+                        margin-left: 0.4rem;
+                    }
+                }
+            }
+        }
+
+        .pharmacy-info {
+            .pharmacy-icon {
+                margin-right: 0;
+                margin-left: 0.75rem;
+
+                @media (min-width: 768px) {
+                    margin-right: 0;
+                    margin-left: 1rem;
+                }
+            }
+
+            .pharmacy-primary-info {
+                .pharmacy-name {
+                    margin-right: 0;
+                    margin-left: 0.5rem;
+
+                    @media (min-width: 768px) {
+                        margin-right: 0;
+                        margin-left: 0.75rem;
+                    }
+                }
+            }
+        }
+
+        .pharmacy-actions,
+        .medication-actions {
+            .btn-icon {
+                margin-right: 0;
+                margin-left: 0.4rem;
+
+                @media (min-width: 768px) {
+                    margin-right: 0;
+                    margin-left: 0.5rem;
+                }
+            }
+        }
+
+        .activity-item {
+            .activity-icon {
+                margin-right: 0;
+                margin-left: 0.75rem;
+
+                @media (min-width: 768px) {
+                    margin-right: 0;
+                    margin-left: 1rem;
                 }
             }
         }

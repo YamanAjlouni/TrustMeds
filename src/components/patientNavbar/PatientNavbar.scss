@@ -126,6 +126,7 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         color: $medium-text;
         margin-right: 1rem;
         cursor: pointer;
+        display: none; // remove this line to show the icon on mobile devices  
 
         @media (min-width: 768px) {
             display: none;
@@ -138,6 +139,71 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
         @media (min-width: 768px) {
             gap: 1.5rem;
+        }
+
+        // Language selector styles
+        .language-wrapper {
+            position: relative;
+
+            .language-icon-wrapper {
+                position: relative;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+
+                .language-icon {
+                    font-size: 1.1rem;
+                    color: $medium-text;
+                    transition: $transition-standard;
+
+                    @media (min-width: 768px) {
+                        font-size: 1.25rem;
+                    }
+
+                    &:hover {
+                        color: $primary-color;
+                    }
+                }
+
+                .current-language {
+                    font-size: 0.7rem;
+                    font-weight: 600;
+
+                    @media (min-width: 768px) {
+                        font-size: 0.8rem;
+                    }
+                }
+            }
+
+            .language-dropdown {
+                position: absolute;
+                top: calc(100% + 10px);
+                right: -10px;
+                width: 120px;
+                background-color: white;
+                border-radius: $border-radius;
+                box-shadow: $shadow-lg;
+                z-index: 10;
+                overflow: hidden;
+
+                .language-option {
+                    padding: 0.75rem;
+                    font-size: 0.85rem;
+                    cursor: pointer;
+                    transition: $transition-standard;
+
+                    &:hover {
+                        background-color: rgba($primary-color, 0.08);
+                    }
+
+                    &.active {
+                        background-color: rgba($primary-color, 0.1);
+                        color: $primary-color;
+                        font-weight: 500;
+                    }
+                }
+            }
         }
 
         .notification-wrapper {
@@ -405,6 +471,69 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                 &::placeholder {
                     color: $light-text;
                 }
+            }
+        }
+    }
+}
+
+// RTL-specific adjustments for language switching
+.lang-ar {
+    .dashboard-header {
+        .hamburger-menu {
+            margin-right: 0;
+            margin-left: 1rem;
+        }
+
+        .search-bar {
+            .search-icon {
+                margin-right: 0;
+                margin-left: 0.75rem;
+            }
+        }
+
+        .mobile-search-button {
+            margin-right: 0;
+            margin-left: 1rem;
+        }
+
+        .header-actions {
+            .language-dropdown {
+                right: auto;
+                left: -10px;
+            }
+
+            .notification-wrapper {
+                .notification-icon-wrapper {
+                    .notification-count {
+                        right: auto;
+                        left: -8px;
+                    }
+                }
+
+                .notification-dropdown {
+                    right: auto;
+                    left: -10px;
+
+                    .notification-item {
+                        &.unread {
+                            &::before {
+                                left: auto;
+                                right: 0;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .user-profile {
+                flex-direction: row-reverse;
+            }
+        }
+
+        .mobile-search-container {
+            .search-icon {
+                margin-right: 0;
+                margin-left: 0.75rem;
             }
         }
     }

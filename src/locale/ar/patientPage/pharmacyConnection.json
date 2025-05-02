@@ -1,0 +1,198 @@
+{
+    "pageHeader": {
+        "title": "الربط بالصيدلية",
+        "subtitle": "إدارة تفضيلات الصيدلية وخيارات توصيل الأدوية",
+        "stats": {
+            "saved": "المحفوظة",
+            "delivery": "التوصيل"
+        }
+    },
+    "tabs": {
+        "myPharmacies": "صيدلياتي",
+        "myPharmaciesMobile": "صيدلياتي",
+        "findPharmacies": "البحث عن صيدليات",
+        "findPharmaciesMobile": "بحث",
+        "prescriptionDelivery": "توصيل الوصفات الطبية",
+        "prescriptionDeliveryMobile": "توصيل"
+    },
+    "preferred": {
+        "title": "صيدلياتي المفضلة",
+        "subtitle": "هذه هي الصيدليات التي يمكن إرسال وصفاتك الطبية إليها",
+        "primary": "الرئيسية",
+        "details": {
+            "lastVisit": "آخر زيارة:",
+            "never": "أبداً"
+        },
+        "actions": {
+            "setPrimary": "تعيين كصيدلية رئيسية",
+            "viewDetails": "عرض التفاصيل"
+        },
+        "noResults": {
+            "title": "لم يتم العثور على صيدليات مفضلة",
+            "subtitle": "انتقل إلى علامة تبويب \"البحث عن صيدليات\" لإضافة صيدليات"
+        }
+    },
+    "nearby": {
+        "title": "البحث عن صيدليات",
+        "subtitle": "اكتشف الصيدليات القريبة منك وأضفها إلى تفضيلاتك",
+        "search": {
+            "placeholder": "البحث بالاسم أو العنوان أو الرمز البريدي..."
+        },
+        "filters": {
+            "label": "تصفية حسب:",
+            "all": "الكل",
+            "distance": "المسافة",
+            "rating": "التقييم",
+            "delivery": "التوصيل"
+        },
+        "actions": {
+            "add": "إضافة",
+            "addToMyPharmacies": "إضافة إلى صيدلياتي",
+            "viewDetails": "عرض التفاصيل"
+        },
+        "noResults": {
+            "title": "لم يتم العثور على صيدليات",
+            "subtitle": "حاول تعديل البحث أو المرشحات"
+        }
+    },
+    "delivery": {
+        "title": "توصيل الوصفات الطبية",
+        "subtitle": "إعداد وإدارة خيارات توصيل الوصفات الطبية الخاصة بك",
+        "status": {
+            "title": "حالة التوصيل:",
+            "enabled": "مفعّل",
+            "disabled": "معطّل"
+        },
+        "preferences": {
+            "title": "تفضيلات التوصيل",
+            "defaultOption": "الخيار الافتراضي:",
+            "scheduledWeekly": "توصيل أسبوعي مجدول",
+            "asNeeded": "عند الحاجة",
+            "scheduledDay": "اليوم المجدول:",
+            "preferredTime": "الوقت المفضل:"
+        },
+        "address": {
+            "title": "عنوان التوصيل"
+        },
+        "notifications": {
+            "title": "الإشعارات",
+            "method": "طريقة الإشعار:",
+            "textMessage": "رسالة نصية",
+            "email": "بريد إلكتروني",
+            "both": "كلاهما",
+            "phoneNumber": "رقم الهاتف:",
+            "emailAddress": "البريد الإلكتروني:"
+        },
+        "actions": {
+            "editSettings": "تعديل إعدادات التوصيل",
+            "disableDelivery": "تعطيل التوصيل",
+            "enableDelivery": "تفعيل التوصيل"
+        },
+        "setup": {
+            "info": "يتيح لك توصيل الوصفات الطبية استلام أدويتك مباشرة عند باب منزلك. قم بتفعيل هذه الميزة لإعداد تفضيلات التوصيل الخاصة بك."
+        },
+        "history": {
+            "title": "سجل التوصيل",
+            "details": {
+                "medications": "الأدوية:",
+                "from": "من:",
+                "tracking": "رقم التتبع:",
+                "receivedBy": "استلمها:"
+            },
+            "noHistory": "لا يوجد سجل توصيل متاح"
+        }
+    },
+    "pharmacyDetails": {
+        "details": {
+            "address": "العنوان",
+            "phone": "الهاتف",
+            "hours": "ساعات العمل",
+            "distance": "المسافة",
+            "rating": "التقييم",
+            "delivery": "التوصيل",
+            "available": "متوفر",
+            "notAvailable": "غير متوفر",
+            "outOf5": "من 5",
+            "reviews": "تقييمات"
+        },
+        "services": {
+            "title": "الخدمات المتاحة",
+            "types": {
+                "prescriptionFilling": "صرف الوصفات الطبية",
+                "medicationConsulting": "استشارات الأدوية",
+                "fluShots": "لقاحات الإنفلونزا",
+                "compounding": "تركيب الأدوية",
+                "healthScreenings": "فحوصات صحية",
+                "driveThrough": "خدمة السيارات"
+            }
+        },
+        "actions": {
+            "addToMyPharmacies": "إضافة إلى صيدلياتي",
+            "setPrimaryPharmacy": "تعيين كصيدلية رئيسية",
+            "getDirections": "الحصول على الاتجاهات"
+        }
+    },
+    "deliverySetup": {
+        "title": "إعدادات التوصيل",
+        "preference": {
+            "title": "تفضيل التوصيل",
+            "scheduledWeekly": "توصيل أسبوعي مجدول",
+            "asNeeded": "عند الحاجة"
+        },
+        "schedule": {
+            "preferredDay": "اليوم المفضل",
+            "preferredTime": "الوقت المفضل",
+            "morning": "صباحًا (٩ص-١٢ظ)",
+            "afternoon": "بعد الظهر (٢م-٥م)",
+            "evening": "مساءً (٦م-٨م)"
+        },
+        "address": {
+            "title": "عنوان التوصيل",
+            "placeholder": "أدخل عنوان التوصيل الخاص بك"
+        },
+        "notifications": {
+            "title": "تفضيلات الإشعارات",
+            "textMessage": "رسالة نصية",
+            "email": "بريد إلكتروني",
+            "both": "كلاهما",
+            "phoneNumber": "رقم الهاتف",
+            "phoneNumberPlaceholder": "أدخل رقم هاتفك",
+            "emailAddress": "عنوان البريد الإلكتروني",
+            "emailAddressPlaceholder": "أدخل عنوان بريدك الإلكتروني"
+        },
+        "privacy": {
+            "title": "إشعار الخصوصية",
+            "text": "معلوماتك الشخصية آمنة وسيتم استخدامها فقط لأغراض التوصيل. راجع",
+            "policyLink": "سياسة الخصوصية",
+            "forMore": "لمزيد من التفاصيل."
+        },
+        "actions": {
+            "saveSettings": "حفظ الإعدادات",
+            "cancel": "إلغاء"
+        }
+    },
+    "common": {
+        "days": {
+            "monday": "الإثنين",
+            "tuesday": "الثلاثاء",
+            "wednesday": "الأربعاء",
+            "thursday": "الخميس",
+            "friday": "الجمعة",
+            "saturday": "السبت",
+            "sunday": "الأحد"
+        },
+        "pharmacy": {
+            "address": "العنوان",
+            "phone": "الهاتف",
+            "hours": "ساعات العمل",
+            "distance": "المسافة",
+            "rating": "التقييم",
+            "deliveryAvailable": "التوصيل متاح"
+        },
+        "status": {
+            "delivered": "تم التوصيل",
+            "processing": "قيد المعالجة",
+            "cancelled": "ملغي"
+        }
+    }
+}

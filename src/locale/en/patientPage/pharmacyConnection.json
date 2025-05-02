@@ -1,0 +1,198 @@
+{
+    "pageHeader": {
+        "title": "Pharmacy Connection",
+        "subtitle": "Manage your pharmacy preferences and medication delivery options",
+        "stats": {
+            "saved": "Saved",
+            "delivery": "Delivery"
+        }
+    },
+    "tabs": {
+        "myPharmacies": "My Pharmacies",
+        "myPharmaciesMobile": "My",
+        "findPharmacies": "Find Pharmacies",
+        "findPharmaciesMobile": "Find",
+        "prescriptionDelivery": "Prescription Delivery",
+        "prescriptionDeliveryMobile": "Delivery"
+    },
+    "preferred": {
+        "title": "My Preferred Pharmacies",
+        "subtitle": "These are the pharmacies where your prescriptions can be sent",
+        "primary": "Primary",
+        "details": {
+            "lastVisit": "Last visit:",
+            "never": "Never"
+        },
+        "actions": {
+            "setPrimary": "Set as Primary",
+            "viewDetails": "View Details"
+        },
+        "noResults": {
+            "title": "No preferred pharmacies found",
+            "subtitle": "Switch to \"Find Pharmacies\" tab to add pharmacies"
+        }
+    },
+    "nearby": {
+        "title": "Find Pharmacies",
+        "subtitle": "Discover pharmacies near you and add them to your preferences",
+        "search": {
+            "placeholder": "Search by name, address, or zip code..."
+        },
+        "filters": {
+            "label": "Filter by:",
+            "all": "All",
+            "distance": "Distance",
+            "rating": "Rating",
+            "delivery": "Delivery"
+        },
+        "actions": {
+            "add": "Add",
+            "addToMyPharmacies": "Add to My Pharmacies",
+            "viewDetails": "View Details"
+        },
+        "noResults": {
+            "title": "No pharmacies found",
+            "subtitle": "Try adjusting your search or filters"
+        }
+    },
+    "delivery": {
+        "title": "Prescription Delivery",
+        "subtitle": "Set up and manage your prescription delivery options",
+        "status": {
+            "title": "Delivery Status:",
+            "enabled": "Enabled",
+            "disabled": "Disabled"
+        },
+        "preferences": {
+            "title": "Delivery Preferences",
+            "defaultOption": "Default Option:",
+            "scheduledWeekly": "Scheduled Weekly",
+            "asNeeded": "As Needed",
+            "scheduledDay": "Scheduled Day:",
+            "preferredTime": "Preferred Time:"
+        },
+        "address": {
+            "title": "Delivery Address"
+        },
+        "notifications": {
+            "title": "Notifications",
+            "method": "Notification Method:",
+            "textMessage": "Text Message",
+            "email": "Email",
+            "both": "Both",
+            "phoneNumber": "Phone Number:",
+            "emailAddress": "Email:"
+        },
+        "actions": {
+            "editSettings": "Edit Delivery Settings",
+            "disableDelivery": "Disable Delivery",
+            "enableDelivery": "Enable Delivery"
+        },
+        "setup": {
+            "info": "Prescription delivery allows you to receive your medications directly at your doorstep. Enable this feature to set up your delivery preferences."
+        },
+        "history": {
+            "title": "Delivery History",
+            "details": {
+                "medications": "Medications:",
+                "from": "From:",
+                "tracking": "Tracking #:",
+                "receivedBy": "Received by:"
+            },
+            "noHistory": "No delivery history available"
+        }
+    },
+    "pharmacyDetails": {
+        "details": {
+            "address": "Address",
+            "phone": "Phone",
+            "hours": "Hours",
+            "distance": "Distance",
+            "rating": "Rating",
+            "delivery": "Delivery",
+            "available": "Available",
+            "notAvailable": "Not Available",
+            "outOf5": "out of 5",
+            "reviews": "reviews"
+        },
+        "services": {
+            "title": "Services Available",
+            "types": {
+                "prescriptionFilling": "Prescription Filling",
+                "medicationConsulting": "Medication Consulting",
+                "fluShots": "Flu Shots",
+                "compounding": "Compounding",
+                "healthScreenings": "Health Screenings",
+                "driveThrough": "Drive-Through"
+            }
+        },
+        "actions": {
+            "addToMyPharmacies": "Add to My Pharmacies",
+            "setPrimaryPharmacy": "Set as Primary Pharmacy",
+            "getDirections": "Get Directions"
+        }
+    },
+    "deliverySetup": {
+        "title": "Delivery Settings",
+        "preference": {
+            "title": "Delivery Preference",
+            "scheduledWeekly": "Scheduled Weekly Delivery",
+            "asNeeded": "As Needed"
+        },
+        "schedule": {
+            "preferredDay": "Preferred Day",
+            "preferredTime": "Preferred Time",
+            "morning": "Morning (9AM-12PM)",
+            "afternoon": "Afternoon (2-5PM)",
+            "evening": "Evening (6-8PM)"
+        },
+        "address": {
+            "title": "Delivery Address",
+            "placeholder": "Enter your delivery address"
+        },
+        "notifications": {
+            "title": "Notification Preferences",
+            "textMessage": "Text Message",
+            "email": "Email",
+            "both": "Both",
+            "phoneNumber": "Phone Number",
+            "phoneNumberPlaceholder": "Enter your phone number",
+            "emailAddress": "Email Address",
+            "emailAddressPlaceholder": "Enter your email address"
+        },
+        "privacy": {
+            "title": "Privacy Notice",
+            "text": "Your personal information is secure and will only be used for delivery purposes. See our",
+            "policyLink": "Privacy Policy",
+            "forMore": "for more details."
+        },
+        "actions": {
+            "saveSettings": "Save Settings",
+            "cancel": "Cancel"
+        }
+    },
+    "common": {
+        "days": {
+            "monday": "Monday",
+            "tuesday": "Tuesday",
+            "wednesday": "Wednesday",
+            "thursday": "Thursday",
+            "friday": "Friday",
+            "saturday": "Saturday",
+            "sunday": "Sunday"
+        },
+        "pharmacy": {
+            "address": "Address",
+            "phone": "Phone",
+            "hours": "Hours",
+            "distance": "Distance",
+            "rating": "Rating",
+            "deliveryAvailable": "Delivery Available"
+        },
+        "status": {
+            "delivered": "Delivered",
+            "processing": "Processing",
+            "cancelled": "Cancelled"
+        }
+    }
+}

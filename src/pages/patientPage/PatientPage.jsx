@@ -6,14 +6,16 @@ import PatientPharmacyConnection from './patientPharmacyConnection/PatientPharma
 import PatientDoctorCommunication from './patientDoctorCommunication/PatientDoctorCommunication';
 import PatientNavbar from '../../components/patientNavbar/PatientNavbar';
 import { PatientSidebar } from '../../components/patientSidebar/PatientSidebar';
-import './PatientPage.scss'
+import './PatientPage.scss';
 import { PatientHealthProfile } from './patientHealthProfile/PatientHealthProfile';
 import PatientSecurityCenter from './patientSecurityCenter/PatientSecurityCenter';
 import PatientHelpResources from './patientHelpResources/PatientHelpResources';
 import { PatientNotificationPreferences } from './patientNotificationPreferences/PatientNotificationPreferences';
+import { useLanguage } from '../../context/LanguageContext'; // Import language context
 
 export const PatientPage = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default closed on mobile
+    const { isRTL } = useLanguage(); // Get RTL status from language context
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -41,7 +43,7 @@ export const PatientPage = () => {
     }, []);
 
     return (
-        <div className='patient-out-container'>
+        <div className={`patient-out-container ${isRTL ? 'rtl' : 'ltr'}`}>
             <PatientNavbar toggleSidebar={toggleSidebar} />
 
             <div className="patient-container">

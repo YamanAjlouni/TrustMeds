@@ -1,6 +1,5 @@
 @use '../../../assets/styles/vars.scss' as *;
 
-$secondary-color: #5c6bc0;
 $success-color: #2e7d32;
 $warning-color: #ff9800;
 $danger-color: #e53935;
@@ -21,7 +20,7 @@ $transition-normal: all 0.3s ease;
     position: relative;
     padding: 1rem;
     color: #333;
-    background-color: #f8fafc;
+    background-color: $light-bg;
     min-height: 100vh;
 
     @media (min-width: 576px) {
@@ -87,6 +86,9 @@ $transition-normal: all 0.3s ease;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        background: linear-gradient(135deg, rgba($primary-color, 0.12), rgba($primary-color, 0.04));
+        padding: 32px;
+        border-radius: 1rem;
         align-items: flex-start;
         margin-bottom: 1.5rem;
         padding-bottom: 1.25rem;
@@ -113,6 +115,7 @@ $transition-normal: all 0.3s ease;
             h1 {
                 font-size: 1.5rem;
                 font-weight: 700;
+                margin-top: 0;
                 margin-bottom: 0.4rem;
                 color: #2c3e50;
                 letter-spacing: -0.5px;
@@ -283,7 +286,7 @@ $transition-normal: all 0.3s ease;
             }
 
             .badge {
-                background: linear-gradient(145deg, $primary-color, $secondary-color);
+                background: linear-gradient(145deg, $primary-color, darken($primary-color, 15%));
                 color: white;
                 font-size: 0.65rem;
                 font-weight: 600;
@@ -358,7 +361,7 @@ $transition-normal: all 0.3s ease;
                     }
 
                     &.active {
-                        background: linear-gradient(145deg, $primary-color, $secondary-color);
+                        background: linear-gradient(145deg, $primary-color, darken($primary-color, 15%));
                         border-color: transparent;
                         color: white;
                         box-shadow: 0 3px 8px rgba($primary-color, 0.3);
@@ -371,7 +374,7 @@ $transition-normal: all 0.3s ease;
                 align-items: center;
                 justify-content: center;
                 gap: 0.5rem;
-                background: linear-gradient(145deg, $primary-color, $secondary-color);
+                background: linear-gradient(145deg, $primary-color, darken($primary-color, 15%));
                 color: white;
                 border: none;
                 border-radius: $border-radius-md;
@@ -496,7 +499,7 @@ $transition-normal: all 0.3s ease;
                         position: absolute;
                         bottom: -5px;
                         right: -5px;
-                        background: linear-gradient(145deg, $primary-color, $secondary-color);
+                        background: linear-gradient(145deg, $primary-color, darken($primary-color, 15%));
                         color: white;
                         font-size: 0.65rem;
                         padding: 0.1rem 0.4rem;
@@ -579,7 +582,7 @@ $transition-normal: all 0.3s ease;
                 .unread-indicator {
                     width: 8px;
                     height: 8px;
-                    background: linear-gradient(145deg, $primary-color, $secondary-color);
+                    background: linear-gradient(145deg, $primary-color, darken($primary-color, 15%));
                     border-radius: 50%;
                     margin-left: 0.75rem;
                     align-self: center;
@@ -853,7 +856,7 @@ $transition-normal: all 0.3s ease;
                             }
 
                             &.send-btn {
-                                background: linear-gradient(145deg, $primary-color, $secondary-color);
+                                background: linear-gradient(145deg, $primary-color, darken($primary-color, 15%));
                                 border: none;
                                 color: white;
                                 padding: 0.7rem 1.5rem;
@@ -921,7 +924,7 @@ $transition-normal: all 0.3s ease;
                     top: 0.25rem;
                     bottom: 0.25rem;
                     width: 3px;
-                    background: linear-gradient(to bottom, $primary-color, $secondary-color);
+                    background: linear-gradient(to bottom, $primary-color, darken($primary-color, 15%));
                     border-radius: 2px;
 
                     @media (min-width: 992px) {
@@ -935,7 +938,7 @@ $transition-normal: all 0.3s ease;
                 align-items: center;
                 justify-content: center;
                 gap: 0.5rem;
-                background: linear-gradient(145deg, $primary-color, $secondary-color);
+                background: linear-gradient(145deg, $primary-color, darken($primary-color, 15%));
                 color: white;
                 border: none;
                 border-radius: $border-radius-md;
@@ -1232,7 +1235,7 @@ $transition-normal: all 0.3s ease;
                         }
 
                         &.primary {
-                            background: linear-gradient(145deg, $primary-color, $secondary-color);
+                            background: linear-gradient(145deg, $primary-color, darken($primary-color, 15%));
                             color: white;
                             border: none;
                             box-shadow: 0 4px 10px rgba($primary-color, 0.3);
@@ -1337,7 +1340,7 @@ $transition-normal: all 0.3s ease;
             }
 
             .schedule-empty-btn {
-                background: linear-gradient(145deg, $primary-color, $secondary-color);
+                background: linear-gradient(145deg, $primary-color, darken($primary-color, 15%));
                 color: white;
                 border: none;
                 border-radius: $border-radius-md;
@@ -1390,7 +1393,7 @@ $transition-normal: all 0.3s ease;
                     top: 0.25rem;
                     bottom: 0.25rem;
                     width: 4px;
-                    background: linear-gradient(to bottom, $primary-color, $secondary-color);
+                    background: linear-gradient(145deg, $primary-color, darken($primary-color, 15%));
                     border-radius: 2px;
                 }
             }
@@ -1399,7 +1402,7 @@ $transition-normal: all 0.3s ease;
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
-                background: linear-gradient(145deg, $primary-color, $secondary-color);
+                background: linear-gradient(145deg, $primary-color, darken($primary-color, 15%));
                 color: white;
                 border: none;
                 border-radius: $border-radius-md;
@@ -1976,6 +1979,309 @@ $transition-normal: all 0.3s ease;
                 .lock-icon {
                     color: #4caf50;
                     font-size: 0.9rem;
+                }
+            }
+        }
+    }
+}
+
+// RTL-specific styles
+.lang-ar {
+    .doctor-communication-container {
+        .section-header {
+            .secure-badge {
+                .lock-icon {
+                    margin-right: 0;
+                    margin-left: 0.5rem;
+                }
+            }
+        }
+
+        .communication-tabs {
+            .tab-button {
+                .tab-icon {
+                    margin-right: 0;
+                    margin-left: 0.4rem;
+
+                    @media (min-width: 576px) {
+                        margin-right: 0;
+                        margin-left: 0.5rem;
+                    }
+
+                    @media (min-width: 992px) {
+                        margin-right: 0;
+                        margin-left: 0.625rem;
+                    }
+                }
+
+                .badge {
+                    margin-left: 0;
+                    margin-right: 0.5rem;
+                }
+            }
+        }
+
+        .messages-section {
+            .message-toolbar {
+                .new-message-btn {
+                    .btn-icon {
+                        margin-right: 0;
+                        margin-left: 0.5rem;
+                    }
+                }
+            }
+
+            .messages-list {
+                .message-item {
+                    &.unread {
+                        background: linear-gradient(to left, rgba($primary-color, 0.05), white);
+                        border-left: 0;
+                        border-right: 3px solid $primary-color;
+                    }
+
+                    &.urgent {
+                        border-left: 0;
+                        border-right: 3px solid $danger-color;
+                        background: linear-gradient(to left, rgba($danger-color, 0.05), white);
+                    }
+
+                    .urgent-indicator {
+                        left: 10px;
+                        right: auto;
+                    }
+
+                    .message-avatar {
+                        margin-right: 0;
+                        margin-left: 1rem;
+
+                        @media (min-width: 576px) {
+                            margin-right: 0;
+                            margin-left: 1.25rem;
+                        }
+
+                        .sent-indicator {
+                            right: auto;
+                            left: -5px;
+                        }
+                    }
+
+                    .unread-indicator {
+                        margin-left: 0;
+                        margin-right: 0.75rem;
+
+                        @media (min-width: 576px) {
+                            margin-left: 0;
+                            margin-right: 0.9rem;
+                        }
+
+                        @media (min-width: 992px) {
+                            margin-left: 0;
+                            margin-right: 1rem;
+                        }
+                    }
+                }
+            }
+
+            .message-detail {
+                .back-button {
+                    text-align: right;
+
+                    svg {
+                        transform: rotate(180deg);
+                    }
+                }
+
+                .message-detail-header {
+                    .message-detail-avatar {
+                        margin-right: 0;
+                        margin-left: 1rem;
+                    }
+
+                    .message-detail-urgent {
+                        @media (min-width: 992px) {
+                            right: auto;
+                            left: 1.75rem;
+                        }
+                    }
+                }
+
+                .message-reply {
+                    form {
+                        .reply-actions {
+                            button {
+                                svg {
+                                    margin-right: 0;
+                                    margin-left: 0.5rem;
+                                }
+
+                                @media (min-width: 576px) {
+                                    &.upload-btn {
+                                        order: 2;
+                                    }
+
+                                    &.send-btn {
+                                        order: 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .appointments-section {
+            .appointments-toolbar {
+                h2 {
+                    padding-left: 0;
+                    padding-right: 0.8rem;
+
+                    @media (min-width: 992px) {
+                        padding-left: 0;
+                        padding-right: 1rem;
+                    }
+
+                    &::before {
+                        left: auto;
+                        right: 0;
+                    }
+                }
+
+                .schedule-btn {
+                    .btn-icon {
+                        margin-right: 0;
+                        margin-left: 0.5rem;
+                    }
+                }
+            }
+
+            .appointments-list {
+                .appointment-card {
+                    @media (min-width: 768px) {
+                        .appointment-date {
+                            border-right: 0;
+                            border-left: 1px solid rgba(0, 0, 0, 0.05);
+                        }
+
+                        .appointment-actions {
+                            border-left: 0;
+                            border-right: 1px solid rgba(0, 0, 0, 0.05);
+                        }
+                    }
+                }
+            }
+        }
+
+        .providers-section {
+            .providers-toolbar {
+                h2 {
+                    padding-left: 0;
+                    padding-right: 1rem;
+
+                    &::before {
+                        left: auto;
+                        right: 0;
+                    }
+                }
+
+                .add-provider-btn {
+                    .btn-icon {
+                        margin-right: 0;
+                        margin-left: 0.5rem;
+                    }
+                }
+            }
+
+            .providers-list {
+                .provider-card {
+                    .provider-avatar {
+                        .status-indicator {
+                            right: auto;
+                            left: 0;
+                        }
+                    }
+
+                    .provider-info {
+                        .response-time {
+                            .time-icon {
+                                margin-right: 0;
+                                margin-left: 0.4rem;
+                            }
+                        }
+                    }
+
+                    .provider-actions {
+                        .action-btn {
+                            svg {
+                                margin-right: 0;
+                                margin-left: 0.4rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .new-message-overlay {
+        .new-message-modal {
+            .modal-content {
+                .recipient-info {
+                    .recipient-chip {
+                        img {
+                            margin-right: 0;
+                            margin-left: 0.5rem;
+                        }
+                    }
+                }
+
+                form {
+                    .form-group {
+                        select {
+                            background-position: left 1rem center;
+                            padding-right: 1rem;
+                            padding-left: 2.5rem;
+                        }
+
+                        &.urgent-checkbox {
+                            label {
+                                margin-right: 0.5rem;
+                                margin-left: 0;
+                            }
+
+                            .urgent-note {
+                                margin-left: 0;
+                                margin-right: auto;
+                            }
+                        }
+                    }
+
+                    .form-actions {
+                        .attachment-section {
+                            .attach-btn {
+                                svg {
+                                    margin-right: 0;
+                                    margin-left: 0.5rem;
+                                }
+                            }
+                        }
+
+                        .send-message-btn {
+                            svg {
+                                margin-right: 0;
+                                margin-left: 0.5rem;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .modal-footer {
+                .security-note {
+                    .lock-icon {
+                        margin-right: 0;
+                        margin-left: 0.5rem;
+                    }
                 }
             }
         }
