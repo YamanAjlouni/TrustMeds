@@ -15,15 +15,23 @@ import {
     FaBell,
     FaExclamationCircle
 } from 'react-icons/fa';
-import './PatientHealthProfile.scss'
+import './PatientHealthProfile.scss';
+import { useLanguage } from '../../../context/LanguageContext'; // Adjust path as needed
 
 export const PatientHealthProfile = () => {
-    // Sample data - in a real app, this would come from your API/backend
+    // Use the language context
+    const { t, isRTL, language } = useLanguage();
+
+    // Translation prefix to simplify access
+    const prefix = 'patientPage.healthProfile.patientHealthProfile';
+
+    // Sample data with both languages - in a real app, this would come from your API/backend
     const [personalInfo, setPersonalInfo] = useState({
         firstName: 'Yaman',
         lastName: 'Ajlouni',
         dateOfBirth: '1990-06-15',
-        gender: 'Male',
+        genderEn: 'Male',
+        genderAr: 'ذكر',
         bloodType: 'O+',
         height: '180 cm',
         weight: '75 kg',
@@ -32,7 +40,8 @@ export const PatientHealthProfile = () => {
         address: '123 Main Street, Anytown, CA 12345',
         emergencyContact: {
             name: 'Sarah Ajlouni',
-            relationship: 'Spouse',
+            relationshipEn: 'Spouse',
+            relationshipAr: 'زوجة',
             phoneNumber: '(555) 987-6543'
         }
     });
@@ -40,50 +49,69 @@ export const PatientHealthProfile = () => {
     const [allergies, setAllergies] = useState([
         {
             id: 1,
-            allergen: 'Penicillin',
-            severity: 'High',
-            reaction: 'Hives, difficulty breathing',
+            allergenEn: 'Penicillin',
+            allergenAr: 'البنسلين',
+            severityEn: 'High',
+            severityAr: 'عالية',
+            reactionEn: 'Hives, difficulty breathing',
+            reactionAr: 'طفح جلدي، صعوبة في التنفس',
             diagnosedDate: '2015-03-20',
-            notes: 'Avoid all penicillin-based antibiotics'
+            notesEn: 'Avoid all penicillin-based antibiotics',
+            notesAr: 'تجنب جميع المضادات الحيوية التي تحتوي على البنسلين'
         },
         {
             id: 2,
-            allergen: 'Peanuts',
-            severity: 'Moderate',
-            reaction: 'Skin rash, swelling',
+            allergenEn: 'Peanuts',
+            allergenAr: 'الفول السوداني',
+            severityEn: 'Moderate',
+            severityAr: 'متوسطة',
+            reactionEn: 'Skin rash, swelling',
+            reactionAr: 'طفح جلدي، تورم',
             diagnosedDate: '2010-08-12',
-            notes: 'Avoid all peanut products'
+            notesEn: 'Avoid all peanut products',
+            notesAr: 'تجنب جميع منتجات الفول السوداني'
         }
     ]);
 
     const [medicalConditions, setMedicalConditions] = useState([
         {
             id: 1,
-            condition: 'Hypertension',
+            conditionEn: 'Hypertension',
+            conditionAr: 'ارتفاع ضغط الدم',
             diagnosedDate: '2018-05-10',
-            treatingPhysician: 'Dr. Smith',
-            status: 'Active',
-            notes: 'Controlled with medication'
+            treatingPhysicianEn: 'Dr. Smith',
+            treatingPhysicianAr: 'د. سميث',
+            statusEn: 'Active',
+            statusAr: 'نشط',
+            notesEn: 'Controlled with medication',
+            notesAr: 'تحت السيطرة بالأدوية'
         },
         {
             id: 2,
-            condition: 'Asthma',
+            conditionEn: 'Asthma',
+            conditionAr: 'الربو',
             diagnosedDate: '2005-11-23',
-            treatingPhysician: 'Dr. Johnson',
-            status: 'Active',
-            notes: 'Mild, exercise-induced'
+            treatingPhysicianEn: 'Dr. Johnson',
+            treatingPhysicianAr: 'د. جونسون',
+            statusEn: 'Active',
+            statusAr: 'نشط',
+            notesEn: 'Mild, exercise-induced',
+            notesAr: 'خفيف، ناتج عن ممارسة الرياضة'
         }
     ]);
 
     const [insuranceInfo, setInsuranceInfo] = useState({
-        provider: 'HealthPlus Insurance',
+        providerEn: 'HealthPlus Insurance',
+        providerAr: 'تأمين هيلث بلس',
         policyNumber: 'HP-12345678',
         groupNumber: 'G-9876543',
         memberId: 'M-12345-67',
         startDate: '2023-01-01',
-        coverageType: 'Family',
+        coverageTypeEn: 'Family',
+        coverageTypeAr: 'عائلي',
         primaryCardholder: 'Yaman Ajlouni',
-        relationship: 'Self',
+        relationshipEn: 'Self',
+        relationshipAr: 'نفسه',
         copay: {
             primaryCare: '$20',
             specialist: '$40',
@@ -95,23 +123,39 @@ export const PatientHealthProfile = () => {
     const [medicalHistory, setMedicalHistory] = useState([
         {
             id: 1,
-            type: 'Surgery',
-            procedure: 'Appendectomy',
+            typeEn: 'Surgery',
+            typeAr: 'جراحة',
+            procedureEn: 'Appendectomy',
+            procedureAr: 'استئصال الزائدة الدودية',
             date: '2012-07-15',
-            provider: 'General Hospital',
-            physician: 'Dr. Williams',
-            notes: 'No complications'
+            providerEn: 'General Hospital',
+            providerAr: 'المستشفى العام',
+            physicianEn: 'Dr. Williams',
+            physicianAr: 'د. ويليامز',
+            notesEn: 'No complications',
+            notesAr: 'بدون مضاعفات'
         },
         {
             id: 2,
-            type: 'Hospitalization',
-            procedure: 'Pneumonia treatment',
+            typeEn: 'Hospitalization',
+            typeAr: 'دخول المستشفى',
+            procedureEn: 'Pneumonia treatment',
+            procedureAr: 'علاج الالتهاب الرئوي',
             date: '2016-02-03',
-            provider: 'County Medical Center',
-            physician: 'Dr. Martinez',
-            notes: '5-day stay, full recovery'
+            providerEn: 'County Medical Center',
+            providerAr: 'المركز الطبي للمقاطعة',
+            physicianEn: 'Dr. Martinez',
+            physicianAr: 'د. مارتينيز',
+            notesEn: '5-day stay, full recovery',
+            notesAr: 'إقامة 5 أيام، تعافي كامل'
         }
     ]);
+
+    // Helper function to get the correct language field
+    const getLangField = (obj, field) => {
+        const langSuffix = language === 'ar' ? 'Ar' : 'En';
+        return obj[field + langSuffix] || obj[field];
+    };
 
     const [activeTab, setActiveTab] = useState('personal');
     const [isEditing, setIsEditing] = useState(false);
@@ -190,7 +234,7 @@ export const PatientHealthProfile = () => {
                 <div className="edit-form personal-info-form">
                     <div className="form-grid">
                         <div className="form-group">
-                            <label>First Name</label>
+                            <label>{t(`${prefix}.personalInfo.firstName`)}</label>
                             <input
                                 type="text"
                                 value={editedData.firstName || ''}
@@ -198,7 +242,7 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Last Name</label>
+                            <label>{t(`${prefix}.personalInfo.lastName`)}</label>
                             <input
                                 type="text"
                                 value={editedData.lastName || ''}
@@ -206,7 +250,7 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Date of Birth</label>
+                            <label>{t(`${prefix}.personalInfo.personalDetails.dateOfBirth`)}</label>
                             <input
                                 type="date"
                                 value={editedData.dateOfBirth || ''}
@@ -214,19 +258,31 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Gender</label>
+                            <label>{t(`${prefix}.personalInfo.personalDetails.gender`)}</label>
                             <select
-                                value={editedData.gender || ''}
-                                onChange={(e) => setEditedData({ ...editedData, gender: e.target.value })}
+                                value={editedData[`gender${language === 'ar' ? 'Ar' : 'En'}`] || ''}
+                                onChange={(e) => setEditedData({
+                                    ...editedData,
+                                    genderEn: language === 'en' ? e.target.value : editedData.genderEn,
+                                    genderAr: language === 'ar' ? e.target.value : editedData.genderAr
+                                })}
                             >
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
-                                <option value="Prefer not to say">Prefer not to say</option>
+                                <option value={language === 'en' ? 'Male' : 'ذكر'}>
+                                    {t(`${prefix}.personalInfo.genderOptions.male`)}
+                                </option>
+                                <option value={language === 'en' ? 'Female' : 'أنثى'}>
+                                    {t(`${prefix}.personalInfo.genderOptions.female`)}
+                                </option>
+                                <option value={language === 'en' ? 'Other' : 'أخرى'}>
+                                    {t(`${prefix}.personalInfo.genderOptions.other`)}
+                                </option>
+                                <option value={language === 'en' ? 'Prefer not to say' : 'أفضل عدم الذكر'}>
+                                    {t(`${prefix}.personalInfo.genderOptions.preferNotToSay`)}
+                                </option>
                             </select>
                         </div>
                         <div className="form-group">
-                            <label>Blood Type</label>
+                            <label>{t(`${prefix}.personalInfo.personalDetails.bloodType`)}</label>
                             <select
                                 value={editedData.bloodType || ''}
                                 onChange={(e) => setEditedData({ ...editedData, bloodType: e.target.value })}
@@ -242,7 +298,7 @@ export const PatientHealthProfile = () => {
                             </select>
                         </div>
                         <div className="form-group">
-                            <label>Height</label>
+                            <label>{t(`${prefix}.personalInfo.personalDetails.height`)}</label>
                             <input
                                 type="text"
                                 value={editedData.height || ''}
@@ -250,7 +306,7 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Weight</label>
+                            <label>{t(`${prefix}.personalInfo.personalDetails.weight`)}</label>
                             <input
                                 type="text"
                                 value={editedData.weight || ''}
@@ -258,7 +314,7 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Email Address</label>
+                            <label>{t(`${prefix}.personalInfo.contactInfo.email`)}</label>
                             <input
                                 type="email"
                                 value={editedData.emailAddress || ''}
@@ -266,7 +322,7 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Phone Number</label>
+                            <label>{t(`${prefix}.personalInfo.contactInfo.phone`)}</label>
                             <input
                                 type="tel"
                                 value={editedData.phoneNumber || ''}
@@ -274,7 +330,7 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group span-2">
-                            <label>Address</label>
+                            <label>{t(`${prefix}.personalInfo.contactInfo.address`)}</label>
                             <input
                                 type="text"
                                 value={editedData.address || ''}
@@ -283,10 +339,10 @@ export const PatientHealthProfile = () => {
                         </div>
                     </div>
 
-                    <h4 className="section-subheading">Emergency Contact</h4>
+                    <h4 className="section-subheading">{t(`${prefix}.personalInfo.emergencyContact.title`)}</h4>
                     <div className="form-grid">
                         <div className="form-group">
-                            <label>Name</label>
+                            <label>{t(`${prefix}.personalInfo.emergencyContact.name`)}</label>
                             <input
                                 type="text"
                                 value={editedData.emergencyContact?.name || ''}
@@ -297,18 +353,24 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Relationship</label>
+                            <label>{t(`${prefix}.personalInfo.emergencyContact.relationship`)}</label>
                             <input
                                 type="text"
-                                value={editedData.emergencyContact?.relationship || ''}
-                                onChange={(e) => setEditedData({
-                                    ...editedData,
-                                    emergencyContact: { ...(editedData.emergencyContact || {}), relationship: e.target.value }
-                                })}
+                                value={getLangField(editedData.emergencyContact || {}, 'relationship') || ''}
+                                onChange={(e) => {
+                                    const langField = language === 'ar' ? 'relationshipAr' : 'relationshipEn';
+                                    setEditedData({
+                                        ...editedData,
+                                        emergencyContact: {
+                                            ...(editedData.emergencyContact || {}),
+                                            [langField]: e.target.value
+                                        }
+                                    });
+                                }}
                             />
                         </div>
                         <div className="form-group">
-                            <label>Phone Number</label>
+                            <label>{t(`${prefix}.personalInfo.emergencyContact.phone`)}</label>
                             <input
                                 type="tel"
                                 value={editedData.emergencyContact?.phoneNumber || ''}
@@ -322,10 +384,10 @@ export const PatientHealthProfile = () => {
 
                     <div className="form-actions">
                         <button className="action-btn secondary" onClick={cancelEditing}>
-                            <FaTimes /> Cancel
+                            <FaTimes /> {t(`${prefix}.buttons.cancel`)}
                         </button>
                         <button className="action-btn primary" onClick={saveChanges}>
-                            <FaCheck /> Save Changes
+                            <FaCheck /> {t(`${prefix}.buttons.save`)}
                         </button>
                     </div>
                 </div>
@@ -340,11 +402,11 @@ export const PatientHealthProfile = () => {
                     </div>
                     <div className="profile-name">
                         <h3>{personalInfo.firstName} {personalInfo.lastName}</h3>
-                        <p className="profile-subtitle">Patient ID: PT-12345678</p>
+                        <p className="profile-subtitle">{t(`${prefix}.personalInfo.patientId`)}: PT-12345678</p>
                     </div>
                     <div className="profile-actions">
                         <button className="edit-btn" onClick={() => startEditing({ ...personalInfo })}>
-                            <FaPencilAlt /> Edit Profile
+                            <FaPencilAlt /> {t(`${prefix}.buttons.editProfile`)}
                         </button>
                     </div>
                 </div>
@@ -352,74 +414,74 @@ export const PatientHealthProfile = () => {
                 <div className="alert-box">
                     <FaExclamationCircle className="alert-box-icon" />
                     <div className="alert-box-content">
-                        <h4>Important Health Information</h4>
-                        <p>Your yearly checkup is due in 15 days. Please schedule an appointment with Dr. Smith.</p>
+                        <h4>{t(`${prefix}.personalInfo.alertTitle`)}</h4>
+                        <p>{t(`${prefix}.personalInfo.alertMessage`)}</p>
                     </div>
-                    <button className="alert-box-action">Schedule Now</button>
+                    <button className="alert-box-action">{t(`${prefix}.buttons.scheduleNow`)}</button>
                 </div>
 
                 <div className="info-grid">
                     <div className="info-group">
-                        <h4>Personal</h4>
+                        <h4>{t(`${prefix}.personalInfo.personalDetails.title`)}</h4>
                         <div className="info-items">
                             <div className="info-item">
-                                <span className="info-label">Date of Birth</span>
+                                <span className="info-label">{t(`${prefix}.personalInfo.personalDetails.dateOfBirth`)}</span>
                                 <span className="info-value">{new Date(personalInfo.dateOfBirth).toLocaleDateString()}</span>
                             </div>
                             <div className="info-item">
-                                <span className="info-label">Age</span>
-                                <span className="info-value">{new Date().getFullYear() - new Date(personalInfo.dateOfBirth).getFullYear()} years</span>
+                                <span className="info-label">{t(`${prefix}.personalInfo.personalDetails.age`)}</span>
+                                <span className="info-value">{new Date().getFullYear() - new Date(personalInfo.dateOfBirth).getFullYear()} {t(`${prefix}.personalInfo.personalDetails.years`)}</span>
                             </div>
                             <div className="info-item">
-                                <span className="info-label">Gender</span>
-                                <span className="info-value">{personalInfo.gender}</span>
+                                <span className="info-label">{t(`${prefix}.personalInfo.personalDetails.gender`)}</span>
+                                <span className="info-value">{getLangField(personalInfo, 'gender')}</span>
                             </div>
                             <div className="info-item">
-                                <span className="info-label">Blood Type</span>
+                                <span className="info-label">{t(`${prefix}.personalInfo.personalDetails.bloodType`)}</span>
                                 <span className="info-value">{personalInfo.bloodType}</span>
                             </div>
                             <div className="info-item">
-                                <span className="info-label">Height</span>
+                                <span className="info-label">{t(`${prefix}.personalInfo.personalDetails.height`)}</span>
                                 <span className="info-value">{personalInfo.height}</span>
                             </div>
                             <div className="info-item">
-                                <span className="info-label">Weight</span>
+                                <span className="info-label">{t(`${prefix}.personalInfo.personalDetails.weight`)}</span>
                                 <span className="info-value">{personalInfo.weight}</span>
                             </div>
                         </div>
                     </div>
 
                     <div className="info-group">
-                        <h4>Contact Information</h4>
+                        <h4>{t(`${prefix}.personalInfo.contactInfo.title`)}</h4>
                         <div className="info-items">
                             <div className="info-item">
-                                <span className="info-label">Email</span>
+                                <span className="info-label">{t(`${prefix}.personalInfo.contactInfo.email`)}</span>
                                 <span className="info-value">{personalInfo.emailAddress}</span>
                             </div>
                             <div className="info-item">
-                                <span className="info-label">Phone</span>
+                                <span className="info-label">{t(`${prefix}.personalInfo.contactInfo.phone`)}</span>
                                 <span className="info-value">{personalInfo.phoneNumber}</span>
                             </div>
                             <div className="info-item">
-                                <span className="info-label">Address</span>
+                                <span className="info-label">{t(`${prefix}.personalInfo.contactInfo.address`)}</span>
                                 <span className="info-value">{personalInfo.address}</span>
                             </div>
                         </div>
                     </div>
 
                     <div className="info-group">
-                        <h4>Emergency Contact</h4>
+                        <h4>{t(`${prefix}.personalInfo.emergencyContact.title`)}</h4>
                         <div className="info-items">
                             <div className="info-item">
-                                <span className="info-label">Name</span>
+                                <span className="info-label">{t(`${prefix}.personalInfo.emergencyContact.name`)}</span>
                                 <span className="info-value">{personalInfo.emergencyContact.name}</span>
                             </div>
                             <div className="info-item">
-                                <span className="info-label">Relationship</span>
-                                <span className="info-value">{personalInfo.emergencyContact.relationship}</span>
+                                <span className="info-label">{t(`${prefix}.personalInfo.emergencyContact.relationship`)}</span>
+                                <span className="info-value">{getLangField(personalInfo.emergencyContact, 'relationship')}</span>
                             </div>
                             <div className="info-item">
-                                <span className="info-label">Phone</span>
+                                <span className="info-label">{t(`${prefix}.personalInfo.emergencyContact.phone`)}</span>
                                 <span className="info-value">{personalInfo.emergencyContact.phoneNumber}</span>
                             </div>
                         </div>
@@ -427,27 +489,27 @@ export const PatientHealthProfile = () => {
                 </div>
 
                 <div className="biometric-summary">
-                    <h4 className="summary-title">Biometric Summary</h4>
+                    <h4 className="summary-title">{t(`${prefix}.personalInfo.biometricSummary.title`)}</h4>
                     <div className="biometric-grid">
                         <div className="biometric-item">
                             <div className="biometric-value">120/80</div>
-                            <div className="biometric-label">Blood Pressure</div>
-                            <div className="trend normal">Normal</div>
+                            <div className="biometric-label">{t(`${prefix}.personalInfo.biometricSummary.bloodPressure`)}</div>
+                            <div className="trend normal">{t(`${prefix}.personalInfo.biometricSummary.normal`)}</div>
                         </div>
                         <div className="biometric-item">
                             <div className="biometric-value">72</div>
-                            <div className="biometric-label">Heart Rate</div>
-                            <div className="trend normal">Normal</div>
+                            <div className="biometric-label">{t(`${prefix}.personalInfo.biometricSummary.heartRate`)}</div>
+                            <div className="trend normal">{t(`${prefix}.personalInfo.biometricSummary.normal`)}</div>
                         </div>
                         <div className="biometric-item">
                             <div className="biometric-value">98.6°F</div>
-                            <div className="biometric-label">Temperature</div>
-                            <div className="trend normal">Normal</div>
+                            <div className="biometric-label">{t(`${prefix}.personalInfo.biometricSummary.temperature`)}</div>
+                            <div className="trend normal">{t(`${prefix}.personalInfo.biometricSummary.normal`)}</div>
                         </div>
                         <div className="biometric-item">
                             <div className="biometric-value">23.1</div>
-                            <div className="biometric-label">BMI</div>
-                            <div className="trend normal">Normal</div>
+                            <div className="biometric-label">{t(`${prefix}.personalInfo.biometricSummary.bmi`)}</div>
+                            <div className="trend normal">{t(`${prefix}.personalInfo.biometricSummary.normal`)}</div>
                         </div>
                     </div>
                 </div>
@@ -461,27 +523,56 @@ export const PatientHealthProfile = () => {
                 <div className="edit-form allergies-form">
                     <div className="form-grid">
                         <div className="form-group span-2">
-                            <label>Allergen</label>
+                            <label>{t(`${prefix}.allergies.form.allergen`)}</label>
                             <input
                                 type="text"
-                                value={editedData.allergen || ''}
-                                onChange={(e) => setEditedData({ ...editedData, allergen: e.target.value })}
+                                value={getLangField(editedData, 'allergen') || ''}
+                                onChange={(e) => {
+                                    const langField = language === 'ar' ? 'allergenAr' : 'allergenEn';
+                                    setEditedData({ ...editedData, [langField]: e.target.value });
+                                }}
                             />
                         </div>
                         <div className="form-group">
-                            <label>Severity</label>
+                            <label>{t(`${prefix}.allergies.form.severity`)}</label>
                             <select
-                                value={editedData.severity || ''}
-                                onChange={(e) => setEditedData({ ...editedData, severity: e.target.value })}
+                                value={getLangField(editedData, 'severity') || ''}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    const severityMap = {
+                                        'Low': 'منخفضة',
+                                        'Moderate': 'متوسطة',
+                                        'High': 'عالية',
+                                        'Severe': 'شديدة',
+                                        'منخفضة': 'Low',
+                                        'متوسطة': 'Moderate',
+                                        'عالية': 'High',
+                                        'شديدة': 'Severe'
+                                    };
+
+                                    setEditedData({
+                                        ...editedData,
+                                        severityEn: language === 'en' ? value : severityMap[value],
+                                        severityAr: language === 'ar' ? value : severityMap[value]
+                                    });
+                                }}
                             >
-                                <option value="Low">Low</option>
-                                <option value="Moderate">Moderate</option>
-                                <option value="High">High</option>
-                                <option value="Severe">Severe</option>
+                                <option value={language === 'en' ? 'Low' : 'منخفضة'}>
+                                    {t(`${prefix}.allergies.severity.low`)}
+                                </option>
+                                <option value={language === 'en' ? 'Moderate' : 'متوسطة'}>
+                                    {t(`${prefix}.allergies.severity.moderate`)}
+                                </option>
+                                <option value={language === 'en' ? 'High' : 'عالية'}>
+                                    {t(`${prefix}.allergies.severity.high`)}
+                                </option>
+                                <option value={language === 'en' ? 'Severe' : 'شديدة'}>
+                                    {t(`${prefix}.allergies.severity.severe`)}
+                                </option>
                             </select>
                         </div>
                         <div className="form-group">
-                            <label>Diagnosed Date</label>
+                            <label>{t(`${prefix}.allergies.form.diagnosedDate`)}</label>
                             <input
                                 type="date"
                                 value={editedData.diagnosedDate || ''}
@@ -489,18 +580,24 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group span-2">
-                            <label>Reaction</label>
+                            <label>{t(`${prefix}.allergies.form.reaction`)}</label>
                             <input
                                 type="text"
-                                value={editedData.reaction || ''}
-                                onChange={(e) => setEditedData({ ...editedData, reaction: e.target.value })}
+                                value={getLangField(editedData, 'reaction') || ''}
+                                onChange={(e) => {
+                                    const langField = language === 'ar' ? 'reactionAr' : 'reactionEn';
+                                    setEditedData({ ...editedData, [langField]: e.target.value });
+                                }}
                             />
                         </div>
                         <div className="form-group span-2">
-                            <label>Notes</label>
+                            <label>{t(`${prefix}.allergies.form.notes`)}</label>
                             <textarea
-                                value={editedData.notes || ''}
-                                onChange={(e) => setEditedData({ ...editedData, notes: e.target.value })}
+                                value={getLangField(editedData, 'notes') || ''}
+                                onChange={(e) => {
+                                    const langField = language === 'ar' ? 'notesAr' : 'notesEn';
+                                    setEditedData({ ...editedData, [langField]: e.target.value });
+                                }}
                                 rows="3"
                             ></textarea>
                         </div>
@@ -508,10 +605,10 @@ export const PatientHealthProfile = () => {
 
                     <div className="form-actions">
                         <button className="action-btn secondary" onClick={cancelEditing}>
-                            <FaTimes /> Cancel
+                            <FaTimes /> {t(`${prefix}.buttons.cancel`)}
                         </button>
                         <button className="action-btn primary" onClick={saveChanges}>
-                            <FaCheck /> {editedData.id ? 'Update Allergy' : 'Add Allergy'}
+                            <FaCheck /> {t(editedData.id ? `${prefix}.buttons.updateAllergy` : `${prefix}.buttons.addAllergy`)}
                         </button>
                     </div>
                 </div>
@@ -522,20 +619,20 @@ export const PatientHealthProfile = () => {
             <div className="info-display allergies-display">
                 <div className="section-header">
                     <div className="section-title-wrapper">
-                        <h3>Allergies & Sensitivities</h3>
-                        <p className="section-subtitle">Manage your known allergies and reactions</p>
+                        <h3>{t(`${prefix}.allergies.sectionTitle`)}</h3>
+                        <p className="section-subtitle">{t(`${prefix}.allergies.sectionSubtitle`)}</p>
                     </div>
                     <button className="add-btn" onClick={() => startEditing({})}>
-                        + Add New Allergy
+                        + {t(`${prefix}.buttons.addAllergy`)}
                     </button>
                 </div>
 
                 {allergies.length === 0 ? (
                     <div className="empty-state">
                         <FaAllergies className="empty-icon" />
-                        <p>No allergies on record</p>
+                        <p>{t(`${prefix}.allergies.emptyState`)}</p>
                         <button className="action-btn secondary" onClick={() => startEditing({})}>
-                            Add Allergy
+                            {t(`${prefix}.buttons.addAllergy`)}
                         </button>
                     </div>
                 ) : (
@@ -544,9 +641,9 @@ export const PatientHealthProfile = () => {
                             <div className="allergy-card" key={allergy.id}>
                                 <div className="allergy-header">
                                     <div className="allergy-title">
-                                        <h4>{allergy.allergen}</h4>
-                                        <span className={`severity-badge severity-${allergy.severity.toLowerCase()}`}>
-                                            {allergy.severity} Severity
+                                        <h4>{getLangField(allergy, 'allergen')}</h4>
+                                        <span className={`severity-badge severity-${allergy.severityEn.toLowerCase()}`}>
+                                            {t(`${prefix}.allergies.severity.${allergy.severityEn.toLowerCase()}`)} {t(`${prefix}.allergies.form.severity`)}
                                         </span>
                                     </div>
                                     <button className="edit-btn small" onClick={() => startEditing({ ...allergy })}>
@@ -555,17 +652,17 @@ export const PatientHealthProfile = () => {
                                 </div>
                                 <div className="allergy-details">
                                     <div className="allergy-item">
-                                        <span className="allergy-label">Reaction:</span>
-                                        <span className="allergy-value">{allergy.reaction}</span>
+                                        <span className="allergy-label">{t(`${prefix}.allergies.details.reaction`)}:</span>
+                                        <span className="allergy-value">{getLangField(allergy, 'reaction')}</span>
                                     </div>
                                     <div className="allergy-item">
-                                        <span className="allergy-label">Diagnosed:</span>
+                                        <span className="allergy-label">{t(`${prefix}.allergies.details.diagnosed`)}:</span>
                                         <span className="allergy-value">{new Date(allergy.diagnosedDate).toLocaleDateString()}</span>
                                     </div>
-                                    {allergy.notes && (
+                                    {allergy.notesEn && (
                                         <div className="allergy-item notes">
-                                            <span className="allergy-label">Notes:</span>
-                                            <span className="allergy-value">{allergy.notes}</span>
+                                            <span className="allergy-label">{t(`${prefix}.allergies.details.notes`)}:</span>
+                                            <span className="allergy-value">{getLangField(allergy, 'notes')}</span>
                                         </div>
                                     )}
                                 </div>
@@ -583,15 +680,18 @@ export const PatientHealthProfile = () => {
                 <div className="edit-form conditions-form">
                     <div className="form-grid">
                         <div className="form-group span-2">
-                            <label>Condition</label>
+                            <label>{t(`${prefix}.medicalConditions.form.condition`)}</label>
                             <input
                                 type="text"
-                                value={editedData.condition || ''}
-                                onChange={(e) => setEditedData({ ...editedData, condition: e.target.value })}
+                                value={getLangField(editedData, 'condition') || ''}
+                                onChange={(e) => {
+                                    const langField = language === 'ar' ? 'conditionAr' : 'conditionEn';
+                                    setEditedData({ ...editedData, [langField]: e.target.value });
+                                }}
                             />
                         </div>
                         <div className="form-group">
-                            <label>Diagnosed Date</label>
+                            <label>{t(`${prefix}.medicalConditions.form.diagnosedDate`)}</label>
                             <input
                                 type="date"
                                 value={editedData.diagnosedDate || ''}
@@ -599,30 +699,62 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Status</label>
+                            <label>{t(`${prefix}.medicalConditions.form.status`)}</label>
                             <select
-                                value={editedData.status || ''}
-                                onChange={(e) => setEditedData({ ...editedData, status: e.target.value })}
+                                value={getLangField(editedData, 'status') || ''}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    const statusMap = {
+                                        'Active': 'نشط',
+                                        'Resolved': 'تم حله',
+                                        'In Remission': 'في طور الهدوء',
+                                        'Chronic': 'مزمن',
+                                        'نشط': 'Active',
+                                        'تم حله': 'Resolved',
+                                        'في طور الهدوء': 'In Remission',
+                                        'مزمن': 'Chronic'
+                                    };
+
+                                    setEditedData({
+                                        ...editedData,
+                                        statusEn: language === 'en' ? value : statusMap[value],
+                                        statusAr: language === 'ar' ? value : statusMap[value]
+                                    });
+                                }}
                             >
-                                <option value="Active">Active</option>
-                                <option value="Resolved">Resolved</option>
-                                <option value="In Remission">In Remission</option>
-                                <option value="Chronic">Chronic</option>
+                                <option value={language === 'en' ? 'Active' : 'نشط'}>
+                                    {t(`${prefix}.medicalConditions.status.active`)}
+                                </option>
+                                <option value={language === 'en' ? 'Resolved' : 'تم حله'}>
+                                    {t(`${prefix}.medicalConditions.status.resolved`)}
+                                </option>
+                                <option value={language === 'en' ? 'In Remission' : 'في طور الهدوء'}>
+                                    {t(`${prefix}.medicalConditions.status.inRemission`)}
+                                </option>
+                                <option value={language === 'en' ? 'Chronic' : 'مزمن'}>
+                                    {t(`${prefix}.medicalConditions.status.chronic`)}
+                                </option>
                             </select>
                         </div>
                         <div className="form-group span-2">
-                            <label>Treating Physician</label>
+                            <label>{t(`${prefix}.medicalConditions.form.treatingPhysician`)}</label>
                             <input
                                 type="text"
-                                value={editedData.treatingPhysician || ''}
-                                onChange={(e) => setEditedData({ ...editedData, treatingPhysician: e.target.value })}
+                                value={getLangField(editedData, 'treatingPhysician') || ''}
+                                onChange={(e) => {
+                                    const langField = language === 'ar' ? 'treatingPhysicianAr' : 'treatingPhysicianEn';
+                                    setEditedData({ ...editedData, [langField]: e.target.value });
+                                }}
                             />
                         </div>
                         <div className="form-group span-2">
-                            <label>Notes</label>
+                            <label>{t(`${prefix}.medicalConditions.form.notes`)}</label>
                             <textarea
-                                value={editedData.notes || ''}
-                                onChange={(e) => setEditedData({ ...editedData, notes: e.target.value })}
+                                value={getLangField(editedData, 'notes') || ''}
+                                onChange={(e) => {
+                                    const langField = language === 'ar' ? 'notesAr' : 'notesEn';
+                                    setEditedData({ ...editedData, [langField]: e.target.value });
+                                }}
                                 rows="3"
                             ></textarea>
                         </div>
@@ -630,10 +762,10 @@ export const PatientHealthProfile = () => {
 
                     <div className="form-actions">
                         <button className="action-btn secondary" onClick={cancelEditing}>
-                            <FaTimes /> Cancel
+                            <FaTimes /> {t(`${prefix}.buttons.cancel`)}
                         </button>
                         <button className="action-btn primary" onClick={saveChanges}>
-                            <FaCheck /> {editedData.id ? 'Update Condition' : 'Add Condition'}
+                            <FaCheck /> {t(editedData.id ? `${prefix}.buttons.updateCondition` : `${prefix}.buttons.addCondition`)}
                         </button>
                     </div>
                 </div>
@@ -644,20 +776,20 @@ export const PatientHealthProfile = () => {
             <div className="info-display conditions-display">
                 <div className="section-header">
                     <div className="section-title-wrapper">
-                        <h3>Medical Conditions</h3>
-                        <p className="section-subtitle">Manage your ongoing and past medical conditions</p>
+                        <h3>{t(`${prefix}.medicalConditions.sectionTitle`)}</h3>
+                        <p className="section-subtitle">{t(`${prefix}.medicalConditions.sectionSubtitle`)}</p>
                     </div>
                     <button className="add-btn" onClick={() => startEditing({})}>
-                        + Add New Condition
+                        + {t(`${prefix}.buttons.addCondition`)}
                     </button>
                 </div>
 
                 {medicalConditions.length === 0 ? (
                     <div className="empty-state">
                         <FaNotesMedical className="empty-icon" />
-                        <p>No medical conditions on record</p>
+                        <p>{t(`${prefix}.medicalConditions.emptyState`)}</p>
                         <button className="action-btn secondary" onClick={() => startEditing({})}>
-                            Add Condition
+                            {t(`${prefix}.buttons.addCondition`)}
                         </button>
                     </div>
                 ) : (
@@ -666,9 +798,9 @@ export const PatientHealthProfile = () => {
                             <div className="condition-card" key={condition.id}>
                                 <div className="condition-header">
                                     <div className="condition-title">
-                                        <h4>{condition.condition}</h4>
-                                        <span className={`status-badge status-${condition.status.toLowerCase().replace(/\s+/g, '-')}`}>
-                                            {condition.status}
+                                        <h4>{getLangField(condition, 'condition')}</h4>
+                                        <span className={`status-badge status-${condition.statusEn.toLowerCase().replace(/\s+/g, '-')}`}>
+                                            {t(`${prefix}.medicalConditions.status.${condition.statusEn.toLowerCase().replace(/\s+/g, '')}`)}
                                         </span>
                                     </div>
                                     <button className="edit-btn small" onClick={() => startEditing({ ...condition })}>
@@ -677,17 +809,17 @@ export const PatientHealthProfile = () => {
                                 </div>
                                 <div className="condition-details">
                                     <div className="condition-item">
-                                        <span className="condition-label">Diagnosed:</span>
+                                        <span className="condition-label">{t(`${prefix}.medicalConditions.details.diagnosed`)}:</span>
                                         <span className="condition-value">{new Date(condition.diagnosedDate).toLocaleDateString()}</span>
                                     </div>
                                     <div className="condition-item">
-                                        <span className="condition-label">Physician:</span>
-                                        <span className="condition-value">{condition.treatingPhysician}</span>
+                                        <span className="condition-label">{t(`${prefix}.medicalConditions.details.physician`)}:</span>
+                                        <span className="condition-value">{getLangField(condition, 'treatingPhysician')}</span>
                                     </div>
-                                    {condition.notes && (
+                                    {condition.notesEn && (
                                         <div className="condition-item notes">
-                                            <span className="condition-label">Notes:</span>
-                                            <span className="condition-value">{condition.notes}</span>
+                                            <span className="condition-label">{t(`${prefix}.medicalConditions.details.notes`)}:</span>
+                                            <span className="condition-value">{getLangField(condition, 'notes')}</span>
                                         </div>
                                     )}
                                 </div>
@@ -695,7 +827,6 @@ export const PatientHealthProfile = () => {
                         ))}
                     </div>
                 )}
-
             </div>
         );
     };
@@ -706,15 +837,18 @@ export const PatientHealthProfile = () => {
                 <div className="edit-form insurance-form">
                     <div className="form-grid">
                         <div className="form-group span-2">
-                            <label>Insurance Provider</label>
+                            <label>{t(`${prefix}.insuranceInfo.form.provider`)}</label>
                             <input
                                 type="text"
-                                value={editedData.provider || ''}
-                                onChange={(e) => setEditedData({ ...editedData, provider: e.target.value })}
+                                value={getLangField(editedData, 'provider') || ''}
+                                onChange={(e) => {
+                                    const langField = language === 'ar' ? 'providerAr' : 'providerEn';
+                                    setEditedData({ ...editedData, [langField]: e.target.value });
+                                }}
                             />
                         </div>
                         <div className="form-group">
-                            <label>Policy Number</label>
+                            <label>{t(`${prefix}.insuranceInfo.form.policyNumber`)}</label>
                             <input
                                 type="text"
                                 value={editedData.policyNumber || ''}
@@ -722,7 +856,7 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Group Number</label>
+                            <label>{t(`${prefix}.insuranceInfo.form.groupNumber`)}</label>
                             <input
                                 type="text"
                                 value={editedData.groupNumber || ''}
@@ -730,7 +864,7 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Member ID</label>
+                            <label>{t(`${prefix}.insuranceInfo.form.memberId`)}</label>
                             <input
                                 type="text"
                                 value={editedData.memberId || ''}
@@ -738,7 +872,7 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Start Date</label>
+                            <label>{t(`${prefix}.insuranceInfo.form.startDate`)}</label>
                             <input
                                 type="date"
                                 value={editedData.startDate || ''}
@@ -746,18 +880,40 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Coverage Type</label>
+                            <label>{t(`${prefix}.insuranceInfo.form.coverageType`)}</label>
                             <select
-                                value={editedData.coverageType || ''}
-                                onChange={(e) => setEditedData({ ...editedData, coverageType: e.target.value })}
+                                value={getLangField(editedData, 'coverageType') || ''}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    const coverageTypeMap = {
+                                        'Individual': 'فردي',
+                                        'Family': 'عائلي',
+                                        'Group': 'جماعي',
+                                        'فردي': 'Individual',
+                                        'عائلي': 'Family',
+                                        'جماعي': 'Group'
+                                    };
+
+                                    setEditedData({
+                                        ...editedData,
+                                        coverageTypeEn: language === 'en' ? value : coverageTypeMap[value],
+                                        coverageTypeAr: language === 'ar' ? value : coverageTypeMap[value]
+                                    });
+                                }}
                             >
-                                <option value="Individual">Individual</option>
-                                <option value="Family">Family</option>
-                                <option value="Group">Group</option>
+                                <option value={language === 'en' ? 'Individual' : 'فردي'}>
+                                    {t(`${prefix}.insuranceInfo.coverageTypes.individual`)}
+                                </option>
+                                <option value={language === 'en' ? 'Family' : 'عائلي'}>
+                                    {t(`${prefix}.insuranceInfo.coverageTypes.family`)}
+                                </option>
+                                <option value={language === 'en' ? 'Group' : 'جماعي'}>
+                                    {t(`${prefix}.insuranceInfo.coverageTypes.group`)}
+                                </option>
                             </select>
                         </div>
                         <div className="form-group">
-                            <label>Primary Cardholder</label>
+                            <label>{t(`${prefix}.insuranceInfo.form.primaryCardholder`)}</label>
                             <input
                                 type="text"
                                 value={editedData.primaryCardholder || ''}
@@ -765,23 +921,49 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Relationship to Cardholder</label>
+                            <label>{t(`${prefix}.insuranceInfo.form.relationship`)}</label>
                             <select
-                                value={editedData.relationship || ''}
-                                onChange={(e) => setEditedData({ ...editedData, relationship: e.target.value })}
+                                value={getLangField(editedData, 'relationship') || ''}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    const relationshipMap = {
+                                        'Self': 'نفسه',
+                                        'Spouse': 'زوج/ة',
+                                        'Child': 'طفل',
+                                        'Other': 'أخرى',
+                                        'نفسه': 'Self',
+                                        'زوج/ة': 'Spouse',
+                                        'طفل': 'Child',
+                                        'أخرى': 'Other'
+                                    };
+
+                                    setEditedData({
+                                        ...editedData,
+                                        relationshipEn: language === 'en' ? value : relationshipMap[value],
+                                        relationshipAr: language === 'ar' ? value : relationshipMap[value]
+                                    });
+                                }}
                             >
-                                <option value="Self">Self</option>
-                                <option value="Spouse">Spouse</option>
-                                <option value="Child">Child</option>
-                                <option value="Other">Other</option>
+                                <option value={language === 'en' ? 'Self' : 'نفسه'}>
+                                    {t(`${prefix}.insuranceInfo.relationships.self`)}
+                                </option>
+                                <option value={language === 'en' ? 'Spouse' : 'زوج/ة'}>
+                                    {t(`${prefix}.insuranceInfo.relationships.spouse`)}
+                                </option>
+                                <option value={language === 'en' ? 'Child' : 'طفل'}>
+                                    {t(`${prefix}.insuranceInfo.relationships.child`)}
+                                </option>
+                                <option value={language === 'en' ? 'Other' : 'أخرى'}>
+                                    {t(`${prefix}.insuranceInfo.relationships.other`)}
+                                </option>
                             </select>
                         </div>
                     </div>
 
-                    <h4 className="section-subheading">Copay Information</h4>
+                    <h4 className="section-subheading">{t(`${prefix}.insuranceInfo.form.copayInfo`)}</h4>
                     <div className="form-grid">
                         <div className="form-group">
-                            <label>Primary Care</label>
+                            <label>{t(`${prefix}.insuranceInfo.form.primaryCare`)}</label>
                             <input
                                 type="text"
                                 value={editedData.copay?.primaryCare || ''}
@@ -792,7 +974,7 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Specialist</label>
+                            <label>{t(`${prefix}.insuranceInfo.form.specialist`)}</label>
                             <input
                                 type="text"
                                 value={editedData.copay?.specialist || ''}
@@ -803,7 +985,7 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Emergency</label>
+                            <label>{t(`${prefix}.insuranceInfo.form.emergency`)}</label>
                             <input
                                 type="text"
                                 value={editedData.copay?.emergency || ''}
@@ -814,7 +996,7 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Prescription Tiers</label>
+                            <label>{t(`${prefix}.insuranceInfo.form.prescription`)}</label>
                             <input
                                 type="text"
                                 value={editedData.copay?.prescription || ''}
@@ -828,10 +1010,10 @@ export const PatientHealthProfile = () => {
 
                     <div className="form-actions">
                         <button className="action-btn secondary" onClick={cancelEditing}>
-                            <FaTimes /> Cancel
+                            <FaTimes /> {t(`${prefix}.buttons.cancel`)}
                         </button>
                         <button className="action-btn primary" onClick={saveChanges}>
-                            <FaCheck /> Save Changes
+                            <FaCheck /> {t(`${prefix}.buttons.save`)}
                         </button>
                     </div>
                 </div>
@@ -842,78 +1024,78 @@ export const PatientHealthProfile = () => {
             <div className="info-display insurance-display">
                 <div className="section-header">
                     <div className="section-title-wrapper">
-                        <h3>Insurance Information</h3>
-                        <p className="section-subtitle">Manage your insurance plan details and coverage</p>
+                        <h3>{t(`${prefix}.insuranceInfo.sectionTitle`)}</h3>
+                        <p className="section-subtitle">{t(`${prefix}.insuranceInfo.sectionSubtitle`)}</p>
                     </div>
                     <div className="header-actions">
                         <button className="download-btn">
-                            <FaDownload /> Download Card
+                            <FaDownload /> {t(`${prefix}.buttons.downloadCard`)}
                         </button>
                         <button className="edit-btn" onClick={() => startEditing({ ...insuranceInfo })}>
-                            <FaPencilAlt /> Edit
+                            <FaPencilAlt /> {t(`${prefix}.buttons.edit`)}
                         </button>
                     </div>
                 </div>
 
                 <div className="insurance-card">
                     <div className="insurance-card-header">
-                        <h3>{insuranceInfo.provider}</h3>
+                        <h3>{getLangField(insuranceInfo, 'provider')}</h3>
                     </div>
 
                     <div className="insurance-card-content">
                         <div className="member-info-section">
                             <div className="member-identifier">
                                 <div>
-                                    <span className="label">Member ID</span>
+                                    <span className="label">{t(`${prefix}.insuranceInfo.form.memberId`)}</span>
                                     <span className="value highlight">{insuranceInfo.memberId}</span>
                                 </div>
                                 <div>
-                                    <span className="label">Group #</span>
+                                    <span className="label">{t(`${prefix}.insuranceInfo.form.groupNumber`)}</span>
                                     <span className="value">{insuranceInfo.groupNumber}</span>
                                 </div>
                                 <div>
-                                    <span className="label">Policy #</span>
+                                    <span className="label">{t(`${prefix}.insuranceInfo.form.policyNumber`)}</span>
                                     <span className="value">{insuranceInfo.policyNumber}</span>
                                 </div>
                             </div>
 
                             <div className="member-details">
                                 <div>
-                                    <span className="label">Member Name</span>
+                                    <span className="label">{t(`${prefix}.insuranceInfo.memberInfo.memberName`)}</span>
                                     <span className="value">{insuranceInfo.primaryCardholder}</span>
                                 </div>
                                 <div>
-                                    <span className="label">Relationship</span>
-                                    <span className="value">{insuranceInfo.relationship}</span>
+                                    <span className="label">{t(`${prefix}.insuranceInfo.memberInfo.relationship`)}</span>
+                                    <span className="value">{getLangField(insuranceInfo, 'relationship')}</span>
                                 </div>
                                 <div>
-                                    <span className="label">Coverage Type</span>
-                                    <span className="value">{insuranceInfo.coverageType}</span>
+                                    <span className="label">{t(`${prefix}.insuranceInfo.memberInfo.coverageType`)}</span>
+                                    <span className="value">{getLangField(insuranceInfo, 'coverageType')}</span>
                                 </div>
                                 <div>
-                                    <span className="label">Effective Date</span>
+                                    <span className="label">{t(`${prefix}.insuranceInfo.memberInfo.effectiveDate`)}</span>
                                     <span className="value">{new Date(insuranceInfo.startDate).toLocaleDateString()}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div className="copay-section">
-                            <h4>Copay Information</h4>
+                            <h4>{t(`${prefix}.insuranceInfo.form.copayInfo`)}</h4>
                             <div className="copay-grid">
                                 <div className="copay-item">
-                                    <span className="copay-label">Primary Care</span>
+                                    <span className="copay-label">{t(`${prefix}.insuranceInfo.form.primaryCare`)}</span>
                                     <span className="copay-value">{insuranceInfo.copay.primaryCare}</span>
                                 </div>
                                 <div className="copay-item">
-                                    <span className="copay-label">Specialist</span>
+                                    <span className="copay-label">{t(`${prefix}.insuranceInfo.form.specialist`)}</span>
                                     <span className="copay-value">{insuranceInfo.copay.specialist}</span>
                                 </div>
                                 <div className="copay-item">
-                                    <span className="copay-label">Emergency</span>
+                                    <span className="copay-label">{t(`${prefix}.insuranceInfo.form.emergency`)}</span>
                                     <span className="copay-value">{insuranceInfo.copay.emergency}</span>
                                 </div>
                                 <div className="copay-item">
-                                    <span className="copay-label">Prescription</span>
+                                    <span className="copay-label">{t(`${prefix}.insuranceInfo.form.prescription`)}</span>
                                     <span className="copay-value">{insuranceInfo.copay.prescription}</span>
                                 </div>
                             </div>
@@ -921,39 +1103,39 @@ export const PatientHealthProfile = () => {
 
                         <div className="card-footer">
                             <FaShieldAlt className="security-icon" />
-                            <p className="security-note">Your insurance information is securely stored and encrypted.</p>
+                            <p className="security-note">{t(`${prefix}.insuranceInfo.securityNote`)}</p>
                         </div>
                     </div>
                 </div>
 
                 <div className="benefits-summary">
-                    <h4>Benefits Summary</h4>
+                    <h4>{t(`${prefix}.insuranceInfo.benefitsSummary.title`)}</h4>
                     <div className="benefits-grid">
                         <div className="benefit-item">
-                            <h5>Annual Deductible</h5>
+                            <h5>{t(`${prefix}.insuranceInfo.benefitsSummary.annualDeductible`)}</h5>
                             <span className="benefit-value">$1,500</span>
-                            <span className="benefit-progress">$750 used</span>
+                            <span className="benefit-progress">$750 {t(`${prefix}.insuranceInfo.benefitsSummary.used`)}</span>
                             <div className="progress-bar">
                                 <div className="progress" style={{ width: '50%' }}></div>
                             </div>
                         </div>
                         <div className="benefit-item">
-                            <h5>Out-of-Pocket Maximum</h5>
+                            <h5>{t(`${prefix}.insuranceInfo.benefitsSummary.outOfPocketMax`)}</h5>
                             <span className="benefit-value">$4,500</span>
-                            <span className="benefit-progress">$1,250 used</span>
+                            <span className="benefit-progress">$1,250 {t(`${prefix}.insuranceInfo.benefitsSummary.used`)}</span>
                             <div className="progress-bar">
                                 <div className="progress" style={{ width: '28%' }}></div>
                             </div>
                         </div>
                         <div className="benefit-item">
-                            <h5>Preventive Care</h5>
+                            <h5>{t(`${prefix}.insuranceInfo.benefitsSummary.preventiveCare`)}</h5>
                             <span className="benefit-value">Covered 100%</span>
-                            <span className="benefit-status covered">Covered</span>
+                            <span className="benefit-status covered">{t(`${prefix}.insuranceInfo.benefitsSummary.covered`)}</span>
                         </div>
                         <div className="benefit-item">
-                            <h5>Prescription Coverage</h5>
+                            <h5>{t(`${prefix}.insuranceInfo.benefitsSummary.prescriptionCoverage`)}</h5>
                             <span className="benefit-value">Tiered Copay</span>
-                            <span className="benefit-status covered">Active</span>
+                            <span className="benefit-status covered">{t(`${prefix}.insuranceInfo.benefitsSummary.active`)}</span>
                         </div>
                     </div>
                 </div>
@@ -967,29 +1149,66 @@ export const PatientHealthProfile = () => {
                 <div className="edit-form history-form">
                     <div className="form-grid">
                         <div className="form-group">
-                            <label>Type</label>
+                            <label>{t(`${prefix}.medicalHistory.form.type`)}</label>
                             <select
-                                value={editedData.type || ''}
-                                onChange={(e) => setEditedData({ ...editedData, type: e.target.value })}
+                                value={getLangField(editedData, 'type') || ''}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    const typeMap = {
+                                        'Surgery': 'جراحة',
+                                        'Hospitalization': 'دخول المستشفى',
+                                        'Vaccination': 'تطعيم',
+                                        'Major Illness': 'مرض خطير',
+                                        'Injury': 'إصابة',
+                                        'Other': 'أخرى',
+                                        'جراحة': 'Surgery',
+                                        'دخول المستشفى': 'Hospitalization',
+                                        'تطعيم': 'Vaccination',
+                                        'مرض خطير': 'Major Illness',
+                                        'إصابة': 'Injury',
+                                        'أخرى': 'Other'
+                                    };
+
+                                    setEditedData({
+                                        ...editedData,
+                                        typeEn: language === 'en' ? value : typeMap[value],
+                                        typeAr: language === 'ar' ? value : typeMap[value]
+                                    });
+                                }}
                             >
-                                <option value="Surgery">Surgery</option>
-                                <option value="Hospitalization">Hospitalization</option>
-                                <option value="Vaccination">Vaccination</option>
-                                <option value="Major Illness">Major Illness</option>
-                                <option value="Injury">Injury</option>
-                                <option value="Other">Other</option>
+                                <option value={language === 'en' ? 'Surgery' : 'جراحة'}>
+                                    {t(`${prefix}.medicalHistory.types.surgery`)}
+                                </option>
+                                <option value={language === 'en' ? 'Hospitalization' : 'دخول المستشفى'}>
+                                    {t(`${prefix}.medicalHistory.types.hospitalization`)}
+                                </option>
+                                <option value={language === 'en' ? 'Vaccination' : 'تطعيم'}>
+                                    {t(`${prefix}.medicalHistory.types.vaccination`)}
+                                </option>
+                                <option value={language === 'en' ? 'Major Illness' : 'مرض خطير'}>
+                                    {t(`${prefix}.medicalHistory.types.majorIllness`)}
+                                </option>
+                                <option value={language === 'en' ? 'Injury' : 'إصابة'}>
+                                    {t(`${prefix}.medicalHistory.types.injury`)}
+                                </option>
+                                <option value={language === 'en' ? 'Other' : 'أخرى'}>
+                                    {t(`${prefix}.medicalHistory.types.other`)}
+                                </option>
                             </select>
                         </div>
                         <div className="form-group span-2">
-                            <label>Procedure/Description</label>
+                            <label>{t(`${prefix}.medicalHistory.form.procedureDescription`)}</label>
                             <input
                                 type="text"
-                                value={editedData.procedure || ''}
-                                onChange={(e) => setEditedData({ ...editedData, procedure: e.target.value })}
+                                value={getLangField(editedData, 'procedure') || ''}
+                                onChange={(e) => {
+                                    const langField = language === 'ar' ? 'procedureAr' : 'procedureEn';
+                                    setEditedData({ ...editedData, [langField]: e.target.value });
+                                }}
                             />
                         </div>
                         <div className="form-group">
-                            <label>Date</label>
+                            <label>{t(`${prefix}.medicalHistory.form.date`)}</label>
                             <input
                                 type="date"
                                 value={editedData.date || ''}
@@ -997,26 +1216,35 @@ export const PatientHealthProfile = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Provider/Facility</label>
+                            <label>{t(`${prefix}.medicalHistory.form.providerFacility`)}</label>
                             <input
                                 type="text"
-                                value={editedData.provider || ''}
-                                onChange={(e) => setEditedData({ ...editedData, provider: e.target.value })}
+                                value={getLangField(editedData, 'provider') || ''}
+                                onChange={(e) => {
+                                    const langField = language === 'ar' ? 'providerAr' : 'providerEn';
+                                    setEditedData({ ...editedData, [langField]: e.target.value });
+                                }}
                             />
                         </div>
                         <div className="form-group">
-                            <label>Physician</label>
+                            <label>{t(`${prefix}.medicalHistory.form.physician`)}</label>
                             <input
                                 type="text"
-                                value={editedData.physician || ''}
-                                onChange={(e) => setEditedData({ ...editedData, physician: e.target.value })}
+                                value={getLangField(editedData, 'physician') || ''}
+                                onChange={(e) => {
+                                    const langField = language === 'ar' ? 'physicianAr' : 'physicianEn';
+                                    setEditedData({ ...editedData, [langField]: e.target.value });
+                                }}
                             />
                         </div>
                         <div className="form-group span-2">
-                            <label>Notes</label>
+                            <label>{t(`${prefix}.medicalHistory.form.notes`)}</label>
                             <textarea
-                                value={editedData.notes || ''}
-                                onChange={(e) => setEditedData({ ...editedData, notes: e.target.value })}
+                                value={getLangField(editedData, 'notes') || ''}
+                                onChange={(e) => {
+                                    const langField = language === 'ar' ? 'notesAr' : 'notesEn';
+                                    setEditedData({ ...editedData, [langField]: e.target.value });
+                                }}
                                 rows="3"
                             ></textarea>
                         </div>
@@ -1024,10 +1252,10 @@ export const PatientHealthProfile = () => {
 
                     <div className="form-actions">
                         <button className="action-btn secondary" onClick={cancelEditing}>
-                            <FaTimes /> Cancel
+                            <FaTimes /> {t(`${prefix}.buttons.cancel`)}
                         </button>
                         <button className="action-btn primary" onClick={saveChanges}>
-                            <FaCheck /> {editedData.id ? 'Update Record' : 'Add Record'}
+                            <FaCheck /> {t(editedData.id ? `${prefix}.buttons.updateRecord` : `${prefix}.buttons.addRecord`)}
                         </button>
                     </div>
                 </div>
@@ -1038,30 +1266,30 @@ export const PatientHealthProfile = () => {
             <div className="info-display history-display">
                 <div className="section-header">
                     <div className="section-title-wrapper">
-                        <h3>Medical History</h3>
-                        <p className="section-subtitle">View and manage your historical medical records</p>
+                        <h3>{t(`${prefix}.medicalHistory.sectionTitle`)}</h3>
+                        <p className="section-subtitle">{t(`${prefix}.medicalHistory.sectionSubtitle`)}</p>
                     </div>
                     <button className="add-btn" onClick={() => startEditing({})}>
-                        + Add New Record
+                        + {t(`${prefix}.buttons.addRecord`)}
                     </button>
                 </div>
 
                 <div className="history-filter">
-                    <div className="filter-label">Filter by:</div>
+                    <div className="filter-label">{t(`${prefix}.medicalHistory.filterLabel`)}:</div>
                     <div className="filter-options">
-                        <button className="filter-btn active">All</button>
-                        <button className="filter-btn">Surgery</button>
-                        <button className="filter-btn">Hospitalization</button>
-                        <button className="filter-btn">Vaccination</button>
+                        <button className="filter-btn active">{t(`${prefix}.medicalHistory.filterOptions.all`)}</button>
+                        <button className="filter-btn">{t(`${prefix}.medicalHistory.filterOptions.surgery`)}</button>
+                        <button className="filter-btn">{t(`${prefix}.medicalHistory.filterOptions.hospitalization`)}</button>
+                        <button className="filter-btn">{t(`${prefix}.medicalHistory.filterOptions.vaccination`)}</button>
                     </div>
                 </div>
 
                 {medicalHistory.length === 0 ? (
                     <div className="empty-state">
                         <FaHistory className="empty-icon" />
-                        <p>No medical history records found</p>
+                        <p>{t(`${prefix}.medicalHistory.emptyState`)}</p>
                         <button className="action-btn secondary" onClick={() => startEditing({})}>
-                            Add Record
+                            {t(`${prefix}.buttons.addRecord`)}
                         </button>
                     </div>
                 ) : (
@@ -1070,36 +1298,40 @@ export const PatientHealthProfile = () => {
                             <div className="timeline-item" key={record.id}>
                                 <div className="timeline-marker">
                                     <div className="timeline-icon">
-                                        {record.type === 'Surgery' && <FaNotesMedical />}
-                                        {record.type === 'Hospitalization' && <FaExclamationTriangle />}
-                                        {record.type === 'Vaccination' && <FaShieldAlt />}
-                                        {(record.type !== 'Surgery' && record.type !== 'Hospitalization' && record.type !== 'Vaccination') && <FaFileAlt />}
+                                        {getLangField(record, 'type') === (language === 'en' ? 'Surgery' : 'جراحة') && <FaNotesMedical />}
+                                        {getLangField(record, 'type') === (language === 'en' ? 'Hospitalization' : 'دخول المستشفى') && <FaExclamationTriangle />}
+                                        {getLangField(record, 'type') === (language === 'en' ? 'Vaccination' : 'تطعيم') && <FaShieldAlt />}
+                                        {(getLangField(record, 'type') !== (language === 'en' ? 'Surgery' : 'جراحة') &&
+                                            getLangField(record, 'type') !== (language === 'en' ? 'Hospitalization' : 'دخول المستشفى') &&
+                                            getLangField(record, 'type') !== (language === 'en' ? 'Vaccination' : 'تطعيم')) && <FaFileAlt />}
                                     </div>
                                     <div className="timeline-date">
-                                        {new Date(record.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
+                                        {new Date(record.date).toLocaleDateString(language === 'ar' ? 'ar-EG' : 'en-US', { year: 'numeric', month: 'short' })}
                                     </div>
                                 </div>
                                 <div className="timeline-content">
                                     <div className="timeline-header">
-                                        <h4>{record.procedure}</h4>
-                                        <span className="badge">{record.type}</span>
+                                        <h4>{getLangField(record, 'procedure')}</h4>
+                                        <span className="badge">
+                                            {t(`${prefix}.medicalHistory.types.${record.typeEn.toLowerCase().replace(/\s+/g, '')}`)}
+                                        </span>
                                         <button className="edit-btn small" onClick={() => startEditing({ ...record })}>
                                             <FaPencilAlt />
                                         </button>
                                     </div>
                                     <div className="timeline-details">
                                         <div className="timeline-detail">
-                                            <span className="detail-label">Provider:</span>
-                                            <span className="detail-value">{record.provider}</span>
+                                            <span className="detail-label">{t(`${prefix}.medicalHistory.details.provider`)}:</span>
+                                            <span className="detail-value">{getLangField(record, 'provider')}</span>
                                         </div>
                                         <div className="timeline-detail">
-                                            <span className="detail-label">Physician:</span>
-                                            <span className="detail-value">{record.physician}</span>
+                                            <span className="detail-label">{t(`${prefix}.medicalHistory.details.physician`)}:</span>
+                                            <span className="detail-value">{getLangField(record, 'physician')}</span>
                                         </div>
-                                        {record.notes && (
+                                        {record.notesEn && (
                                             <div className="timeline-detail notes">
-                                                <span className="detail-label">Notes:</span>
-                                                <span className="detail-value">{record.notes}</span>
+                                                <span className="detail-label">{t(`${prefix}.medicalHistory.details.notes`)}:</span>
+                                                <span className="detail-value">{getLangField(record, 'notes')}</span>
                                             </div>
                                         )}
                                     </div>
@@ -1134,7 +1366,7 @@ export const PatientHealthProfile = () => {
             <div className="profile-container">
                 <div className="profile-sidebar">
                     <div className="sidebar-header">
-                        <h2>Health Profile</h2>
+                        <h2>{t(`${prefix}.title`)}</h2>
                     </div>
                     <div className="sidebar-nav">
                         <button
@@ -1142,14 +1374,14 @@ export const PatientHealthProfile = () => {
                             onClick={() => handleTabChange('personal')}
                         >
                             <FaUserAlt className="nav-icon" />
-                            <span>Personal Information</span>
+                            <span>{t(`${prefix}.navigationTabs.personalInfo`)}</span>
                         </button>
                         <button
                             className={`nav-item ${activeTab === 'allergies' ? 'active' : ''}`}
                             onClick={() => handleTabChange('allergies')}
                         >
                             <FaAllergies className="nav-icon" />
-                            <span>Allergies</span>
+                            <span>{t(`${prefix}.navigationTabs.allergies`)}</span>
                             {allergies.length > 0 && <span className="badge">{allergies.length}</span>}
                         </button>
                         <button
@@ -1157,7 +1389,7 @@ export const PatientHealthProfile = () => {
                             onClick={() => handleTabChange('conditions')}
                         >
                             <FaNotesMedical className="nav-icon" />
-                            <span>Medical Conditions</span>
+                            <span>{t(`${prefix}.navigationTabs.medicalConditions`)}</span>
                             {medicalConditions.length > 0 && <span className="badge">{medicalConditions.length}</span>}
                         </button>
                         <button
@@ -1165,20 +1397,20 @@ export const PatientHealthProfile = () => {
                             onClick={() => handleTabChange('insurance')}
                         >
                             <FaIdCard className="nav-icon" />
-                            <span>Insurance Information</span>
+                            <span>{t(`${prefix}.navigationTabs.insuranceInfo`)}</span>
                         </button>
                         <button
                             className={`nav-item ${activeTab === 'history' ? 'active' : ''}`}
                             onClick={() => handleTabChange('history')}
                         >
                             <FaHistory className="nav-icon" />
-                            <span>Medical History</span>
+                            <span>{t(`${prefix}.navigationTabs.medicalHistory`)}</span>
                             {medicalHistory.length > 0 && <span className="badge">{medicalHistory.length}</span>}
                         </button>
                     </div>
                     <div className="sidebar-footer">
                         <button className="print-btn">
-                            <FaFileAlt /> Print Health Record
+                            <FaFileAlt /> {t(`${prefix}.buttons.printRecord`)}
                         </button>
                     </div>
                 </div>
@@ -1187,7 +1419,7 @@ export const PatientHealthProfile = () => {
                     {!isLoaded ? (
                         <div className="loading-state">
                             <div className="spinner"></div>
-                            <p>Loading health information...</p>
+                            <p>{t(`${prefix}.loading`)}</p>
                         </div>
                     ) : (
                         renderActiveTabContent()

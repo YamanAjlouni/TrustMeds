@@ -9,7 +9,6 @@ export const PatientDashboard = () => {
   const isArabic = language === 'ar';
 
   // Sample data with separate fields for English and Arabic
-  // In a real app, this would come from your API/backend
   const [prescriptions, setPrescriptions] = useState([
     {
       id: 1,

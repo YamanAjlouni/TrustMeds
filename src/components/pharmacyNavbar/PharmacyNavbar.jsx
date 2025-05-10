@@ -115,7 +115,7 @@ const PharmacyNavbar = ({ toggleSidebar }) => {
                         <FaBars />
                     </button>
 
-                    <NavLink to="/pharmacy/dashboard" className="navbar-logo">
+                    <NavLink to="/pharmacy/overview" className="navbar-logo">
                         <img src={logo} alt="TrustMeds Logo" />
                     </NavLink>
 
@@ -258,9 +258,9 @@ const PharmacyNavbar = ({ toggleSidebar }) => {
                                     </li>
                                     <li className="divider"></li>
                                     <li>
-                                        <button className="logout-button">
+                                        <NavLink to="/" className="logout-button">
                                             <FaSignOutAlt /> Logout
-                                        </button>
+                                        </NavLink>
                                     </li>
                                 </ul>
                             </div>

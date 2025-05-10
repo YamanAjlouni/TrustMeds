@@ -1,18 +1,5 @@
 @use '../../assets/styles/vars.scss' as *;
 
-$secondary-color: #34a853;
-$accent-color: #fbbc05;
-$danger-color: #ea4335;
-$light-bg: #f8f9fa;
-$dark-text: #202124;
-$medium-text: #5f6368;
-$light-text: #9aa0a6;
-$border-radius: 12px;
-$shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
-$shadow-md: 0 4px 10px rgba(0, 0, 0, 0.08);
-$shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
-$transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-
 @mixin flex-center {
     display: flex;
     align-items: center;

@@ -1,6 +1,8 @@
 // Import all localization files
 import enNavbar from '../locale/en/landingPage/navbar.json';
 import arNavbar from '../locale/ar/landingPage/navbar.json';
+import enHome from '../locale/en/landingPage/home.json';
+import arHome from '../locale/ar/landingPage/home.json';
 import enAbout from '../locale/en/landingPage/about.json';
 import arAbout from '../locale/ar/landingPage/about.json';
 import enHowItWorks from '../locale/en/landingPage/howItWorks.json';
@@ -23,16 +25,20 @@ import enPatientDoctors from '../locale/en/patientPage/doctors.json';
 import arPatientDoctors from '../locale/ar/patientPage/doctors.json';
 import enPatientPharmacyConnection from '../locale/en/patientPage/pharmacyConnection.json';
 import arPatientPharmacyConnection from '../locale/ar/patientPage/pharmacyConnection.json';
+import enPatientHealthProfile from '../locale/en/patientPage/healthProfile.json';
+import arPatientHealthProfile from '../locale/ar/patientPage/healthProfile.json';
+import enPatientSecurityCenter from '../locale/en/patientPage/securityCenter.json';
+import arPatientSecurityCenter from '../locale/ar/patientPage/securityCenter.json';
+import enPatientHelpResources from '../locale/en/patientPage/helpResources.json';
+import arPatientHelpResources from '../locale/ar/patientPage/helpResources.json';
 
-
-
-// Import other localization files as needed
 
 // Organize translations by language and section
 const translations = {
     en: {
         landingPage: {
             navbar: enNavbar,
+            home: enHome,
             about: enAbout,
             howItWorks: enHowItWorks,
             featuresAndSecurity: enFeaturesAndSecurity,
@@ -46,7 +52,10 @@ const translations = {
             dashboard: enPatientDashboard,
             prescriptions: enPatientPrescriptions,
             doctors: enPatientDoctors,
-            pharmacyConnection: enPatientPharmacyConnection, // English
+            pharmacyConnection: enPatientPharmacyConnection,
+            healthProfile: enPatientHealthProfile,
+            securityCenter: enPatientSecurityCenter,
+            helpResources: enPatientHelpResources, // Added help resources translations
             // Add patient page translations
         },
         doctorPage: {
@@ -59,6 +68,7 @@ const translations = {
     ar: {
         landingPage: {
             navbar: arNavbar,
+            home: arHome,
             about: arAbout,
             howItWorks: arHowItWorks,
             featuresAndSecurity: arFeaturesAndSecurity,
@@ -72,7 +82,10 @@ const translations = {
             dashboard: arPatientDashboard,
             prescriptions: arPatientPrescriptions,
             doctors: arPatientDoctors,
-            pharmacyConnection: arPatientPharmacyConnection, // Arabic
+            pharmacyConnection: arPatientPharmacyConnection,
+            healthProfile: arPatientHealthProfile,
+            securityCenter: arPatientSecurityCenter,
+            helpResources: arPatientHelpResources, // Added help resources translations
             // Add patient page translations
         },
         doctorPage: {
@@ -83,6 +96,10 @@ const translations = {
         }
     }
 };
+
+// The rest of the file remains unchanged
+
+// The rest of the file remains unchanged
 
 /**
  * Get translation for a specific key

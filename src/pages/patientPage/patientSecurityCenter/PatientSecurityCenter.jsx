@@ -21,8 +21,15 @@ import {
     LogOut
 } from 'lucide-react';
 import './PatientSecurityCenter.scss';
+import { useLanguage } from '../../../context/LanguageContext';
 
 const PatientSecurityCenter = () => {
+    // Use the language context with patientPage.securityCenter prefix
+    const { t: baseT, language, isRTL } = useLanguage();
+    
+    // Create a wrapper function that adds the prefix
+    const t = (key, params = {}) => baseT(`patientPage.securityCenter.${key}`, params);
+
     const [showSecurityScore, setShowSecurityScore] = useState(true);
     const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
     const [biometricEnabled, setBiometricEnabled] = useState(false);
@@ -90,9 +97,9 @@ const PatientSecurityCenter = () => {
     };
 
     const getSecurityLevel = (score) => {
-        if (score >= 80) return { level: 'Strong', color: '#10B981' };
-        if (score >= 60) return { level: 'Good', color: '#FBBF24' };
-        return { level: 'Vulnerable', color: '#EF4444' };
+        if (score >= 80) return { level: t('securityScore.level.strong'), color: '#10B981' };
+        if (score >= 60) return { level: t('securityScore.level.good'), color: '#FBBF24' };
+        return { level: t('securityScore.level.vulnerable'), color: '#EF4444' };
     };
 
     const handleDataSharingChange = (key) => {
@@ -117,18 +124,7 @@ const PatientSecurityCenter = () => {
     };
 
     const getActivityTitle = (type) => {
-        switch (type) {
-            case 'login':
-                return 'Account Login';
-            case 'prescription_access':
-                return 'Prescription Data Accessed';
-            case 'failed_login':
-                return 'Failed Login Attempt';
-            case 'security_settings':
-                return 'Security Settings Changed';
-            default:
-                return type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
-        }
+        return t(`activity.types.${type}`);
     };
 
     const securityLevel = getSecurityLevel(calculateSecurityScore());
@@ -136,28 +132,28 @@ const PatientSecurityCenter = () => {
     const securityRecommendations = [
         {
             id: 1,
-            title: 'Enable Two-Factor Authentication',
-            description: 'Add an extra layer of security to your account',
+            title: t('recommendations.items.twoFactor.title'),
+            description: t('recommendations.items.twoFactor.description'),
             icon: <Key size={20} />,
-            action: 'Enable',
+            action: t('recommendations.items.twoFactor.action'),
             enabled: twoFactorEnabled,
             onClick: () => setTwoFactorEnabled(true)
         },
         {
             id: 2,
-            title: 'Update Password',
-            description: 'Last changed: ' + passwordLastChanged,
+            title: t('recommendations.items.password.title'),
+            description: t('recommendations.items.password.description') + ' ' + passwordLastChanged,
             icon: <Lock size={20} />,
-            action: 'Update',
+            action: t('recommendations.items.password.action'),
             enabled: false,
             onClick: () => alert('This would open the change password dialog')
         },
         {
             id: 3,
-            title: 'Review Data Sharing Settings',
-            description: 'Manage what information is shared with third parties',
+            title: t('recommendations.items.dataSharing.title'),
+            description: t('recommendations.items.dataSharing.description'),
             icon: <Share2 size={20} />,
-            action: 'Review',
+            action: t('recommendations.items.dataSharing.action'),
             enabled: !dataSharing.researchers && !dataSharing.thirdParty,
             onClick: () => document.getElementById('data-sharing-card').scrollIntoView({ behavior: 'smooth' })
         }
@@ -222,13 +218,12 @@ const PatientSecurityCenter = () => {
         };
     }, []); // Empty dependency array ensures this runs once on mount
 
-
     return (
-        <div className="security-center">
+        <div className={`security-center ${isRTL ? 'rtl' : ''}`}>
             {!isLoaded ? (
                 <div className="loading-container">
                     <div className="loader"></div>
-                    <p>Loading security information...</p>
+                    <p>{t('loading')}</p>
                 </div>
             ) : (
                 <>
@@ -238,8 +233,8 @@ const PatientSecurityCenter = () => {
                                 <Shield className="header-icon" />
                             </div>
                             <div className="header-text">
-                                <h1>Security Center</h1>
-                                <p>Manage your account security and privacy preferences</p>
+                                <h1>{t('header.title')}</h1>
+                                <p>{t('header.subtitle')}</p>
                             </div>
                         </div>
                     </div>
@@ -248,11 +243,11 @@ const PatientSecurityCenter = () => {
                         {/* Security Score Card */}
                         <div className="security-card score-card">
                             <div className="card-header">
-                                <h2>Security Score</h2>
+                                <h2>{t('securityScore.title')}</h2>
                                 <button
                                     className="toggle-visibility"
                                     onClick={() => setShowSecurityScore(!showSecurityScore)}
-                                    aria-label={showSecurityScore ? "Hide security score" : "Show security score"}
+                                    aria-label={showSecurityScore ? t('securityScore.hideLabel') : t('securityScore.showLabel')}
                                 >
                                     {showSecurityScore ? <EyeOff size={20} /> : <Eye size={20} />}
                                 </button>
@@ -286,22 +281,22 @@ const PatientSecurityCenter = () => {
                                                 </svg>
                                             </div>
                                             <div className="score-details">
-                                                <h3>Security Level: <span style={{ color: securityLevel.color }}>{securityLevel.level}</span></h3>
+                                                <h3>{t('securityLevel')}: <span style={{ color: securityLevel.color }}>{securityLevel.level}</span></h3>
                                                 <div className="score-breakdown">
                                                     <div className="score-item">
-                                                        <span className="item-label">Two-Factor Authentication:</span>
+                                                        <span className="item-label">{t('securityScore.details.twoFactor')}:</span>
                                                         <span className={`item-status ${twoFactorEnabled ? 'active' : 'inactive'}`}>
-                                                            {twoFactorEnabled ? 'Enabled' : 'Disabled'}
+                                                            {twoFactorEnabled ? t('securityScore.status.enabled') : t('securityScore.status.disabled')}
                                                         </span>
                                                     </div>
                                                     <div className="score-item">
-                                                        <span className="item-label">Biometric Login:</span>
+                                                        <span className="item-label">{t('securityScore.details.biometric')}:</span>
                                                         <span className={`item-status ${biometricEnabled ? 'active' : 'inactive'}`}>
-                                                            {biometricEnabled ? 'Enabled' : 'Disabled'}
+                                                            {biometricEnabled ? t('securityScore.status.enabled') : t('securityScore.status.disabled')}
                                                         </span>
                                                     </div>
                                                     <div className="score-item">
-                                                        <span className="item-label">Password Age:</span>
+                                                        <span className="item-label">{t('securityScore.details.passwordAge')}:</span>
                                                         <span className="item-status">{passwordLastChanged}</span>
                                                     </div>
                                                 </div>
@@ -310,19 +305,19 @@ const PatientSecurityCenter = () => {
                                         <div className="score-actions">
                                             <button className="action-button refresh">
                                                 <RefreshCw size={18} />
-                                                Refresh Score
+                                                {t('securityScore.actions.refreshScore')}
                                             </button>
                                             <button className="action-button improve" onClick={() => setShowRecommendations(true)}>
                                                 <Shield size={18} />
-                                                Improve Security
+                                                {t('securityScore.actions.improveSecurity')}
                                             </button>
                                         </div>
                                     </>
                                 ) : (
                                     <div className="score-hidden">
                                         <Lock size={32} />
-                                        <p>Security score is hidden</p>
-                                        <p className="score-hidden-note">Click the eye icon above to show your security score</p>
+                                        <p>{t('securityScore.hiddenMessage')}</p>
+                                        <p className="score-hidden-note">{t('securityScore.hiddenNote')}</p>
                                     </div>
                                 )}
                             </div>
@@ -332,11 +327,11 @@ const PatientSecurityCenter = () => {
                         {showRecommendations && (
                             <div className="security-card recommendations-card">
                                 <div className="card-header">
-                                    <h2>Recommended Actions</h2>
+                                    <h2>{t('recommendations.title')}</h2>
                                     <button
                                         className="close-button"
                                         onClick={() => setShowRecommendations(false)}
-                                        aria-label="Close recommendations"
+                                        aria-label={t('closeButtonLabel')}
                                     >
                                         ×
                                     </button>
@@ -371,10 +366,10 @@ const PatientSecurityCenter = () => {
                         {/* Authentication Settings */}
                         <div className="security-card">
                             <div className="card-header">
-                                <h2>Authentication Settings</h2>
+                                <h2>{t('authentication.title')}</h2>
                                 <div className="info-tooltip">
                                     <Info size={16} />
-                                    <span className="tooltip-text">Configure how you sign in to your account</span>
+                                    <span className="tooltip-text">{t('authentication.tooltip')}</span>
                                 </div>
                             </div>
                             <div className="settings-list">
@@ -384,12 +379,12 @@ const PatientSecurityCenter = () => {
                                             <Lock size={20} />
                                         </div>
                                         <div className="setting-text">
-                                            <h3>Password</h3>
-                                            <p>Last changed {passwordLastChanged}</p>
+                                            <h3>{t('authentication.items.password.title')}</h3>
+                                            <p>{t('authentication.items.password.description')} {passwordLastChanged}</p>
                                         </div>
                                     </div>
                                     <button className="setting-action-btn">
-                                        Change
+                                        {t('authentication.items.password.action')}
                                     </button>
                                 </div>
 
@@ -399,8 +394,8 @@ const PatientSecurityCenter = () => {
                                             <Key size={20} />
                                         </div>
                                         <div className="setting-text">
-                                            <h3>Two-Factor Authentication</h3>
-                                            <p>Add an extra layer of security to your account</p>
+                                            <h3>{t('authentication.items.twoFactor.title')}</h3>
+                                            <p>{t('authentication.items.twoFactor.description')}</p>
                                         </div>
                                     </div>
                                     <label className="switch">
@@ -419,8 +414,8 @@ const PatientSecurityCenter = () => {
                                             <Smartphone size={20} />
                                         </div>
                                         <div className="setting-text">
-                                            <h3>Biometric Login</h3>
-                                            <p>Use fingerprint or face recognition on supported devices</p>
+                                            <h3>{t('authentication.items.biometric.title')}</h3>
+                                            <p>{t('authentication.items.biometric.description')}</p>
                                         </div>
                                     </div>
                                     <label className="switch">
@@ -439,12 +434,12 @@ const PatientSecurityCenter = () => {
                                             <LogOut size={20} />
                                         </div>
                                         <div className="setting-text">
-                                            <h3>Active Sessions</h3>
-                                            <p>Manage devices currently logged into your account</p>
+                                            <h3>{t('authentication.items.sessions.title')}</h3>
+                                            <p>{t('authentication.items.sessions.description')}</p>
                                         </div>
                                     </div>
                                     <button className="setting-action-btn">
-                                        Manage <ChevronRight size={16} />
+                                        {t('authentication.items.sessions.action')} <ChevronRight size={16} />
                                     </button>
                                 </div>
                             </div>
@@ -453,10 +448,10 @@ const PatientSecurityCenter = () => {
                         {/* Data Sharing Preferences */}
                         <div id="data-sharing-card" className="security-card">
                             <div className="card-header">
-                                <h2>Data Sharing Preferences</h2>
+                                <h2>{t('dataSharing.title')}</h2>
                                 <div className="info-tooltip">
                                     <Info size={16} />
-                                    <span className="tooltip-text">Control who can access your medical information</span>
+                                    <span className="tooltip-text">{t('dataSharing.tooltip')}</span>
                                 </div>
                             </div>
                             <div className="settings-list">
@@ -466,8 +461,8 @@ const PatientSecurityCenter = () => {
                                             <UserPlus size={20} />
                                         </div>
                                         <div className="setting-text">
-                                            <h3>Healthcare Providers</h3>
-                                            <p>Share data with your doctors and specialists</p>
+                                            <h3>{t('dataSharing.items.doctors.title')}</h3>
+                                            <p>{t('dataSharing.items.doctors.description')}</p>
                                         </div>
                                     </div>
                                     <label className="switch">
@@ -486,8 +481,8 @@ const PatientSecurityCenter = () => {
                                             <Share2 size={20} />
                                         </div>
                                         <div className="setting-text">
-                                            <h3>Pharmacies</h3>
-                                            <p>Share data with your preferred pharmacies</p>
+                                            <h3>{t('dataSharing.items.pharmacies.title')}</h3>
+                                            <p>{t('dataSharing.items.pharmacies.description')}</p>
                                         </div>
                                     </div>
                                     <label className="switch">
@@ -506,8 +501,8 @@ const PatientSecurityCenter = () => {
                                             <FileText size={20} />
                                         </div>
                                         <div className="setting-text">
-                                            <h3>Insurance Providers</h3>
-                                            <p>Share data with your insurance company</p>
+                                            <h3>{t('dataSharing.items.insurers.title')}</h3>
+                                            <p>{t('dataSharing.items.insurers.description')}</p>
                                         </div>
                                     </div>
                                     <label className="switch">
@@ -526,8 +521,8 @@ const PatientSecurityCenter = () => {
                                             <AlertCircle size={20} />
                                         </div>
                                         <div className="setting-text">
-                                            <h3>Medical Research</h3>
-                                            <p>Contribute anonymized data to medical research</p>
+                                            <h3>{t('dataSharing.items.researchers.title')}</h3>
+                                            <p>{t('dataSharing.items.researchers.description')}</p>
                                         </div>
                                     </div>
                                     <label className="switch">
@@ -546,8 +541,8 @@ const PatientSecurityCenter = () => {
                                             <Bell size={20} />
                                         </div>
                                         <div className="setting-text">
-                                            <h3>Third-Party Applications</h3>
-                                            <p>Allow connected apps to access your health data</p>
+                                            <h3>{t('dataSharing.items.thirdParty.title')}</h3>
+                                            <p>{t('dataSharing.items.thirdParty.description')}</p>
                                         </div>
                                     </div>
                                     <label className="switch">
@@ -564,8 +559,8 @@ const PatientSecurityCenter = () => {
                             <div className="privacy-notice">
                                 <AlertTriangle size={16} />
                                 <p>
-                                    Disabling sharing with healthcare providers or pharmacies may limit the functionality of TrustMeds.
-                                    <a href="#privacy-policy"> Learn more about our privacy policy</a>
+                                    {t('dataSharing.privacyNotice')}
+                                    <a href="#privacy-policy"> {t('dataSharing.privacyPolicyLink')}</a>
                                 </p>
                             </div>
                         </div>
@@ -573,9 +568,9 @@ const PatientSecurityCenter = () => {
                         {/* Recent Activity */}
                         <div className="security-card activity-card">
                             <div className="card-header">
-                                <h2>Recent Security Activity</h2>
+                                <h2>{t('activity.title')}</h2>
                                 <button className="view-all-btn">
-                                    View all <ChevronRight size={16} />
+                                    {t('activity.viewAll')} <ChevronRight size={16} />
                                 </button>
                             </div>
                             <div className="activity-list">
@@ -588,25 +583,25 @@ const PatientSecurityCenter = () => {
                                             <div className="activity-header">
                                                 <h3>{getActivityTitle(activity.type)}</h3>
                                                 <span className={`activity-status ${activity.status}`}>
-                                                    {activity.status}
+                                                    {t(`activity.status.${activity.status}`)}
                                                 </span>
                                             </div>
                                             <div className="activity-meta">
                                                 <p className="activity-device">{activity.device}</p>
                                                 <p className="activity-location">{activity.location} • IP: {activity.ip}</p>
                                                 <time className="activity-time">
-                                                    {new Date(activity.time).toLocaleString()}
+                                                    {new Date(activity.time).toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US')}
                                                 </time>
                                             </div>
                                         </div>
                                         <div className="activity-actions">
                                             {activity.status === 'blocked' && (
                                                 <button className="activity-action-btn warning">
-                                                    Report
+                                                    {t('activity.actions.report')}
                                                 </button>
                                             )}
                                             <button className="activity-action-btn">
-                                                Details
+                                                {t('activity.actions.details')}
                                             </button>
                                         </div>
                                     </div>

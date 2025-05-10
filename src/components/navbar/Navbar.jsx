@@ -8,6 +8,8 @@ export const Navbar = () => {
   const { loadSection, direction } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navLinksRef = useRef(null);
+  const hamburgerRef = useRef(null);
 
   // Load navbar translations
   const navbarText = loadSection('landingPage.navbar');
@@ -41,6 +43,26 @@ export const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Handle clicks outside the navbar-links to close the mobile menu
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        mobileMenuOpen && 
+        navLinksRef.current && 
+        !navLinksRef.current.contains(event.target) &&
+        hamburgerRef.current && 
+        !hamburgerRef.current.contains(event.target)
+      ) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [mobileMenuOpen]);
+
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -61,7 +83,10 @@ export const Navbar = () => {
           <img src={logo} alt="TrustMeds Logo" />
         </div>
 
-        <div className={`navbar-links ${mobileMenuOpen ? 'active' : ''}`}>
+        <div 
+          ref={navLinksRef} 
+          className={`navbar-links ${mobileMenuOpen ? 'active' : ''}`}
+        >
           <img src={logo} alt="TrustMeds Logo" className="mobile-logo" />
           <button onClick={() => scrollToSection(homeRef)}>{navbarText.home}</button>
           <button onClick={() => scrollToSection(aboutRef)}>{navbarText.aboutUs}</button>
@@ -74,6 +99,7 @@ export const Navbar = () => {
         </div>
 
         <div
+          ref={hamburgerRef}
           className={`hamburger ${mobileMenuOpen ? 'active' : ''}`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >

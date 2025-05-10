@@ -112,10 +112,10 @@ export const PharmacySidebar = ({ isSidebarOpen, onLinkClick }) => {
             </nav>
 
             <div className="pharmacy-sidebar-footer">
-                <button className="logout-btn">
+                <NavLink to='/' className="logout-btn">
                     <FaSignOutAlt className="logout-icon" />
                     <span className="logout-text">Logout</span>
-                </button>
+                </NavLink>
             </div>
         </div>
     );

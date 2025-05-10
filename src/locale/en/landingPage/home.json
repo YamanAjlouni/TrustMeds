@@ -1,0 +1,25 @@
+{
+    "mainHeadline": {
+        "part1": "Secure, Digital Prescriptions ",
+        "part2": "at Your Fingertips"
+    },
+    "subHeadline": "TrustMeds ensures safety and efficiency in healthcare, bringing your medical prescriptions into the digital age with unparalleled security and convenience.",
+    "buttons": {
+        "getStarted": "Get Started",
+        "learnMore": "Learn More"
+    },
+    "quickStats": {
+        "patientSatisfaction": {
+            "number": "95%",
+            "label": "Patient Satisfaction"
+        },
+        "support": {
+            "number": "24/7",
+            "label": "Online Support"
+        },
+        "security": {
+            "number": "100%",
+            "label": "Secure & Compliant"
+        }
+    }
+}

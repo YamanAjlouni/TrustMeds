@@ -1,0 +1,190 @@
+{
+    "patientHealthProfile": {
+        "title": "الملف الصحي",
+        "navigationTabs": {
+            "personalInfo": "المعلومات الشخصية",
+            "allergies": "الحساسية",
+            "medicalConditions": "الحالات الطبية",
+            "insuranceInfo": "معلومات التأمين",
+            "medicalHistory": "التاريخ الطبي"
+        },
+        "buttons": {
+            "edit": "تعديل",
+            "editProfile": "تعديل الملف",
+            "cancel": "إلغاء",
+            "save": "حفظ التغييرات",
+            "addAllergy": "إضافة حساسية جديدة",
+            "updateAllergy": "تحديث الحساسية",
+            "addCondition": "إضافة حالة جديدة",
+            "updateCondition": "تحديث الحالة",
+            "addRecord": "إضافة سجل جديد",
+            "updateRecord": "تحديث السجل",
+            "downloadCard": "تنزيل البطاقة",
+            "printRecord": "طباعة السجل الصحي",
+            "scheduleNow": "جدولة الآن"
+        },
+        "personalInfo": {
+            "sectionTitle": "المعلومات الشخصية",
+            "patientId": "رقم المريض",
+            "alertTitle": "معلومات صحية مهمة",
+            "alertMessage": "موعد فحصك السنوي بعد 15 يوم. يرجى تحديد موعد مع د. سميث.",
+            "personalDetails": {
+                "title": "شخصي",
+                "dateOfBirth": "تاريخ الميلاد",
+                "age": "العمر",
+                "gender": "الجنس",
+                "bloodType": "فصيلة الدم",
+                "height": "الطول",
+                "weight": "الوزن",
+                "years": "سنوات"
+            },
+            "contactInfo": {
+                "title": "معلومات الاتصال",
+                "email": "البريد الإلكتروني",
+                "phone": "الهاتف",
+                "address": "العنوان"
+            },
+            "emergencyContact": {
+                "title": "جهة اتصال للطوارئ",
+                "name": "الاسم",
+                "relationship": "العلاقة",
+                "phone": "الهاتف"
+            },
+            "biometricSummary": {
+                "title": "ملخص القياسات الحيوية",
+                "bloodPressure": "ضغط الدم",
+                "heartRate": "معدل ضربات القلب",
+                "temperature": "درجة الحرارة",
+                "bmi": "مؤشر كتلة الجسم",
+                "normal": "طبيعي"
+            }
+        },
+        "allergies": {
+            "sectionTitle": "الحساسية والتحسس",
+            "sectionSubtitle": "إدارة الحساسية والتفاعلات المعروفة",
+            "emptyState": "لا توجد حساسية مسجلة",
+            "form": {
+                "allergen": "مسبب الحساسية",
+                "severity": "الشدة",
+                "diagnosedDate": "تاريخ التشخيص",
+                "reaction": "رد الفعل",
+                "notes": "ملاحظات"
+            },
+            "severity": {
+                "low": "منخفضة",
+                "moderate": "متوسطة",
+                "high": "عالية",
+                "severe": "شديدة"
+            },
+            "details": {
+                "reaction": "رد الفعل",
+                "diagnosed": "تم التشخيص",
+                "notes": "ملاحظات"
+            }
+        },
+        "medicalConditions": {
+            "sectionTitle": "الحالات الطبية",
+            "sectionSubtitle": "إدارة الحالات الطبية الحالية والسابقة",
+            "emptyState": "لا توجد حالات طبية مسجلة",
+            "form": {
+                "condition": "الحالة",
+                "diagnosedDate": "تاريخ التشخيص",
+                "status": "الحالة",
+                "treatingPhysician": "الطبيب المعالج",
+                "notes": "ملاحظات"
+            },
+            "status": {
+                "active": "نشطة",
+                "resolved": "تم حلها",
+                "inRemission": "في طور الهدوء",
+                "chronic": "مزمنة"
+            },
+            "details": {
+                "diagnosed": "تم التشخيص",
+                "physician": "الطبيب",
+                "notes": "ملاحظات"
+            }
+        },
+        "insuranceInfo": {
+            "sectionTitle": "معلومات التأمين",
+            "sectionSubtitle": "إدارة تفاصيل خطة التأمين والتغطية",
+            "securityNote": "يتم تخزين معلومات التأمين الخاصة بك وتشفيرها بشكل آمن.",
+            "form": {
+                "provider": "مزود التأمين",
+                "policyNumber": "رقم البوليصة",
+                "groupNumber": "رقم المجموعة",
+                "memberId": "رقم العضوية",
+                "startDate": "تاريخ البدء",
+                "coverageType": "نوع التغطية",
+                "primaryCardholder": "حامل البطاقة الأساسي",
+                "relationship": "العلاقة بحامل البطاقة",
+                "copayInfo": "معلومات المشاركة في الدفع",
+                "primaryCare": "الرعاية الأولية",
+                "specialist": "أخصائي",
+                "emergency": "طوارئ",
+                "prescription": "مستويات الوصفة الطبية"
+            },
+            "coverageTypes": {
+                "individual": "فردي",
+                "family": "عائلي",
+                "group": "مجموعة"
+            },
+            "relationships": {
+                "self": "نفسه",
+                "spouse": "زوج/ة",
+                "child": "طفل",
+                "other": "أخرى"
+            },
+            "memberInfo": {
+                "memberName": "اسم العضو",
+                "relationship": "العلاقة",
+                "coverageType": "نوع التغطية",
+                "effectiveDate": "تاريخ السريان"
+            },
+            "benefitsSummary": {
+                "title": "ملخص المزايا",
+                "annualDeductible": "الخصم السنوي",
+                "outOfPocketMax": "الحد الأقصى للدفع من الجيب",
+                "preventiveCare": "الرعاية الوقائية",
+                "prescriptionCoverage": "تغطية الوصفات الطبية",
+                "used": "مستخدم",
+                "covered": "مغطى",
+                "active": "نشط"
+            }
+        },
+        "medicalHistory": {
+            "sectionTitle": "التاريخ الطبي",
+            "sectionSubtitle": "عرض وإدارة سجلاتك الطبية التاريخية",
+            "emptyState": "لا توجد سجلات تاريخ طبي",
+            "filterLabel": "تصفية حسب",
+            "filterOptions": {
+                "all": "الكل",
+                "surgery": "جراحة",
+                "hospitalization": "دخول المستشفى",
+                "vaccination": "تطعيم"
+            },
+            "form": {
+                "type": "النوع",
+                "procedureDescription": "الإجراء/الوصف",
+                "date": "التاريخ",
+                "providerFacility": "مقدم الخدمة/المنشأة",
+                "physician": "الطبيب",
+                "notes": "ملاحظات"
+            },
+            "types": {
+                "surgery": "جراحة",
+                "hospitalization": "دخول المستشفى",
+                "vaccination": "تطعيم",
+                "majorIllness": "مرض خطير",
+                "injury": "إصابة",
+                "other": "أخرى"
+            },
+            "details": {
+                "provider": "مقدم الخدمة",
+                "physician": "الطبيب",
+                "notes": "ملاحظات"
+            }
+        },
+        "loading": "جاري تحميل المعلومات الصحية..."
+    }
+}

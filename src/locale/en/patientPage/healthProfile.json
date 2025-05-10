@@ -1,0 +1,198 @@
+{
+    "patientHealthProfile": {
+        "title": "Health Profile",
+        "navigationTabs": {
+            "personalInfo": "Personal Information",
+            "allergies": "Allergies",
+            "medicalConditions": "Medical Conditions",
+            "insuranceInfo": "Insurance Information",
+            "medicalHistory": "Medical History"
+        },
+        "buttons": {
+            "edit": "Edit",
+            "editProfile": "Edit Profile",
+            "cancel": "Cancel",
+            "save": "Save Changes",
+            "addAllergy": "Add New Allergy",
+            "updateAllergy": "Update Allergy",
+            "addCondition": "Add New Condition",
+            "updateCondition": "Update Condition",
+            "addRecord": "Add New Record",
+            "updateRecord": "Update Record",
+            "downloadCard": "Download Card",
+            "printRecord": "Print Health Record",
+            "scheduleNow": "Schedule Now"
+        },
+        "personalInfo": {
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "sectionTitle": "Personal Information",
+            "patientId": "Patient ID",
+            "alertTitle": "Important Health Information",
+            "alertMessage": "Your yearly checkup is due in 15 days. Please schedule an appointment with Dr. Smith.",
+            "genderOptions": {
+                "male": "Male",
+                "female": "Female",
+                "other": "Other",
+                "preferNotToSay": "Prefer not to say"
+            },
+            "personalDetails": {
+                "title": "Personal",
+                "dateOfBirth": "Date of Birth",
+                "age": "Age",
+                "gender": "Gender",
+                "bloodType": "Blood Type",
+                "height": "Height",
+                "weight": "Weight",
+                "years": "years"
+            },
+            "contactInfo": {
+                "title": "Contact Information",
+                "email": "Email",
+                "phone": "Phone",
+                "address": "Address"
+            },
+            "emergencyContact": {
+                "title": "Emergency Contact",
+                "name": "Name",
+                "relationship": "Relationship",
+                "phone": "Phone"
+            },
+            "biometricSummary": {
+                "title": "Biometric Summary",
+                "bloodPressure": "Blood Pressure",
+                "heartRate": "Heart Rate",
+                "temperature": "Temperature",
+                "bmi": "BMI",
+                "normal": "Normal"
+            }
+        },
+        "allergies": {
+            "sectionTitle": "Allergies & Sensitivities",
+            "sectionSubtitle": "Manage your known allergies and reactions",
+            "emptyState": "No allergies on record",
+            "form": {
+                "allergen": "Allergen",
+                "severity": "Severity",
+                "diagnosedDate": "Diagnosed Date",
+                "reaction": "Reaction",
+                "notes": "Notes"
+            },
+            "severity": {
+                "low": "Low",
+                "moderate": "Moderate",
+                "high": "High",
+                "severe": "Severe"
+            },
+            "details": {
+                "reaction": "Reaction",
+                "diagnosed": "Diagnosed",
+                "notes": "Notes"
+            }
+        },
+        "medicalConditions": {
+            "sectionTitle": "Medical Conditions",
+            "sectionSubtitle": "Manage your ongoing and past medical conditions",
+            "emptyState": "No medical conditions on record",
+            "form": {
+                "condition": "Condition",
+                "diagnosedDate": "Diagnosed Date",
+                "status": "Status",
+                "treatingPhysician": "Treating Physician",
+                "notes": "Notes"
+            },
+            "status": {
+                "active": "Active",
+                "resolved": "Resolved",
+                "inRemission": "In Remission",
+                "chronic": "Chronic"
+            },
+            "details": {
+                "diagnosed": "Diagnosed",
+                "physician": "Physician",
+                "notes": "Notes"
+            }
+        },
+        "insuranceInfo": {
+            "sectionTitle": "Insurance Information",
+            "sectionSubtitle": "Manage your insurance plan details and coverage",
+            "securityNote": "Your insurance information is securely stored and encrypted.",
+            "form": {
+                "provider": "Insurance Provider",
+                "policyNumber": "Policy Number",
+                "groupNumber": "Group Number",
+                "memberId": "Member ID",
+                "startDate": "Start Date",
+                "coverageType": "Coverage Type",
+                "primaryCardholder": "Primary Cardholder",
+                "relationship": "Relationship to Cardholder",
+                "copayInfo": "Copay Information",
+                "primaryCare": "Primary Care",
+                "specialist": "Specialist",
+                "emergency": "Emergency",
+                "prescription": "Prescription Tiers"
+            },
+            "coverageTypes": {
+                "individual": "Individual",
+                "family": "Family",
+                "group": "Group"
+            },
+            "relationships": {
+                "self": "Self",
+                "spouse": "Spouse",
+                "child": "Child",
+                "other": "Other"
+            },
+            "memberInfo": {
+                "memberName": "Member Name",
+                "relationship": "Relationship",
+                "coverageType": "Coverage Type",
+                "effectiveDate": "Effective Date"
+            },
+            "benefitsSummary": {
+                "title": "Benefits Summary",
+                "annualDeductible": "Annual Deductible",
+                "outOfPocketMax": "Out-of-Pocket Maximum",
+                "preventiveCare": "Preventive Care",
+                "prescriptionCoverage": "Prescription Coverage",
+                "used": "used",
+                "covered": "Covered",
+                "active": "Active"
+            }
+        },
+        "medicalHistory": {
+            "sectionTitle": "Medical History",
+            "sectionSubtitle": "View and manage your historical medical records",
+            "emptyState": "No medical history records found",
+            "filterLabel": "Filter by",
+            "filterOptions": {
+                "all": "All",
+                "surgery": "Surgery",
+                "hospitalization": "Hospitalization",
+                "vaccination": "Vaccination"
+            },
+            "form": {
+                "type": "Type",
+                "procedureDescription": "Procedure/Description",
+                "date": "Date",
+                "providerFacility": "Provider/Facility",
+                "physician": "Physician",
+                "notes": "Notes"
+            },
+            "types": {
+                "surgery": "Surgery",
+                "hospitalization": "Hospitalization",
+                "vaccination": "Vaccination",
+                "majorIllness": "Major Illness",
+                "injury": "Injury",
+                "other": "Other"
+            },
+            "details": {
+                "provider": "Provider",
+                "physician": "Physician",
+                "notes": "Notes"
+            }
+        },
+        "loading": "Loading health information..."
+    }
+}

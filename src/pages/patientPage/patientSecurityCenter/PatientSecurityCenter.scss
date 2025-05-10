@@ -17,7 +17,7 @@ $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 $success: #10B981;
 $warning: #F59E0B;
 $danger: #EF4444;
-$info: #3B82F6;
+$info: $primary-color;
 $neutral: #9CA3AF;
 
 // Animation
@@ -213,7 +213,7 @@ $transition-slow: 350ms ease;
 
             &.recommendations-card {
                 grid-column: span 12;
-                border-left: 4px solid $info;
+                border-left: 4px solid $primary-color;
                 background: linear-gradient(to right, rgba($info, 0.05), transparent);
             }
 
@@ -1195,6 +1195,176 @@ $transition-slow: 350ms ease;
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+// RTL Support for PatientSecurityCenter
+.lang-ar {
+
+    .security-center {
+        // General text alignment
+        text-align: right;
+
+        // Header adjustments
+        .security-header {
+            .header-content {
+                .header-icon-wrapper {
+                    margin-left: 1.5rem;
+                    margin-right: 0;
+                }
+            }
+        }
+
+        .security-grid {
+            .security-card {
+
+                &.recommendations-card {
+                    border-left: none;
+                    border-right: 4px solid $primary-color;;
+                }
+
+                .card-header {
+                    .view-all-btn {
+                        svg {
+                            transform: scaleX(-1);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Settings list adjustments
+        .settings-list {
+            .setting-item {
+                .setting-info {
+                    .setting-icon {
+                        margin-left: 1rem;
+                        margin-right: 0;
+                    }
+                }
+
+                .setting-action-btn {
+                    svg {
+                        transform: scaleX(-1);
+                    }
+                }
+            }
+        }
+
+        // Info tooltip adjustments
+        .info-tooltip {
+            margin-right: 0.75rem;
+            margin-left: 0;
+
+            .tooltip-text {
+                left: -20px;
+                right: auto;
+            }
+        }
+
+        // Activity list adjustments
+        .activity-list {
+            .activity-item {
+                border-right: 3px solid transparent;
+                border-left: none;
+
+                &.success {
+                    border-right-color: $success;
+                }
+
+                &.blocked {
+                    border-right-color: $danger;
+                }
+
+                .activity-details {
+                    .activity-meta {
+                        text-align: right;
+                    }
+                }
+
+                .activity-actions {
+                    margin-right: 0.5rem;
+                    margin-left: 0;
+                }
+            }
+        }
+
+        // Privacy notice adjustments
+        .privacy-notice {
+            border-right: 3px solid $warning;
+            border-left: none;
+            padding-right: 1rem;
+            padding-left: 0.75rem;
+        }
+
+        // Score visualization adjustments
+        .score-card {
+            .score-content {
+                .score-visualization {
+                    .score-details {
+                        .score-breakdown {
+                            .score-item {
+                                flex-direction: row-reverse;
+                            }
+                        }
+                    }
+                }
+
+                .score-actions {
+                    flex-direction: row-reverse;
+                }
+            }
+        }
+
+        // Recommendations adjustments
+        .recommendations-list {
+            .recommendation-item {
+                &.completed {
+                    border-right: 3px solid $success;
+                    border-left: none;
+                }
+
+                .recommendation-icon {
+                    margin-left: 1rem;
+                    margin-right: 0;
+                }
+
+                .recommendation-action {
+                    margin-right: 1rem;
+                    margin-left: 0;
+                }
+            }
+        }
+
+        // Switch adjustments
+        .switch {
+            .slider:before {
+                left: auto;
+                right: 3px;
+            }
+
+            input:checked+.slider:before {
+                transform: translateX(-24px);
+            }
+        }
+
+        // Responsive adjustments for mobile
+        @media (max-width: 768px) {
+            .security-header {
+                .header-content {
+                    flex-direction: column;
+                    text-align: center;
+                }
+            }
+
+            .security-grid {
+                .activity-item {
+                    flex-direction: column;
+                    align-items: center;
+                    text-align: center;
                 }
             }
         }

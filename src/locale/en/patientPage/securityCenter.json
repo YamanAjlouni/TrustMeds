@@ -1,0 +1,124 @@
+{
+    "loading": "Loading security information...",
+    "header": {
+        "title": "Security Center",
+        "subtitle": "Manage your account security and privacy preferences"
+    },
+    "securityScore": {
+        "title": "Security Score",
+        "hideLabel": "Hide security score",
+        "showLabel": "Show security score",
+        "level": {
+            "strong": "Strong",
+            "good": "Good",
+            "vulnerable": "Vulnerable"
+        },
+        "details": {
+            "twoFactor": "Two-Factor Authentication",
+            "biometric": "Biometric Login",
+            "passwordAge": "Password Age"
+        },
+        "status": {
+            "enabled": "Enabled",
+            "disabled": "Disabled"
+        },
+        "actions": {
+            "refreshScore": "Refresh Score",
+            "improveSecurity": "Improve Security"
+        },
+        "hiddenMessage": "Security score is hidden",
+        "hiddenNote": "Click the eye icon above to show your security score"
+    },
+    "securityLevel": "Security Level",
+    "recommendations": {
+        "title": "Recommended Actions",
+        "items": {
+            "twoFactor": {
+                "title": "Enable Two-Factor Authentication",
+                "description": "Add an extra layer of security to your account",
+                "action": "Enable"
+            },
+            "password": {
+                "title": "Update Password",
+                "description": "Last changed:",
+                "action": "Update"
+            },
+            "dataSharing": {
+                "title": "Review Data Sharing Settings",
+                "description": "Manage what information is shared with third parties",
+                "action": "Review"
+            }
+        }
+    },
+    "closeButtonLabel": "Close recommendations",
+    "authentication": {
+        "title": "Authentication Settings",
+        "tooltip": "Configure how you sign in to your account",
+        "items": {
+            "password": {
+                "title": "Password",
+                "description": "Last changed",
+                "action": "Change"
+            },
+            "twoFactor": {
+                "title": "Two-Factor Authentication",
+                "description": "Add an extra layer of security to your account"
+            },
+            "biometric": {
+                "title": "Biometric Login",
+                "description": "Use fingerprint or face recognition on supported devices"
+            },
+            "sessions": {
+                "title": "Active Sessions",
+                "description": "Manage devices currently logged into your account",
+                "action": "Manage"
+            }
+        }
+    },
+    "dataSharing": {
+        "title": "Data Sharing Preferences",
+        "tooltip": "Control who can access your medical information",
+        "items": {
+            "doctors": {
+                "title": "Healthcare Providers",
+                "description": "Share data with your doctors and specialists"
+            },
+            "pharmacies": {
+                "title": "Pharmacies",
+                "description": "Share data with your preferred pharmacies"
+            },
+            "insurers": {
+                "title": "Insurance Providers",
+                "description": "Share data with your insurance company"
+            },
+            "researchers": {
+                "title": "Medical Research",
+                "description": "Contribute anonymized data to medical research"
+            },
+            "thirdParty": {
+                "title": "Third-Party Applications",
+                "description": "Allow connected apps to access your health data"
+            }
+        },
+        "privacyNotice": "Disabling sharing with healthcare providers or pharmacies may limit the functionality of TrustMeds.",
+        "privacyPolicyLink": "Learn more about our privacy policy"
+    },
+    "activity": {
+        "title": "Recent Security Activity",
+        "viewAll": "View all",
+        "types": {
+            "login": "Account Login",
+            "prescription_access": "Prescription Data Accessed",
+            "failed_login": "Failed Login Attempt",
+            "security_settings": "Security Settings Changed"
+        },
+        "status": {
+            "success": "Success",
+            "blocked": "Blocked"
+        },
+        "actions": {
+            "report": "Report",
+            "details": "Details"
+        }
+    }
+}

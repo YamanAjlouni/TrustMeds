@@ -1633,3 +1633,242 @@ $z-index-modal: 100;
         }
     }
 }
+
+.lang-ar {
+    .patient-health-profile {
+        // Global RTL adjustments
+        text-align: right;
+
+        // Sidebar RTL adjustments
+        .profile-sidebar {
+            .sidebar-nav {
+                .nav-item {
+                    span {
+                        text-align: right;
+                    }
+
+                    .nav-icon {
+                        margin-right: 0;
+                        margin-left: $space-md;
+                    }
+
+                    &.active {
+                        &:before {
+                            left: auto;
+                            right: 0;
+                            border-top-right-radius: 0;
+                            border-bottom-right-radius: 0;
+                            border-top-left-radius: $radius-sm;
+                            border-bottom-left-radius: $radius-sm;
+                        }
+                    }
+                }
+            }
+
+            .sidebar-footer {
+                .print-btn {
+                    svg {
+                        margin-right: 0;
+                        margin-left: $space-sm;
+                    }
+                }
+            }
+        }
+
+        // Buttons and actions RTL adjustments
+        .edit-btn,
+        .add-btn,
+        .action-btn,
+        .download-btn {
+            svg {
+                margin-right: 0;
+                margin-left: $space-sm;
+            }
+        }
+
+        // Profile header RTL adjustments
+        .profile-header {
+            .profile-avatar {
+                margin-right: 0;
+                margin-left: $space-xl;
+            }
+        }
+
+        // Alert box RTL adjustments
+        .alert-box {
+            border-left: none;
+            border-right: 4px solid $primary-color;
+
+            .alert-box-icon {
+                margin-right: 0;
+                margin-left: $space-lg;
+            }
+        }
+
+        // Info grid RTL adjustments
+        .info-grid {
+            .info-group {
+                .info-items {
+                    .info-item {
+                        .info-label {
+                            text-align: right;
+                        }
+
+                        .info-value {
+                            text-align: left;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Allergy and condition cards RTL adjustments
+        .allergies-list,
+        .conditions-list {
+
+            .allergy-card,
+            .condition-card {
+
+                .allergy-header,
+                .condition-header {
+
+                    .allergy-title,
+                    .condition-title {
+
+                        .severity-badge,
+                        .status-badge {
+                            margin-right: $space-sm;
+                            margin-left: 0;
+                        }
+                    }
+                }
+
+                .allergy-details,
+                .condition-details {
+
+                    .allergy-item,
+                    .condition-item {
+
+                        .allergy-label,
+                        .condition-label {
+                            margin-right: 0;
+                            margin-left: $space-sm;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Insurance card RTL adjustments
+        .insurance-card {
+            .insurance-card-content {
+                .member-info-section {
+
+                    .member-identifier,
+                    .member-details {
+                        div {
+                            .label {
+                                text-align: right;
+                            }
+                        }
+                    }
+                }
+
+                .copay-section {
+                    h4 {
+                        &::after {
+                            left: auto;
+                            right: 0;
+                        }
+                    }
+                }
+
+                .card-footer {
+                    .security-icon {
+                        margin-right: 0;
+                        margin-left: $space-md;
+                    }
+                }
+            }
+        }
+
+        // Timeline RTL adjustments
+        .timeline {
+            padding-left: 0;
+            padding-right: $space-md;
+
+            &:before {
+                left: auto;
+                right: 50px;
+            }
+
+            .timeline-item {
+                .timeline-content {
+                    .timeline-header {
+                        .badge {
+                            margin-right: 0;
+                            margin-left: $space-sm;
+                        }
+                    }
+
+                    .timeline-details {
+                        .timeline-detail {
+                            .detail-label {
+                                margin-right: 0;
+                                margin-left: $space-sm;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Edit forms RTL adjustments
+        .edit-form {
+            .form-grid {
+                .form-group {
+                    label {
+                        text-align: right;
+                    }
+
+                    select {
+                        background-position: left 12px center;
+                        padding-right: $space-md;
+                        padding-left: 32px;
+                    }
+                }
+            }
+
+            .form-actions {
+                justify-content: flex-start;
+            }
+        }
+
+        // Section header RTL adjustments
+        .section-header {
+            .section-title-wrapper {
+                text-align: right;
+            }
+        }
+
+        // Filter component RTL adjustments
+        .history-filter {
+            .filter-label {
+                margin-right: 0;
+                margin-left: $space-md;
+            }
+        }
+
+        // Biometric summary RTL adjustments
+        .biometric-summary {
+            .summary-title {
+                text-align: right;
+            }
+        }
+
+        // Empty state RTL adjustments
+        .empty-state {
+            text-align: center;
+        }
+    }
+}

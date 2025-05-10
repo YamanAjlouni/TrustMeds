@@ -11,18 +11,27 @@ import { formatDate } from '../../../utils/dateFormatter';
 
 export const PatientPharmacyConnection = () => {
     // Use language context for localization
-
     const { t, language, isRTL } = useLanguage();
+
+    // Helper function to get the correct language field
+    const getLangField = (obj, field) => {
+        const langSuffix = language === 'ar' ? 'Ar' : 'En';
+        return obj[field + langSuffix] || obj[field];
+    };
 
     // State for preferred pharmacies
     const [preferredPharmacies, setPreferredPharmacies] = useState([
         {
             id: 1,
-            name: "Main Street Pharmacy",
-            address: "123 Main St, Anytown, CA 12345",
+            nameEn: "Main Street Pharmacy",
+            nameAr: "صيدلية الشارع الرئيسي",
+            addressEn: "123 Main St, Anytown, CA 12345",
+            addressAr: "١٢٣ شارع الرئيسي، المدينة، كاليفورنيا ١٢٣٤٥",
             phone: "(555) 123-4567",
-            hours: "Mon-Fri: 8AM-8PM, Sat: 9AM-6PM, Sun: 10AM-4PM",
-            distance: "0.8 miles",
+            hoursEn: "Mon-Fri: 8AM-8PM, Sat: 9AM-6PM, Sun: 10AM-4PM",
+            hoursAr: "الإثنين-الجمعة: ٨ص-٨م، السبت: ٩ص-٦م، الأحد: ١٠ص-٤م",
+            distanceEn: "0.8 miles",
+            distanceAr: "٠.٨ ميل",
             rating: 4.7,
             numRatings: 156,
             deliveryAvailable: true,
@@ -31,11 +40,15 @@ export const PatientPharmacyConnection = () => {
         },
         {
             id: 2,
-            name: "Central Pharmacy",
-            address: "456 Center Ave, Anytown, CA 12345",
+            nameEn: "Central Pharmacy",
+            nameAr: "الصيدلية المركزية",
+            addressEn: "456 Center Ave, Anytown, CA 12345",
+            addressAr: "٤٥٦ شارع سنتر، المدينة، كاليفورنيا ١٢٣٤٥",
             phone: "(555) 987-6543",
-            hours: "Mon-Fri: 9AM-9PM, Sat-Sun: 10AM-6PM",
-            distance: "2.3 miles",
+            hoursEn: "Mon-Fri: 9AM-9PM, Sat-Sun: 10AM-6PM",
+            hoursAr: "الإثنين-الجمعة: ٩ص-٩م، السبت-الأحد: ١٠ص-٦م",
+            distanceEn: "2.3 miles",
+            distanceAr: "٢.٣ ميل",
             rating: 4.5,
             numRatings: 98,
             deliveryAvailable: true,
@@ -48,33 +61,45 @@ export const PatientPharmacyConnection = () => {
     const [nearbyPharmacies, setNearbyPharmacies] = useState([
         {
             id: 3,
-            name: "Downtown Drugs",
-            address: "789 Market St, Anytown, CA 12345",
+            nameEn: "Downtown Drugs",
+            nameAr: "صيدلية وسط المدينة",
+            addressEn: "789 Market St, Anytown, CA 12345",
+            addressAr: "٧٨٩ شارع ماركت، المدينة، كاليفورنيا ١٢٣٤٥",
             phone: "(555) 456-7890",
-            hours: "Mon-Sun: 8AM-10PM",
-            distance: "1.5 miles",
+            hoursEn: "Mon-Sun: 8AM-10PM",
+            hoursAr: "الإثنين-الأحد: ٨ص-١٠م",
+            distanceEn: "1.5 miles",
+            distanceAr: "١.٥ ميل",
             rating: 4.2,
             numRatings: 87,
             deliveryAvailable: true
         },
         {
             id: 4,
-            name: "Westside Wellness Pharmacy",
-            address: "321 West Blvd, Anytown, CA 12345",
+            nameEn: "Westside Wellness Pharmacy",
+            nameAr: "صيدلية ويستسايد للعافية",
+            addressEn: "321 West Blvd, Anytown, CA 12345",
+            addressAr: "٣٢١ شارع ويست، المدينة، كاليفورنيا ١٢٣٤٥",
             phone: "(555) 321-6547",
-            hours: "Mon-Sat: 9AM-8PM, Sun: Closed",
-            distance: "3.1 miles",
+            hoursEn: "Mon-Sat: 9AM-8PM, Sun: Closed",
+            hoursAr: "الإثنين-السبت: ٩ص-٨م، الأحد: مغلق",
+            distanceEn: "3.1 miles",
+            distanceAr: "٣.١ ميل",
             rating: 4.8,
             numRatings: 112,
             deliveryAvailable: false
         },
         {
             id: 5,
-            name: "MediQuick Pharmacy",
-            address: "555 Park Rd, Anytown, CA 12345",
+            nameEn: "MediQuick Pharmacy",
+            nameAr: "صيدلية ميديكويك",
+            addressEn: "555 Park Rd, Anytown, CA 12345",
+            addressAr: "٥٥٥ طريق بارك، المدينة، كاليفورنيا ١٢٣٤٥",
             phone: "(555) 555-9876",
-            hours: "24 Hours",
-            distance: "4.5 miles",
+            hoursEn: "24 Hours",
+            hoursAr: "٢٤ ساعة",
+            distanceEn: "4.5 miles",
+            distanceAr: "٤.٥ ميل",
             rating: 4.1,
             numRatings: 65,
             deliveryAvailable: true
@@ -85,9 +110,12 @@ export const PatientPharmacyConnection = () => {
     const [deliveryOptions, setDeliveryOptions] = useState({
         enabled: true,
         defaultOption: "scheduled",
-        scheduledDay: "Friday",
-        scheduledTime: "Afternoon (2-5PM)",
-        address: "123 Home St, Apt 4B, Anytown, CA 12345",
+        scheduledDayEn: "Friday",
+        scheduledDayAr: "الجمعة",
+        scheduledTimeEn: "Afternoon (2-5PM)",
+        scheduledTimeAr: "بعد الظهر (٢-٥م)",
+        addressEn: "123 Home St, Apt 4B, Anytown, CA 12345",
+        addressAr: "١٢٣ شارع هوم، شقة ٤ب، المدينة، كاليفورنيا ١٢٣٤٥",
         notificationPreference: "text",
         phoneNumber: "(555) 987-1234",
         email: "jamie@example.com"
@@ -98,20 +126,28 @@ export const PatientPharmacyConnection = () => {
         {
             id: 1,
             date: "2025-04-02",
-            status: "Delivered",
-            prescriptions: ["Amoxicillin 500mg", "Lisinopril 10mg"],
-            pharmacy: "Main Street Pharmacy",
+            statusEn: "Delivered",
+            statusAr: "تم التوصيل",
+            prescriptionsEn: ["Amoxicillin 500mg", "Lisinopril 10mg"],
+            prescriptionsAr: ["أموكسيسيلين ٥٠٠ملغ", "ليزينوبريل ١٠ملغ"],
+            pharmacyEn: "Main Street Pharmacy",
+            pharmacyAr: "صيدلية الشارع الرئيسي",
             trackingNumber: "RXDEL100234",
-            signature: "Jamie S."
+            signatureEn: "Jamie S.",
+            signatureAr: "جيمي س."
         },
         {
             id: 2,
             date: "2025-03-15",
-            status: "Delivered",
-            prescriptions: ["Atorvastatin 20mg"],
-            pharmacy: "Central Pharmacy",
+            statusEn: "Delivered",
+            statusAr: "تم التوصيل",
+            prescriptionsEn: ["Atorvastatin 20mg"],
+            prescriptionsAr: ["أتورفاستاتين ٢٠ملغ"],
+            pharmacyEn: "Central Pharmacy",
+            pharmacyAr: "الصيدلية المركزية",
             trackingNumber: "RXDEL098123",
-            signature: "Jamie S."
+            signatureEn: "Jamie S.",
+            signatureAr: "جيمي س."
         }
     ]);
 
@@ -151,8 +187,8 @@ export const PatientPharmacyConnection = () => {
 
     // Search functionality
     const filteredNearbyPharmacies = nearbyPharmacies.filter(pharmacy =>
-        pharmacy.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        pharmacy.address.toLowerCase().includes(searchQuery.toLowerCase())
+        getLangField(pharmacy, 'name').toLowerCase().includes(searchQuery.toLowerCase()) ||
+        getLangField(pharmacy, 'address').toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     // Animation variants
@@ -304,11 +340,11 @@ export const PatientPharmacyConnection = () => {
                                             </div>
                                         )}
                                         <div className="pharmacy-info">
-                                            <h3>{pharmacy.name}</h3>
+                                            <h3>{getLangField(pharmacy, 'name')}</h3>
                                             <div className="pharmacy-details">
                                                 <p className="pharmacy-address">
                                                     <FaMapMarkerAlt className="detail-icon" />
-                                                    {pharmacy.address}
+                                                    {getLangField(pharmacy, 'address')}
                                                 </p>
                                                 <p className="pharmacy-phone">
                                                     <FaPhoneAlt className="detail-icon" />
@@ -316,12 +352,12 @@ export const PatientPharmacyConnection = () => {
                                                 </p>
                                                 <p className="pharmacy-hours">
                                                     <FaClock className="detail-icon" />
-                                                    {pharmacy.hours}
+                                                    {getLangField(pharmacy, 'hours')}
                                                 </p>
                                             </div>
                                             <div className="pharmacy-meta">
                                                 <span className="pharmacy-distance">
-                                                    <FaWalking className="meta-icon" /> {pharmacy.distance}
+                                                    <FaWalking className="meta-icon" /> {getLangField(pharmacy, 'distance')}
                                                 </span>
                                                 <span className="pharmacy-rating">
                                                     <FaStar className="meta-icon" /> {pharmacy.rating} ({pharmacy.numRatings})
@@ -439,11 +475,11 @@ export const PatientPharmacyConnection = () => {
                                     whileHover={{ scale: 1.02, boxShadow: "0 8px 16px rgba(0,0,0,0.1)" }}
                                 >
                                     <div className="pharmacy-info">
-                                        <h3>{pharmacy.name}</h3>
+                                        <h3>{getLangField(pharmacy, 'name')}</h3>
                                         <div className="pharmacy-details">
                                             <p className="pharmacy-address">
                                                 <FaMapMarkerAlt className="detail-icon" />
-                                                {pharmacy.address}
+                                                {getLangField(pharmacy, 'address')}
                                             </p>
                                             <p className="pharmacy-phone">
                                                 <FaPhoneAlt className="detail-icon" />
@@ -451,12 +487,12 @@ export const PatientPharmacyConnection = () => {
                                             </p>
                                             <p className="pharmacy-hours">
                                                 <FaClock className="detail-icon" />
-                                                {pharmacy.hours}
+                                                {getLangField(pharmacy, 'hours')}
                                             </p>
                                         </div>
                                         <div className="pharmacy-meta">
                                             <span className="pharmacy-distance">
-                                                <FaWalking className="meta-icon" /> {pharmacy.distance}
+                                                <FaWalking className="meta-icon" /> {getLangField(pharmacy, 'distance')}
                                             </span>
                                             <span className="pharmacy-rating">
                                                 <FaStar className="meta-icon" /> {pharmacy.rating} ({pharmacy.numRatings})
@@ -532,11 +568,11 @@ export const PatientPharmacyConnection = () => {
                                             <>
                                                 <div className="preference-item">
                                                     <span className="preference-label">{t('patientPage.pharmacyConnection.delivery.preferences.scheduledDay')}</span>
-                                                    <span className="preference-value">{t(`patientPage.pharmacyConnection.common.days.${deliveryOptions.scheduledDay.toLowerCase()}`)}</span>
+                                                    <span className="preference-value">{t(`patientPage.pharmacyConnection.common.days.${getLangField(deliveryOptions, 'scheduledDay').toLowerCase()}`)}</span>
                                                 </div>
                                                 <div className="preference-item">
                                                     <span className="preference-label">{t('patientPage.pharmacyConnection.delivery.preferences.preferredTime')}</span>
-                                                    <span className="preference-value">{deliveryOptions.scheduledTime}</span>
+                                                    <span className="preference-value">{getLangField(deliveryOptions, 'scheduledTime')}</span>
                                                 </div>
                                             </>
                                         )}
@@ -545,7 +581,7 @@ export const PatientPharmacyConnection = () => {
                                 <div className="detail-group">
                                     <h4>{t('patientPage.pharmacyConnection.delivery.address.title')}</h4>
                                     <div className="address-block">
-                                        {deliveryOptions.address}
+                                        {getLangField(deliveryOptions, 'address')}
                                     </div>
                                 </div>
                                 <div className="detail-group">
@@ -626,17 +662,17 @@ export const PatientPharmacyConnection = () => {
                                         </div>
                                         <div className="delivery-info">
                                             <div className="delivery-status">
-                                                <span className={`status-badge ${delivery.status.toLowerCase()}`}>
-                                                    {t(`patientPage.pharmacyConnection.common.status.${delivery.status.toLowerCase()}`)}
+                                                <span className={`status-badge ${getLangField(delivery, 'status').toLowerCase()}`}>
+                                                    {t(`patientPage.pharmacyConnection.common.status.${getLangField(delivery, 'status').toLowerCase()}`)}
                                                 </span>
                                             </div>
                                             <div className="delivery-meds">
                                                 <h4>{t('patientPage.pharmacyConnection.delivery.history.details.medications')}</h4>
-                                                <p>{delivery.prescriptions.join(", ")}</p>
+                                                <p>{getLangField(delivery, 'prescriptions').join(", ")}</p>
                                             </div>
                                             <div className="delivery-pharmacy">
                                                 <h4>{t('patientPage.pharmacyConnection.delivery.history.details.from')}</h4>
-                                                <p>{delivery.pharmacy}</p>
+                                                <p>{getLangField(delivery, 'pharmacy')}</p>
                                             </div>
                                             <div className="delivery-tracking">
                                                 <h4>{t('patientPage.pharmacyConnection.delivery.history.details.tracking')}</h4>
@@ -644,7 +680,7 @@ export const PatientPharmacyConnection = () => {
                                             </div>
                                             <div className="delivery-signature">
                                                 <h4>{t('patientPage.pharmacyConnection.delivery.history.details.receivedBy')}</h4>
-                                                <p>{delivery.signature}</p>
+                                                <p>{getLangField(delivery, 'signature')}</p>
                                             </div>
                                         </div>
                                     </motion.div>
@@ -669,7 +705,7 @@ export const PatientPharmacyConnection = () => {
                         exit={{ opacity: 0, y: 50 }}
                     >
                         <div className="modal-header">
-                            <h2>{selectedPharmacy.name}</h2>
+                            <h2>{getLangField(selectedPharmacy, 'name')}</h2>
                             <button
                                 className="close-modal-btn"
                                 onClick={closePharmacyDetails}
@@ -684,7 +720,7 @@ export const PatientPharmacyConnection = () => {
                                     <FaMapMarkerAlt className="detail-icon" />
                                     <div>
                                         <h4>{t('patientPage.pharmacyConnection.pharmacyDetails.details.address')}</h4>
-                                        <p>{selectedPharmacy.address}</p>
+                                        <p>{getLangField(selectedPharmacy, 'address')}</p>
                                     </div>
                                 </div>
                                 <div className="detail-item">
@@ -698,14 +734,14 @@ export const PatientPharmacyConnection = () => {
                                     <FaClock className="detail-icon" />
                                     <div>
                                         <h4>{t('patientPage.pharmacyConnection.pharmacyDetails.details.hours')}</h4>
-                                        <p>{selectedPharmacy.hours}</p>
+                                        <p>{getLangField(selectedPharmacy, 'hours')}</p>
                                     </div>
                                 </div>
                                 <div className="detail-item">
                                     <FaWalking className="detail-icon" />
                                     <div>
                                         <h4>{t('patientPage.pharmacyConnection.pharmacyDetails.details.distance')}</h4>
-                                        <p>{selectedPharmacy.distance}</p>
+                                        <p>{getLangField(selectedPharmacy, 'distance')}</p>
                                     </div>
                                 </div>
                                 <div className="detail-item">
@@ -842,27 +878,87 @@ export const PatientPharmacyConnection = () => {
                                             <label htmlFor="scheduledDay">{t('patientPage.pharmacyConnection.deliverySetup.schedule.preferredDay')}</label>
                                             <select
                                                 id="scheduledDay"
-                                                value={deliveryOptions.scheduledDay}
-                                                onChange={(e) => setDeliveryOptions({ ...deliveryOptions, scheduledDay: e.target.value })}
+                                                value={language === 'ar' ? deliveryOptions.scheduledDayAr : deliveryOptions.scheduledDayEn}
+                                                onChange={(e) => {
+                                                    const value = e.target.value;
+                                                    // Map between English and Arabic day names
+                                                    const dayMap = {
+                                                        'Monday': 'الإثنين',
+                                                        'Tuesday': 'الثلاثاء',
+                                                        'Wednesday': 'الأربعاء',
+                                                        'Thursday': 'الخميس',
+                                                        'Friday': 'الجمعة',
+                                                        'Saturday': 'السبت',
+                                                        'Sunday': 'الأحد',
+                                                        'الإثنين': 'Monday',
+                                                        'الثلاثاء': 'Tuesday',
+                                                        'الأربعاء': 'Wednesday',
+                                                        'الخميس': 'Thursday',
+                                                        'الجمعة': 'Friday',
+                                                        'السبت': 'Saturday',
+                                                        'الأحد': 'Sunday'
+                                                    };
+
+                                                    setDeliveryOptions({
+                                                        ...deliveryOptions,
+                                                        scheduledDayEn: language === 'en' ? value : dayMap[value],
+                                                        scheduledDayAr: language === 'ar' ? value : dayMap[value]
+                                                    });
+                                                }}
                                             >
-                                                <option value="Monday">{t('patientPage.pharmacyConnection.common.days.monday')}</option>
-                                                <option value="Tuesday">{t('patientPage.pharmacyConnection.common.days.tuesday')}</option>
-                                                <option value="Wednesday">{t('patientPage.pharmacyConnection.common.days.wednesday')}</option>
-                                                <option value="Thursday">{t('patientPage.pharmacyConnection.common.days.thursday')}</option>
-                                                <option value="Friday">{t('patientPage.pharmacyConnection.common.days.friday')}</option>
-                                                <option value="Saturday">{t('patientPage.pharmacyConnection.common.days.saturday')}</option>
+                                                <option value={language === 'en' ? 'Monday' : 'الإثنين'}>
+                                                    {t('patientPage.pharmacyConnection.common.days.monday')}
+                                                </option>
+                                                <option value={language === 'en' ? 'Tuesday' : 'الثلاثاء'}>
+                                                    {t('patientPage.pharmacyConnection.common.days.tuesday')}
+                                                </option>
+                                                <option value={language === 'en' ? 'Wednesday' : 'الأربعاء'}>
+                                                    {t('patientPage.pharmacyConnection.common.days.wednesday')}
+                                                </option>
+                                                <option value={language === 'en' ? 'Thursday' : 'الخميس'}>
+                                                    {t('patientPage.pharmacyConnection.common.days.thursday')}
+                                                </option>
+                                                <option value={language === 'en' ? 'Friday' : 'الجمعة'}>
+                                                    {t('patientPage.pharmacyConnection.common.days.friday')}
+                                                </option>
+                                                <option value={language === 'en' ? 'Saturday' : 'السبت'}>
+                                                    {t('patientPage.pharmacyConnection.common.days.saturday')}
+                                                </option>
                                             </select>
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="scheduledTime">{t('patientPage.pharmacyConnection.deliverySetup.schedule.preferredTime')}</label>
                                             <select
                                                 id="scheduledTime"
-                                                value={deliveryOptions.scheduledTime}
-                                                onChange={(e) => setDeliveryOptions({ ...deliveryOptions, scheduledTime: e.target.value })}
+                                                value={language === 'ar' ? deliveryOptions.scheduledTimeAr : deliveryOptions.scheduledTimeEn}
+                                                onChange={(e) => {
+                                                    const value = e.target.value;
+                                                    // Map between English and Arabic time descriptions
+                                                    const timeMap = {
+                                                        'Morning (9AM-12PM)': 'صباحًا (٩ص-١٢ظ)',
+                                                        'Afternoon (2-5PM)': 'بعد الظهر (٢-٥م)',
+                                                        'Evening (6-8PM)': 'مساءً (٦-٨م)',
+                                                        'صباحًا (٩ص-١٢ظ)': 'Morning (9AM-12PM)',
+                                                        'بعد الظهر (٢-٥م)': 'Afternoon (2-5PM)',
+                                                        'مساءً (٦-٨م)': 'Evening (6-8PM)'
+                                                    };
+
+                                                    setDeliveryOptions({
+                                                        ...deliveryOptions,
+                                                        scheduledTimeEn: language === 'en' ? value : timeMap[value],
+                                                        scheduledTimeAr: language === 'ar' ? value : timeMap[value]
+                                                    });
+                                                }}
                                             >
-                                                <option value="Morning (9AM-12PM)">{t('patientPage.pharmacyConnection.deliverySetup.schedule.morning')}</option>
-                                                <option value="Afternoon (2-5PM)">{t('patientPage.pharmacyConnection.deliverySetup.schedule.afternoon')}</option>
-                                                <option value="Evening (6-8PM)">{t('patientPage.pharmacyConnection.deliverySetup.schedule.evening')}</option>
+                                                <option value={language === 'en' ? 'Morning (9AM-12PM)' : 'صباحًا (٩ص-١٢ظ)'}>
+                                                    {t('patientPage.pharmacyConnection.deliverySetup.schedule.morning')}
+                                                </option>
+                                                <option value={language === 'en' ? 'Afternoon (2-5PM)' : 'بعد الظهر (٢-٥م)'}>
+                                                    {t('patientPage.pharmacyConnection.deliverySetup.schedule.afternoon')}
+                                                </option>
+                                                <option value={language === 'en' ? 'Evening (6-8PM)' : 'مساءً (٦-٨م)'}>
+                                                    {t('patientPage.pharmacyConnection.deliverySetup.schedule.evening')}
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -871,8 +967,15 @@ export const PatientPharmacyConnection = () => {
                                 <div className="form-group">
                                     <h3>{t('patientPage.pharmacyConnection.deliverySetup.address.title')}</h3>
                                     <textarea
-                                        value={deliveryOptions.address}
-                                        onChange={(e) => setDeliveryOptions({ ...deliveryOptions, address: e.target.value })}
+                                        value={getLangField(deliveryOptions, 'address')}
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            setDeliveryOptions({
+                                                ...deliveryOptions,
+                                                addressEn: language === 'en' ? value : deliveryOptions.addressEn,
+                                                addressAr: language === 'ar' ? value : deliveryOptions.addressAr
+                                            });
+                                        }}
                                         placeholder={t('patientPage.pharmacyConnection.deliverySetup.address.placeholder')}
                                         rows={3}
                                         aria-label="Delivery address"
