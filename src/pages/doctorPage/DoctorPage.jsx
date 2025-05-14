@@ -11,9 +11,11 @@ import { DoctorProfile } from './doctorProfile/DoctorProfile';
 import { DoctorPatientMedicalRecords } from './doctorPatientMedicalRecords/DoctorPatientMedicalRecords';
 import DoctorCommunication from './doctorCommunication/DoctorCommunication';
 import DoctorHelpResources from './doctorHelpResources/DoctorHelpResources';
+import { useLanguage } from '../../context/LanguageContext'; // Import language context
 
 export const DoctorPage = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default closed on mobile
+    const { isRTL } = useLanguage(); // Get RTL status from language context
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -41,7 +43,7 @@ export const DoctorPage = () => {
     }, []);
 
     return (
-        <div className='doctor-out-container'>
+        <div className={`doctor-out-container ${isRTL ? 'rtl' : 'ltr'}`}>
             <DoctorNavbar toggleSidebar={toggleSidebar} />
 
             <div className="doctor-container">

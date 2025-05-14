@@ -1,8 +1,9 @@
-// components/PrescriptionCards.jsx
+// components/PrescriptionCards/PrescriptionCards.jsx
 import React from 'react';
 import { FaBuilding, FaEye, FaPrint, FaEdit, FaPills } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 import { StatusBadge } from '../StatusBadge/StatusBadge';
+import { useLanguage } from '../../../../../context/LanguageContext';
 
 export const PrescriptionCards = ({
     filteredPrescriptions,
@@ -10,6 +11,8 @@ export const PrescriptionCards = ({
     isSmallScreen,
     resetFilters
 }) => {
+    const { t } = useLanguage();
+    
     // Render mobile prescription card
     const renderPrescriptionCard = (prescription) => (
         <div
@@ -34,7 +37,9 @@ export const PrescriptionCards = ({
                         {prescription.medications[0].name} {prescription.medications[0].dosage}
                     </span>
                     {prescription.medications.length > 1 && (
-                        <span className="medication-count">+{prescription.medications.length - 1} more medications</span>
+                        <span className="medication-count">
+                            +{prescription.medications.length - 1} {t('doctorPage.prescriptionHistory.moreMedications')}
+                        </span>
                     )}
                 </div>
                 <div className="pharmacy-info">
@@ -45,16 +50,16 @@ export const PrescriptionCards = ({
             <div className="card-actions">
                 <button className="action-btn">
                     <FaEye />
-                    {!isSmallScreen && <span className="action-text">View</span>}
+                    {!isSmallScreen && <span className="action-text">{t('doctorPage.prescriptionHistory.actions.view')}</span>}
                 </button>
                 <button className="action-btn">
                     <FaPrint />
-                    {!isSmallScreen && <span className="action-text">Print</span>}
+                    {!isSmallScreen && <span className="action-text">{t('doctorPage.prescriptionHistory.actions.print')}</span>}
                 </button>
                 {(prescription.status === 'Pending Approval' || prescription.status === 'Declined') && (
                     <NavLink to={`/doctor/write-prescription?edit=${prescription.id}`} className="action-btn">
                         <FaEdit />
-                        {!isSmallScreen && <span className="action-text">Edit</span>}
+                        {!isSmallScreen && <span className="action-text">{t('doctorPage.prescriptionHistory.actions.edit')}</span>}
                     </NavLink>
                 )}
             </div>
@@ -66,8 +71,8 @@ export const PrescriptionCards = ({
             {filteredPrescriptions.length === 0 ? (
                 <div className="no-results-card">
                     <FaPills className="no-results-icon" />
-                    <p>No prescriptions match your search criteria</p>
-                    <button onClick={resetFilters}>Clear Filters</button>
+                    <p>{t('doctorPage.prescriptionHistory.noResults')}</p>
+                    <button onClick={resetFilters}>{t('doctorPage.prescriptionHistory.actions.clearFilters')}</button>
                 </div>
             ) : (
                 filteredPrescriptions.map(prescription => renderPrescriptionCard(prescription))

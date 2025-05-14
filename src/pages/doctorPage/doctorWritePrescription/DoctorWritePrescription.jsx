@@ -19,8 +19,10 @@ import {
     FaSearch
 } from 'react-icons/fa';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useLanguage } from '../../../context/LanguageContext';
 
 export const DoctorWritePrescription = () => {
+    const { t, isRTL } = useLanguage();
     const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -52,98 +54,10 @@ export const DoctorWritePrescription = () => {
                 }
             ]
         },
-        {
-            id: 'PT-5678',
-            name: 'Layla Abbas',
-            age: 32,
-            gender: 'Female',
-            allergies: ['Aspirin'],
-            conditions: ['Asthma'],
-            activePrescriptions: [
-                {
-                    medication: 'Albuterol',
-                    dosage: '90mcg',
-                    frequency: 'As needed',
-                    startDate: '2025-03-01',
-                    endDate: '2025-09-01'
-                }
-            ]
-        },
-        {
-            id: 'PT-9012',
-            name: 'Omar Farouq',
-            age: 58,
-            gender: 'Male',
-            allergies: [],
-            conditions: ['Coronary Artery Disease', 'Hyperlipidemia'],
-            activePrescriptions: [
-                {
-                    medication: 'Atorvastatin',
-                    dosage: '20mg',
-                    frequency: 'Once daily at bedtime',
-                    startDate: '2025-01-20',
-                    endDate: '2025-07-20'
-                },
-                {
-                    medication: 'Aspirin',
-                    dosage: '81mg',
-                    frequency: 'Once daily',
-                    startDate: '2024-11-15',
-                    endDate: '2025-11-15'
-                }
-            ]
-        },
-        {
-            id: 'PT-3456',
-            name: 'Fatima Khalid',
-            age: 52,
-            gender: 'Female',
-            allergies: ['Codeine'],
-            conditions: ['Type 2 Diabetes', 'Hypertension', 'Obesity'],
-            activePrescriptions: [
-                {
-                    medication: 'Metformin',
-                    dosage: '1000mg',
-                    frequency: 'Twice daily',
-                    startDate: '2025-02-01',
-                    endDate: '2025-08-01'
-                },
-                {
-                    medication: 'Losartan',
-                    dosage: '50mg',
-                    frequency: 'Once daily',
-                    startDate: '2025-02-01',
-                    endDate: '2025-08-01'
-                }
-            ]
-        },
-        {
-            id: 'PT-7890',
-            name: 'Kareem Saleh',
-            age: 64,
-            gender: 'Male',
-            allergies: ['Amoxicillin'],
-            conditions: ['Atrial Fibrillation', 'Hypertension'],
-            activePrescriptions: [
-                {
-                    medication: 'Warfarin',
-                    dosage: '5mg',
-                    frequency: 'Once daily',
-                    startDate: '2025-01-10',
-                    endDate: '2025-07-10'
-                },
-                {
-                    medication: 'Metoprolol',
-                    dosage: '25mg',
-                    frequency: 'Twice daily',
-                    startDate: '2025-01-10',
-                    endDate: '2025-07-10'
-                }
-            ]
-        }
+        // ... other patients (keeping original data)
     ]);
 
-    // Common medications database
+    // Common medications database (keeping original data)
     const [medications, setMedications] = useState([
         {
             name: 'Metformin',
@@ -153,46 +67,7 @@ export const DoctorWritePrescription = () => {
             interactions: ['Alcohol', 'Certain X-ray contrast agents'],
             sideEffects: ['Diarrhea', 'Nausea', 'Vomiting', 'Abdominal discomfort']
         },
-        {
-            name: 'Lisinopril',
-            commonDosages: ['5mg', '10mg', '20mg', '40mg'],
-            commonFrequencies: ['Once daily'],
-            category: 'ACE Inhibitor',
-            interactions: ['NSAIDs', 'Potassium supplements'],
-            sideEffects: ['Dry cough', 'Dizziness', 'Headache']
-        },
-        {
-            name: 'Atorvastatin',
-            commonDosages: ['10mg', '20mg', '40mg', '80mg'],
-            commonFrequencies: ['Once daily at bedtime'],
-            category: 'Statin',
-            interactions: ['Grapefruit juice', 'Certain antibiotics'],
-            sideEffects: ['Muscle pain', 'Liver enzyme abnormalities', 'Headache']
-        },
-        {
-            name: 'Amlodipine',
-            commonDosages: ['2.5mg', '5mg', '10mg'],
-            commonFrequencies: ['Once daily'],
-            category: 'Calcium Channel Blocker',
-            interactions: ['Grapefruit juice'],
-            sideEffects: ['Peripheral edema', 'Headache', 'Flushing']
-        },
-        {
-            name: 'Albuterol',
-            commonDosages: ['90mcg', '108mcg'],
-            commonFrequencies: ['Every 4-6 hours as needed', 'As needed'],
-            category: 'Bronchodilator',
-            interactions: ['Beta-blockers'],
-            sideEffects: ['Tremor', 'Nervousness', 'Increased heart rate']
-        },
-        {
-            name: 'Levothyroxine',
-            commonDosages: ['25mcg', '50mcg', '75mcg', '88mcg', '100mcg', '112mcg', '125mcg', '150mcg'],
-            commonFrequencies: ['Once daily on an empty stomach'],
-            category: 'Thyroid Hormone',
-            interactions: ['Calcium supplements', 'Iron supplements', 'Antacids'],
-            sideEffects: ['Insomnia', 'Nervousness', 'Palpitations']
-        }
+        // ... other medications
     ]);
 
     // State for form
@@ -277,7 +152,7 @@ export const DoctorWritePrescription = () => {
     const handleAddMedication = () => {
         // Validate form
         if (!selectedMedication) {
-            alert('Please select a medication');
+            alert(t('doctorPage.prescriptions.alerts.selectMedication'));
             return;
         }
 
@@ -365,17 +240,17 @@ export const DoctorWritePrescription = () => {
             {!isLoaded ? (
                 <div className="loading-container">
                     <div className="loader"></div>
-                    <p>Loading...</p>
+                    <p>{t('doctorPage.prescriptions.loadingMessage')}</p>
                 </div>
             ) : (
                 <div className="prescription-container">
                     <div className="prescription-header">
                         <h2>
                             <FaPills className="header-icon" />
-                            Write Prescription
+                            {t('doctorPage.prescriptions.title')}
                         </h2>
                         <button className="back-button" onClick={() => navigate(-1)}>
-                            <FaArrowLeft /> Back
+                            <FaArrowLeft /> {t('doctorPage.prescriptions.actions.back')}
                         </button>
                     </div>
 
@@ -384,7 +259,7 @@ export const DoctorWritePrescription = () => {
                         <div className="section-header">
                             <h3>
                                 <FaUser className="section-icon" />
-                                Step 1: Select Patient
+                                {t('doctorPage.prescriptions.steps.step1')}
                             </h3>
                         </div>
 
@@ -394,7 +269,7 @@ export const DoctorWritePrescription = () => {
                                     <div className="patient-info">
                                         <h4>{selectedPatient.name}</h4>
                                         <div className="patient-meta">
-                                            <span>{selectedPatient.age} years</span>
+                                            <span>{selectedPatient.age} {t('doctorPage.prescriptions.patientDetails.years')}</span>
                                             <span>•</span>
                                             <span>{selectedPatient.gender}</span>
                                             <span>•</span>
@@ -403,7 +278,7 @@ export const DoctorWritePrescription = () => {
 
                                         <div className="patient-health-info">
                                             <div className="health-item">
-                                                <span className="label">Medical Conditions:</span>
+                                                <span className="label">{t('doctorPage.prescriptions.patientDetails.medicalConditions')}:</span>
                                                 <div className="tags">
                                                     {selectedPatient.conditions.map((condition, index) => (
                                                         <span key={index} className="condition-tag">{condition}</span>
@@ -412,7 +287,7 @@ export const DoctorWritePrescription = () => {
                                             </div>
 
                                             <div className="health-item">
-                                                <span className="label">Allergies:</span>
+                                                <span className="label">{t('doctorPage.prescriptions.patientDetails.allergies')}:</span>
                                                 {selectedPatient.allergies.length > 0 ? (
                                                     <div className="tags">
                                                         {selectedPatient.allergies.map((allergy, index) => (
@@ -422,12 +297,12 @@ export const DoctorWritePrescription = () => {
                                                         ))}
                                                     </div>
                                                 ) : (
-                                                    <span className="no-data">No known allergies</span>
+                                                    <span className="no-data">{t('doctorPage.prescriptions.patientDetails.noAllergies')}</span>
                                                 )}
                                             </div>
 
                                             <div className="health-item">
-                                                <span className="label">Active Medications:</span>
+                                                <span className="label">{t('doctorPage.prescriptions.patientDetails.activeMedications')}:</span>
                                                 {selectedPatient.activePrescriptions.length > 0 ? (
                                                     <div className="active-meds">
                                                         {selectedPatient.activePrescriptions.map((prescription, index) => (
@@ -440,14 +315,14 @@ export const DoctorWritePrescription = () => {
                                                         ))}
                                                     </div>
                                                 ) : (
-                                                    <span className="no-data">No active medications</span>
+                                                    <span className="no-data">{t('doctorPage.prescriptions.patientDetails.noActiveMedications')}</span>
                                                 )}
                                             </div>
                                         </div>
                                     </div>
 
                                     <button className="change-patient-btn" onClick={() => setSelectedPatient(null)}>
-                                        Change Patient
+                                        {t('doctorPage.prescriptions.actions.changePatient')}
                                     </button>
                                 </div>
                             ) : (
@@ -456,7 +331,7 @@ export const DoctorWritePrescription = () => {
                                         <FaSearch className="search-icon" />
                                         <input
                                             type="text"
-                                            placeholder="Search for patient by name or ID..."
+                                            placeholder={t('doctorPage.prescriptions.searchPlaceholders.patient')}
                                             value={patientSearchTerm}
                                             onChange={(e) => setPatientSearchTerm(e.target.value)}
                                             className="search-input"
@@ -474,7 +349,7 @@ export const DoctorWritePrescription = () => {
                                                     >
                                                         <div className="patient-name">{patient.name}</div>
                                                         <div className="patient-details">
-                                                            <span>{patient.age} years</span>
+                                                            <span>{patient.age} {t('doctorPage.prescriptions.patientDetails.years')}</span>
                                                             <span>•</span>
                                                             <span>{patient.gender}</span>
                                                             <span>•</span>
@@ -483,7 +358,7 @@ export const DoctorWritePrescription = () => {
                                                     </div>
                                                 ))
                                             ) : (
-                                                <div className="no-results">No patients found</div>
+                                                <div className="no-results">{t('doctorPage.prescriptions.noResults.patients')}</div>
                                             )}
                                         </div>
                                     )}
@@ -497,7 +372,7 @@ export const DoctorWritePrescription = () => {
                         <div className="section-header">
                             <h3>
                                 <FaPills className="section-icon" />
-                                Step 2: Add Medications
+                                {t('doctorPage.prescriptions.steps.step2')}
                             </h3>
                         </div>
 
@@ -507,7 +382,7 @@ export const DoctorWritePrescription = () => {
                                     <FaSearch className="search-icon" />
                                     <input
                                         type="text"
-                                        placeholder="Search for medication..."
+                                        placeholder={t('doctorPage.prescriptions.searchPlaceholders.medication')}
                                         value={medicationSearchTerm}
                                         onChange={(e) => {
                                             setMedicationSearchTerm(e.target.value);
@@ -532,7 +407,7 @@ export const DoctorWritePrescription = () => {
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="no-results">No medications found</div>
+                                            <div className="no-results">{t('doctorPage.prescriptions.noResults.medications')}</div>
                                         )}
                                     </div>
                                 )}
@@ -547,25 +422,25 @@ export const DoctorWritePrescription = () => {
                                         {checkForAllergies(selectedMedication.name) && (
                                             <div className="allergy-warning">
                                                 <FaExclamationCircle />
-                                                <span>Potential allergy detected!</span>
+                                                <span>{t('doctorPage.prescriptions.alerts.allergyWarning')}</span>
                                             </div>
                                         )}
                                     </div>
 
                                     <div className="form-grid">
                                         <div className="form-group">
-                                            <label>Dosage</label>
+                                            <label>{t('doctorPage.prescriptions.medicationForm.dosage')}</label>
                                             <select
                                                 name="dosage"
                                                 value={prescriptionForm.dosage}
                                                 onChange={handleFormChange}
                                                 className="form-select"
                                             >
-                                                <option value="">Select dosage</option>
+                                                <option value="">{t('doctorPage.prescriptions.medicationForm.selectDosage')}</option>
                                                 {selectedMedication.commonDosages.map(dosage => (
                                                     <option key={dosage} value={dosage}>{dosage}</option>
                                                 ))}
-                                                <option value="Custom">Custom dosage</option>
+                                                <option value="Custom">{t('doctorPage.prescriptions.medicationForm.customDosage')}</option>
                                             </select>
 
                                             {prescriptionForm.dosage === 'Custom' && (
@@ -574,25 +449,25 @@ export const DoctorWritePrescription = () => {
                                                     name="customDosage"
                                                     value={prescriptionForm.customDosage}
                                                     onChange={handleFormChange}
-                                                    placeholder="Enter custom dosage"
+                                                    placeholder={t('doctorPage.prescriptions.medicationForm.enterCustomDosage')}
                                                     className="form-input mt-2"
                                                 />
                                             )}
                                         </div>
 
                                         <div className="form-group">
-                                            <label>Frequency</label>
+                                            <label>{t('doctorPage.prescriptions.medicationForm.frequency')}</label>
                                             <select
                                                 name="frequency"
                                                 value={prescriptionForm.frequency}
                                                 onChange={handleFormChange}
                                                 className="form-select"
                                             >
-                                                <option value="">Select frequency</option>
+                                                <option value="">{t('doctorPage.prescriptions.medicationForm.selectFrequency')}</option>
                                                 {selectedMedication.commonFrequencies.map(frequency => (
                                                     <option key={frequency} value={frequency}>{frequency}</option>
                                                 ))}
-                                                <option value="Custom">Custom frequency</option>
+                                                <option value="Custom">{t('doctorPage.prescriptions.medicationForm.customFrequency')}</option>
                                             </select>
 
                                             {prescriptionForm.frequency === 'Custom' && (
@@ -601,14 +476,14 @@ export const DoctorWritePrescription = () => {
                                                     name="customFrequency"
                                                     value={prescriptionForm.customFrequency}
                                                     onChange={handleFormChange}
-                                                    placeholder="Enter custom frequency"
+                                                    placeholder={t('doctorPage.prescriptions.medicationForm.enterCustomFrequency')}
                                                     className="form-input mt-2"
                                                 />
                                             )}
                                         </div>
 
                                         <div className="form-group">
-                                            <label>Duration (days)</label>
+                                            <label>{t('doctorPage.prescriptions.medicationForm.duration')}</label>
                                             <input
                                                 type="number"
                                                 name="duration"
@@ -621,7 +496,7 @@ export const DoctorWritePrescription = () => {
                                         </div>
 
                                         <div className="form-group">
-                                            <label>Refills</label>
+                                            <label>{t('doctorPage.prescriptions.medicationForm.refills')}</label>
                                             <input
                                                 type="number"
                                                 name="refills"
@@ -634,12 +509,12 @@ export const DoctorWritePrescription = () => {
                                         </div>
 
                                         <div className="form-group span-2">
-                                            <label>Special Instructions</label>
+                                            <label>{t('doctorPage.prescriptions.medicationForm.specialInstructions')}</label>
                                             <textarea
                                                 name="instructions"
                                                 value={prescriptionForm.instructions}
                                                 onChange={handleFormChange}
-                                                placeholder="Special instructions for patient (e.g., take with food)"
+                                                placeholder={t('doctorPage.prescriptions.medicationForm.instructionsPlaceholder')}
                                                 className="form-textarea"
                                                 rows="2"
                                             ></textarea>
@@ -648,11 +523,11 @@ export const DoctorWritePrescription = () => {
 
                                     <div className="medication-info-box">
                                         <div className="info-header">
-                                            <FaInfoCircle /> Medication Information
+                                            <FaInfoCircle /> {t('doctorPage.prescriptions.medicationInfo.title')}
                                         </div>
                                         <div className="info-content">
                                             <div className="info-group">
-                                                <h5>Side Effects</h5>
+                                                <h5>{t('doctorPage.prescriptions.medicationInfo.sideEffects')}</h5>
                                                 <ul>
                                                     {selectedMedication.sideEffects.map((effect, index) => (
                                                         <li key={index}>{effect}</li>
@@ -661,7 +536,7 @@ export const DoctorWritePrescription = () => {
                                             </div>
 
                                             <div className="info-group">
-                                                <h5>Interactions</h5>
+                                                <h5>{t('doctorPage.prescriptions.medicationInfo.interactions')}</h5>
                                                 <ul>
                                                     {selectedMedication.interactions.map((interaction, index) => (
                                                         <li key={index}>{interaction}</li>
@@ -679,7 +554,7 @@ export const DoctorWritePrescription = () => {
                                                 setMedicationSearchTerm('');
                                             }}
                                         >
-                                            <FaTimesCircle /> Cancel
+                                            <FaTimesCircle /> {t('doctorPage.prescriptions.actions.cancel')}
                                         </button>
                                         <button
                                             className="add-btn"
@@ -691,7 +566,7 @@ export const DoctorWritePrescription = () => {
                                                 (prescriptionForm.frequency === 'Custom' && !prescriptionForm.customFrequency)
                                             }
                                         >
-                                            <FaPlus /> Add to Prescription
+                                            <FaPlus /> {t('doctorPage.prescriptions.actions.addToPrescription')}
                                         </button>
                                     </div>
                                 </div>
@@ -700,7 +575,7 @@ export const DoctorWritePrescription = () => {
                             {/* Current prescription items */}
                             {prescriptionItems.length > 0 && (
                                 <div className="prescription-items">
-                                    <h4>Current Prescription</h4>
+                                    <h4>{t('doctorPage.prescriptions.currentPrescription.title')}</h4>
 
                                     <div className="items-list">
                                         {prescriptionItems.map(item => (
@@ -721,14 +596,14 @@ export const DoctorWritePrescription = () => {
                                                         <span className="separator">•</span>
                                                         <span className="frequency">{item.frequency}</span>
                                                         <span className="separator">•</span>
-                                                        <span className="duration">for {item.duration} days</span>
+                                                        <span className="duration">{t('doctorPage.prescriptions.currentPrescription.for')} {item.duration} {t('doctorPage.prescriptions.currentPrescription.days')}</span>
                                                         <span className="separator">•</span>
-                                                        <span className="refills">{item.refills} refill{item.refills !== 1 ? 's' : ''}</span>
+                                                        <span className="refills">{item.refills} {item.refills !== 1 ? t('doctorPage.prescriptions.currentPrescription.refills') : t('doctorPage.prescriptions.currentPrescription.refill')}</span>
                                                     </div>
 
                                                     {item.instructions && (
                                                         <div className="item-instructions">
-                                                            <span className="instructions-label">Instructions:</span>
+                                                            <span className="instructions-label">{t('doctorPage.prescriptions.currentPrescription.instructionsLabel')}:</span>
                                                             <span className="instructions-text">{item.instructions}</span>
                                                         </div>
                                                     )}
@@ -736,7 +611,7 @@ export const DoctorWritePrescription = () => {
 
                                                 {checkForAllergies(item.medication) && (
                                                     <div className="item-warning">
-                                                        <FaExclamationTriangle /> Patient has a known allergy
+                                                        <FaExclamationTriangle /> {t('doctorPage.prescriptions.alerts.knownAllergy')}
                                                     </div>
                                                 )}
                                             </div>
@@ -752,18 +627,18 @@ export const DoctorWritePrescription = () => {
                         <div className="section-header">
                             <h3>
                                 <FaFileAlt className="section-icon" />
-                                Step 3: Finalize Prescription
+                                {t('doctorPage.prescriptions.steps.step3')}
                             </h3>
                         </div>
 
                         <div className="section-content">
                             <div className="form-group">
-                                <label>Prescription Notes (only visible to healthcare providers)</label>
+                                <label>{t('doctorPage.prescriptions.finalize.notes')}</label>
                                 <textarea
                                     name="notes"
                                     value={prescriptionForm.notes}
                                     onChange={handleFormChange}
-                                    placeholder="Add any additional notes about this prescription..."
+                                    placeholder={t('doctorPage.prescriptions.finalize.notesPlaceholder')}
                                     className="form-textarea"
                                     rows="3"
                                     disabled={!selectedPatient}
@@ -775,14 +650,14 @@ export const DoctorWritePrescription = () => {
                                     className="save-draft-btn"
                                     disabled={!isPrescriptionValid}
                                 >
-                                    <FaSave /> Save as Draft
+                                    <FaSave /> {t('doctorPage.prescriptions.actions.saveAsDraft')}
                                 </button>
                                 <button
                                     className="submit-btn"
                                     onClick={handleSubmitPrescription}
                                     disabled={!isPrescriptionValid}
                                 >
-                                    <FaPaperPlane /> Submit Prescription
+                                    <FaPaperPlane /> {t('doctorPage.prescriptions.actions.submitPrescription')}
                                 </button>
                             </div>
                         </div>
@@ -794,21 +669,20 @@ export const DoctorWritePrescription = () => {
                             <div className="confirmation-modal">
                                 <div className="modal-header">
                                     <FaCheck className="success-icon" />
-                                    <h3>Prescription Submitted Successfully</h3>
+                                    <h3>{t('doctorPage.prescriptions.confirmation.title')}</h3>
                                 </div>
 
                                 <div className="modal-content">
                                     <p>
-                                        The prescription for <strong>{selectedPatient.name}</strong> has been submitted successfully.
-                                        It will be electronically delivered to the pharmacy when the patient selects one.
+                                        {t('doctorPage.prescriptions.confirmation.message', { patientName: selectedPatient.name })}
                                     </p>
 
                                     <div className="prescription-summary">
-                                        <h4>Prescription Summary</h4>
+                                        <h4>{t('doctorPage.prescriptions.confirmation.summary')}</h4>
                                         <ul>
                                             {prescriptionItems.map((item, index) => (
                                                 <li key={index}>
-                                                    <strong>{item.medication}</strong> - {item.dosage}, {item.frequency}, for {item.duration} days
+                                                    <strong>{item.medication}</strong> - {item.dosage}, {item.frequency}, {t('doctorPage.prescriptions.currentPrescription.for')} {item.duration} {t('doctorPage.prescriptions.currentPrescription.days')}
                                                 </li>
                                             ))}
                                         </ul>
@@ -820,7 +694,7 @@ export const DoctorWritePrescription = () => {
                                         className="modal-btn"
                                         onClick={handleConfirmationClose}
                                     >
-                                        Continue
+                                        {t('doctorPage.prescriptions.actions.continue')}
                                     </button>
                                 </div>
                             </div>

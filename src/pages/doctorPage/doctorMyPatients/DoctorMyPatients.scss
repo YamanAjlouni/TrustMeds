@@ -919,8 +919,10 @@
         .patients-container {
             .patients-table-container {
                 table {
+
                     // Adjust columns for medium screens
-                    th.conditions-col, td.conditions-col {
+                    th.conditions-col,
+                    td.conditions-col {
                         max-width: 180px;
                     }
                 }
@@ -963,11 +965,11 @@
                 .filters {
                     width: 100%;
                     justify-content: flex-start;
-                    
+
                     .filter {
                         flex: 1;
                         max-width: 220px;
-                        
+
                         .status-select {
                             width: 100%;
                         }
@@ -982,13 +984,15 @@
 
                 table {
                     min-width: 900px;
-                    
+
                     // Adjust column widths for better display
-                    th.name-col, td.name-col {
+                    th.name-col,
+                    td.name-col {
                         width: 20%;
                     }
-                    
-                    th.conditions-col, td.conditions-col {
+
+                    th.conditions-col,
+                    td.conditions-col {
                         width: 25%;
                     }
                 }
@@ -1010,8 +1014,9 @@
                 .filters {
                     flex-direction: column;
                     width: 100%;
-                    
-                    .filter, .favorites-filter {
+
+                    .filter,
+                    .favorites-filter {
                         width: 100%;
                         max-width: none;
                     }
@@ -1023,7 +1028,7 @@
                 top: 0;
                 height: 100vh;
                 z-index: 1100;
-                
+
                 .panel-content {
                     .panel-actions {
                         position: sticky;
@@ -1043,12 +1048,12 @@
     .doctor-my-patients {
         .patients-container {
             padding: 0.75rem;
-            
+
             .patients-header {
                 h2 {
                     font-size: 1.4rem;
                 }
-                
+
                 .header-actions {
                     .add-patient-btn {
                         padding: 0.5rem 1rem;
@@ -1056,18 +1061,118 @@
                     }
                 }
             }
-            
+
             .patients-table-container {
                 margin-left: -0.75rem;
                 margin-right: -0.75rem;
                 width: calc(100% + 1.5rem);
                 border-radius: 0;
-                
+
                 table {
                     border-left: none;
                     border-right: none;
                 }
             }
+        }
+    }
+}
+
+// RTL Support for DoctorMyPatients - Add these lines to your SCSS file
+
+.lang-ar {
+    .doctor-my-patients {
+
+        // Adjust icon margins
+        .header-icon {
+            margin-right: 0;
+            margin-left: 0.75rem;
+        }
+
+        .add-patient-btn svg,
+        .filter-label svg,
+        .status-badge .alert-icon,
+        .panel-action svg,
+        .dropdown-item svg,
+        .favorites-filter svg {
+            margin-right: 0;
+            margin-left: 0.5rem;
+        }
+
+        .contact-icon,
+        .appointment-icon {
+            margin-right: 0;
+            margin-left: 0.75rem;
+        }
+
+        .patients-toolbar {
+            // Flip search input
+            .search-container {
+                .search-icon {
+                    left: auto;
+                    right: 1rem;
+                }
+
+                .search-input {
+                    padding: 0.75rem 2.5rem 0.75rem 1rem;
+                }
+            }
+        }
+
+        // Flip select styling
+        .status-select {
+            padding: 0.45rem 0.75rem 0.45rem 2rem;
+            background-position: left 0.75rem center;
+        }
+
+        // Change alert borders
+        .has-alerts {
+            border-left: none;
+            border-right: 3px solid $danger-color;
+        }
+
+        .alerts-section {
+            border-left: none;
+            border-right: 3px solid $danger-color;
+        }
+
+        // Flip alert items
+        .alert-item {
+            padding-left: 0;
+            padding-right: 1.25rem;
+
+            &::before {
+                left: auto;
+                right: 0.5rem;
+            }
+        }
+
+        // Flip dropdown menu
+        .actions-dropdown .dropdown-menu {
+            right: auto;
+            left: 0;
+        }
+
+        // Flip patient detail panel
+        .patient-detail-panel {
+            right: auto;
+            left: 0;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+
+            @keyframes slideIn {
+                from {
+                    transform: translateX(-100%);
+                }
+
+                to {
+                    transform: translateX(0);
+                }
+            }
+        }
+
+        // Adjust sorting icons
+        th span svg {
+            margin-left: 0;
+            margin-right: 0.5rem;
         }
     }
 }

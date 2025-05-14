@@ -27,8 +27,10 @@ import {
     FaRulerVertical,
     FaClipboardCheck
 } from 'react-icons/fa';
+import { useLanguage } from '../../../context/LanguageContext';
 
 export const DoctorPatientMedicalRecords = () => {
+    const { t, isRTL } = useLanguage();
     const { patientId } = useParams();
     const navigate = useNavigate();
 
@@ -400,13 +402,13 @@ export const DoctorPatientMedicalRecords = () => {
             <div className="no-patient-view">
                 <div className="no-patient-content">
                     <FaUserAlt className="no-patient-icon" />
-                    <h2>No Patient Selected</h2>
-                    <p>Select a patient from your patient list to view their medical records</p>
+                    <h2>{t('doctorPage.medicalRecords.noPatientSelected')}</h2>
+                    <p>{t('doctorPage.medicalRecords.selectPatientPrompt')}</p>
                     <button
                         className="go-to-patients-btn"
                         onClick={() => navigate('/doctor/patients')}
                     >
-                        View My Patients
+                        {t('doctorPage.medicalRecords.viewMyPatients')}
                     </button>
                 </div>
             </div>
@@ -421,48 +423,48 @@ export const DoctorPatientMedicalRecords = () => {
             <div className="summary-tab">
                 <div className="patient-overview">
                     <div className="overview-header">
-                        <h3>Patient Overview</h3>
+                        <h3>{t('doctorPage.medicalRecords.summary.patientOverview')}</h3>
                     </div>
 
                     <div className="overview-content">
                         <div className="patient-basic-info">
                             <div className="info-group">
                                 <div className="info-item">
-                                    <span className="info-label">Date of Birth</span>
-                                    <span className="info-value">{formatDate(selectedPatient.dateOfBirth)} ({calculateAge(selectedPatient.dateOfBirth)} years)</span>
+                                    <span className="info-label">{t('doctorPage.medicalRecords.summary.dateOfBirth')}</span>
+                                    <span className="info-value">{formatDate(selectedPatient.dateOfBirth)} ({calculateAge(selectedPatient.dateOfBirth)} {t('doctorPage.medicalRecords.summary.years')})</span>
                                 </div>
 
                                 <div className="info-item">
-                                    <span className="info-label">Gender</span>
+                                    <span className="info-label">{t('doctorPage.medicalRecords.summary.gender')}</span>
                                     <span className="info-value">{selectedPatient.gender}</span>
                                 </div>
 
                                 <div className="info-item">
-                                    <span className="info-label">Blood Type</span>
+                                    <span className="info-label">{t('doctorPage.medicalRecords.summary.bloodType')}</span>
                                     <span className="info-value">{selectedPatient.bloodType}</span>
                                 </div>
                             </div>
 
                             <div className="info-group">
                                 <div className="info-item">
-                                    <span className="info-label">Phone</span>
+                                    <span className="info-label">{t('doctorPage.medicalRecords.summary.phone')}</span>
                                     <span className="info-value">{selectedPatient.phoneNumber}</span>
                                 </div>
 
                                 <div className="info-item">
-                                    <span className="info-label">Email</span>
+                                    <span className="info-label">{t('doctorPage.medicalRecords.summary.email')}</span>
                                     <span className="info-value">{selectedPatient.email}</span>
                                 </div>
 
                                 <div className="info-item">
-                                    <span className="info-label">Address</span>
+                                    <span className="info-label">{t('doctorPage.medicalRecords.summary.address')}</span>
                                     <span className="info-value">{selectedPatient.address}</span>
                                 </div>
                             </div>
 
                             <div className="info-group">
                                 <div className="info-item">
-                                    <span className="info-label">Emergency Contact</span>
+                                    <span className="info-label">{t('doctorPage.medicalRecords.summary.emergencyContact')}</span>
                                     <span className="info-value">
                                         {selectedPatient.emergencyContact?.name} ({selectedPatient.emergencyContact?.relationship}) - {selectedPatient.emergencyContact?.phone}
                                     </span>
@@ -471,8 +473,8 @@ export const DoctorPatientMedicalRecords = () => {
                         </div>
 
                         <div className="patient-vitals">
-                            <h4>Last Recorded Vital Signs</h4>
-                            <p className="vital-date">From visit on {formatDate(selectedPatient.visits[0]?.date || 'N/A')}</p>
+                            <h4>{t('doctorPage.medicalRecords.summary.lastRecordedVitalSigns')}</h4>
+                            <p className="vital-date">{t('doctorPage.medicalRecords.summary.fromVisitOn')} {formatDate(selectedPatient.visits[0]?.date || 'N/A')}</p>
 
                             <div className="vitals-grid">
                                 <div className="vital-card">
@@ -480,7 +482,7 @@ export const DoctorPatientMedicalRecords = () => {
                                         <FaHeartbeat />
                                     </div>
                                     <div className="vital-data">
-                                        <span className="vital-label">Blood Pressure</span>
+                                        <span className="vital-label">{t('doctorPage.medicalRecords.summary.bloodPressure')}</span>
                                         <span className="vital-value">{selectedPatient.visits[0]?.vitalSigns.bloodPressure || 'N/A'}</span>
                                     </div>
                                 </div>
@@ -490,7 +492,7 @@ export const DoctorPatientMedicalRecords = () => {
                                         <FaHeartbeat />
                                     </div>
                                     <div className="vital-data">
-                                        <span className="vital-label">Heart Rate</span>
+                                        <span className="vital-label">{t('doctorPage.medicalRecords.summary.heartRate')}</span>
                                         <span className="vital-value">{selectedPatient.visits[0]?.vitalSigns.heartRate || 'N/A'}</span>
                                     </div>
                                 </div>
@@ -500,7 +502,7 @@ export const DoctorPatientMedicalRecords = () => {
                                         <FaWeight />
                                     </div>
                                     <div className="vital-data">
-                                        <span className="vital-label">Weight</span>
+                                        <span className="vital-label">{t('doctorPage.medicalRecords.summary.weight')}</span>
                                         <span className="vital-value">{selectedPatient.visits[0]?.vitalSigns.weight || 'N/A'}</span>
                                     </div>
                                 </div>
@@ -510,14 +512,14 @@ export const DoctorPatientMedicalRecords = () => {
                                         <FaRulerVertical />
                                     </div>
                                     <div className="vital-data">
-                                        <span className="vital-label">Height</span>
+                                        <span className="vital-label">{t('doctorPage.medicalRecords.summary.height')}</span>
                                         <span className="vital-value">{selectedPatient.visits[0]?.vitalSigns.height || 'N/A'}</span>
                                     </div>
                                 </div>
                             </div>
 
                             <NavLink to="#" className="view-all-link" onClick={() => handleTabChange('visits')}>
-                                View All Vitals
+                                {t('doctorPage.medicalRecords.summary.viewAllVitals')}
                             </NavLink>
                         </div>
                     </div>
@@ -526,9 +528,9 @@ export const DoctorPatientMedicalRecords = () => {
                 <div className="summary-sections">
                     <div className="summary-section">
                         <div className="section-header">
-                            <h3><FaAllergies /> Allergies</h3>
+                            <h3><FaAllergies /> {t('doctorPage.medicalRecords.allergies.title')}</h3>
                             <NavLink to="#" className="view-all-link" onClick={() => handleTabChange('allergies')}>
-                                View All
+                                {t('doctorPage.medicalRecords.common.viewAll')}
                             </NavLink>
                         </div>
 
@@ -549,21 +551,21 @@ export const DoctorPatientMedicalRecords = () => {
 
                                     {selectedPatient.allergies.length > 2 && (
                                         <NavLink to="#" className="more-link" onClick={() => handleTabChange('allergies')}>
-                                            +{selectedPatient.allergies.length - 2} more
+                                            +{selectedPatient.allergies.length - 2} {t('doctorPage.medicalRecords.common.more')}
                                         </NavLink>
                                     )}
                                 </div>
                             ) : (
-                                <p className="no-data-message">No known allergies recorded</p>
+                                <p className="no-data-message">{t('doctorPage.medicalRecords.allergies.noAllergies')}</p>
                             )}
                         </div>
                     </div>
 
                     <div className="summary-section">
                         <div className="section-header">
-                            <h3><FaNotesMedical /> Medical Conditions</h3>
+                            <h3><FaNotesMedical /> {t('doctorPage.medicalRecords.conditions.title')}</h3>
                             <NavLink to="#" className="view-all-link" onClick={() => handleTabChange('conditions')}>
-                                View All
+                                {t('doctorPage.medicalRecords.common.viewAll')}
                             </NavLink>
                         </div>
 
@@ -579,28 +581,28 @@ export const DoctorPatientMedicalRecords = () => {
                                                 </span>
                                             </div>
                                             <p className="condition-details">
-                                                Diagnosed: {formatDate(condition.diagnosedDate)}
+                                                {t('doctorPage.medicalRecords.conditions.diagnosed')}: {formatDate(condition.diagnosedDate)}
                                             </p>
                                         </div>
                                     ))}
 
                                     {selectedPatient.conditions.length > 2 && (
                                         <NavLink to="#" className="more-link" onClick={() => handleTabChange('conditions')}>
-                                            +{selectedPatient.conditions.length - 2} more
+                                            +{selectedPatient.conditions.length - 2} {t('doctorPage.medicalRecords.common.more')}
                                         </NavLink>
                                     )}
                                 </div>
                             ) : (
-                                <p className="no-data-message">No medical conditions recorded</p>
+                                <p className="no-data-message">{t('doctorPage.medicalRecords.conditions.noConditions')}</p>
                             )}
                         </div>
                     </div>
 
                     <div className="summary-section">
                         <div className="section-header">
-                            <h3><FaPills /> Current Medications</h3>
+                            <h3><FaPills /> {t('doctorPage.medicalRecords.medications.currentMedications')}</h3>
                             <NavLink to="#" className="view-all-link" onClick={() => handleTabChange('medications')}>
-                                View All
+                                {t('doctorPage.medicalRecords.common.viewAll')}
                             </NavLink>
                         </div>
 
@@ -614,19 +616,19 @@ export const DoctorPatientMedicalRecords = () => {
                                                 <span className="medication-dosage">{medication.dosage}</span>
                                             </div>
                                             <p className="medication-details">
-                                                {medication.frequency} • Since {formatDate(medication.startDate)}
+                                                {medication.frequency} • {t('doctorPage.medicalRecords.medications.since')} {formatDate(medication.startDate)}
                                             </p>
                                         </div>
                                     ))}
 
                                     {selectedPatient.medications.length > 3 && (
                                         <NavLink to="#" className="more-link" onClick={() => handleTabChange('medications')}>
-                                            +{selectedPatient.medications.length - 3} more
+                                            +{selectedPatient.medications.length - 3} {t('doctorPage.medicalRecords.common.more')}
                                         </NavLink>
                                     )}
                                 </div>
                             ) : (
-                                <p className="no-data-message">No active medications</p>
+                                <p className="no-data-message">{t('doctorPage.medicalRecords.medications.noMedications')}</p>
                             )}
                         </div>
                     </div>
@@ -635,9 +637,9 @@ export const DoctorPatientMedicalRecords = () => {
                 <div className="recent-records">
                     <div className="recent-section">
                         <div className="section-header">
-                            <h3><FaHistory /> Recent Visits</h3>
+                            <h3><FaHistory /> {t('doctorPage.medicalRecords.visits.recentVisits')}</h3>
                             <NavLink to="#" className="view-all-link" onClick={() => handleTabChange('visits')}>
-                                View All
+                                {t('doctorPage.medicalRecords.common.viewAll')}
                             </NavLink>
                         </div>
 
@@ -664,22 +666,22 @@ export const DoctorPatientMedicalRecords = () => {
                                                 handleTabChange('visits');
                                                 setTimeout(() => handleVisitSelect(visit), 0);
                                             }}>
-                                                Details
+                                                {t('doctorPage.medicalRecords.common.details')}
                                             </NavLink>
                                         </div>
                                     ))}
                                 </div>
                             ) : (
-                                <p className="no-data-message">No recent visits recorded</p>
+                                <p className="no-data-message">{t('doctorPage.medicalRecords.visits.noVisits')}</p>
                             )}
                         </div>
                     </div>
 
                     <div className="recent-section">
                         <div className="section-header">
-                            <h3><FaVial /> Recent Lab Results</h3>
+                            <h3><FaVial /> {t('doctorPage.medicalRecords.labs.recentLabResults')}</h3>
                             <NavLink to="#" className="view-all-link" onClick={() => handleTabChange('labs')}>
-                                View All
+                                {t('doctorPage.medicalRecords.common.viewAll')}
                             </NavLink>
                         </div>
 
@@ -710,13 +712,13 @@ export const DoctorPatientMedicalRecords = () => {
                                                 handleTabChange('labs');
                                                 setTimeout(() => handleLabResultSelect(lab), 0);
                                             }}>
-                                                View Full Results
+                                                {t('doctorPage.medicalRecords.labs.viewFullResults')}
                                             </NavLink>
                                         </div>
                                     ))}
                                 </div>
                             ) : (
-                                <p className="no-data-message">No recent lab results</p>
+                                <p className="no-data-message">{t('doctorPage.medicalRecords.labs.noLabResults')}</p>
                             )}
                         </div>
                     </div>
@@ -724,11 +726,11 @@ export const DoctorPatientMedicalRecords = () => {
 
                 <div className="action-buttons">
                     <NavLink to={`/doctor/write-prescription?patientId=${selectedPatient.id}`} className="action-button primary">
-                        <FaPills /> Write Prescription
+                        <FaPills /> {t('doctorPage.medicalRecords.actions.writePrescription')}
                     </NavLink>
 
                     <button className="action-button secondary">
-                        <FaCalendarAlt /> Schedule Appointment
+                        <FaCalendarAlt /> {t('doctorPage.medicalRecords.actions.scheduleAppointment')}
                     </button>
                 </div>
             </div>
@@ -742,10 +744,10 @@ export const DoctorPatientMedicalRecords = () => {
         return (
             <div className="allergies-tab">
                 <div className="section-header-with-actions">
-                    <h3><FaAllergies /> Allergies & Sensitivities</h3>
+                    <h3><FaAllergies /> {t('doctorPage.medicalRecords.allergies.allergiesAndSensitivities')}</h3>
                     <div className="section-actions">
                         <button className="action-button secondary add-btn">
-                            <FaPlus /> Add Allergy
+                            <FaPlus /> {t('doctorPage.medicalRecords.allergies.addAllergy')}
                         </button>
                     </div>
                 </div>
@@ -757,19 +759,19 @@ export const DoctorPatientMedicalRecords = () => {
                                 <div className="allergy-header">
                                     <h4>{allergy.allergen}</h4>
                                     <span className={`severity-badge ${getSeverityClass(allergy.severity)}`}>
-                                        {allergy.severity} Severity
+                                        {allergy.severity} {t('doctorPage.medicalRecords.allergies.severity')}
                                     </span>
                                 </div>
 
                                 <div className="allergy-details">
                                     <div className="detail-item">
-                                        <span className="detail-label">Reaction:</span>
+                                        <span className="detail-label">{t('doctorPage.medicalRecords.allergies.reaction')}:</span>
                                         <span className="detail-value">{allergy.reaction}</span>
                                     </div>
 
                                     {allergy.notes && (
                                         <div className="detail-item">
-                                            <span className="detail-label">Notes:</span>
+                                            <span className="detail-label">{t('doctorPage.medicalRecords.common.notes')}:</span>
                                             <span className="detail-value">{allergy.notes}</span>
                                         </div>
                                     )}
@@ -777,7 +779,7 @@ export const DoctorPatientMedicalRecords = () => {
 
                                 <div className="allergy-warning">
                                     <FaExclamationTriangle />
-                                    <span>Please verify this allergy before prescribing medications</span>
+                                    <span>{t('doctorPage.medicalRecords.allergies.verifyWarning')}</span>
                                 </div>
 
                                 <button className="edit-btn">
@@ -788,10 +790,10 @@ export const DoctorPatientMedicalRecords = () => {
                     ) : (
                         <div className="no-data-card">
                             <FaAllergies className="no-data-icon" />
-                            <h4>No Known Allergies</h4>
-                            <p>No allergies have been recorded for this patient</p>
+                            <h4>{t('doctorPage.medicalRecords.allergies.noKnownAllergies')}</h4>
+                            <p>{t('doctorPage.medicalRecords.allergies.noAllergiesRecorded')}</p>
                             <button className="action-button secondary">
-                                <FaPlus /> Add Allergy
+                                <FaPlus /> {t('doctorPage.medicalRecords.allergies.addAllergy')}
                             </button>
                         </div>
                     )}
@@ -807,10 +809,10 @@ export const DoctorPatientMedicalRecords = () => {
         return (
             <div className="medications-tab">
                 <div className="section-header-with-actions">
-                    <h3><FaPills /> Medications</h3>
+                    <h3><FaPills /> {t('doctorPage.medicalRecords.medications.title')}</h3>
                     <div className="section-actions">
-                        <NavLink to={`/doctor/write-prescription?patientId=${selectedPatient.id}`} className="action-button primary">
-                            <FaPills /> Write Prescription
+                        <NavLink to={`/doctor/write-prescription?patientId=${selectedPatient.id}`} className="action-button primary add-btn">
+                            <FaPills /> {t('doctorPage.medicalRecords.actions.writePrescription')}
                         </NavLink>
                     </div>
                 </div>
@@ -826,24 +828,24 @@ export const DoctorPatientMedicalRecords = () => {
 
                                 <div className="medication-details">
                                     <div className="detail-item">
-                                        <span className="detail-label">Frequency:</span>
+                                        <span className="detail-label">{t('doctorPage.medicalRecords.medications.frequency')}:</span>
                                         <span className="detail-value">{medication.frequency}</span>
                                     </div>
 
                                     <div className="detail-item">
-                                        <span className="detail-label">Started:</span>
+                                        <span className="detail-label">{t('doctorPage.medicalRecords.medications.startDate')}:</span>
                                         <span className="detail-value">{formatDate(medication.startDate)}</span>
                                     </div>
 
                                     {medication.endDate && (
                                         <div className="detail-item">
-                                            <span className="detail-label">Ended:</span>
+                                            <span className="detail-label">{t('doctorPage.medicalRecords.medications.endDate')}:</span>
                                             <span className="detail-value">{formatDate(medication.endDate)}</span>
                                         </div>
                                     )}
 
                                     <div className="detail-item">
-                                        <span className="detail-label">Prescribed By:</span>
+                                        <span className="detail-label">{t('doctorPage.medicalRecords.medications.prescribedBy')}:</span>
                                         <span className="detail-value">{medication.prescribedBy}</span>
                                     </div>
                                 </div>
@@ -856,10 +858,10 @@ export const DoctorPatientMedicalRecords = () => {
                     ) : (
                         <div className="no-data-card">
                             <FaPills className="no-data-icon" />
-                            <h4>No Medications</h4>
-                            <p>No medications have been prescribed for this patient</p>
+                            <h4>{t('doctorPage.medicalRecords.medications.noMedications')}</h4>
+                            <p>{t('doctorPage.medicalRecords.medications.noMedicationsRecorded')}</p>
                             <NavLink to={`/doctor/write-prescription?patientId=${selectedPatient.id}`} className="action-button primary">
-                                <FaPills /> Write Prescription
+                                <FaPills /> {t('doctorPage.medicalRecords.actions.writePrescription')}
                             </NavLink>
                         </div>
                     )}
@@ -875,10 +877,10 @@ export const DoctorPatientMedicalRecords = () => {
         return (
             <div className="visits-tab">
                 <div className="section-header-with-actions">
-                    <h3><FaHistory /> Visit History</h3>
+                    <h3><FaHistory /> {t('doctorPage.medicalRecords.visits.title')}</h3>
                     <div className="section-actions">
                         <button className="action-button secondary add-btn">
-                            <FaPlus /> Record Visit
+                            <FaPlus /> {t('doctorPage.medicalRecords.visits.recordVisit')}
                         </button>
                     </div>
                 </div>
@@ -886,56 +888,56 @@ export const DoctorPatientMedicalRecords = () => {
                 {selectedVisit ? (
                     <div className="visit-detail-view">
                         <button className="back-to-list-btn" onClick={() => setSelectedVisit(null)}>
-                            <FaArrowLeft /> Back to Visit List
+                            <FaArrowLeft /> {t('doctorPage.medicalRecords.visits.backToVisitList')}
                         </button>
 
                         <div className="visit-detail-header">
                             <h3>{selectedVisit.type} - {formatDate(selectedVisit.date)}</h3>
-                            <span className="provider-info">Provider: {selectedVisit.provider}</span>
+                            <span className="provider-info">{t('doctorPage.medicalRecords.medications.prescribedBy')}: {selectedVisit.provider}</span>
                         </div>
 
                         <div className="visit-detail-card">
                             <div className="card-section">
-                                <h4>Visit Notes</h4>
+                                <h4>{t('doctorPage.medicalRecords.visits.visitNotes')}</h4>
                                 <p>{selectedVisit.notes}</p>
                             </div>
 
                             <div className="card-section">
-                                <h4>Vital Signs</h4>
+                                <h4>{t('doctorPage.medicalRecords.visits.vitalSigns')}</h4>
                                 <div className="vitals-grid detail">
                                     <div className="vital-item">
-                                        <span className="vital-label">Blood Pressure:</span>
+                                        <span className="vital-label">{t('doctorPage.medicalRecords.summary.bloodPressure')}:</span>
                                         <span className="vital-value">{selectedVisit.vitalSigns.bloodPressure}</span>
                                     </div>
                                     <div className="vital-item">
-                                        <span className="vital-label">Heart Rate:</span>
+                                        <span className="vital-label">{t('doctorPage.medicalRecords.summary.heartRate')}:</span>
                                         <span className="vital-value">{selectedVisit.vitalSigns.heartRate}</span>
                                     </div>
                                     <div className="vital-item">
-                                        <span className="vital-label">Respiratory Rate:</span>
+                                        <span className="vital-label">{t('doctorPage.medicalRecords.visits.respiratoryRate')}:</span>
                                         <span className="vital-value">{selectedVisit.vitalSigns.respiratoryRate}</span>
                                     </div>
                                     <div className="vital-item">
-                                        <span className="vital-label">Temperature:</span>
+                                        <span className="vital-label">{t('doctorPage.medicalRecords.visits.temperature')}:</span>
                                         <span className="vital-value">{selectedVisit.vitalSigns.temperature}</span>
                                     </div>
                                     <div className="vital-item">
-                                        <span className="vital-label">Height:</span>
+                                        <span className="vital-label">{t('doctorPage.medicalRecords.summary.height')}:</span>
                                         <span className="vital-value">{selectedVisit.vitalSigns.height}</span>
                                     </div>
                                     <div className="vital-item">
-                                        <span className="vital-label">Weight:</span>
+                                        <span className="vital-label">{t('doctorPage.medicalRecords.summary.weight')}:</span>
                                         <span className="vital-value">{selectedVisit.vitalSigns.weight}</span>
                                     </div>
                                     <div className="vital-item">
-                                        <span className="vital-label">BMI:</span>
+                                        <span className="vital-label">{t('doctorPage.medicalRecords.visits.bmi')}:</span>
                                         <span className="vital-value">{selectedVisit.vitalSigns.bmi}</span>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="card-section">
-                                <h4>Diagnoses</h4>
+                                <h4>{t('doctorPage.medicalRecords.visits.diagnoses')}</h4>
                                 <ul className="diagnoses-list">
                                     {selectedVisit.diagnoses.map((diagnosis, index) => (
                                         <li key={index}>{diagnosis}</li>
@@ -944,7 +946,7 @@ export const DoctorPatientMedicalRecords = () => {
                             </div>
 
                             <div className="card-section">
-                                <h4>Prescriptions</h4>
+                                <h4>{t('doctorPage.medicalRecords.visits.prescriptions')}</h4>
                                 <ul className="prescriptions-list">
                                     {selectedVisit.prescriptions.map((prescription, index) => (
                                         <li key={index}>{prescription}</li>
@@ -953,7 +955,7 @@ export const DoctorPatientMedicalRecords = () => {
                             </div>
 
                             <div className="card-section">
-                                <h4>Recommendations</h4>
+                                <h4>{t('doctorPage.medicalRecords.visits.recommendations')}</h4>
                                 <p>{selectedVisit.recommendations}</p>
                             </div>
                         </div>
@@ -986,7 +988,7 @@ export const DoctorPatientMedicalRecords = () => {
                                                     <span className="tag" key={i}>{diagnosis}</span>
                                                 ))}
                                                 {visit.diagnoses.length > 2 && (
-                                                    <span className="more-tag">+{visit.diagnoses.length - 2} more</span>
+                                                    <span className="more-tag">+{visit.diagnoses.length - 2} {t('doctorPage.medicalRecords.common.more')}</span>
                                                 )}
                                             </div>
                                         </div>
@@ -996,10 +998,10 @@ export const DoctorPatientMedicalRecords = () => {
                         ) : (
                             <div className="no-data-card">
                                 <FaHistory className="no-data-icon" />
-                                <h4>No Visit History</h4>
-                                <p>No visits have been recorded for this patient</p>
+                                <h4>{t('doctorPage.medicalRecords.visits.noVisitHistory')}</h4>
+                                <p>{t('doctorPage.medicalRecords.visits.noVisitsRecorded')}</p>
                                 <button className="action-button secondary">
-                                    <FaPlus /> Record Visit
+                                    <FaPlus /> {t('doctorPage.medicalRecords.visits.recordVisit')}
                                 </button>
                             </div>
                         )}
@@ -1016,10 +1018,10 @@ export const DoctorPatientMedicalRecords = () => {
         return (
             <div className="labs-tab">
                 <div className="section-header-with-actions">
-                    <h3><FaVial /> Laboratory Results</h3>
+                    <h3><FaVial /> {t('doctorPage.medicalRecords.labs.title')}</h3>
                     <div className="section-actions">
                         <button className="action-button secondary add-btn">
-                            <FaPlus /> Add Lab Result
+                            <FaPlus /> {t('doctorPage.medicalRecords.labs.addLabResult')}
                         </button>
                     </div>
                 </div>
@@ -1027,15 +1029,15 @@ export const DoctorPatientMedicalRecords = () => {
                 {selectedLabResult ? (
                     <div className="lab-detail-view">
                         <button className="back-to-list-btn" onClick={() => setSelectedLabResult(null)}>
-                            <FaArrowLeft /> Back to Lab Results
+                            <FaArrowLeft /> {t('doctorPage.medicalRecords.labs.backToLabResults')}
                         </button>
 
                         <div className="lab-detail-header">
                             <h3>{selectedLabResult.type} - {formatDate(selectedLabResult.date)}</h3>
                             <div className="lab-meta">
                                 <span>ID: {selectedLabResult.id}</span>
-                                <span>Ordered by: {selectedLabResult.orderedBy}</span>
-                                <span>Facility: {selectedLabResult.facility}</span>
+                                <span>{t('doctorPage.medicalRecords.labs.orderedBy')}: {selectedLabResult.orderedBy}</span>
+                                <span>{t('doctorPage.medicalRecords.labs.facility')}: {selectedLabResult.facility}</span>
                             </div>
                         </div>
 
@@ -1043,10 +1045,10 @@ export const DoctorPatientMedicalRecords = () => {
                             <table className="results-table">
                                 <thead>
                                     <tr>
-                                        <th>Test</th>
-                                        <th>Result</th>
-                                        <th>Reference Range</th>
-                                        <th>Flag</th>
+                                        <th>{t('doctorPage.medicalRecords.labs.test')}</th>
+                                        <th>{t('doctorPage.medicalRecords.labs.result')}</th>
+                                        <th>{t('doctorPage.medicalRecords.labs.referenceRange')}</th>
+                                        <th>{t('doctorPage.medicalRecords.labs.flag')}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1066,7 +1068,7 @@ export const DoctorPatientMedicalRecords = () => {
                             </table>
 
                             <div className="summary-section">
-                                <h4>Summary</h4>
+                                <h4>{t('doctorPage.medicalRecords.labs.summary')}</h4>
                                 <p>{selectedLabResult.summary}</p>
                             </div>
                         </div>
@@ -1092,7 +1094,7 @@ export const DoctorPatientMedicalRecords = () => {
                                         </div>
 
                                         <div className="lab-highlights">
-                                            <h5>Highlights</h5>
+                                            <h5>{t('doctorPage.medicalRecords.labs.highlights')}</h5>
                                             <div className="result-highlights">
                                                 {lab.results
                                                     .filter(result => result.flag !== 'Normal')
@@ -1112,20 +1114,20 @@ export const DoctorPatientMedicalRecords = () => {
 
                                                 {lab.results.filter(result => result.flag !== 'Normal').length > 3 && (
                                                     <div className="more-results">
-                                                        +{lab.results.filter(result => result.flag !== 'Normal').length - 3} more abnormal results
+                                                        +{lab.results.filter(result => result.flag !== 'Normal').length - 3} {t('doctorPage.medicalRecords.labs.moreAbnormalResults')}
                                                     </div>
                                                 )}
 
                                                 {lab.results.filter(result => result.flag !== 'Normal').length === 0 && (
                                                     <div className="all-normal">
-                                                        All results within normal range
+                                                        {t('doctorPage.medicalRecords.labs.allResultsNormal')}
                                                     </div>
                                                 )}
                                             </div>
                                         </div>
 
                                         <button className="view-full-results-btn">
-                                            View Full Results
+                                            {t('doctorPage.medicalRecords.labs.viewFullResults')}
                                         </button>
                                     </div>
                                 ))}
@@ -1133,10 +1135,10 @@ export const DoctorPatientMedicalRecords = () => {
                         ) : (
                             <div className="no-data-card">
                                 <FaVial className="no-data-icon" />
-                                <h4>No Lab Results</h4>
-                                <p>No laboratory results have been recorded for this patient</p>
+                                <h4>{t('doctorPage.medicalRecords.labs.noLabResultsFound')}</h4>
+                                <p>{t('doctorPage.medicalRecords.labs.noLabResultsRecorded')}</p>
                                 <button className="action-button secondary">
-                                    <FaPlus /> Add Lab Result
+                                    <FaPlus /> {t('doctorPage.medicalRecords.labs.addLabResult')}
                                 </button>
                             </div>
                         )}
@@ -1153,14 +1155,14 @@ export const DoctorPatientMedicalRecords = () => {
         return (
             <div className="documents-tab">
                 <div className="section-header-with-actions">
-                    <h3><FaFileMedical /> Medical Documents</h3>
+                    <h3><FaFileMedical /> {t('doctorPage.medicalRecords.documents.title')}</h3>
                     <div className="section-actions">
                         <div className="search-container">
                             <FaSearch className="search-icon" />
-                            <input type="text" placeholder="Search documents..." className="search-input" />
+                            <input type="text" placeholder={t('doctorPage.medicalRecords.documents.searchPlaceholder')} className="search-input" />
                         </div>
                         <button className="action-button secondary add-btn">
-                            <FaPlus /> Upload Document
+                            <FaPlus /> {t('doctorPage.medicalRecords.documents.uploadDocument')}
                         </button>
                     </div>
                 </div>
@@ -1178,15 +1180,15 @@ export const DoctorPatientMedicalRecords = () => {
                                         <h4>{document.name}</h4>
                                         <span className="document-date">{formatDate(document.date)}</span>
                                         <p className="document-description">{document.description}</p>
-                                        <p className="document-uploader">Uploaded by: {document.uploadedBy}</p>
+                                        <p className="document-uploader">{t('doctorPage.medicalRecords.documents.uploadedBy')}: {document.uploadedBy}</p>
                                     </div>
 
                                     <div className="document-actions">
                                         <button className="document-action-btn view">
-                                            <FaSearch /> View
+                                            <FaSearch /> {t('doctorPage.medicalRecords.common.view')}
                                         </button>
                                         <button className="document-action-btn download">
-                                            <FaDownload /> Download
+                                            <FaDownload /> {t('doctorPage.medicalRecords.common.download')}
                                         </button>
                                     </div>
                                 </div>
@@ -1195,10 +1197,10 @@ export const DoctorPatientMedicalRecords = () => {
                     ) : (
                         <div className="no-data-card">
                             <FaFileMedical className="no-data-icon" />
-                            <h4>No Documents</h4>
-                            <p>No medical documents have been uploaded for this patient</p>
+                            <h4>{t('doctorPage.medicalRecords.documents.noDocuments')}</h4>
+                            <p>{t('doctorPage.medicalRecords.documents.noDocumentsRecorded')}</p>
                             <button className="action-button secondary">
-                                <FaPlus /> Upload Document
+                                <FaPlus /> {t('doctorPage.medicalRecords.documents.uploadDocument')}
                             </button>
                         </div>
                     )}
@@ -1214,10 +1216,10 @@ export const DoctorPatientMedicalRecords = () => {
         return (
             <div className="conditions-tab">
                 <div className="section-header-with-actions">
-                    <h3><FaNotesMedical /> Medical Conditions</h3>
+                    <h3><FaNotesMedical /> {t('doctorPage.medicalRecords.conditions.title')}</h3>
                     <div className="section-actions">
                         <button className="action-button secondary add-btn">
-                            <FaPlus /> Add Condition
+                            <FaPlus /> {t('doctorPage.medicalRecords.conditions.addCondition')}
                         </button>
                     </div>
                 </div>
@@ -1235,13 +1237,13 @@ export const DoctorPatientMedicalRecords = () => {
 
                                 <div className="condition-details">
                                     <div className="detail-item">
-                                        <span className="detail-label">Diagnosed:</span>
+                                        <span className="detail-label">{t('doctorPage.medicalRecords.conditions.diagnosed')}:</span>
                                         <span className="detail-value">{formatDate(condition.diagnosedDate)}</span>
                                     </div>
 
                                     {condition.notes && (
                                         <div className="detail-item">
-                                            <span className="detail-label">Notes:</span>
+                                            <span className="detail-label">{t('doctorPage.medicalRecords.common.notes')}:</span>
                                             <span className="detail-value">{condition.notes}</span>
                                         </div>
                                     )}
@@ -1255,10 +1257,10 @@ export const DoctorPatientMedicalRecords = () => {
                     ) : (
                         <div className="no-data-card">
                             <FaNotesMedical className="no-data-icon" />
-                            <h4>No Medical Conditions</h4>
-                            <p>No medical conditions have been recorded for this patient</p>
+                            <h4>{t('doctorPage.medicalRecords.conditions.noMedicalConditions')}</h4>
+                            <p>{t('doctorPage.medicalRecords.conditions.noConditionsRecorded')}</p>
                             <button className="action-button secondary">
-                                <FaPlus /> Add Condition
+                                <FaPlus /> {t('doctorPage.medicalRecords.conditions.addCondition')}
                             </button>
                         </div>
                     )}
@@ -1266,13 +1268,14 @@ export const DoctorPatientMedicalRecords = () => {
             </div>
         );
     }
+
     // Main render function
     return (
         <div className="doctor-patient-medical-records">
             {!isLoaded ? (
                 <div className="loading-container">
                     <div className="loader"></div>
-                    <p>Loading patient records...</p>
+                    <p>{t('doctorPage.medicalRecords.loadingPatientRecords')}</p>
                 </div>
             ) : !selectedPatient ? (
                 renderNoPatient()
@@ -1283,13 +1286,13 @@ export const DoctorPatientMedicalRecords = () => {
                             className="back-btn"
                             onClick={() => navigate('/doctor/patients')}
                         >
-                            <FaArrowLeft /> Back to Patients
+                            <FaArrowLeft /> {t('doctorPage.medicalRecords.backToPatients')}
                         </button>
 
                         <div className="patient-info">
                             <h2>{selectedPatient.name}</h2>
                             <div className="patient-meta">
-                                <span>{selectedPatient.age} years</span>
+                                <span>{selectedPatient.age} {t('doctorPage.medicalRecords.summary.years')}</span>
                                 <span>•</span>
                                 <span>{selectedPatient.gender}</span>
                                 <span>•</span>
@@ -1310,49 +1313,49 @@ export const DoctorPatientMedicalRecords = () => {
                                 className={`tab-btn ${activeTab === 'summary' ? 'active' : ''}`}
                                 onClick={() => handleTabChange('summary')}
                             >
-                                <FaClipboardCheck /> Summary
+                                <FaClipboardCheck /> {t('doctorPage.medicalRecords.tabs.summary')}
                             </button>
 
                             <button
                                 className={`tab-btn ${activeTab === 'allergies' ? 'active' : ''}`}
                                 onClick={() => handleTabChange('allergies')}
                             >
-                                <FaAllergies /> Allergies
+                                <FaAllergies /> {t('doctorPage.medicalRecords.tabs.allergies')}
                             </button>
 
                             <button
                                 className={`tab-btn ${activeTab === 'conditions' ? 'active' : ''}`}
                                 onClick={() => handleTabChange('conditions')}
                             >
-                                <FaNotesMedical /> Conditions
+                                <FaNotesMedical /> {t('doctorPage.medicalRecords.tabs.conditions')}
                             </button>
 
                             <button
                                 className={`tab-btn ${activeTab === 'medications' ? 'active' : ''}`}
                                 onClick={() => handleTabChange('medications')}
                             >
-                                <FaPills /> Medications
+                                <FaPills /> {t('doctorPage.medicalRecords.tabs.medications')}
                             </button>
 
                             <button
                                 className={`tab-btn ${activeTab === 'visits' ? 'active' : ''}`}
                                 onClick={() => handleTabChange('visits')}
                             >
-                                <FaHistory /> Visits
+                                <FaHistory /> {t('doctorPage.medicalRecords.tabs.visits')}
                             </button>
 
                             <button
                                 className={`tab-btn ${activeTab === 'labs' ? 'active' : ''}`}
                                 onClick={() => handleTabChange('labs')}
                             >
-                                <FaVial /> Lab Results
+                                <FaVial /> {t('doctorPage.medicalRecords.tabs.labResults')}
                             </button>
 
                             <button
                                 className={`tab-btn ${activeTab === 'documents' ? 'active' : ''}`}
                                 onClick={() => handleTabChange('documents')}
                             >
-                                <FaFileMedical /> Documents
+                                <FaFileMedical /> {t('doctorPage.medicalRecords.tabs.documents')}
                             </button>
                         </nav>
 

@@ -5,15 +5,28 @@
     height: 100%;
     width: 240px;
     position: fixed;
-    left: 0;
-    top: 0;
-    padding-top: 70px;
     color: white;
     transition: transform 0.3s ease;
     z-index: 50;
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    padding-top: 70px;
+    top: 0;
+
+    // Default LTR positioning
+    &.ltr {
+        left: 0;
+        right: auto;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    // RTL positioning
+    &.rtl {
+        right: 0;
+        left: auto;
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    }
 
     @media (min-width: 768px) {
         padding-top: 80px;
@@ -25,11 +38,23 @@
 
     // Hide sidebar on smaller screens
     @media (max-width: 1119px) {
-        transform: translateX(-100%);
+        &.ltr {
+            transform: translateX(-100%);
+
+            &.open {
+                transform: translateX(0);
+            }
+        }
+
+        &.rtl {
+            transform: translateX(100%);
+
+            &.open {
+                transform: translateX(0);
+            }
+        }
 
         &.open {
-            transform: translateX(0);
-
             // Add overlay when sidebar is open on mobile
             &:after {
                 content: '';
@@ -44,10 +69,16 @@
         }
     }
 
-    // Handle closing animation
+    // Handle closing animation for larger screens
     &.closed {
         @media (min-width: 1120px) {
-            transform: translateX(-100%);
+            &.ltr {
+                transform: translateX(-100%);
+            }
+            
+            &.rtl {
+                transform: translateX(100%);
+            }
         }
     }
 
@@ -65,7 +96,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 1rem;
+
+            // Handle RTL/LTR margins
+            .ltr & {
+                margin-right: 1rem;
+                margin-left: 0;
+            }
+
+            .rtl & {
+                margin-left: 1rem;
+                margin-right: 0;
+            }
 
             svg {
                 font-size: 1.75rem;
@@ -119,14 +160,30 @@
                         background-color: rgba(255, 255, 255, 0.15);
                         color: white;
 
-                        &::before {
-                            content: '';
-                            position: absolute;
-                            left: 0;
-                            top: 0;
-                            height: 100%;
-                            width: 4px;
-                            background-color: white;
+                        // Active indicator line for LTR
+                        .ltr & {
+                            &::before {
+                                content: '';
+                                position: absolute;
+                                left: 0;
+                                top: 0;
+                                height: 100%;
+                                width: 4px;
+                                background-color: white;
+                            }
+                        }
+
+                        // Active indicator line for RTL
+                        .rtl & {
+                            &::before {
+                                content: '';
+                                position: absolute;
+                                right: 0;
+                                top: 0;
+                                height: 100%;
+                                width: 4px;
+                                background-color: white;
+                            }
                         }
 
                         .nav-icon {
@@ -135,10 +192,24 @@
                     }
 
                     .nav-icon {
-                        margin-right: 1rem;
                         font-size: 1.1rem;
                         min-width: 20px;
                         transition: color 0.3s;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        // LTR spacing
+                        .ltr & {
+                            margin-right: 1rem;
+                            margin-left: 0;
+                        }
+
+                        // RTL spacing
+                        .rtl & {
+                            margin-left: 1rem;
+                            margin-right: 0;
+                        }
                     }
 
                     .nav-text {
@@ -173,7 +244,20 @@
             }
 
             .logout-icon {
-                margin-right: 0.75rem;
+                display: flex;
+                align-items: center;
+                
+                // LTR spacing
+                .ltr & {
+                    margin-right: 0.75rem;
+                    margin-left: 0;
+                }
+
+                // RTL spacing
+                .rtl & {
+                    margin-left: 0.75rem;
+                    margin-right: 0;
+                }
             }
         }
     }

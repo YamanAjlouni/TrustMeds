@@ -20,9 +20,12 @@ import {
     FaSortDown
 } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
+import { useLanguage } from '../../../context/LanguageContext';
 
 export const DoctorMyPatients = () => {
-    // Sample data - in a real app, this would come from your API/backend
+    const { t, isRTL } = useLanguage();
+    
+    // Sample data - keep as is, will come from database later
     const [patients, setPatients] = useState([
         {
             id: 'PT-1234',
@@ -219,18 +222,18 @@ export const DoctorMyPatients = () => {
             {!isLoaded ? (
                 <div className="loading-container">
                     <div className="loader"></div>
-                    <p>Loading patient records...</p>
+                    <p>{t('doctorPage.patients.loadingMessage')}</p>
                 </div>
             ) : (
                 <div className="patients-container">
                     <div className="patients-header">
                         <h2>
                             <FaUserInjured className="header-icon" />
-                            My Patients
+                            {t('doctorPage.patients.title')}
                         </h2>
                         <div className="header-actions">
                             <button className="add-patient-btn">
-                                <FaUserPlus /> Add New Patient
+                                <FaUserPlus /> {t('doctorPage.patients.actions.addNewPatient')}
                             </button>
                             <button className="refresh-btn">
                                 <FaSyncAlt />
@@ -243,7 +246,7 @@ export const DoctorMyPatients = () => {
                             <FaSearch className="search-icon" />
                             <input
                                 type="text"
-                                placeholder="Search by name or ID..."
+                                placeholder={t('doctorPage.patients.searchPlaceholder')}
                                 value={searchTerm}
                                 onChange={handleSearch}
                                 className="search-input"
@@ -253,18 +256,18 @@ export const DoctorMyPatients = () => {
                         <div className="filters">
                             <div className="filter status-filter">
                                 <span className="filter-label">
-                                    <FaFilter /> Status:
+                                    <FaFilter /> {t('doctorPage.patients.filters.status')}:
                                 </span>
                                 <select
                                     value={selectedStatus}
                                     onChange={(e) => handleStatusFilterChange(e.target.value)}
                                     className="status-select"
                                 >
-                                    <option value="All">All Statuses</option>
-                                    <option value="Stable">Stable</option>
-                                    <option value="Follow-up Needed">Follow-up Needed</option>
-                                    <option value="Medication Adjustment Needed">Medication Adjustment</option>
-                                    <option value="Urgent Follow-up">Urgent Follow-up</option>
+                                    <option value="All">{t('doctorPage.patients.filters.allStatuses')}</option>
+                                    <option value="Stable">{t('doctorPage.patients.status.stable')}</option>
+                                    <option value="Follow-up Needed">{t('doctorPage.patients.status.followUpNeeded')}</option>
+                                    <option value="Medication Adjustment Needed">{t('doctorPage.patients.status.medicationAdjustment')}</option>
+                                    <option value="Urgent Follow-up">{t('doctorPage.patients.status.urgentFollowUp')}</option>
                                 </select>
                             </div>
 
@@ -272,7 +275,7 @@ export const DoctorMyPatients = () => {
                                 className={`favorites-filter ${showOnlyFavorites ? 'active' : ''}`}
                                 onClick={handleFavoritesToggle}
                             >
-                                {showOnlyFavorites ? <FaStar /> : <FaRegStar />} Favorites
+                                {showOnlyFavorites ? <FaStar /> : <FaRegStar />} {t('doctorPage.patients.filters.favorites')}
                             </button>
                         </div>
                     </div>
@@ -283,17 +286,17 @@ export const DoctorMyPatients = () => {
                                 <tr>
                                     <th className="favorite-col"></th>
                                     <th className="name-col" onClick={() => handleSort('lastName')}>
-                                        <span>Patient Name {getSortIcon('lastName')}</span>
+                                        <span>{t('doctorPage.patients.tableHeaders.patientName')} {getSortIcon('lastName')}</span>
                                     </th>
                                     <th className="age-col" onClick={() => handleSort('age')}>
-                                        <span>Age {getSortIcon('age')}</span>
+                                        <span>{t('doctorPage.patients.tableHeaders.age')} {getSortIcon('age')}</span>
                                     </th>
                                     <th className="last-visit-col" onClick={() => handleSort('lastVisit')}>
-                                        <span>Last Visit {getSortIcon('lastVisit')}</span>
+                                        <span>{t('doctorPage.patients.tableHeaders.lastVisit')} {getSortIcon('lastVisit')}</span>
                                     </th>
-                                    <th className="conditions-col">Conditions</th>
+                                    <th className="conditions-col">{t('doctorPage.patients.tableHeaders.conditions')}</th>
                                     <th className="status-col" onClick={() => handleSort('status')}>
-                                        <span>Status {getSortIcon('status')}</span>
+                                        <span>{t('doctorPage.patients.tableHeaders.status')} {getSortIcon('status')}</span>
                                     </th>
                                     <th className="actions-col"></th>
                                 </tr>
@@ -304,12 +307,12 @@ export const DoctorMyPatients = () => {
                                         <td colSpan="7" className="no-results">
                                             <div className="no-patients-message">
                                                 <FaUserInjured className="no-results-icon" />
-                                                <p>No patients match your search criteria</p>
+                                                <p>{t('doctorPage.patients.noResults')}</p>
                                                 <button onClick={() => {
                                                     setSearchTerm('');
                                                     setSelectedStatus('All');
                                                     setShowOnlyFavorites(false);
-                                                }}>Clear Filters</button>
+                                                }}>{t('doctorPage.patients.actions.clearFilters')}</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -321,7 +324,6 @@ export const DoctorMyPatients = () => {
                                             onClick={() => handlePatientSelect(patient)}
                                         >
                                             <td className="favorite-col">
-                                                {/* Alert indicator now inside the first cell */}
                                                 {patient.alerts.length > 0 && (
                                                     <div className="alert-indicator"></div>
                                                 )}
@@ -375,19 +377,19 @@ export const DoctorMyPatients = () => {
                                                     </button>
                                                     <div className="dropdown-menu">
                                                         <NavLink to={`/doctor/medical-records/${patient.id}`} className="dropdown-item">
-                                                            <FaFileAlt /> View Medical Record
+                                                            <FaFileAlt /> {t('doctorPage.patients.actions.viewMedicalRecord')}
                                                         </NavLink>
                                                         <NavLink to={`/doctor/write-prescription?patientId=${patient.id}`} className="dropdown-item">
-                                                            <FaPills /> Write Prescription
+                                                            <FaPills /> {t('doctorPage.patients.actions.writePrescription')}
                                                         </NavLink>
                                                         <button className="dropdown-item">
-                                                            <FaPhoneAlt /> Call Patient
+                                                            <FaPhoneAlt /> {t('doctorPage.patients.actions.callPatient')}
                                                         </button>
                                                         <button className="dropdown-item">
-                                                            <FaEnvelope /> Send Message
+                                                            <FaEnvelope /> {t('doctorPage.patients.actions.sendMessage')}
                                                         </button>
                                                         <button className="dropdown-item">
-                                                            <FaCalendarAlt /> Schedule Appointment
+                                                            <FaCalendarAlt /> {t('doctorPage.patients.actions.scheduleAppointment')}
                                                         </button>
                                                     </div>
                                                 </div>
@@ -402,7 +404,7 @@ export const DoctorMyPatients = () => {
                     {activePatient && (
                         <div className="patient-detail-panel">
                             <div className="panel-header">
-                                <h3>Patient Details</h3>
+                                <h3>{t('doctorPage.patients.patientDetails')}</h3>
                                 <button className="close-panel-btn" onClick={() => setActivePatient(null)}>×</button>
                             </div>
                             <div className="panel-content">
@@ -413,7 +415,7 @@ export const DoctorMyPatients = () => {
                                     <div className="patient-info">
                                         <h4>{activePatient.firstName} {activePatient.lastName}</h4>
                                         <div className="patient-meta">
-                                            <span>{activePatient.age} years</span>
+                                            <span>{activePatient.age} {t('doctorPage.patients.ageYears')}</span>
                                             <span>•</span>
                                             <span>{activePatient.gender}</span>
                                             <span>•</span>
@@ -427,7 +429,7 @@ export const DoctorMyPatients = () => {
 
                                 {activePatient.alerts.length > 0 && (
                                     <div className="alerts-section">
-                                        <h5><FaExclamationCircle /> Alerts</h5>
+                                        <h5><FaExclamationCircle /> {t('doctorPage.patients.detailsSections.alerts')}</h5>
                                         <ul className="alerts-list">
                                             {activePatient.alerts.map((alert, index) => (
                                                 <li key={index} className="alert-item">{alert}</li>
@@ -437,7 +439,7 @@ export const DoctorMyPatients = () => {
                                 )}
 
                                 <div className="panel-section">
-                                    <h5>Medical Conditions</h5>
+                                    <h5>{t('doctorPage.patients.detailsSections.medicalConditions')}</h5>
                                     <div className="conditions-grid">
                                         {activePatient.conditions.map((condition, index) => (
                                             <span key={index} className="condition-tag large">{condition}</span>
@@ -446,7 +448,7 @@ export const DoctorMyPatients = () => {
                                 </div>
 
                                 <div className="panel-section">
-                                    <h5>Contact Information</h5>
+                                    <h5>{t('doctorPage.patients.detailsSections.contactInformation')}</h5>
                                     <div className="contact-info">
                                         <div className="contact-item">
                                             <FaPhoneAlt className="contact-icon" />
@@ -460,7 +462,7 @@ export const DoctorMyPatients = () => {
                                 </div>
 
                                 <div className="panel-section">
-                                    <h5>Upcoming Appointment</h5>
+                                    <h5>{t('doctorPage.patients.detailsSections.upcomingAppointment')}</h5>
                                     <div className="appointment-info">
                                         <div className="appointment-date">
                                             <FaCalendarAlt className="appointment-icon" />
@@ -471,10 +473,10 @@ export const DoctorMyPatients = () => {
 
                                 <div className="panel-actions">
                                     <NavLink to={`/doctor/medical-records/${activePatient.id}`} className="panel-action primary">
-                                        <FaFileAlt /> Medical Record
+                                        <FaFileAlt /> {t('doctorPage.patients.actions.viewMedicalRecord')}
                                     </NavLink>
                                     <NavLink to={`/doctor/write-prescription?patientId=${activePatient.id}`} className="panel-action secondary">
-                                        <FaPills /> Write Prescription
+                                        <FaPills /> {t('doctorPage.patients.actions.writePrescription')}
                                     </NavLink>
                                 </div>
                             </div>

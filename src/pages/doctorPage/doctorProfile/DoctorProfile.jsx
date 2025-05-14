@@ -18,8 +18,11 @@ import {
     FaCheck,
     FaExclamationTriangle
 } from 'react-icons/fa';
+import { useLanguage } from '../../../context/LanguageContext';
 
 export const DoctorProfile = () => {
+    const { t, isRTL } = useLanguage();
+    
     // Sample data - in a real app, this would come from your API/backend
     const [profileData, setProfileData] = useState({
         personalInfo: {
@@ -116,6 +119,19 @@ export const DoctorProfile = () => {
             setIsLoaded(true);
         }, 800);
     }, []);
+    
+    // Add RTL class to body when needed
+    useEffect(() => {
+        if (isRTL) {
+            document.body.classList.add('rtl');
+        } else {
+            document.body.classList.remove('rtl');
+        }
+        
+        return () => {
+            document.body.classList.remove('rtl');
+        };
+    }, [isRTL]);
 
     // Handle section change
     const handleSectionChange = (section) => {
@@ -189,13 +205,13 @@ export const DoctorProfile = () => {
             return (
                 <div className="edit-form profile-form">
                     <div className="form-header">
-                        <h3>Edit Personal Information</h3>
+                        <h3>{t('doctorPage.profile.profile.editPersonalInfo')}</h3>
                     </div>
 
                     <div className="form-body">
                         <div className="form-row">
                             <div className="form-group">
-                                <label>First Name</label>
+                                <label>{t('doctorPage.profile.profile.firstName')}</label>
                                 <input
                                     type="text"
                                     name="firstName"
@@ -204,7 +220,7 @@ export const DoctorProfile = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label>Last Name</label>
+                                <label>{t('doctorPage.profile.profile.lastName')}</label>
                                 <input
                                     type="text"
                                     name="lastName"
@@ -216,7 +232,7 @@ export const DoctorProfile = () => {
 
                         <div className="form-row">
                             <div className="form-group">
-                                <label>Email</label>
+                                <label>{t('doctorPage.profile.profile.email')}</label>
                                 <input
                                     type="email"
                                     name="email"
@@ -225,7 +241,7 @@ export const DoctorProfile = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label>Phone</label>
+                                <label>{t('doctorPage.profile.profile.phone')}</label>
                                 <input
                                     type="tel"
                                     name="phone"
@@ -237,7 +253,7 @@ export const DoctorProfile = () => {
 
                         <div className="form-row">
                             <div className="form-group full-width">
-                                <label>Address</label>
+                                <label>{t('doctorPage.profile.profile.address')}</label>
                                 <input
                                     type="text"
                                     name="address"
@@ -249,7 +265,7 @@ export const DoctorProfile = () => {
 
                         <div className="form-row">
                             <div className="form-group">
-                                <label>Date of Birth</label>
+                                <label>{t('doctorPage.profile.profile.dateOfBirth')}</label>
                                 <input
                                     type="date"
                                     name="dateOfBirth"
@@ -258,23 +274,23 @@ export const DoctorProfile = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label>Gender</label>
+                                <label>{t('doctorPage.profile.profile.gender')}</label>
                                 <select
                                     name="gender"
                                     value={editedData.gender || ''}
                                     onChange={handleFormChange}
                                 >
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Other">Other</option>
-                                    <option value="Prefer not to say">Prefer not to say</option>
+                                    <option value="Male">{t('doctorPage.profile.profile.genderOptions.male')}</option>
+                                    <option value="Female">{t('doctorPage.profile.profile.genderOptions.female')}</option>
+                                    <option value="Other">{t('doctorPage.profile.profile.genderOptions.other')}</option>
+                                    <option value="Prefer not to say">{t('doctorPage.profile.profile.genderOptions.preferNotToSay')}</option>
                                 </select>
                             </div>
                         </div>
 
                         <div className="form-row">
                             <div className="form-group">
-                                <label>Specialization</label>
+                                <label>{t('doctorPage.profile.profile.specialization')}</label>
                                 <input
                                     type="text"
                                     name="specialization"
@@ -283,7 +299,7 @@ export const DoctorProfile = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label>License Number</label>
+                                <label>{t('doctorPage.profile.profile.licenseNumber')}</label>
                                 <input
                                     type="text"
                                     name="licenseNumber"
@@ -295,7 +311,7 @@ export const DoctorProfile = () => {
 
                         <div className="form-row">
                             <div className="form-group full-width">
-                                <label>Professional Biography</label>
+                                <label>{t('doctorPage.profile.profile.biography')}</label>
                                 <textarea
                                     name="biography"
                                     value={editedData.biography || ''}
@@ -308,10 +324,10 @@ export const DoctorProfile = () => {
 
                     <div className="form-actions">
                         <button className="cancel-btn" onClick={handleCancelEditing}>
-                            Cancel
+                            {t('doctorPage.profile.common.cancel')}
                         </button>
                         <button className="save-btn" onClick={handleSaveChanges}>
-                            Save Changes
+                            {t('doctorPage.profile.common.saveChanges')}
                         </button>
                     </div>
                 </div>
@@ -324,9 +340,9 @@ export const DoctorProfile = () => {
             <div className="profile-content">
                 <div className="profile-section">
                     <div className="section-header">
-                        <h3>Personal Information</h3>
+                        <h3>{t('doctorPage.profile.profile.personalInfo')}</h3>
                         <button className="edit-btn" onClick={() => handleStartEditing(personalInfo)}>
-                            <FaEdit /> Edit
+                            <FaEdit /> {t('doctorPage.profile.common.edit')}
                         </button>
                     </div>
 
@@ -342,9 +358,9 @@ export const DoctorProfile = () => {
                             </div>
 
                             <div className="profile-basic-info">
-                                <h2 className="profile-name">Dr. {personalInfo.firstName} {personalInfo.lastName}</h2>
+                                <h2 className="profile-name">{t('doctorPage.profile.profile.doctorTitle')} {personalInfo.firstName} {personalInfo.lastName}</h2>
                                 <p className="profile-specialization">{personalInfo.specialization}</p>
-                                <p className="profile-license">License: {personalInfo.licenseNumber}</p>
+                                <p className="profile-license">{t('doctorPage.profile.profile.license')}: {personalInfo.licenseNumber}</p>
                             </div>
                         </div>
 
@@ -353,7 +369,7 @@ export const DoctorProfile = () => {
                                 <div className="detail-item">
                                     <FaEnvelope className="detail-icon" />
                                     <div className="detail-content">
-                                        <span className="detail-label">Email</span>
+                                        <span className="detail-label">{t('doctorPage.profile.profile.email')}</span>
                                         <span className="detail-value">{personalInfo.email}</span>
                                     </div>
                                 </div>
@@ -361,7 +377,7 @@ export const DoctorProfile = () => {
                                 <div className="detail-item">
                                     <FaPhone className="detail-icon" />
                                     <div className="detail-content">
-                                        <span className="detail-label">Phone</span>
+                                        <span className="detail-label">{t('doctorPage.profile.profile.phone')}</span>
                                         <span className="detail-value">{personalInfo.phone}</span>
                                     </div>
                                 </div>
@@ -371,7 +387,7 @@ export const DoctorProfile = () => {
                                 <div className="detail-item">
                                     <FaMapMarkerAlt className="detail-icon" />
                                     <div className="detail-content">
-                                        <span className="detail-label">Address</span>
+                                        <span className="detail-label">{t('doctorPage.profile.profile.address')}</span>
                                         <span className="detail-value">{personalInfo.address}</span>
                                     </div>
                                 </div>
@@ -379,14 +395,14 @@ export const DoctorProfile = () => {
                                 <div className="detail-item">
                                     <FaCalendarAlt className="detail-icon" />
                                     <div className="detail-content">
-                                        <span className="detail-label">Date of Birth</span>
+                                        <span className="detail-label">{t('doctorPage.profile.profile.dateOfBirth')}</span>
                                         <span className="detail-value">{new Date(personalInfo.dateOfBirth).toLocaleDateString()}</span>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="biography-section">
-                                <h4>Professional Biography</h4>
+                                <h4>{t('doctorPage.profile.profile.professionalBiography')}</h4>
                                 <p>{personalInfo.biography}</p>
                             </div>
                         </div>
@@ -395,9 +411,9 @@ export const DoctorProfile = () => {
 
                 <div className="profile-section">
                     <div className="section-header">
-                        <h3>Education</h3>
+                        <h3>{t('doctorPage.profile.profile.education')}</h3>
                         <button className="add-btn">
-                            <FaEdit /> Add Education
+                            <FaEdit /> {t('doctorPage.profile.profile.addEducation')}
                         </button>
                     </div>
 
@@ -426,9 +442,9 @@ export const DoctorProfile = () => {
 
                 <div className="profile-section">
                     <div className="section-header">
-                        <h3>Professional Experience</h3>
+                        <h3>{t('doctorPage.profile.profile.experience')}</h3>
                         <button className="add-btn">
-                            <FaEdit /> Add Experience
+                            <FaEdit /> {t('doctorPage.profile.profile.addExperience')}
                         </button>
                     </div>
 
@@ -458,9 +474,9 @@ export const DoctorProfile = () => {
 
                 <div className="profile-section">
                     <div className="section-header">
-                        <h3>Certifications</h3>
+                        <h3>{t('doctorPage.profile.profile.certifications')}</h3>
                         <button className="add-btn">
-                            <FaEdit /> Add Certification
+                            <FaEdit /> {t('doctorPage.profile.profile.addCertification')}
                         </button>
                     </div>
 
@@ -474,7 +490,7 @@ export const DoctorProfile = () => {
                                 <div className="certification-details">
                                     <h4>{cert.name}</h4>
                                     <p className="authority">{cert.issuingAuthority}</p>
-                                    <p className="year">Issued: {cert.year} | Expires: {new Date(cert.expiryDate).toLocaleDateString()}</p>
+                                    <p className="year">{t('doctorPage.profile.profile.issued')}: {cert.year} | {t('doctorPage.profile.profile.expires')}: {new Date(cert.expiryDate).toLocaleDateString()}</p>
                                 </div>
 
                                 <div className="item-actions">
@@ -496,7 +512,7 @@ export const DoctorProfile = () => {
             return (
                 <div className="edit-form security-form">
                     <div className="form-header">
-                        <h3>Edit Security Settings</h3>
+                        <h3>{t('doctorPage.profile.security.editSecurity')}</h3>
                     </div>
 
                     <div className="form-body">
@@ -509,9 +525,9 @@ export const DoctorProfile = () => {
                                         checked={editedData.twoFactorEnabled || false}
                                         onChange={handleFormChange}
                                     />
-                                    <span>Enable Two-Factor Authentication</span>
+                                    <span>{t('doctorPage.profile.security.enableTwoFactor')}</span>
                                 </label>
-                                <p className="helper-text">Adds an extra layer of security to your account</p>
+                                <p className="helper-text">{t('doctorPage.profile.security.twoFactorHelp')}</p>
                             </div>
                         </div>
 
@@ -524,9 +540,9 @@ export const DoctorProfile = () => {
                                         checked={editedData.loginAlerts || false}
                                         onChange={handleFormChange}
                                     />
-                                    <span>Receive Login Alerts</span>
+                                    <span>{t('doctorPage.profile.security.receiveLoginAlerts')}</span>
                                 </label>
-                                <p className="helper-text">Get notified when there's a new login to your account</p>
+                                <p className="helper-text">{t('doctorPage.profile.security.loginAlertsHelp')}</p>
                             </div>
                         </div>
 
@@ -534,23 +550,23 @@ export const DoctorProfile = () => {
 
                         <div className="form-row">
                             <div className="form-group">
-                                <label>Change Password</label>
+                                <label>{t('doctorPage.profile.security.changePassword')}</label>
                                 <input
                                     type="password"
                                     name="currentPassword"
-                                    placeholder="Current Password"
+                                    placeholder={t('doctorPage.profile.security.currentPassword')}
                                     className="mb-2"
                                 />
                                 <input
                                     type="password"
                                     name="newPassword"
-                                    placeholder="New Password"
+                                    placeholder={t('doctorPage.profile.security.newPassword')}
                                     className="mb-2"
                                 />
                                 <input
                                     type="password"
                                     name="confirmPassword"
-                                    placeholder="Confirm New Password"
+                                    placeholder={t('doctorPage.profile.security.confirmPassword')}
                                 />
                             </div>
                         </div>
@@ -558,10 +574,10 @@ export const DoctorProfile = () => {
 
                     <div className="form-actions">
                         <button className="cancel-btn" onClick={handleCancelEditing}>
-                            Cancel
+                            {t('doctorPage.profile.common.cancel')}
                         </button>
                         <button className="save-btn" onClick={handleSaveChanges}>
-                            Save Changes
+                            {t('doctorPage.profile.common.saveChanges')}
                         </button>
                     </div>
                 </div>
@@ -575,10 +591,10 @@ export const DoctorProfile = () => {
                 <div className="settings-card">
                     <div className="settings-header">
                         <h3>
-                            <FaShieldAlt /> Account Security
+                            <FaShieldAlt /> {t('doctorPage.profile.security.accountSecurity')}
                         </h3>
                         <button className="edit-btn" onClick={() => handleStartEditing(security)}>
-                            <FaEdit /> Edit
+                            <FaEdit /> {t('doctorPage.profile.common.edit')}
                         </button>
                     </div>
 
@@ -589,16 +605,16 @@ export const DoctorProfile = () => {
                             </div>
 
                             <div className="item-details">
-                                <h4>Two-Factor Authentication</h4>
-                                <p>Status: {security.twoFactorEnabled ? 'Enabled' : 'Disabled'}</p>
+                                <h4>{t('doctorPage.profile.security.twoFactorAuth')}</h4>
+                                <p>{t('doctorPage.profile.security.status')}: {security.twoFactorEnabled ? t('doctorPage.profile.security.enabled') : t('doctorPage.security.disabled')}</p>
 
                                 {security.twoFactorEnabled ? (
                                     <div className="status-badge success">
-                                        <FaCheck /> Secure
+                                        <FaCheck /> {t('doctorPage.profile.security.secure')}
                                     </div>
                                 ) : (
                                     <div className="status-badge warning">
-                                        <FaExclamationTriangle /> Not Secure
+                                        <FaExclamationTriangle /> {t('doctorPage.profile.security.notSecure')}
                                     </div>
                                 )}
                             </div>
@@ -610,16 +626,16 @@ export const DoctorProfile = () => {
                             </div>
 
                             <div className="item-details">
-                                <h4>Login Alerts</h4>
-                                <p>Status: {security.loginAlerts ? 'Enabled' : 'Disabled'}</p>
+                                <h4>{t('doctorPage.profile.security.loginAlerts')}</h4>
+                                <p>{t('doctorPage.profile.security.status')}: {security.loginAlerts ? t('doctorPage.profile.security.enabled') : t('doctorPage.security.disabled')}</p>
 
                                 {security.loginAlerts ? (
                                     <div className="status-badge success">
-                                        <FaCheck /> Enabled
+                                        <FaCheck /> {t('doctorPage.profile.security.enabled')}
                                     </div>
                                 ) : (
                                     <div className="status-badge neutral">
-                                        Disabled
+                                        {t('doctorPage.profile.security.disabled')}
                                     </div>
                                 )}
                             </div>
@@ -631,11 +647,11 @@ export const DoctorProfile = () => {
                             </div>
 
                             <div className="item-details">
-                                <h4>Password</h4>
-                                <p>Last changed: {new Date(security.lastPasswordChange).toLocaleDateString()}</p>
+                                <h4>{t('doctorPage.profile.security.password')}</h4>
+                                <p>{t('doctorPage.profile.security.lastChanged')}: {new Date(security.lastPasswordChange).toLocaleDateString()}</p>
 
                                 <button className="change-password-btn">
-                                    Change Password
+                                    {t('doctorPage.profile.security.changePassword')}
                                 </button>
                             </div>
                         </div>
@@ -643,13 +659,13 @@ export const DoctorProfile = () => {
                 </div>
 
                 <div className="security-tips">
-                    <h3>Security Tips</h3>
+                    <h3>{t('doctorPage.profile.security.securityTips')}</h3>
                     <ul>
-                        <li>Use a strong, unique password for your account</li>
-                        <li>Enable two-factor authentication for an extra layer of security</li>
-                        <li>Never share your password or account details with others</li>
-                        <li>Log out when using shared or public computers</li>
-                        <li>Change your password regularly, at least every 3 months</li>
+                        <li>{t('doctorPage.profile.security.tips.strongPassword')}</li>
+                        <li>{t('doctorPage.profile.security.tips.enableTwoFactor')}</li>
+                        <li>{t('doctorPage.profile.security.tips.neverShare')}</li>
+                        <li>{t('doctorPage.profile.security.tips.logOut')}</li>
+                        <li>{t('doctorPage.profile.security.tips.changeRegularly')}</li>
                     </ul>
                 </div>
             </div>
@@ -662,12 +678,12 @@ export const DoctorProfile = () => {
             return (
                 <div className="edit-form notifications-form">
                     <div className="form-header">
-                        <h3>Edit Notification Settings</h3>
+                        <h3>{t('doctorPage.profile.notifications.editNotifications')}</h3>
                     </div>
 
                     <div className="form-body">
                         <div className="form-section">
-                            <h4>Notification Channels</h4>
+                            <h4>{t('doctorPage.profile.notifications.channels')}</h4>
 
                             <div className="form-row">
                                 <div className="form-group checkbox-group">
@@ -678,7 +694,7 @@ export const DoctorProfile = () => {
                                             checked={editedData.email || false}
                                             onChange={handleFormChange}
                                         />
-                                        <span>Email Notifications</span>
+                                        <span>{t('doctorPage.profile.notifications.emailNotifications')}</span>
                                     </label>
                                 </div>
                             </div>
@@ -692,7 +708,7 @@ export const DoctorProfile = () => {
                                             checked={editedData.sms || false}
                                             onChange={handleFormChange}
                                         />
-                                        <span>SMS Notifications</span>
+                                        <span>{t('doctorPage.profile.notifications.smsNotifications')}</span>
                                     </label>
                                 </div>
                             </div>
@@ -706,7 +722,7 @@ export const DoctorProfile = () => {
                                             checked={editedData.app || false}
                                             onChange={handleFormChange}
                                         />
-                                        <span>In-App Notifications</span>
+                                        <span>{t('doctorPage.profile.notifications.appNotifications')}</span>
                                     </label>
                                 </div>
                             </div>
@@ -715,7 +731,7 @@ export const DoctorProfile = () => {
                         <div className="form-divider"></div>
 
                         <div className="form-section">
-                            <h4>Notification Types</h4>
+                            <h4>{t('doctorPage.profile.notifications.types')}</h4>
 
                             <div className="form-row">
                                 <div className="form-group checkbox-group">
@@ -726,9 +742,9 @@ export const DoctorProfile = () => {
                                             checked={editedData.prescriptionAlerts || false}
                                             onChange={handleFormChange}
                                         />
-                                        <span>Prescription Alerts</span>
+                                        <span>{t('doctorPage.profile.notifications.prescriptionAlerts')}</span>
                                     </label>
-                                    <p className="helper-text">Notifications about prescriptions that need review or have been filled</p>
+                                    <p className="helper-text">{t('doctorPage.profile.notifications.prescriptionAlertsHelp')}</p>
                                 </div>
                             </div>
 
@@ -741,9 +757,9 @@ export const DoctorProfile = () => {
                                             checked={editedData.appointmentReminders || false}
                                             onChange={handleFormChange}
                                         />
-                                        <span>Appointment Reminders</span>
+                                        <span>{t('doctorPage.profile.notifications.appointmentReminders')}</span>
                                     </label>
-                                    <p className="helper-text">Notifications about upcoming appointments and schedule changes</p>
+                                    <p className="helper-text">{t('doctorPage.profile.notifications.appointmentRemindersHelp')}</p>
                                 </div>
                             </div>
 
@@ -756,9 +772,9 @@ export const DoctorProfile = () => {
                                             checked={editedData.systemUpdates || false}
                                             onChange={handleFormChange}
                                         />
-                                        <span>System Updates</span>
+                                        <span>{t('doctorPage.profile.notifications.systemUpdates')}</span>
                                     </label>
-                                    <p className="helper-text">Updates about new features, maintenance, and system changes</p>
+                                    <p className="helper-text">{t('doctorPage.profile.notifications.systemUpdatesHelp')}</p>
                                 </div>
                             </div>
                         </div>
@@ -766,10 +782,10 @@ export const DoctorProfile = () => {
 
                     <div className="form-actions">
                         <button className="cancel-btn" onClick={handleCancelEditing}>
-                            Cancel
+                            {t('doctorPage.profile.common.cancel')}
                         </button>
                         <button className="save-btn" onClick={handleSaveChanges}>
-                            Save Changes
+                            {t('doctorPage.profile.common.saveChanges')}
                         </button>
                     </div>
                 </div>
@@ -783,31 +799,31 @@ export const DoctorProfile = () => {
                 <div className="settings-card">
                     <div className="settings-header">
                         <h3>
-                            <FaBell /> Notification Settings
+                            <FaBell /> {t('doctorPage.profile.notifications.settings')}
                         </h3>
                         <button className="edit-btn" onClick={() => handleStartEditing(notifications)}>
-                            <FaEdit /> Edit
+                            <FaEdit /> {t('doctorPage.profile.common.edit')}
                         </button>
                     </div>
 
                     <div className="settings-body">
                         <div className="settings-section">
-                            <h4>Notification Channels</h4>
+                            <h4>{t('doctorPage.profile.notifications.channels')}</h4>
 
                             <div className="settings-item">
                                 <div className="item-details">
-                                    <h4>Email Notifications</h4>
-                                    <p>Receive notifications via email at {profileData.personalInfo.email}</p>
+                                    <h4>{t('doctorPage.profile.notifications.emailNotifications')}</h4>
+                                    <p>{t('doctorPage.profile.notifications.receiveViaEmail', { email: profileData.personalInfo.email })}</p>
                                 </div>
 
                                 <div className="status-toggle">
                                     {notifications.email ? (
                                         <div className="status-badge success">
-                                            <FaCheck /> Enabled
+                                            <FaCheck /> {t('doctorPage.profile.security.enabled')}
                                         </div>
                                     ) : (
                                         <div className="status-badge neutral">
-                                            Disabled
+                                            {t('doctorPage.profile.security.disabled')}
                                         </div>
                                     )}
                                 </div>
@@ -815,18 +831,18 @@ export const DoctorProfile = () => {
 
                             <div className="settings-item">
                                 <div className="item-details">
-                                    <h4>SMS Notifications</h4>
-                                    <p>Receive notifications via text message on your phone</p>
+                                    <h4>{t('doctorPage.profile.notifications.smsNotifications')}</h4>
+                                    <p>{t('doctorPage.profile.notifications.receiveViaSms')}</p>
                                 </div>
 
                                 <div className="status-toggle">
                                     {notifications.sms ? (
                                         <div className="status-badge success">
-                                            <FaCheck /> Enabled
+                                            <FaCheck /> {t('doctorPage.profile.security.enabled')}
                                         </div>
                                     ) : (
                                         <div className="status-badge neutral">
-                                            Disabled
+                                            {t('doctorPage.profile.security.disabled')}
                                         </div>
                                     )}
                                 </div>
@@ -834,18 +850,18 @@ export const DoctorProfile = () => {
 
                             <div className="settings-item">
                                 <div className="item-details">
-                                    <h4>In-App Notifications</h4>
-                                    <p>Receive notifications within the application</p>
+                                    <h4>{t('doctorPage.profile.notifications.appNotifications')}</h4>
+                                    <p>{t('doctorPage.profile.notifications.receiveViaApp')}</p>
                                 </div>
 
                                 <div className="status-toggle">
                                     {notifications.app ? (
                                         <div className="status-badge success">
-                                            <FaCheck /> Enabled
+                                            <FaCheck /> {t('doctorPage.profile.security.enabled')}
                                         </div>
                                     ) : (
                                         <div className="status-badge neutral">
-                                            Disabled
+                                            {t('doctorPage.profile.security.disabled')}
                                         </div>
                                     )}
                                 </div>
@@ -855,22 +871,22 @@ export const DoctorProfile = () => {
                         <div className="settings-divider"></div>
 
                         <div className="settings-section">
-                            <h4>Notification Types</h4>
+                            <h4>{t('doctorPage.profile.notifications.types')}</h4>
 
                             <div className="settings-item">
                                 <div className="item-details">
-                                    <h4>Prescription Alerts</h4>
-                                    <p>Notifications about prescriptions that need review or have been filled</p>
+                                    <h4>{t('doctorPage.profile.notifications.prescriptionAlerts')}</h4>
+                                    <p>{t('doctorPage.profile.notifications.prescriptionAlertsHelp')}</p>
                                 </div>
 
                                 <div className="status-toggle">
                                     {notifications.prescriptionAlerts ? (
                                         <div className="status-badge success">
-                                            <FaCheck /> Enabled
+                                            <FaCheck /> {t('doctorPage.profile.security.enabled')}
                                         </div>
                                     ) : (
                                         <div className="status-badge neutral">
-                                            Disabled
+                                            {t('doctorPage.profile.security.disabled')}
                                         </div>
                                     )}
                                 </div>
@@ -878,18 +894,18 @@ export const DoctorProfile = () => {
 
                             <div className="settings-item">
                                 <div className="item-details">
-                                    <h4>Appointment Reminders</h4>
-                                    <p>Notifications about upcoming appointments and schedule changes</p>
+                                    <h4>{t('doctorPage.profile.notifications.appointmentReminders')}</h4>
+                                    <p>{t('doctorPage.profile.notifications.appointmentRemindersHelp')}</p>
                                 </div>
 
                                 <div className="status-toggle">
                                     {notifications.appointmentReminders ? (
                                         <div className="status-badge success">
-                                            <FaCheck /> Enabled
+                                            <FaCheck /> {t('doctorPage.profile.security.enabled')}
                                         </div>
                                     ) : (
                                         <div className="status-badge neutral">
-                                            Disabled
+                                            {t('doctorPage.profile.security.disabled')}
                                         </div>
                                     )}
                                 </div>
@@ -897,17 +913,18 @@ export const DoctorProfile = () => {
 
                             <div className="settings-item">
                                 <div className="item-details">
-                                    <h4>System Updates</h4>
-                                    <p>Updates about new features, maintenance, and system changes</p>
+                                    <h4>{t('doctorPage.profile.notifications.systemUpdates')}</h4>
+                                    <p>{t('doctorPage.profile.notifications.systemUpdatesHelp')}</p>
                                 </div>
 
                                 <div className="status-toggle">
                                     {notifications.systemUpdates ? (
                                         <div className="status-badge success">
-                                            <FaCheck /> Enabled
+                                            <FaCheck /> {t('doctorPage.profile.security.enabled')}
                                         </div>
                                     ) : (
-                                        <div className="status-badge neutral">Disabled
+                                        <div className="status-badge neutral">
+                                            {t('doctorPage.profile.security.disabled')}
                                         </div>
                                     )}
                                 </div>
@@ -925,39 +942,39 @@ export const DoctorProfile = () => {
             return (
                 <div className="edit-form preferences-form">
                     <div className="form-header">
-                        <h3>Edit Preferences</h3>
+                        <h3>{t('doctorPage.profile.preferences.editPreferences')}</h3>
                     </div>
 
                     <div className="form-body">
                         <div className="form-row">
                             <div className="form-group">
-                                <label>Language</label>
+                                <label>{t('doctorPage.profile.preferences.language')}</label>
                                 <select
                                     name="language"
                                     value={editedData.language || ''}
                                     onChange={handleFormChange}
                                 >
-                                    <option value="English">English</option>
-                                    <option value="Arabic">Arabic</option>
-                                    <option value="French">French</option>
-                                    <option value="Spanish">Spanish</option>
+                                    <option value="English">{t('doctorPage.profile.preferences.languages.english')}</option>
+                                    <option value="Arabic">{t('doctorPage.profile.preferences.languages.arabic')}</option>
+                                    <option value="French">{t('doctorPage.profile.preferences.languages.french')}</option>
+                                    <option value="Spanish">{t('doctorPage.profile.preferences.languages.spanish')}</option>
                                 </select>
                             </div>
                         </div>
 
                         <div className="form-row">
                             <div className="form-group">
-                                <label>Time Zone</label>
+                                <label>{t('doctorPage.profile.preferences.timeZone')}</label>
                                 <select
                                     name="timeZone"
                                     value={editedData.timeZone || ''}
                                     onChange={handleFormChange}
                                 >
-                                    <option value="(GMT+3) Amman">(GMT+3) Amman</option>
-                                    <option value="(GMT+0) London">(GMT+0) London</option>
-                                    <option value="(GMT-5) New York">(GMT-5) New York</option>
-                                    <option value="(GMT+2) Cairo">(GMT+2) Cairo</option>
-                                    <option value="(GMT+1) Paris">(GMT+1) Paris</option>
+                                    <option value="(GMT+3) Amman">{t('doctorPage.profile.preferences.timeZones.amman')}</option>
+                                    <option value="(GMT+0) London">{t('doctorPage.profile.preferences.timeZones.london')}</option>
+                                    <option value="(GMT-5) New York">{t('doctorPage.profile.preferences.timeZones.newYork')}</option>
+                                    <option value="(GMT+2) Cairo">{t('doctorPage.profile.preferences.timeZones.cairo')}</option>
+                                    <option value="(GMT+1) Paris">{t('doctorPage.profile.preferences.timeZones.paris')}</option>
                                 </select>
                             </div>
                         </div>
@@ -965,10 +982,10 @@ export const DoctorProfile = () => {
 
                     <div className="form-actions">
                         <button className="cancel-btn" onClick={handleCancelEditing}>
-                            Cancel
+                            {t('doctorPage.profile.common.cancel')}
                         </button>
                         <button className="save-btn" onClick={handleSaveChanges}>
-                            Save Changes
+                            {t('doctorPage.profile.common.saveChanges')}
                         </button>
                     </div>
                 </div>
@@ -982,25 +999,25 @@ export const DoctorProfile = () => {
                 <div className="settings-card">
                     <div className="settings-header">
                         <h3>
-                            <FaGlobe /> Preferences
+                            <FaGlobe /> {t('doctorPage.profile.preferences.title')}
                         </h3>
                         <button className="edit-btn" onClick={() => handleStartEditing({ language, timeZone })}>
-                            <FaEdit /> Edit
+                            <FaEdit /> {t('doctorPage.profile.common.edit')}
                         </button>
                     </div>
 
                     <div className="settings-body">
                         <div className="settings-item">
                             <div className="item-details">
-                                <h4>Language</h4>
-                                <p>Current language setting: {language}</p>
+                                <h4>{t('doctorPage.profile.preferences.language')}</h4>
+                                <p>{t('doctorPage.profile.preferences.currentLanguage')}: {language}</p>
                             </div>
                         </div>
 
                         <div className="settings-item">
                             <div className="item-details">
-                                <h4>Time Zone</h4>
-                                <p>Current time zone: {timeZone}</p>
+                                <h4>{t('doctorPage.profile.preferences.timeZone')}</h4>
+                                <p>{t('doctorPage.profile.preferences.currentTimeZone')}: {timeZone}</p>
                             </div>
                         </div>
                     </div>
@@ -1015,7 +1032,7 @@ export const DoctorProfile = () => {
             {!isLoaded ? (
                 <div className="loading-container">
                     <div className="loading-spinner"></div>
-                    <p>Loading profile...</p>
+                    <p>{t('doctorPage.profile.profile.loading')}</p>
                 </div>
             ) : (
                 <>
@@ -1026,7 +1043,7 @@ export const DoctorProfile = () => {
                                     <span>{profileData.personalInfo.firstName.charAt(0)}{profileData.personalInfo.lastName.charAt(0)}</span>
                                 </div>
                             </div>
-                            <h2>Dr. {profileData.personalInfo.firstName} {profileData.personalInfo.lastName}</h2>
+                            <h2>{t('doctorPage.profile.profile.doctorTitle')} {profileData.personalInfo.firstName} {profileData.personalInfo.lastName}</h2>
                             <p>{profileData.personalInfo.specialization}</p>
                         </div>
 
@@ -1034,22 +1051,22 @@ export const DoctorProfile = () => {
                             <ul>
                                 <li className={activeSection === 'profile' ? 'active' : ''}>
                                     <button onClick={() => handleSectionChange('profile')}>
-                                        <FaUserMd /> Profile
+                                        <FaUserMd /> {t('doctorPage.profile.profile.title')}
                                     </button>
                                 </li>
                                 <li className={activeSection === 'security' ? 'active' : ''}>
                                     <button onClick={() => handleSectionChange('security')}>
-                                        <FaShieldAlt /> Security
+                                        <FaShieldAlt /> {t('doctorPage.profile.security.title')}
                                     </button>
                                 </li>
                                 <li className={activeSection === 'notifications' ? 'active' : ''}>
                                     <button onClick={() => handleSectionChange('notifications')}>
-                                        <FaBell /> Notifications
+                                        <FaBell /> {t('doctorPage.profile.notifications.title')}
                                     </button>
                                 </li>
                                 <li className={activeSection === 'preferences' ? 'active' : ''}>
                                     <button onClick={() => handleSectionChange('preferences')}>
-                                        <FaGlobe /> Preferences
+                                        <FaGlobe /> {t('doctorPage.profile.preferences.title')}
                                     </button>
                                 </li>
                             </ul>
@@ -1059,10 +1076,10 @@ export const DoctorProfile = () => {
                     <div className="profile-main-content">
                         <div className="content-header">
                             <h2>
-                                {activeSection === 'profile' && 'Doctor Profile'}
-                                {activeSection === 'security' && 'Security Settings'}
-                                {activeSection === 'notifications' && 'Notification Settings'}
-                                {activeSection === 'preferences' && 'Preferences'}
+                                {activeSection === 'profile' && t('doctorPage.profile.profile.heading')}
+                                {activeSection === 'security' && t('doctorPage.profile.security.heading')}
+                                {activeSection === 'notifications' && t('doctorPage.profile.notifications.heading')}
+                                {activeSection === 'preferences' && t('doctorPage.profile.preferences.heading')}
                             </h2>
                         </div>
 

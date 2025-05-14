@@ -229,3 +229,121 @@ $declined-color: $urgent-color;
 @import './components/PrescriptionCards/PrescriptionCards.scss';
 @import './components/MobileDetailView/MobileDetailView.scss';
 @import './components/StatusBadge/StatusBadge.scss';
+
+
+// Add to DoctorPrescriptionHistory.scss
+
+.lang-ar {
+    .doctor-prescription-history {
+
+        // Header
+        .header-icon,
+        .new-prescription-btn svg {
+            margin-right: 0;
+            margin-left: 0.75rem;
+        }
+
+        // Search and filters
+        .search-container {
+            .search-icon {
+                left: auto;
+                right: 1rem;
+            }
+
+            .search-input {
+                padding: 0.75rem 1rem 0.75rem 2.5rem;
+            }
+        }
+
+        .filter-label {
+            svg {
+                margin-right: 0;
+                margin-left: 0.35rem;
+            }
+        }
+
+        .status-select {
+            padding: 0.45rem 0.75rem 0.45rem 2rem;
+            background-position: left 0.75rem center;
+        }
+
+        // Table sorting icons
+        th span svg {
+            margin-left: 0;
+            margin-right: 0.5rem;
+        }
+
+        // Dropdown menu
+        .actions-dropdown .dropdown-menu {
+            right: auto;
+            left: 0;
+        }
+
+        .dropdown-item svg,
+        .action-btn svg,
+        .details-icon,
+        .info-icon,
+        h5 svg {
+            margin-right: 0;
+            margin-left: 0.5rem;
+        }
+
+        // Status badge
+        .status-badge .status-icon {
+            margin-right: 0;
+            margin-left: 0.5rem;
+        }
+
+        // Mobile detail view
+        .mobile-detail-view {
+            .back-icon {
+                margin-right: 0;
+                margin-left: 0.5rem;
+            }
+
+            .info-label,
+            .detail-label {
+                text-align: right;
+            }
+        }
+
+        // Table
+        .prescriptions-table th,
+        .prescriptions-table td,
+        .medications-table th,
+        .medications-table td {
+            text-align: right;
+        }
+
+        // Prescription cards
+        .prescription-card {
+            .card-header {
+                flex-direction: row-reverse;
+            }
+
+            .card-actions {
+                direction: rtl;
+            }
+        }
+
+        // Prescription details
+        .prescription-details {
+            .details-header {
+                .prescription-id h4 {
+                    margin-right: 0.75rem;
+                }
+
+                .prescription-meta {
+                    direction: rtl;
+                }
+            }
+
+            .medications-list h5,
+            .pharmacy-info h5,
+            .prescription-notes h5,
+            .decline-reason h5 {
+                text-align: right;
+            }
+        }
+    }
+}

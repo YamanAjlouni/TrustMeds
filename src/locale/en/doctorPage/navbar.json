@@ -1,0 +1,15 @@
+{
+    "searchPlaceholder": "Search patients, prescriptions...",
+    "language": "Language",
+    "notifications": "Notifications",
+    "markAllRead": "Mark all as read",
+    "viewAllNotifications": "View all notifications",
+    "messages": "Messages",
+    "viewAllMessages": "View all messages",
+    "noNotifications": "No notifications",
+    "noMessages": "No messages",
+    "myProfile": "My Profile",
+    "settings": "Settings",
+    "helpAndSupport": "Help & Support",
+    "logout": "Logout"
+}

@@ -1,40 +1,5 @@
 @use '../../../assets/styles/vars.scss' as *;
 
-$secondary-color: #34a853;
-$accent-color: #fbbc05;
-$danger-color: #ea4335;
-$light-bg: #f8f9fa;
-$dark-text: #202124;
-$medium-text: #5f6368;
-$light-text: #9aa0a6;
-$border-color: #e0e0e0;
-$border-radius: 12px;
-$shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
-$shadow-md: 0 4px 10px rgba(0, 0, 0, 0.08);
-$shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
-$transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-
-// Mixins
-@mixin flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-@mixin flex-between {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-@mixin card {
-    background-color: white;
-    border-radius: $border-radius;
-    box-shadow: $shadow-md;
-    transition: $transition-standard;
-    border: 1px solid rgba(0, 0, 0, 0.04);
-}
-
 .doctor-write-prescription {
     background-color: $light-bg;
     font-family: 'Inter', 'Segoe UI', sans-serif;
@@ -995,6 +960,119 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             .submit-actions {
                 flex-direction: column;
             }
+        }
+    }
+}
+
+// RTL Support for DoctorWritePrescription - Add these lines to your SCSS file
+
+.lang-ar {
+    .doctor-write-prescription {
+
+        // Adjust icon margins
+        .header-icon,
+        .section-icon,
+        .info-header svg,
+        .form-actions .cancel-btn svg,
+        .form-actions .add-btn svg,
+        .back-button svg,
+        .add-btn svg,
+        .save-draft-btn svg,
+        .submit-btn svg {
+            margin-right: 0;
+            margin-left: 0.5rem;
+        }
+
+        // Adjust icon margins in alerts
+        .allergy-tag svg,
+        .allergy-warning svg,
+        .item-warning svg {
+            margin-right: 0;
+            margin-left: 0.35rem;
+        }
+
+        // Flip search input styling
+        .prescription-container {
+            .patient-section, .medications-section {
+                .section-content {
+                    .patient-search, .medication-search {
+                        .search-container {
+                            .search-icon {
+                                left: auto;
+                                right: 1rem;
+                            }
+
+                            .search-input {
+                                padding: 0.75rem 2.5rem 0.75rem 1rem;
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+        // Adjust patient meta
+        .patient-meta span {
+            margin-right: 0;
+            margin-left: 0.5rem;
+
+            &:nth-child(2n) {
+                margin: 0 0.25rem;
+            }
+        }
+
+        // Adjust tags, list items
+        .tags {
+
+            .condition-tag,
+            .allergy-tag {
+                direction: rtl;
+            }
+        }
+
+        // Adjust item info spacing
+        .item-info {
+            .separator {
+                margin: 0 0.35rem;
+            }
+        }
+
+        // Adjust instructions
+        .item-instructions {
+            .instructions-label {
+                margin-right: 0;
+                margin-left: 0.5rem;
+            }
+        }
+
+        // Change alert borders
+        .prescription-item {
+            border-left: none;
+            border-right: 3px solid $primary-color;
+        }
+
+        // Adjust medication info list padding
+        .medication-info-box {
+            .info-group ul {
+                padding-left: 0;
+                padding-right: 1.25rem;
+            }
+        }
+
+        // Adjust confirmation modal
+        .confirmation-modal {
+            .prescription-summary ul {
+                padding-left: 0;
+                padding-right: 1.25rem;
+            }
+        }
+
+        // Flip form fields text alignment 
+        .form-input,
+        .form-select,
+        .form-textarea {
+            text-align: right;
         }
     }
 }

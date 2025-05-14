@@ -817,6 +817,7 @@
                     font-size: 0.9rem;
                     font-weight: 500;
                     cursor: pointer;
+                    text-decoration: none;
                     transition: $transition-standard;
 
                     svg {
@@ -1999,6 +2000,277 @@
                         transform: translateY(-2px);
                     }
                 }
+            }
+        }
+    }
+}
+
+// Add to DoctorPatientMedicalRecords.scss
+
+.lang-ar {
+    .doctor-patient-medical-records {
+
+        // Header styles
+        .records-header {
+            .back-btn svg {
+                margin-right: 0;
+                margin-left: 0.5rem;
+            }
+
+            .patient-meta span {
+                &:nth-child(2n) {
+                    margin: 0 0.5rem;
+                }
+            }
+        }
+
+        // Tab navigation
+        .tabs-nav {
+            .tab-btn {
+                svg {
+                    margin-right: 0;
+                    margin-left: 0.5rem;
+                }
+
+                &.active::after {
+                    left: auto;
+                    right: 0;
+                }
+            }
+        }
+
+        // Summary tab
+        .summary-tab {
+
+            // Patient overview
+            .overview-header h3 {
+                text-align: right;
+            }
+
+            .patient-basic-info {
+                .info-item {
+
+                    .info-label,
+                    .info-value {
+                        text-align: right;
+                    }
+                }
+            }
+
+            .patient-vitals {
+
+                h4,
+                .vital-date {
+                    text-align: right;
+                }
+
+                .vital-card {
+
+                    .vital-icon {
+                        margin-right: 0;
+                        margin-left: 0.75rem;
+                    }
+
+                    .vital-data {
+                        text-align: right;
+                    }
+                }
+
+                .view-all-link {
+                    text-align: left;
+                }
+            }
+
+            // Summary sections
+            .section-header {
+                h3 svg {
+                    margin-right: 0;
+                    margin-left: 0.5rem;
+                }
+            }
+
+            .summary-allergy-item,
+            .summary-condition-item,
+            .summary-medication-item {
+
+                .allergy-header,
+                .condition-header,
+                .medication-header {
+                    flex-direction: row-reverse;
+                }
+
+                .allergy-reaction,
+                .condition-details,
+                .medication-details {
+                    text-align: right;
+                }
+            }
+
+            // Recent records
+            .summary-visit-item {
+                flex-direction: row-reverse;
+
+                .visit-date {
+                    margin-right: 0;
+                    margin-left: 1rem;
+                }
+
+                .visit-details {
+                    text-align: right;
+                }
+
+                .view-details-link {
+                    margin-left: 0;
+                    margin-right: 0.75rem;
+                }
+            }
+
+            .lab-header,
+            .result-item {
+                text-align: right;
+            }
+
+            // Action buttons
+            .action-button svg {
+                margin-right: 0;
+                margin-left: 0.5rem;
+            }
+        }
+
+        // Allergies tab
+        .allergies-tab {
+
+            .section-header-with-actions h3 svg,
+            .add-btn svg {
+                margin-right: 0;
+                margin-left: 0.5rem;
+            }
+
+            .allergy-header,
+            .allergy-details,
+            .allergy-warning {
+                text-align: right;
+            }
+
+            .allergy-warning svg {
+                margin-right: 0;
+                margin-left: 0.5rem;
+            }
+
+
+            .allergy-card {
+                .edit-btn {
+                    right: auto;
+                    left: 1rem !important;
+                }
+            }
+
+
+            .detail-label {
+                margin-right: 0;
+                margin-left: 0.5rem;
+            }
+        }
+
+        // Visits tab
+        .visits-tab {
+            .back-to-list-btn svg {
+                margin-right: 0;
+                margin-left: 0.5rem;
+            }
+
+            .visit-timeline-item {
+                flex-direction: row-reverse;
+
+                .visit-content {
+                    text-align: right;
+                }
+            }
+
+            .vital-item {
+                .vital-label {
+                    margin-right: 0;
+                    margin-left: 0.5rem;
+                }
+            }
+        }
+
+        // Labs tab
+        .labs-tab {
+
+            .lab-header,
+            .lab-meta,
+            .lab-highlights,
+            .highlight-item {
+                text-align: right;
+            }
+
+            .lab-meta span svg {
+                margin-right: 0;
+                margin-left: 0.5rem;
+            }
+
+            .back-to-list-btn svg {
+                margin-right: 0;
+                margin-left: 0.5rem;
+            }
+
+            .results-table {
+
+                th,
+                td {
+                    text-align: right;
+                }
+            }
+        }
+
+        .visits-tab,
+        .labs-tab {
+            .section-header-with-actions h3 svg {
+                margin-right: 0;
+                margin-left: 0.5rem;
+            }
+
+            .section-header-with-actions .section-actions .action-button {
+                svg {
+                    margin-right: 0;
+                    margin-left: 0.5rem;
+                }
+            }
+        }
+
+        // Documents tab
+        .documents-tab {
+            .section-header-with-actions h3 svg {
+                margin-right: 0;
+                margin-left: 0.5rem;
+            }
+
+            .section-header-with-actions {
+                .search-container {
+                    .search-icon {
+                        left: auto;
+                        right: 0.75rem;
+                    }
+
+                    .search-input {
+                        padding: 0.6rem 2.25rem 0.6rem 1rem;
+                    }
+                }
+            }
+
+            .add-btn svg {
+                margin-right: 0;
+                margin-left: 0.5rem;
+            }
+
+            .document-info {
+                text-align: right;
+            }
+
+            .document-action-btn svg {
+                margin-right: 0;
+                margin-left: 0.5rem;
             }
         }
     }

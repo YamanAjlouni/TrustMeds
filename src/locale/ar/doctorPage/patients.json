@@ -1,0 +1,41 @@
+{
+  "title": "مرضاي",
+  "loadingMessage": "جارٍ تحميل سجلات المرضى...",
+  "ageYears": "سنة",
+  "actions": {
+    "addNewPatient": "إضافة مريض جديد",
+    "viewMedicalRecord": "عرض السجل الطبي",
+    "writePrescription": "كتابة وصفة طبية",
+    "callPatient": "اتصال بالمريض",
+    "sendMessage": "إرسال رسالة",
+    "scheduleAppointment": "جدولة موعد",
+    "clearFilters": "مسح التصفية"
+  },
+  "searchPlaceholder": "البحث بالاسم أو الرقم التعريفي...",
+  "filters": {
+    "status": "الحالة",
+    "allStatuses": "جميع الحالات",
+    "favorites": "المفضلة"
+  },
+  "tableHeaders": {
+    "patientName": "اسم المريض",
+    "age": "العمر",
+    "lastVisit": "آخر زيارة",
+    "conditions": "الحالات المرضية",
+    "status": "الحالة"
+  },
+  "status": {
+    "stable": "مستقر",
+    "followUpNeeded": "بحاجة لمتابعة",
+    "medicationAdjustment": "تعديل الأدوية",
+    "urgentFollowUp": "متابعة عاجلة"
+  },
+  "noResults": "لا يوجد مرضى مطابقين لمعايير البحث",
+  "patientDetails": "تفاصيل المريض",
+  "detailsSections": {
+    "alerts": "تنبيهات",
+    "medicalConditions": "الحالات الطبية",
+    "contactInformation": "معلومات الاتصال",
+    "upcomingAppointment": "الموعد القادم"
+  }
+}

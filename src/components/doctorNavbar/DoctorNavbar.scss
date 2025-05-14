@@ -70,10 +70,10 @@
             font-size: 1.2rem;
             margin-right: 2rem;
 
-            
-            img{
+
+            img {
                 width: 200px;
-                
+
                 @media (max-width: 768px) {
                     width: 150px;
                 }
@@ -129,6 +129,74 @@
 
         .navbar-actions {
             display: flex;
+
+            .language-wrapper {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+
+                .language-icon-wrapper {
+                    position: relative;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                    padding: 1px 6px;
+
+                    .language-icon {
+                        font-size: 1.1rem;
+                        color: $medium-text;
+                        transition: $transition-standard;
+
+                        @media (min-width: 768px) {
+                            font-size: 1.25rem;
+                        }
+
+                        &:hover {
+                            color: $primary-color;
+                        }
+                    }
+
+                    .current-language {
+                        font-size: 0.7rem;
+                        font-weight: 600;
+
+                        @media (min-width: 768px) {
+                            font-size: 0.8rem;
+                        }
+                    }
+                }
+
+                .language-dropdown {
+                    position: absolute;
+                    top: calc(100% + 10px);
+                    right: -10px;
+                    width: 120px;
+                    background-color: white;
+                    border-radius: $border-radius;
+                    box-shadow: $shadow-lg;
+                    z-index: 10;
+                    overflow: hidden;
+
+                    .language-option {
+                        padding: 0.75rem;
+                        font-size: 0.85rem;
+                        cursor: pointer;
+                        transition: $transition-standard;
+
+                        &:hover {
+                            background-color: rgba($primary-color, 0.08);
+                        }
+
+                        &.active {
+                            background-color: rgba($primary-color, 0.1);
+                            color: $primary-color;
+                            font-weight: 500;
+                        }
+                    }
+                }
+            }
 
             .notification-container,
             .message-container {
@@ -358,6 +426,10 @@
             margin-left: 1.25rem;
             position: relative;
 
+            @media (max-width: 768px) {
+                margin-left: 0.5rem;
+            }
+
             .user-menu-button {
                 background: none;
                 border: none;
@@ -384,6 +456,10 @@
                     font-weight: 600;
                     font-size: 0.9rem;
                     margin-right: 0.75rem;
+
+                    @media (max-width: 768px) {
+                        margin-right: 0;
+                    }
                 }
 
                 .user-name {
@@ -418,6 +494,8 @@
                             font-size: 1.1rem;
                             margin-right: 1rem;
                         }
+
+
                     }
 
                     .user-details {
@@ -479,6 +557,100 @@
                             svg {
                                 color: $danger-color;
                             }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.lang-ar {
+    .doctor-navbar {
+        .navbar-container {
+            .navbar-left {
+                .navbar-logo {
+                    margin-right: 0;
+                    margin-left: 2rem;
+                }
+
+                .sidebar-toggle {
+                    margin-right: 0;
+                    margin-left: 1rem;
+                }
+
+
+                .navbar-search {
+                    .search-icon {
+                        right: auto;
+                        left: 1rem;
+                    }
+
+                    input {
+                        padding: 0.65rem 1rem 0.65rem 2.5rem;
+                    }
+                }
+            }
+
+            .navbar-right {
+                .navbar-actions {
+
+                    .language-container,
+                    .notification-container,
+                    .message-container {
+                        .dropdown-menu {
+                            right: auto;
+                            left: -10px;
+
+                            &:before {
+                                right: auto;
+                                left: 108px;
+                            }
+                        }
+                    }
+
+                    .notification-container,
+                    .message-container {
+
+                        .notification-item,
+                        .message-item {
+                            &.unread {
+                                &::before {
+                                    left: auto;
+                                    right: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .user-menu-container {
+
+                    @media (max-width: 768px) {
+                        margin-right: 0.5rem;
+                    }
+
+                    margin-left: 0;
+
+                    .user-dropdown {
+                        right: auto;
+                        left: 0;
+
+                        &:before {
+                            right: auto;
+                            left: 30px;
+                        }
+                    }
+
+                    .user-menu-button {
+                        .user-avatar {
+                            margin-right: 0;
+                            margin-left: 0.75rem;
+
+                            @media (max-width: 768px) {
+                                margin-left: 0;
+                            }
+
                         }
                     }
                 }

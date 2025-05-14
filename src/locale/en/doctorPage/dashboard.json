@@ -1,0 +1,43 @@
+{
+    "doctorDashboard": {
+        "welcome": "Welcome",
+        "lastLogin": "Last login",
+        "at": "at",
+        "quickActions": {
+            "newPrescription": "New Prescription",
+            "viewPatients": "View Patients",
+            "messages": "Messages"
+        },
+        "sections": {
+            "quickOverview": "Quick Overview",
+            "pendingPrescriptions": "Pending Prescriptions",
+            "upcomingAppointments": "Upcoming Appointments",
+            "recentActivity": "Recent Activity",
+            "notifications": "Notifications"
+        },
+        "metrics": {
+            "activePatients": "Active Patients",
+            "prescriptionsThisWeek": "Prescriptions This Week",
+            "pendingReviews": "Pending Reviews",
+            "urgentCases": "Urgent Cases"
+        },
+        "actions": {
+            "viewAll": "View All",
+            "viewCalendar": "View Calendar",
+            "settings": "Settings",
+            "issuePrescription": "Issue Prescription",
+            "viewRecords": "View Records",
+            "highPriority": "High Priority"
+        },
+        "statuses": {
+            "pending": "Pending",
+            "unread": "Unread",
+            "pendingReview": "Pending Review"
+        },
+        "appointmentTypes": {
+            "followUp": "Follow-up",
+            "newPatient": "New Patient"
+        },
+        "loading": "Loading your dashboard..."
+    }
+}

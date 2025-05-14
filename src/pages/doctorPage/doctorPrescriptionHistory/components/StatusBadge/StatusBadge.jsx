@@ -1,8 +1,26 @@
-// components/StatusBadge.jsx
-import React from 'react';
+// components/StatusBadge/StatusBadge.jsx
 import { FaCheckCircle, FaHourglassHalf, FaExclamationCircle, FaTimesCircle } from 'react-icons/fa';
+import { useLanguage } from '../../../../../context/LanguageContext';
 
 export const StatusBadge = ({ status }) => {
+    const { t } = useLanguage();
+    
+    // Get translated status
+    const getTranslatedStatus = (status) => {
+        switch (status) {
+            case 'Filled':
+                return t('doctorPage.prescriptionHistory.statusLabels.filled');
+            case 'Pending Pickup':
+                return t('doctorPage.prescriptionHistory.statusLabels.pendingPickup');
+            case 'Pending Approval':
+                return t('doctorPage.prescriptionHistory.statusLabels.pendingApproval');
+            case 'Declined':
+                return t('doctorPage.prescriptionHistory.statusLabels.declined');
+            default:
+                return status;
+        }
+    };
+    
     // Get status icon
     const getStatusIcon = (status) => {
         switch (status) {
@@ -27,7 +45,7 @@ export const StatusBadge = ({ status }) => {
     return (
         <div className={`status-badge ${getStatusClass(status)}`}>
             {getStatusIcon(status)}
-            <span>{status}</span>
+            <span>{getTranslatedStatus(status)}</span>
         </div>
     );
 };

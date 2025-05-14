@@ -13,6 +13,8 @@ import enTestimonials from '../locale/en/landingPage/testimonials.json';
 import arTestimonials from '../locale/ar/landingPage/testimonials.json';
 import enFooter from '../locale/en/landingPage/footer.json';
 import arFooter from '../locale/ar/landingPage/footer.json';
+
+// patient page translations
 import enPatientNavbar from '../locale/en/patientPage/navbar.json';
 import arPatientNavbar from '../locale/ar/patientPage/navbar.json';
 import enPatientSidebar from '../locale/en/patientPage/sidebar.json';
@@ -32,6 +34,25 @@ import arPatientSecurityCenter from '../locale/ar/patientPage/securityCenter.jso
 import enPatientHelpResources from '../locale/en/patientPage/helpResources.json';
 import arPatientHelpResources from '../locale/ar/patientPage/helpResources.json';
 
+// doctor page translations
+import enDoctorNavbar from '../locale/en/doctorPage/navbar.json';
+import arDoctorNavbar from '../locale/ar/doctorPage/navbar.json';
+import enDoctorSidebar from '../locale/en/doctorPage/sidebar.json';
+import arDoctorSidebar from '../locale/ar/doctorPage/sidebar.json';
+import enDoctorDashboard from '../locale/en/doctorPage/dashboard.json';
+import arDoctorDashboard from '../locale/ar/doctorPage/dashboard.json';
+import enDoctorPatients from '../locale/en/doctorPage/patients.json';
+import arDoctorPatients from '../locale/ar/doctorPage/patients.json';
+import enDoctorPrescriptions from '../locale/en/doctorPage/prescriptions.json';
+import arDoctorPrescriptions from '../locale/ar/doctorPage/prescriptions.json';
+import enDoctorPrescriptionHistory from '../locale/en/doctorPage/prescriptionHistory.json';
+import arDoctorPrescriptionHistory from '../locale/ar/doctorPage/prescriptionHistory.json';
+import enDoctorMedicalRecords from '../locale/en/doctorPage/medicalRecords.json';
+import arDoctorMedicalRecords from '../locale/ar/doctorPage/medicalRecords.json';
+import enDoctorProfile from '../locale/en/doctorPage/profile.json';
+import arDoctorProfile from '../locale/ar/doctorPage/profile.json';
+import enDoctorHealthResources from '../locale/en/doctorPage/helpResources.json';
+import arDoctorHealthResources from '../locale/ar/doctorPage/helpResources.json';
 
 // Organize translations by language and section
 const translations = {
@@ -59,6 +80,16 @@ const translations = {
             // Add patient page translations
         },
         doctorPage: {
+            navbar: enDoctorNavbar,
+            sidebar: enDoctorSidebar,
+            dashboard: enDoctorDashboard,
+            patients: enDoctorPatients,
+            prescriptions: enDoctorPrescriptions,
+            prescriptionHistory: enDoctorPrescriptionHistory,
+            medicalRecords: enDoctorMedicalRecords,
+            profile: enDoctorProfile,
+            help: enDoctorHealthResources, // Added health resources translations
+
             // Add doctor page translations
         },
         pharmacyPage: {
@@ -89,6 +120,16 @@ const translations = {
             // Add patient page translations
         },
         doctorPage: {
+            navbar: arDoctorNavbar,
+            sidebar: arDoctorSidebar,
+            dashboard: arDoctorDashboard,
+            patients: arDoctorPatients,
+            prescriptions: arDoctorPrescriptions,
+            prescriptionHistory: arDoctorPrescriptionHistory,
+            medicalRecords: arDoctorMedicalRecords,
+            profile: arDoctorProfile,
+            help: arDoctorHealthResources, // Added health resources translations
+
             // Add doctor page translations
         },
         pharmacyPage: {

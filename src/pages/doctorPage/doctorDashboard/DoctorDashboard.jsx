@@ -14,8 +14,15 @@ import {
     FaBell
 } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
+import { useLanguage } from '../../../context/LanguageContext'; // Import language context
 
 export const DoctorDashboard = () => {
+    // Get language context
+    const { t, language } = useLanguage();
+    
+    // Create a helper function to make the translation paths easier to work with
+    const tDashboard = (key) => t(`doctorPage.dashboard.doctorDashboard.${key}`);
+
     // Sample data - in a real app, this would come from your API/backend
     const [stats, setStats] = useState({
         activePatients: 87,
@@ -117,12 +124,27 @@ export const DoctorDashboard = () => {
         }, 800);
     }, []);
 
+    // Helper function to get translated appointment type
+    const getAppointmentTypeTranslation = (type) => {
+        if (type === 'Follow-up') return tDashboard('appointmentTypes.followUp');
+        if (type === 'New Patient') return tDashboard('appointmentTypes.newPatient');
+        return type;
+    };
+
+    // Helper function to get translated status
+    const getStatusTranslation = (status) => {
+        if (status === 'Pending') return tDashboard('statuses.pending');
+        if (status === 'Unread') return tDashboard('statuses.unread');
+        if (status === 'Pending Review') return tDashboard('statuses.pendingReview');
+        return status;
+    };
+
     return (
         <div className="doctor-dashboard">
             {!isLoaded ? (
                 <div className="loading-container">
                     <div className="loader"></div>
-                    <p>Loading your dashboard...</p>
+                    <p>{tDashboard('loading')}</p>
                 </div>
             ) : (
                 <>
@@ -130,22 +152,22 @@ export const DoctorDashboard = () => {
                     <main className="main-content">
                         <div className="welcome-section">
                             <div className="welcome-message">
-                                <h2>Welcome, <span className="doctor-name-highlight">Dr. Mahmoud</span></h2>
-                                <p className="last-login">Last login: April 10, 2025 at 8:45 AM</p>
+                                <h2>{tDashboard('welcome')}, <span className="doctor-name-highlight">Dr. Mahmoud</span></h2>
+                                <p className="last-login">{tDashboard('lastLogin')}: April 10, 2025 {tDashboard('at')} 8:45 AM</p>
                             </div>
 
                             <div className="quick-actions">
                                 <NavLink to='/doctor/write-prescription' className="quick-action-btn primary">
                                     <FaPlusCircle />
-                                    <span>New Prescription</span>
+                                    <span>{tDashboard('quickActions.newPrescription')}</span>
                                 </NavLink>
                                 <NavLink to='/doctor/patients' className="quick-action-btn">
                                     <FaUserInjured />
-                                    <span>View Patients</span>
+                                    <span>{tDashboard('quickActions.viewPatients')}</span>
                                 </NavLink>
                                 <NavLink to='/doctor/communication' className="quick-action-btn">
                                     <FaPhoneAlt />
-                                    <span>Messages</span>
+                                    <span>{tDashboard('quickActions.messages')}</span>
                                 </NavLink>
                             </div>
                         </div>
@@ -153,14 +175,14 @@ export const DoctorDashboard = () => {
                         <div className="dashboard-grid">
                             {/* Stats Summary Section */}
                             <section className="dashboard-section stats-summary-section">
-                                <h3 className="section-title">Quick Overview</h3>
+                                <h3 className="section-title">{tDashboard('sections.quickOverview')}</h3>
                                 <div className="stats-metrics">
                                     <div className="stats-metric-card">
                                         <div className="metric-icon patients-icon">
                                             <FaUserMd />
                                         </div>
                                         <div className="metric-info">
-                                            <h4>Active Patients</h4>
+                                            <h4>{tDashboard('metrics.activePatients')}</h4>
                                             <p className="metric-value">{stats.activePatients}</p>
                                         </div>
                                     </div>
@@ -170,7 +192,7 @@ export const DoctorDashboard = () => {
                                             <FaPills />
                                         </div>
                                         <div className="metric-info">
-                                            <h4>Prescriptions This Week</h4>
+                                            <h4>{tDashboard('metrics.prescriptionsThisWeek')}</h4>
                                             <p className="metric-value">{stats.prescriptionsThisWeek}</p>
                                         </div>
                                     </div>
@@ -180,7 +202,7 @@ export const DoctorDashboard = () => {
                                             <FaFileAlt />
                                         </div>
                                         <div className="metric-info">
-                                            <h4>Pending Reviews</h4>
+                                            <h4>{tDashboard('metrics.pendingReviews')}</h4>
                                             <p className="metric-value">{stats.pendingReviews}</p>
                                         </div>
                                     </div>
@@ -190,7 +212,7 @@ export const DoctorDashboard = () => {
                                             <FaExclamationCircle />
                                         </div>
                                         <div className="metric-info">
-                                            <h4>Urgent Cases</h4>
+                                            <h4>{tDashboard('metrics.urgentCases')}</h4>
                                             <p className="metric-value">{stats.urgentCases}</p>
                                         </div>
                                     </div>
@@ -200,8 +222,8 @@ export const DoctorDashboard = () => {
                             {/* Pending Prescriptions Section */}
                             <section className="dashboard-section pending-prescriptions-section">
                                 <div className="section-header">
-                                    <h3 className="section-title">Pending Prescriptions</h3>
-                                    <NavLink to='/doctor/prescription-history' className="view-all">View All</NavLink>
+                                    <h3 className="section-title">{tDashboard('sections.pendingPrescriptions')}</h3>
+                                    <NavLink to='/doctor/prescription-history' className="view-all">{tDashboard('actions.viewAll')}</NavLink>
                                 </div>
 
                                 <div className="pending-prescriptions-list">
@@ -214,23 +236,23 @@ export const DoctorDashboard = () => {
                                                 </div>
                                                 {prescription.urgency === 'High' && (
                                                     <span className="urgency-badge">
-                                                        <FaExclamationCircle /> High Priority
+                                                        <FaExclamationCircle /> {tDashboard('actions.highPriority')}
                                                     </span>
                                                 )}
                                             </div>
                                             <div className="prescription-details">
                                                 <div className="medication-info">
                                                     <span className="medication-name">{prescription.medication}</span>
-                                                    <span className="request-date">Requested: {new Date(prescription.requestDate).toLocaleDateString()}</span>
+                                                    <span className="request-date">Requested: {new Date(prescription.requestDate).toLocaleDateString(language === 'ar' ? 'ar-EG' : 'en-US')}</span>
                                                 </div>
                                                 <p className="prescription-notes">{prescription.notes}</p>
                                             </div>
                                             <div className="prescription-actions">
                                                 <NavLink to={`/doctor/write-prescription?patientId=${prescription.patientId}`} className="action-btn primary">
-                                                    Issue Prescription
+                                                    {tDashboard('actions.issuePrescription')}
                                                 </NavLink>
                                                 <NavLink to={`/doctor/medical-records/${prescription.patientId}`} className="action-btn secondary">
-                                                    View Records
+                                                    {tDashboard('actions.viewRecords')}
                                                 </NavLink>
                                             </div>
                                         </div>
@@ -241,8 +263,8 @@ export const DoctorDashboard = () => {
                             {/* Upcoming Appointments Section */}
                             <section className="dashboard-section appointments-section">
                                 <div className="section-header">
-                                    <h3 className="section-title">Upcoming Appointments</h3>
-                                    <button className="view-all">View Calendar</button>
+                                    <h3 className="section-title">{tDashboard('sections.upcomingAppointments')}</h3>
+                                    <button className="view-all">{tDashboard('actions.viewCalendar')}</button>
                                 </div>
 
                                 <div className="appointments-list">
@@ -250,7 +272,7 @@ export const DoctorDashboard = () => {
                                         <div className="appointment-card" key={appointment.id}>
                                             <div className="appointment-date">
                                                 <div className="date-day">{new Date(appointment.date).getDate()}</div>
-                                                <div className="date-month">{new Date(appointment.date).toLocaleString('default', { month: 'short' }).toUpperCase()}</div>
+                                                <div className="date-month">{new Date(appointment.date).toLocaleString(language === 'ar' ? 'ar-EG' : 'en-US', { month: 'short' }).toUpperCase()}</div>
                                             </div>
                                             <div className="appointment-details">
                                                 <h4 className="patient-name">{appointment.patient}</h4>
@@ -259,14 +281,14 @@ export const DoctorDashboard = () => {
                                                         <FaCalendarAlt /> {appointment.time}
                                                     </span>
                                                     <span className={`appointment-type ${appointment.type.toLowerCase().replace(/\s+/g, '-')}`}>
-                                                        {appointment.type}
+                                                        {getAppointmentTypeTranslation(appointment.type)}
                                                     </span>
                                                 </div>
                                                 <p className="appointment-notes">{appointment.notes}</p>
                                             </div>
                                             <div className="appointment-actions">
                                                 <NavLink to={`/doctor/medical-records/${appointment.patientId}`} className="action-btn">
-                                                    View Records
+                                                    {tDashboard('actions.viewRecords')}
                                                 </NavLink>
                                             </div>
                                         </div>
@@ -277,8 +299,8 @@ export const DoctorDashboard = () => {
                             {/* Recent Activity Section */}
                             <section className="dashboard-section activity-section">
                                 <div className="section-header">
-                                    <h3 className="section-title">Recent Activity</h3>
-                                    <button className="view-all">View All</button>
+                                    <h3 className="section-title">{tDashboard('sections.recentActivity')}</h3>
+                                    <button className="view-all">{tDashboard('actions.viewAll')}</button>
                                 </div>
 
                                 <div className="activity-list">
@@ -290,10 +312,10 @@ export const DoctorDashboard = () => {
                                             <div className="activity-content">
                                                 <p className="activity-description">{activity.description}</p>
                                                 <div className="activity-meta">
-                                                    <span className="activity-date">{new Date(activity.date).toLocaleDateString()}</span>
+                                                    <span className="activity-date">{new Date(activity.date).toLocaleDateString(language === 'ar' ? 'ar-EG' : 'en-US')}</span>
                                                     {activity.status && (
                                                         <span className={`activity-status ${activity.status.toLowerCase().replace(/\s+/g, '-')}`}>
-                                                            {activity.status}
+                                                            {getStatusTranslation(activity.status)}
                                                         </span>
                                                     )}
                                                 </div>
@@ -318,9 +340,9 @@ export const DoctorDashboard = () => {
                             <section className="dashboard-section notifications-section">
                                 <div className="section-header">
                                     <h3 className="section-title">
-                                        <FaBell className="notification-icon" /> Notifications
+                                        <FaBell className="notification-icon" /> {tDashboard('sections.notifications')}
                                     </h3>
-                                    <button className="view-all">Settings</button>
+                                    <button className="view-all">{tDashboard('actions.settings')}</button>
                                 </div>
 
                                 <div className="notification-items">

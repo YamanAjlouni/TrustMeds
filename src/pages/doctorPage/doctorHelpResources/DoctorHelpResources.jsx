@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './DoctorHelpResources.scss';
 import { FaSearch, FaAngleDown, FaAngleUp, FaHeadset, FaQuestionCircle, FaEnvelope, FaPhone, FaTimes } from 'react-icons/fa';
+import { useLanguage } from '../../../context/LanguageContext';
 
 const DoctorHelpResources = () => {
+    const { t, isRTL } = useLanguage();
     const [searchQuery, setSearchQuery] = useState('');
     const [expandedFaq, setExpandedFaq] = useState(null);
     const [showContactForm, setShowContactForm] = useState(false);
@@ -12,55 +14,68 @@ const DoctorHelpResources = () => {
         priority: 'normal'
     });
 
+    // Add RTL class when needed
+    useEffect(() => {
+        if (isRTL) {
+            document.body.classList.add('rtl');
+        } else {
+            document.body.classList.remove('rtl');
+        }
+        
+        return () => {
+            document.body.classList.remove('rtl');
+        };
+    }, [isRTL]);
+
     // Mock FAQ data
     const faqs = [
         {
             id: 1,
             category: 'prescriptions',
-            question: 'How do I create a new prescription?',
-            answer: 'To create a new prescription, navigate to "Write Prescription" in the sidebar menu. Search for a patient, select their name, fill out the medication details, and click "Generate Prescription". You can review the prescription before finalizing it.'
+            question: t('doctorPage.help.faqs.prescriptions.createNew.question'),
+            answer: t('doctorPage.help.faqs.prescriptions.createNew.answer')
         },
         {
             id: 2,
             category: 'patients',
-            question: 'How can I access a patient\'s medical history?',
-            answer: 'You can access a patient\'s medical history by going to "My Patients" in the sidebar menu, finding the patient\'s name, and clicking the "Medical Records" button. Alternatively, you can directly navigate to "Medical Records" in the sidebar and search for the patient.'
+            question: t('doctorPage.help.faqs.patients.accessHistory.question'),
+            answer: t('doctorPage.help.faqs.patients.accessHistory.answer')
         },
         {
             id: 3,
             category: 'prescriptions',
-            question: 'What should I do if I need to update a prescription?',
-            answer: 'To update an existing prescription, go to "Prescription History", locate the prescription you want to change, and click the "Edit" button. Make your changes and submit the updated prescription. The system will record the changes and notify the patient if required.'
+            question: t('doctorPage.help.faqs.prescriptions.update.question'),
+            answer: t('doctorPage.help.faqs.prescriptions.update.answer')
         },
         {
             id: 4,
             category: 'communication',
-            question: 'How do I communicate with my patients through the platform?',
-            answer: 'Use the "Communication" section in the sidebar to message your patients. You can see all ongoing conversations, filter by urgency, and respond to patient inquiries. The platform supports text messages and file attachments for sharing documents securely.'
+            question: t('doctorPage.help.faqs.communication.platform.question'),
+            answer: t('doctorPage.help.faqs.communication.platform.answer')
         },
         {
             id: 5,
             category: 'technical',
-            question: 'What browser is recommended for using this platform?',
-            answer: 'Our platform works best with modern browsers like Chrome, Firefox, Safari, or Edge. For the best experience, please ensure your browser is updated to the latest version. We recommend Chrome or Firefox for optimal performance and compatibility.'
+            question: t('doctorPage.help.faqs.technical.browser.question'),
+            answer: t('doctorPage.help.faqs.technical.browser.answer')
         },
         {
             id: 6,
             category: 'security',
-            question: 'How is patient data secured in the system?',
-            answer: 'Patient data is secured using industry-standard encryption protocols both in transit and at rest. We implement strict access controls, regular security audits, and comply with all relevant healthcare privacy regulations including HIPAA. Your account is also protected with two-factor authentication.'
+            question: t('doctorPage.help.faqs.security.patientData.question'),
+            answer: t('doctorPage.help.faqs.security.patientData.answer')
         },
         {
             id: 7,
             category: 'account',
-            question: 'How do I update my profile information?',
-            answer: 'To update your profile information, click on your profile picture in the top right corner and select "Profile" from the dropdown menu. Alternatively, click on "Profile" in the sidebar. From there, you can edit your personal information, contact details, and profile picture.'
+            question: t('doctorPage.help.faqs.account.updateProfile.question'),
+            answer: t('doctorPage.help.faqs.account.updateProfile.answer')
         },
         {
             id: 8,
             category: 'technical',
-            question: 'What should I do if I encounter an error?',
-            answer: 'If you encounter an error, try refreshing the page first. If the problem persists, take a screenshot of the error message, note what actions you were taking when the error occurred, and contact our technical support team using the form at the bottom of this page. Our team will address the issue as quickly as possible.'
+            question: t('doctorPage.help.faqs.technical.error.question'),
+            answer: t('doctorPage.help.faqs.technical.error.answer')
         }
     ];
 
@@ -97,7 +112,7 @@ const DoctorHelpResources = () => {
     const handleContactSubmit = (e) => {
         e.preventDefault();
         // This would connect to your backend in a real app
-        alert('Your support request has been submitted. Our team will get back to you shortly.');
+        alert(t('doctorPage.help.contactForm.successMessage'));
         setContactFormData({
             subject: '',
             message: '',
@@ -109,12 +124,12 @@ const DoctorHelpResources = () => {
     // Convert category names to display names
     const getCategoryDisplayName = (category) => {
         const displayNames = {
-            'prescriptions': 'Prescriptions',
-            'patients': 'Patient Management',
-            'communication': 'Communication',
-            'technical': 'Technical Support',
-            'security': 'Security & Privacy',
-            'account': 'Account Management'
+            'prescriptions': t('doctorPage.help.categories.prescriptions'),
+            'patients': t('doctorPage.help.categories.patients'),
+            'communication': t('doctorPage.help.categories.communication'),
+            'technical': t('doctorPage.help.categories.technical'),
+            'security': t('doctorPage.help.categories.security'),
+            'account': t('doctorPage.help.categories.account')
         };
         return displayNames[category] || category.charAt(0).toUpperCase() + category.slice(1);
     };
@@ -135,14 +150,14 @@ const DoctorHelpResources = () => {
     return (
         <div className="doctor-help-resources">
             <div className="help-header">
-                <h1>Help Center</h1>
-                <p>Find answers to your questions and get support</p>
+                <h1>{t('doctorPage.help.title')}</h1>
+                <p>{t('doctorPage.help.subtitle')}</p>
 
                 <div className="search-container">
                     <FaSearch className="search-icon" />
                     <input
                         type="text"
-                        placeholder="Search help topics..."
+                        placeholder={t('doctorPage.help.searchPlaceholder')}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -150,7 +165,7 @@ const DoctorHelpResources = () => {
                         <button
                             className="clear-search"
                             onClick={() => setSearchQuery('')}
-                            aria-label="Clear search"
+                            aria-label={t('doctorPage.help.clearSearch')}
                         >
                             <FaTimes />
                         </button>
@@ -162,7 +177,7 @@ const DoctorHelpResources = () => {
                 {searchQuery ? (
                     // Search results view
                     <div className="content-section">
-                        <h2>Search Results for "{searchQuery}"</h2>
+                        <h2>{t('doctorPage.help.searchResults', { query: searchQuery })}</h2>
 
                         <div className="faq-list">
                             {filteredFaqs.length > 0 ? (
@@ -195,13 +210,13 @@ const DoctorHelpResources = () => {
                             ) : (
                                 <div className="no-results">
                                     <FaQuestionCircle className="no-results-icon" />
-                                    <h3>No results found</h3>
-                                    <p>We couldn't find any FAQs matching your search. Try different keywords or contact our support team for assistance.</p>
+                                    <h3>{t('doctorPage.help.noResults.title')}</h3>
+                                    <p>{t('doctorPage.help.noResults.message')}</p>
                                     <button
                                         className="contact-support-btn"
                                         onClick={() => setShowContactForm(true)}
                                     >
-                                        Contact Support
+                                        {t('doctorPage.help.noResults.contactButton')}
                                     </button>
                                 </div>
                             )}
@@ -246,33 +261,33 @@ const DoctorHelpResources = () => {
                 )}
 
                 <div className="content-section support-section">
-                    <h2>Need More Help?</h2>
+                    <h2>{t('doctorPage.help.support.title')}</h2>
                     <div className="help-contact">
                         <div className="contact-option">
                             <div className="contact-icon-wrapper">
                                 <FaPhone className="contact-icon" />
                             </div>
-                            <h3>Call Support</h3>
-                            <p>For urgent issues</p>
+                            <h3>{t('doctorPage.help.support.call.title')}</h3>
+                            <p>{t('doctorPage.help.support.call.description')}</p>
                             <a href="tel:+18005551234" className="contact-button phone">
-                                1-800-555-1234
+                                {t('doctorPage.help.support.call.number')}
                             </a>
-                            <span className="support-hours">Available 24/7</span>
+                            <span className="support-hours">{t('doctorPage.help.support.call.hours')}</span>
                         </div>
 
                         <div className="contact-option">
                             <div className="contact-icon-wrapper">
                                 <FaEnvelope className="contact-icon" />
                             </div>
-                            <h3>Email Support</h3>
-                            <p>For general inquiries</p>
+                            <h3>{t('doctorPage.help.support.email.title')}</h3>
+                            <p>{t('doctorPage.help.support.email.description')}</p>
                             <button
                                 className="contact-button email"
                                 onClick={() => setShowContactForm(true)}
                             >
-                                Contact Us
+                                {t('doctorPage.help.support.email.button')}
                             </button>
-                            <span className="support-hours">Response within 24 hours</span>
+                            <span className="support-hours">{t('doctorPage.help.support.email.hours')}</span>
                         </div>
                     </div>
                 </div>
@@ -281,7 +296,7 @@ const DoctorHelpResources = () => {
                     <div className="contact-form-overlay">
                         <div className="contact-form-container">
                             <div className="form-header">
-                                <h3>Contact Support</h3>
+                                <h3>{t('doctorPage.help.contactForm.title')}</h3>
                                 <button
                                     className="close-form"
                                     onClick={() => setShowContactForm(false)}
@@ -291,7 +306,7 @@ const DoctorHelpResources = () => {
                             </div>
                             <form onSubmit={handleContactSubmit}>
                                 <div className="form-group">
-                                    <label htmlFor="subject">Subject</label>
+                                    <label htmlFor="subject">{t('doctorPage.help.contactForm.subject')}</label>
                                     <input
                                         type="text"
                                         id="subject"
@@ -302,7 +317,7 @@ const DoctorHelpResources = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="message">Message</label>
+                                    <label htmlFor="message">{t('doctorPage.help.contactForm.message')}</label>
                                     <textarea
                                         id="message"
                                         name="message"
@@ -313,17 +328,17 @@ const DoctorHelpResources = () => {
                                     ></textarea>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="priority">Priority</label>
+                                    <label htmlFor="priority">{t('doctorPage.help.contactForm.priority.label')}</label>
                                     <select
                                         id="priority"
                                         name="priority"
                                         value={contactFormData.priority}
                                         onChange={handleContactFormChange}
                                     >
-                                        <option value="low">Low - General Question</option>
-                                        <option value="normal">Normal - Need Assistance</option>
-                                        <option value="high">High - Affecting Patient Care</option>
-                                        <option value="urgent">Urgent - Critical Issue</option>
+                                        <option value="low">{t('doctorPage.help.contactForm.priority.low')}</option>
+                                        <option value="normal">{t('doctorPage.help.contactForm.priority.normal')}</option>
+                                        <option value="high">{t('doctorPage.help.contactForm.priority.high')}</option>
+                                        <option value="urgent">{t('doctorPage.help.contactForm.priority.urgent')}</option>
                                     </select>
                                 </div>
                                 <div className="form-actions">
@@ -332,10 +347,10 @@ const DoctorHelpResources = () => {
                                         className="cancel-btn"
                                         onClick={() => setShowContactForm(false)}
                                     >
-                                        Cancel
+                                        {t('doctorPage.help.contactForm.cancel')}
                                     </button>
                                     <button type="submit" className="submit-btn">
-                                        Submit
+                                        {t('doctorPage.help.contactForm.submit')}
                                     </button>
                                 </div>
                             </form>

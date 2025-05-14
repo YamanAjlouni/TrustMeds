@@ -1,0 +1,69 @@
+{
+    "title": "Prescription History",
+    "loadingMessage": "Loading prescription records...",
+    "searchPlaceholder": "Search prescriptions...",
+    "prescription": "Prescription",
+    "more": "more",
+    "moreMedications": "more medications",
+    "noResults": "No prescriptions match your search criteria",
+    "prescriptionDetails": "Prescription Details",
+    "dateIssued": "Date Issued",
+    "patient": "Patient",
+    "pharmacy": "Pharmacy",
+    "medications": "Medications",
+    "notes": "Notes",
+    "declineReason": "Decline Reason",
+    "issuedOn": "Issued",
+    "detailsTitle": "Prescription Details",
+    "actions": {
+        "newPrescription": "New Prescription",
+        "back": "Back",
+        "clearFilters": "Clear Filters",
+        "view": "View",
+        "print": "Print",
+        "edit": "Edit",
+        "viewPatientRecord": "View Patient Record",
+        "printPrescription": "Print Prescription",
+        "editPrescription": "Edit Prescription",
+        "cancelPrescription": "Cancel Prescription"
+    },
+    "filters": {
+        "title": "Filters",
+        "date": "Date",
+        "status": "Status"
+    },
+    "dateFilters": {
+        "allTime": "All Time",
+        "today": "Today",
+        "thisWeek": "This Week",
+        "thisMonth": "This Month"
+    },
+    "statusFilters": {
+        "allStatuses": "All Statuses",
+        "filled": "Filled",
+        "pendingPickup": "Pending Pickup",
+        "pendingApproval": "Pending Approval",
+        "declined": "Declined"
+    },
+    "statusLabels": {
+        "filled": "Filled",
+        "pendingPickup": "Pending Pickup",
+        "pendingApproval": "Pending Approval",
+        "declined": "Declined"
+    },
+    "tableHeaders": {
+        "rxId": "Rx ID",
+        "date": "Date",
+        "patient": "Patient",
+        "medications": "Medications",
+        "status": "Status",
+        "pharmacy": "Pharmacy"
+    },
+    "medicationDetails": {
+        "medication": "Medication",
+        "dosage": "Dosage",
+        "frequency": "Frequency",
+        "duration": "Duration",
+        "refills": "Refills"
+    }
+}

@@ -10,8 +10,11 @@ import { SearchFilters } from './components/SearchFilters/SearchFilters';
 import { PrescriptionTable } from './components/PrescriptionTable/PrescriptionTable';
 import { PrescriptionCards } from './components/PrescriptionCards/PrescriptionCards';
 import { MobileDetailView } from './components/MobileDetailView/MobileDetailView';
+import { useLanguage } from '../../../context/LanguageContext';
 
 export const DoctorPrescriptionHistory = () => {
+    const { t, isRTL } = useLanguage();
+
     // Responsive breakpoints
     const isMobile = useMediaQuery({ maxWidth: 768 });
     const isSmallScreen = useMediaQuery({ maxWidth: 576 });
@@ -162,11 +165,11 @@ export const DoctorPrescriptionHistory = () => {
                 <div className="prescriptions-header">
                     <h2>
                         <FaPills className="header-icon" />
-                        Prescription History
+                        {t('doctorPage.prescriptionHistory.title')}
                     </h2>
                     <div className="header-actions">
                         <NavLink to='/doctor/write-prescription' className="new-prescription-btn">
-                            <FaPills /> {!isMobile && <span>New Prescription</span>}
+                            <FaPills /> {!isMobile && <span>{t('doctorPage.prescriptionHistory.actions.newPrescription')}</span>}
                         </NavLink>
                         <button className="refresh-btn">
                             <FaSyncAlt />

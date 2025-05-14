@@ -1,0 +1,69 @@
+{
+    "title": "سجل الوصفات الطبية",
+    "loadingMessage": "جارٍ تحميل سجلات الوصفات الطبية...",
+    "searchPlaceholder": "البحث في الوصفات الطبية...",
+    "prescription": "وصفة طبية",
+    "more": "المزيد",
+    "moreMedications": "أدوية أخرى",
+    "noResults": "لا توجد وصفات طبية تطابق معايير البحث",
+    "prescriptionDetails": "تفاصيل الوصفة الطبية",
+    "dateIssued": "تاريخ الإصدار",
+    "patient": "المريض",
+    "pharmacy": "الصيدلية",
+    "medications": "الأدوية",
+    "notes": "ملاحظات",
+    "declineReason": "سبب الرفض",
+    "issuedOn": "صدرت في",
+    "detailsTitle": "تفاصيل الوصفة الطبية",
+    "actions": {
+        "newPrescription": "وصفة طبية جديدة",
+        "back": "رجوع",
+        "clearFilters": "مسح التصفية",
+        "view": "عرض",
+        "print": "طباعة",
+        "edit": "تعديل",
+        "viewPatientRecord": "عرض سجل المريض",
+        "printPrescription": "طباعة الوصفة",
+        "editPrescription": "تعديل الوصفة",
+        "cancelPrescription": "إلغاء الوصفة"
+    },
+    "filters": {
+        "title": "التصفية",
+        "date": "التاريخ",
+        "status": "الحالة"
+    },
+    "dateFilters": {
+        "allTime": "كل الأوقات",
+        "today": "اليوم",
+        "thisWeek": "هذا الأسبوع",
+        "thisMonth": "هذا الشهر"
+    },
+    "statusFilters": {
+        "allStatuses": "جميع الحالات",
+        "filled": "تم صرفها",
+        "pendingPickup": "في انتظار الاستلام",
+        "pendingApproval": "في انتظار الموافقة",
+        "declined": "مرفوضة"
+    },
+    "statusLabels": {
+        "filled": "تم صرفها",
+        "pendingPickup": "في انتظار الاستلام",
+        "pendingApproval": "في انتظار الموافقة",
+        "declined": "مرفوضة"
+    },
+    "tableHeaders": {
+        "rxId": "رقم الوصفة",
+        "date": "التاريخ",
+        "patient": "المريض",
+        "medications": "الأدوية",
+        "status": "الحالة",
+        "pharmacy": "الصيدلية"
+    },
+    "medicationDetails": {
+        "medication": "الدواء",
+        "dosage": "الجرعة",
+        "frequency": "التكرار",
+        "duration": "المدة",
+        "refills": "إعادة الصرف"
+    }
+}

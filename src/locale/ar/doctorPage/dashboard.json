@@ -1,0 +1,43 @@
+{
+    "doctorDashboard": {
+        "welcome": "مرحباً",
+        "lastLogin": "آخر تسجيل دخول",
+        "at": "في",
+        "quickActions": {
+            "newPrescription": "وصفة طبية جديدة",
+            "viewPatients": "عرض المرضى",
+            "messages": "الرسائل"
+        },
+        "sections": {
+            "quickOverview": "نظرة سريعة",
+            "pendingPrescriptions": "الوصفات الطبية المعلقة",
+            "upcomingAppointments": "المواعيد القادمة",
+            "recentActivity": "النشاط الحديث",
+            "notifications": "الإشعارات"
+        },
+        "metrics": {
+            "activePatients": "المرضى النشطين",
+            "prescriptionsThisWeek": "الوصفات الطبية هذا الأسبوع",
+            "pendingReviews": "المراجعات المعلقة",
+            "urgentCases": "الحالات العاجلة"
+        },
+        "actions": {
+            "viewAll": "عرض الكل",
+            "viewCalendar": "عرض التقويم",
+            "settings": "الإعدادات",
+            "issuePrescription": "إصدار وصفة طبية",
+            "viewRecords": "عرض السجلات",
+            "highPriority": "أولوية عالية"
+        },
+        "statuses": {
+            "pending": "معلق",
+            "unread": "غير مقروء",
+            "pendingReview": "في انتظار المراجعة"
+        },
+        "appointmentTypes": {
+            "followUp": "متابعة",
+            "newPatient": "مريض جديد"
+        },
+        "loading": "جاري تحميل لوحة المعلومات..."
+    }
+}

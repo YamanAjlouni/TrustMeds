@@ -1,0 +1,75 @@
+{
+    "title": "Write Prescription",
+    "loadingMessage": "Loading...",
+    "actions": {
+        "back": "Back",
+        "changePatient": "Change Patient",
+        "cancel": "Cancel",
+        "addToPrescription": "Add to Prescription",
+        "saveAsDraft": "Save as Draft",
+        "submitPrescription": "Submit Prescription",
+        "continue": "Continue"
+    },
+    "steps": {
+        "step1": "Step 1: Select Patient",
+        "step2": "Step 2: Add Medications",
+        "step3": "Step 3: Finalize Prescription"
+    },
+    "searchPlaceholders": {
+        "patient": "Search for patient by name or ID...",
+        "medication": "Search for medication..."
+    },
+    "patientDetails": {
+        "years": "years",
+        "medicalConditions": "Medical Conditions",
+        "allergies": "Allergies",
+        "activeMedications": "Active Medications",
+        "noAllergies": "No known allergies",
+        "noActiveMedications": "No active medications"
+    },
+    "medicationForm": {
+        "dosage": "Dosage",
+        "selectDosage": "Select dosage",
+        "customDosage": "Custom dosage",
+        "enterCustomDosage": "Enter custom dosage",
+        "frequency": "Frequency",
+        "selectFrequency": "Select frequency",
+        "customFrequency": "Custom frequency",
+        "enterCustomFrequency": "Enter custom frequency",
+        "duration": "Duration (days)",
+        "refills": "Refills",
+        "specialInstructions": "Special Instructions",
+        "instructionsPlaceholder": "Special instructions for patient (e.g., take with food)"
+    },
+    "medicationInfo": {
+        "title": "Medication Information",
+        "sideEffects": "Side Effects",
+        "interactions": "Interactions"
+    },
+    "currentPrescription": {
+        "title": "Current Prescription",
+        "for": "for",
+        "days": "days",
+        "refill": "refill",
+        "refills": "refills",
+        "instructionsLabel": "Instructions"
+    },
+    "finalize": {
+        "notes": "Prescription Notes (only visible to healthcare providers)",
+        "notesPlaceholder": "Add any additional notes about this prescription..."
+    },
+    "alerts": {
+        "selectMedication": "Please select a medication",
+        "allergyWarning": "Potential allergy detected!",
+        "knownAllergy": "Patient has a known allergy"
+    },
+    "noResults": {
+        "patients": "No patients found",
+        "medications": "No medications found"
+    },
+    "confirmation": {
+        "title": "Prescription Submitted Successfully",
+        "message": "The prescription for {{patientName}} has been submitted successfully. It will be electronically delivered to the pharmacy when the patient selects one.",
+        "summary": "Prescription Summary"
+    }
+}

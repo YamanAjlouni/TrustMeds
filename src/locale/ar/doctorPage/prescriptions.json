@@ -1,0 +1,75 @@
+{
+    "title": "كتابة وصفة طبية",
+    "loadingMessage": "جاري التحميل...",
+    "actions": {
+        "back": "رجوع",
+        "changePatient": "تغيير المريض",
+        "cancel": "إلغاء",
+        "addToPrescription": "إضافة إلى الوصفة",
+        "saveAsDraft": "حفظ كمسودة",
+        "submitPrescription": "إرسال الوصفة",
+        "continue": "متابعة"
+    },
+    "steps": {
+        "step1": "الخطوة 1: اختيار المريض",
+        "step2": "الخطوة 2: إضافة الأدوية",
+        "step3": "الخطوة 3: إنهاء الوصفة"
+    },
+    "searchPlaceholders": {
+        "patient": "البحث عن مريض بالاسم أو الرقم التعريفي...",
+        "medication": "البحث عن دواء..."
+    },
+    "patientDetails": {
+        "years": "سنة",
+        "medicalConditions": "الحالات الطبية",
+        "allergies": "الحساسية",
+        "activeMedications": "الأدوية النشطة",
+        "noAllergies": "لا توجد حساسية معروفة",
+        "noActiveMedications": "لا توجد أدوية نشطة"
+    },
+    "medicationForm": {
+        "dosage": "الجرعة",
+        "selectDosage": "اختر الجرعة",
+        "customDosage": "جرعة مخصصة",
+        "enterCustomDosage": "أدخل جرعة مخصصة",
+        "frequency": "التكرار",
+        "selectFrequency": "اختر التكرار",
+        "customFrequency": "تكرار مخصص",
+        "enterCustomFrequency": "أدخل تكرارًا مخصصًا",
+        "duration": "المدة (أيام)",
+        "refills": "إعادة الصرف",
+        "specialInstructions": "تعليمات خاصة",
+        "instructionsPlaceholder": "تعليمات خاصة للمريض (مثل: تناول مع الطعام)"
+    },
+    "medicationInfo": {
+        "title": "معلومات الدواء",
+        "sideEffects": "الآثار الجانبية",
+        "interactions": "التفاعلات"
+    },
+    "currentPrescription": {
+        "title": "الوصفة الحالية",
+        "for": "لمدة",
+        "days": "يوم",
+        "refill": "إعادة صرف",
+        "refills": "إعادة صرف",
+        "instructionsLabel": "التعليمات"
+    },
+    "finalize": {
+        "notes": "ملاحظات الوصفة (مرئية فقط لمقدمي الرعاية الصحية)",
+        "notesPlaceholder": "أضف أي ملاحظات إضافية حول هذه الوصفة..."
+    },
+    "alerts": {
+        "selectMedication": "الرجاء اختيار دواء",
+        "allergyWarning": "تم اكتشاف حساسية محتملة!",
+        "knownAllergy": "المريض لديه حساسية معروفة"
+    },
+    "noResults": {
+        "patients": "لم يتم العثور على مرضى",
+        "medications": "لم يتم العثور على أدوية"
+    },
+    "confirmation": {
+        "title": "تم إرسال الوصفة بنجاح",
+        "message": "تم إرسال الوصفة للمريض {{patientName}} بنجاح. سيتم إرسالها إلكترونيًا إلى الصيدلية عندما يحدد المريض واحدة.",
+        "summary": "ملخص الوصفة"
+    }
+}

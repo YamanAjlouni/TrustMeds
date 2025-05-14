@@ -1,0 +1,41 @@
+{
+  "title": "My Patients",
+  "loadingMessage": "Loading patient records...",
+  "ageYears": "years",
+  "actions": {
+    "addNewPatient": "Add New Patient",
+    "viewMedicalRecord": "View Medical Record",
+    "writePrescription": "Write Prescription",
+    "callPatient": "Call Patient",
+    "sendMessage": "Send Message",
+    "scheduleAppointment": "Schedule Appointment",
+    "clearFilters": "Clear Filters"
+  },
+  "searchPlaceholder": "Search by name or ID...",
+  "filters": {
+    "status": "Status",
+    "allStatuses": "All Statuses",
+    "favorites": "Favorites"
+  },
+  "tableHeaders": {
+    "patientName": "Patient Name",
+    "age": "Age",
+    "lastVisit": "Last Visit",
+    "conditions": "Conditions",
+    "status": "Status"
+  },
+  "status": {
+    "stable": "Stable",
+    "followUpNeeded": "Follow-up Needed",
+    "medicationAdjustment": "Medication Adjustment",
+    "urgentFollowUp": "Urgent Follow-up"
+  },
+  "noResults": "No patients match your search criteria",
+  "patientDetails": "Patient Details",
+  "detailsSections": {
+    "alerts": "Alerts",
+    "medicalConditions": "Medical Conditions",
+    "contactInformation": "Contact Information",
+    "upcomingAppointment": "Upcoming Appointment"
+  }
+}

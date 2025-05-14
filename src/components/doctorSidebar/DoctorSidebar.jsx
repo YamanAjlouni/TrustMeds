@@ -12,10 +12,65 @@ import {
     FaQuestionCircle,
     FaSignOutAlt
 } from 'react-icons/fa';
+import { useLanguage } from '../../context/LanguageContext'; // Import language context
 
 export const DoctorSidebar = ({ isSidebarOpen, onLinkClick }) => {
+    const { t, isRTL } = useLanguage(); // Get translations and RTL status
+
+    // Create navigation items array
+    const navItems = [
+        {
+            id: 'overview',
+            icon: <FaHome />,
+            label: t('doctorPage.sidebar.overview'),
+            path: '/doctor/overview'
+        },
+        {
+            id: 'patients',
+            icon: <FaUserInjured />,
+            label: t('doctorPage.sidebar.patients'),
+            path: '/doctor/patients'
+        },
+        {
+            id: 'write-prescription',
+            icon: <FaPills />,
+            label: t('doctorPage.sidebar.writePrescription'),
+            path: '/doctor/write-prescription'
+        },
+        {
+            id: 'prescription-history',
+            icon: <FaHistory />,
+            label: t('doctorPage.sidebar.prescriptionHistory'),
+            path: '/doctor/prescription-history'
+        },
+        {
+            id: 'medical-records',
+            icon: <FaFileAlt />,
+            label: t('doctorPage.sidebar.medicalRecords'),
+            path: '/doctor/medical-records'
+        },
+        {
+            id: 'communication',
+            icon: <FaComments />,
+            label: t('doctorPage.sidebar.communication'),
+            path: '/doctor/communication'
+        },
+        {
+            id: 'profile',
+            icon: <FaUserMd />,
+            label: t('doctorPage.sidebar.profile'),
+            path: '/doctor/profile'
+        },
+        {
+            id: 'help',
+            icon: <FaQuestionCircle />,
+            label: t('doctorPage.sidebar.help'),
+            path: '/doctor/help'
+        }
+    ];
+
     return (
-        <div className={`doctor-sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
+        <div className={`doctor-sidebar ${isSidebarOpen ? 'open' : 'closed'} ${isRTL ? 'rtl' : 'ltr'}`}>
             <div className="doctor-sidebar-profile">
                 <div className="profile-avatar">
                     <FaUserMd />
@@ -28,93 +83,25 @@ export const DoctorSidebar = ({ isSidebarOpen, onLinkClick }) => {
 
             <nav className="doctor-sidebar-nav">
                 <ul>
-                    <li>
-                        <NavLink
-                            to="/doctor/overview"
-                            onClick={onLinkClick}
-                            className={({ isActive }) => isActive ? 'active' : ''}
-                        >
-                            <FaHome className="nav-icon" />
-                            <span className="nav-text">Overview</span>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/doctor/patients"
-                            onClick={onLinkClick}
-                            className={({ isActive }) => isActive ? 'active' : ''}
-                        >
-                            <FaUserInjured className="nav-icon" />
-                            <span className="nav-text">My Patients</span>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/doctor/write-prescription"
-                            onClick={onLinkClick}
-                            className={({ isActive }) => isActive ? 'active' : ''}
-                        >
-                            <FaPills className="nav-icon" />
-                            <span className="nav-text">Write Prescription</span>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/doctor/prescription-history"
-                            onClick={onLinkClick}
-                            className={({ isActive }) => isActive ? 'active' : ''}
-                        >
-                            <FaHistory className="nav-icon" />
-                            <span className="nav-text">Prescription History</span>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/doctor/medical-records"
-                            onClick={onLinkClick}
-                            className={({ isActive }) => isActive ? 'active' : ''}
-                        >
-                            <FaFileAlt className="nav-icon" />
-                            <span className="nav-text">Medical Records</span>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/doctor/communication"
-                            onClick={onLinkClick}
-                            className={({ isActive }) => isActive ? 'active' : ''}
-                        >
-                            <FaComments className="nav-icon" />
-                            <span className="nav-text">Communication</span>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/doctor/profile"
-                            onClick={onLinkClick}
-                            className={({ isActive }) => isActive ? 'active' : ''}
-                        >
-                            <FaUserMd className="nav-icon" />
-                            <span className="nav-text">Profile & Settings</span>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/doctor/help"
-                            onClick={onLinkClick}
-                            className={({ isActive }) => isActive ? 'active' : ''}
-                        >
-                            <FaQuestionCircle className="nav-icon" />
-                            <span className="nav-text">Help & Resources</span>
-                        </NavLink>
-                    </li>
+                    {navItems.map(item => (
+                        <li key={item.id}>
+                            <NavLink
+                                to={item.path}
+                                onClick={onLinkClick}
+                                className={({ isActive }) => isActive ? 'active' : ''}
+                            >
+                                <span className="nav-icon">{item.icon}</span>
+                                <span className="nav-text">{item.label}</span>
+                            </NavLink>
+                        </li>
+                    ))}
                 </ul>
             </nav>
 
             <div className="doctor-sidebar-footer">
                 <button className="logout-btn">
-                    <FaSignOutAlt className="logout-icon" />
-                    <span className="logout-text">Logout</span>
+                    <span className="logout-icon"><FaSignOutAlt /></span>
+                    <span className="logout-text">{t('doctorPage.sidebar.logout')}</span>
                 </button>
             </div>
         </div>

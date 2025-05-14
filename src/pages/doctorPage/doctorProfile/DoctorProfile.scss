@@ -1,41 +1,7 @@
-// Variables
-$primary-color: #4285f4;
-$secondary-color: #34a853;
-$accent-color: #fbbc05;
-$danger-color: #ea4335;
-$light-bg: #f8f9fa;
-$dark-text: #202124;
-$medium-text: #5f6368;
-$light-text: #9aa0a6;
-$border-color: #e0e0e0;
+@use '../../../assets/styles/vars.scss' as *;
+
 $success-color: #43a047;
 $warning-color: #ffab00;
-$border-radius: 12px;
-$shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
-$shadow-md: 0 4px 10px rgba(0, 0, 0, 0.08);
-$shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
-$transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-
-// Mixins
-@mixin flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@mixin flex-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-@mixin card {
-  background-color: white;
-  border-radius: $border-radius;
-  box-shadow: $shadow-md;
-  transition: $transition-standard;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-}
 
 // Main container styles
 .doctor-profile-container {
@@ -88,7 +54,7 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     background-color: white;
     box-shadow: $shadow-sm;
     border-bottom: 1px solid $border-color; // Changed from border-right to border-bottom
-    position:relative;
+    position: relative;
     top: 0;
     z-index: 10;
     padding: 1.5rem 2rem;
@@ -927,5 +893,192 @@ $transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
       }
     }
+  }
+}
+
+// RTL Styles for Doctor Profile - Add to DoctorProfile.scss
+.rtl {
+  direction: rtl;
+  text-align: right;
+
+  // Sidebar/Header
+  .profile-sidebar {
+    .sidebar-header {
+      .doctor-avatar {
+        margin-right: 0;
+        margin-left: 1.5rem;
+      }
+
+      p {
+        margin-left: 0;
+        margin-right: 5px;
+      }
+    }
+
+    .sidebar-nav {
+      ul {
+        li {
+          margin-right: 0;
+          margin-left: 1rem;
+
+          button {
+            text-align: right;
+
+            svg {
+              margin-right: 0;
+              margin-left: 0.75rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Profile content
+  .profile-card {
+    .profile-header {
+      .profile-avatar {
+        margin-right: 0;
+        margin-left: 1.5rem;
+
+        .change-avatar-btn {
+          right: auto;
+          left: 5px;
+        }
+      }
+    }
+
+    .profile-details {
+      .detail-group {
+        .detail-item {
+          .detail-icon {
+            margin-right: 0;
+            margin-left: 0.75rem;
+          }
+        }
+      }
+    }
+  }
+
+  .profile-content {
+    .profile-section {
+
+      // Education, Experience, Certifications
+      .education-list,
+      .experience-list,
+      .certifications-list {
+
+        .education-item,
+        .experience-item,
+        .certification-item {
+
+          .education-icon,
+          .experience-icon,
+          .certification-icon {
+            margin-right: 0;
+            margin-left: 1rem;
+          }
+
+          .item-actions {
+            right: auto;
+            left: 1rem;
+          }
+        }
+      }
+    }
+  }
+
+  // Section headers
+  .section-header {
+
+    .edit-btn,
+    .add-btn {
+      svg {
+        margin-right: 0;
+        margin-left: 0.5rem;
+      }
+    }
+  }
+
+  // Settings cards
+  .settings-content {
+    .settings-card {
+      .settings-header {
+        h3 {
+          svg {
+            margin-right: 0;
+            margin-left: 0.75rem;
+          }
+        }
+
+        .edit-btn {
+          svg {
+            margin-right: 0;
+            margin-left: 0.5rem;
+          }
+        }
+      }
+
+      .settings-body {
+        .settings-item {
+          .item-icon {
+            margin-right: 0;
+            margin-left: 1rem;
+          }
+
+          .status-toggle,
+          .item-value {
+            margin-left: 0;
+            margin-right: 1rem;
+          }
+
+          .status-badge {
+            svg {
+              margin-right: 0;
+              margin-left: 0.35rem;
+            }
+          }
+        }
+      }
+    }
+
+    // Security tips
+    .security-tips {
+      ul {
+        padding-left: 0;
+        padding-right: 1.5rem;
+      }
+    }
+  }
+
+  // Forms
+  .edit-form {
+    .form-body {
+      .form-group {
+        &.checkbox-group {
+          .checkbox-label {
+            input[type="checkbox"] {
+              margin-right: 0;
+              margin-left: 0.75rem;
+            }
+          }
+        }
+      }
+    }
+
+    .form-actions {
+      flex-direction: row-reverse;
+    }
+  }
+
+  // Fix form elements text alignment
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="password"],
+  select,
+  textarea {
+    text-align: right;
   }
 }
