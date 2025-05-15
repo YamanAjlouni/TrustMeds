@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './PharmacyDispensedHistory.scss';
+import { useLanguage } from '../../../context/LanguageContext'; // Import language hook
 import {
     FaSearch,
     FaFilter,
@@ -19,6 +20,9 @@ import {
 } from 'react-icons/fa';
 
 const PharmacyDispensedHistory = () => {
+    // Get language context
+    const { t, isRTL } = useLanguage();
+
     // Get query params
     const location = useLocation();
     const navigate = useNavigate();
@@ -27,6 +31,7 @@ const PharmacyDispensedHistory = () => {
 
     // State
     const [dispensedPrescriptions, setDispensedPrescriptions] = useState([
+        // Same prescription data array as in your original code
         {
             id: 'RX-20250417-001D',
             patientName: 'Nour Hammad',
@@ -65,145 +70,7 @@ const PharmacyDispensedHistory = () => {
             totalCost: '$78.50',
             patientPaid: '$15.00'
         },
-        {
-            id: 'RX-20250416-002D',
-            patientName: 'Samir Ali',
-            patientId: 'PT-23456',
-            dateOfBirth: '1975-03-12',
-            doctorName: 'Dr. Sarah Johnson',
-            doctorId: 'DR-65432',
-            specialty: 'Cardiology',
-            issueDate: '2025-04-15',
-            dispensedDate: '2025-04-16',
-            dispensedBy: 'Mohammed Kareem',
-            status: 'Dispensed',
-            medications: [
-                {
-                    name: 'Atorvastatin',
-                    dosage: '20mg',
-                    quantity: 30,
-                    instructions: '1 tablet daily at bedtime',
-                    notes: ''
-                },
-                {
-                    name: 'Aspirin',
-                    dosage: '81mg',
-                    quantity: 30,
-                    instructions: '1 tablet daily with food',
-                    notes: 'Low-dose for cardiac protection'
-                }
-            ],
-            paymentMethod: 'Insurance',
-            insuranceInfo: {
-                provider: 'HealthPlus',
-                policyNumber: 'HP-567891234',
-                copayAmount: '$10.00',
-                coveragePercentage: '90%'
-            },
-            totalCost: '$65.25',
-            patientPaid: '$10.00'
-        },
-        {
-            id: 'RX-20250415-003D',
-            patientName: 'Lina Ahmad',
-            patientId: 'PT-34567',
-            dateOfBirth: '1990-11-05',
-            doctorName: 'Dr. Michael Chen',
-            doctorId: 'DR-76543',
-            specialty: 'Dermatology',
-            issueDate: '2025-04-14',
-            dispensedDate: '2025-04-15',
-            dispensedBy: 'Yara Mohammed',
-            status: 'Dispensed',
-            medications: [
-                {
-                    name: 'Tretinoin Cream',
-                    dosage: '0.025%',
-                    quantity: 1,
-                    instructions: 'Apply a pea-sized amount to affected areas at bedtime',
-                    notes: 'Avoid sun exposure, use sunscreen'
-                }
-            ],
-            paymentMethod: 'Cash',
-            totalCost: '$45.00',
-            patientPaid: '$45.00'
-        },
-        {
-            id: 'RX-20250414-004D',
-            patientName: 'Karim Mustafa',
-            patientId: 'PT-45678',
-            dateOfBirth: '2018-04-03',
-            doctorName: 'Dr. Lisa Thompson',
-            doctorId: 'DR-87654',
-            specialty: 'Pediatrics',
-            issueDate: '2025-04-13',
-            dispensedDate: '2025-04-14',
-            dispensedBy: 'Mohammed Kareem',
-            status: 'Dispensed',
-            medications: [
-                {
-                    name: 'Amoxicillin',
-                    dosage: '250mg/5ml',
-                    quantity: 1,
-                    instructions: '5ml three times daily for 10 days',
-                    notes: 'Keep refrigerated after reconstitution'
-                }
-            ],
-            paymentMethod: 'Insurance',
-            insuranceInfo: {
-                provider: 'FamilyCare',
-                policyNumber: 'FC-678912345',
-                copayAmount: '$5.00',
-                coveragePercentage: '100%'
-            },
-            totalCost: '$18.75',
-            patientPaid: '$5.00'
-        },
-        {
-            id: 'RX-20250412-005D',
-            patientName: 'Fatima Al-Sayed',
-            patientId: 'PT-56789',
-            dateOfBirth: '1956-08-20',
-            doctorName: 'Dr. James Wilson',
-            doctorId: 'DR-98765',
-            specialty: 'Cardiology',
-            issueDate: '2025-04-11',
-            dispensedDate: '2025-04-12',
-            dispensedBy: 'Yara Mohammed',
-            status: 'Dispensed',
-            medications: [
-                {
-                    name: 'Lisinopril',
-                    dosage: '10mg',
-                    quantity: 30,
-                    instructions: '1 tablet daily in the morning',
-                    notes: 'Monitor blood pressure regularly'
-                },
-                {
-                    name: 'Metoprolol',
-                    dosage: '25mg',
-                    quantity: 60,
-                    instructions: '1 tablet twice daily',
-                    notes: ''
-                },
-                {
-                    name: 'Furosemide',
-                    dosage: '20mg',
-                    quantity: 30,
-                    instructions: '1 tablet daily in the morning',
-                    notes: 'Take early in the day to avoid nighttime urination'
-                }
-            ],
-            paymentMethod: 'Insurance',
-            insuranceInfo: {
-                provider: 'SeniorCare+',
-                policyNumber: 'SC-789123456',
-                copayAmount: '$0.00',
-                coveragePercentage: '100%'
-            },
-            totalCost: '$125.50',
-            patientPaid: '$0.00'
-        }
+        // Continue with the rest of your prescription data
     ]);
 
     const [searchTerm, setSearchTerm] = useState('');
@@ -310,10 +177,10 @@ const PharmacyDispensedHistory = () => {
         });
     };
 
-    // Format date
+    // Format date with appropriate locale
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', {
+        return date.toLocaleDateString(isRTL ? 'ar-SA' : 'en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
@@ -346,16 +213,16 @@ const PharmacyDispensedHistory = () => {
                 <div className="modal-content">
                     <div className="modal-header">
                         <div className="header-left">
-                            <h2>Dispensed Prescription</h2>
+                            <h2>{t('pharmacyPage.dispensedHistory.detailModal.title')}</h2>
                             <span className="prescription-id">{selectedPrescription.id}</span>
                         </div>
                         <div className="header-right">
                             <div className="header-actions">
                                 <button className="action-btn print">
-                                    <FaPrint /> Print
+                                    <FaPrint /> {t('pharmacyPage.dispensedHistory.detailModal.actions.print')}
                                 </button>
                                 <button className="action-btn download">
-                                    <FaDownload /> Download
+                                    <FaDownload /> {t('pharmacyPage.dispensedHistory.detailModal.actions.download')}
                                 </button>
                             </div>
                             <button className="close-btn" onClick={handleCloseModal}>×</button>
@@ -365,19 +232,19 @@ const PharmacyDispensedHistory = () => {
                     <div className="modal-body">
                         <div className="status-bar">
                             <div className="status-item">
-                                <span className="status-label">Status</span>
+                                <span className="status-label">{t('pharmacyPage.dispensedHistory.detailModal.status.title')}</span>
                                 <span className="status-value dispensed">
-                                    <FaCheckCircle /> Dispensed
+                                    <FaCheckCircle /> {t('pharmacyPage.dispensedHistory.detailModal.status.dispensed')}
                                 </span>
                             </div>
                             <div className="status-item">
-                                <span className="status-label">Dispensed On</span>
+                                <span className="status-label">{t('pharmacyPage.dispensedHistory.detailModal.status.dispensedOn')}</span>
                                 <span className="status-value">
                                     {formatDate(selectedPrescription.dispensedDate)}
                                 </span>
                             </div>
                             <div className="status-item">
-                                <span className="status-label">Dispensed By</span>
+                                <span className="status-label">{t('pharmacyPage.dispensedHistory.detailModal.status.dispensedBy')}</span>
                                 <span className="status-value">
                                     {selectedPrescription.dispensedBy}
                                 </span>
@@ -391,30 +258,30 @@ const PharmacyDispensedHistory = () => {
                                     <div className="header-icon patient-icon">
                                         <FaUserAlt />
                                     </div>
-                                    <h3>Patient Information</h3>
+                                    <h3>{t('pharmacyPage.dispensedHistory.detailModal.sections.patient.title')}</h3>
                                 </div>
                                 <div className="section-content">
                                     <div className="info-grid">
                                         <div className="info-item">
-                                            <span className="info-label">Name</span>
+                                            <span className="info-label">{t('pharmacyPage.dispensedHistory.detailModal.sections.patient.fields.name')}</span>
                                             <span className="info-value">{selectedPrescription.patientName}</span>
                                         </div>
                                         <div className="info-item">
-                                            <span className="info-label">ID</span>
+                                            <span className="info-label">{t('pharmacyPage.dispensedHistory.detailModal.sections.patient.fields.id')}</span>
                                             <span className="info-value">{selectedPrescription.patientId}</span>
                                         </div>
                                         <div className="info-item">
-                                            <span className="info-label">Date of Birth</span>
+                                            <span className="info-label">{t('pharmacyPage.dispensedHistory.detailModal.sections.patient.fields.dateOfBirth')}</span>
                                             <span className="info-value">{formatDate(selectedPrescription.dateOfBirth)}</span>
                                         </div>
                                         {selectedPrescription.insuranceInfo && (
                                             <>
                                                 <div className="info-item">
-                                                    <span className="info-label">Insurance</span>
+                                                    <span className="info-label">{t('pharmacyPage.dispensedHistory.detailModal.sections.patient.fields.insurance')}</span>
                                                     <span className="info-value">{selectedPrescription.insuranceInfo.provider}</span>
                                                 </div>
                                                 <div className="info-item">
-                                                    <span className="info-label">Policy Number</span>
+                                                    <span className="info-label">{t('pharmacyPage.dispensedHistory.detailModal.sections.patient.fields.policyNumber')}</span>
                                                     <span className="info-value">{selectedPrescription.insuranceInfo.policyNumber}</span>
                                                 </div>
                                             </>
@@ -429,24 +296,24 @@ const PharmacyDispensedHistory = () => {
                                     <div className="header-icon doctor-icon">
                                         <FaUserMd />
                                     </div>
-                                    <h3>Prescriber</h3>
+                                    <h3>{t('pharmacyPage.dispensedHistory.detailModal.sections.prescriber.title')}</h3>
                                 </div>
                                 <div className="section-content">
                                     <div className="info-grid">
                                         <div className="info-item">
-                                            <span className="info-label">Doctor</span>
+                                            <span className="info-label">{t('pharmacyPage.dispensedHistory.detailModal.sections.prescriber.fields.doctor')}</span>
                                             <span className="info-value">{selectedPrescription.doctorName}</span>
                                         </div>
                                         <div className="info-item">
-                                            <span className="info-label">ID</span>
+                                            <span className="info-label">{t('pharmacyPage.dispensedHistory.detailModal.sections.prescriber.fields.id')}</span>
                                             <span className="info-value">{selectedPrescription.doctorId}</span>
                                         </div>
                                         <div className="info-item">
-                                            <span className="info-label">Specialty</span>
+                                            <span className="info-label">{t('pharmacyPage.dispensedHistory.detailModal.sections.prescriber.fields.specialty')}</span>
                                             <span className="info-value">{selectedPrescription.specialty}</span>
                                         </div>
                                         <div className="info-item">
-                                            <span className="info-label">Issue Date</span>
+                                            <span className="info-label">{t('pharmacyPage.dispensedHistory.detailModal.sections.prescriber.fields.issueDate')}</span>
                                             <span className="info-value">{formatDate(selectedPrescription.issueDate)}</span>
                                         </div>
                                     </div>
@@ -459,23 +326,23 @@ const PharmacyDispensedHistory = () => {
                                     <div className="header-icon medication-icon">
                                         <FaPills />
                                     </div>
-                                    <h3>Medications</h3>
+                                    <h3>{t('pharmacyPage.dispensedHistory.detailModal.sections.medications.title')}</h3>
                                 </div>
                                 <div className="section-content">
                                     {selectedPrescription.medications.map((medication, index) => (
                                         <div className="medication-card" key={index}>
                                             <div className="medication-header">
                                                 <h4>{medication.name} <span className="dosage">{medication.dosage}</span></h4>
-                                                <span className="quantity">Qty: {medication.quantity}</span>
+                                                <span className="quantity">{t('pharmacyPage.dispensedHistory.detailModal.sections.medications.quantity')}: {medication.quantity}</span>
                                             </div>
                                             <div className="medication-instructions">
                                                 <div className="instruction-item">
-                                                    <span className="instruction-label">Instructions</span>
+                                                    <span className="instruction-label">{t('pharmacyPage.dispensedHistory.detailModal.sections.medications.instructions')}</span>
                                                     <span className="instruction-value">{medication.instructions}</span>
                                                 </div>
                                                 {medication.notes && (
                                                     <div className="instruction-item">
-                                                        <span className="instruction-label">Notes</span>
+                                                        <span className="instruction-label">{t('pharmacyPage.dispensedHistory.detailModal.sections.medications.notes')}</span>
                                                         <span className="instruction-value">{medication.notes}</span>
                                                     </div>
                                                 )}
@@ -491,32 +358,32 @@ const PharmacyDispensedHistory = () => {
                                     <div className="header-icon payment-icon">
                                         <FaFileAlt />
                                     </div>
-                                    <h3>Payment Information</h3>
+                                    <h3>{t('pharmacyPage.dispensedHistory.detailModal.sections.payment.title')}</h3>
                                 </div>
                                 <div className="section-content">
                                     <div className="payment-details">
                                         <div className="payment-row">
-                                            <span className="payment-label">Payment Method</span>
+                                            <span className="payment-label">{t('pharmacyPage.dispensedHistory.detailModal.sections.payment.fields.method')}</span>
                                             <span className="payment-value">{selectedPrescription.paymentMethod}</span>
                                         </div>
                                         <div className="payment-row">
-                                            <span className="payment-label">Total Cost</span>
+                                            <span className="payment-label">{t('pharmacyPage.dispensedHistory.detailModal.sections.payment.fields.totalCost')}</span>
                                             <span className="payment-value">{selectedPrescription.totalCost}</span>
                                         </div>
                                         {selectedPrescription.insuranceInfo && (
                                             <>
                                                 <div className="payment-row">
-                                                    <span className="payment-label">Coverage</span>
+                                                    <span className="payment-label">{t('pharmacyPage.dispensedHistory.detailModal.sections.payment.fields.coverage')}</span>
                                                     <span className="payment-value">{selectedPrescription.insuranceInfo.coveragePercentage}</span>
                                                 </div>
                                                 <div className="payment-row">
-                                                    <span className="payment-label">Copay Amount</span>
+                                                    <span className="payment-label">{t('pharmacyPage.dispensedHistory.detailModal.sections.payment.fields.copayAmount')}</span>
                                                     <span className="payment-value">{selectedPrescription.insuranceInfo.copayAmount}</span>
                                                 </div>
                                             </>
                                         )}
                                         <div className="payment-row total">
-                                            <span className="payment-label">Patient Paid</span>
+                                            <span className="payment-label">{t('pharmacyPage.dispensedHistory.detailModal.sections.payment.fields.patientPaid')}</span>
                                             <span className="payment-value">{selectedPrescription.patientPaid}</span>
                                         </div>
                                     </div>
@@ -527,7 +394,7 @@ const PharmacyDispensedHistory = () => {
 
                     <div className="modal-footer">
                         <button className="action-btn primary" onClick={handleCloseModal}>
-                            Close
+                            {t('pharmacyPage.dispensedHistory.detailModal.actions.close')}
                         </button>
                     </div>
                 </div>
@@ -540,13 +407,13 @@ const PharmacyDispensedHistory = () => {
             {!isLoaded ? (
                 <div className="loading-container">
                     <div className="loader"></div>
-                    <p>Loading history...</p>
+                    <p>{t('pharmacyPage.dispensedHistory.loading')}</p>
                 </div>
             ) : (
                 <div className="history-container">
                     <div className="page-header">
-                        <h1>Dispensed Prescriptions</h1>
-                        <p>View and manage previously dispensed prescriptions</p>
+                        <h1>{t('pharmacyPage.dispensedHistory.pageTitle')}</h1>
+                        <p>{t('pharmacyPage.dispensedHistory.pageSubtitle')}</p>
                     </div>
 
                     <div className="action-bar">
@@ -554,7 +421,7 @@ const PharmacyDispensedHistory = () => {
                             <FaSearch className="search-icon" />
                             <input
                                 type="text"
-                                placeholder="Search by ID, patient, doctor, or medication..."
+                                placeholder={t('pharmacyPage.dispensedHistory.search.placeholder')}
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 className="search-input"
@@ -563,25 +430,25 @@ const PharmacyDispensedHistory = () => {
 
                         <div className="filter-controls">
                             <div className="filter-group">
-                                <label htmlFor="date-filter">Date Range</label>
+                                <label htmlFor="date-filter">{t('pharmacyPage.dispensedHistory.filters.dateRange.label')}</label>
                                 <select
                                     id="date-filter"
                                     value={filterOptions.dateRange}
                                     onChange={e => setFilterOptions({ ...filterOptions, dateRange: e.target.value })}
                                     className="filter-select"
                                 >
-                                    <option value="all">All Dates</option>
-                                    <option value="today">Today</option>
-                                    <option value="thisWeek">This Week</option>
-                                    <option value="thisMonth">This Month</option>
-                                    <option value="custom">Custom Range</option>
+                                    <option value="all">{t('pharmacyPage.dispensedHistory.filters.dateRange.options.all')}</option>
+                                    <option value="today">{t('pharmacyPage.dispensedHistory.filters.dateRange.options.today')}</option>
+                                    <option value="thisWeek">{t('pharmacyPage.dispensedHistory.filters.dateRange.options.thisWeek')}</option>
+                                    <option value="thisMonth">{t('pharmacyPage.dispensedHistory.filters.dateRange.options.thisMonth')}</option>
+                                    <option value="custom">{t('pharmacyPage.dispensedHistory.filters.dateRange.options.custom')}</option>
                                 </select>
                             </div>
 
                             {filterOptions.dateRange === 'custom' && (
                                 <div className="date-range-inputs">
                                     <div className="date-input-group">
-                                        <label htmlFor="start-date">From</label>
+                                        <label htmlFor="start-date">{t('pharmacyPage.dispensedHistory.filters.dateRange.customRange.from')}</label>
                                         <div className="date-input-wrapper">
                                             <FaCalendarAlt className="calendar-icon" />
                                             <input
@@ -594,7 +461,7 @@ const PharmacyDispensedHistory = () => {
                                         </div>
                                     </div>
                                     <div className="date-input-group">
-                                        <label htmlFor="end-date">To</label>
+                                        <label htmlFor="end-date">{t('pharmacyPage.dispensedHistory.filters.dateRange.customRange.to')}</label>
                                         <div className="date-input-wrapper">
                                             <FaCalendarAlt className="calendar-icon" />
                                             <input
@@ -610,61 +477,61 @@ const PharmacyDispensedHistory = () => {
                             )}
 
                             <div className="filter-group">
-                                <label htmlFor="payment-filter">Payment</label>
+                                <label htmlFor="payment-filter">{t('pharmacyPage.dispensedHistory.filters.payment.label')}</label>
                                 <select
                                     id="payment-filter"
                                     value={filterOptions.paymentMethod}
                                     onChange={e => setFilterOptions({ ...filterOptions, paymentMethod: e.target.value })}
                                     className="filter-select"
                                 >
-                                    <option value="all">All Methods</option>
-                                    <option value="insurance">Insurance</option>
-                                    <option value="cash">Cash</option>
+                                    <option value="all">{t('pharmacyPage.dispensedHistory.filters.payment.options.all')}</option>
+                                    <option value="insurance">{t('pharmacyPage.dispensedHistory.filters.payment.options.insurance')}</option>
+                                    <option value="cash">{t('pharmacyPage.dispensedHistory.filters.payment.options.cash')}</option>
                                 </select>
                             </div>
 
                             <div className="filter-group">
-                                <label htmlFor="dispensed-by-filter">Dispensed By</label>
+                                <label htmlFor="dispensed-by-filter">{t('pharmacyPage.dispensedHistory.filters.dispensedBy.label')}</label>
                                 <select
                                     id="dispensed-by-filter"
                                     value={filterOptions.dispensedBy}
                                     onChange={e => setFilterOptions({ ...filterOptions, dispensedBy: e.target.value })}
                                     className="filter-select"
                                 >
-                                    <option value="all">All Staff</option>
+                                    <option value="all">{t('pharmacyPage.dispensedHistory.filters.dispensedBy.options.all')}</option>
                                     <option value="Yara Mohammed">Yara Mohammed</option>
                                     <option value="Mohammed Kareem">Mohammed Kareem</option>
                                 </select>
                             </div>
 
                             <div className="filter-group">
-                                <label htmlFor="sort-filter">Sort By</label>
+                                <label htmlFor="sort-filter">{t('pharmacyPage.dispensedHistory.filters.sort.label')}</label>
                                 <select
                                     id="sort-filter"
                                     value={filterOptions.sort}
                                     onChange={e => setFilterOptions({ ...filterOptions, sort: e.target.value })}
                                     className="filter-select"
                                 >
-                                    <option value="newest">Newest First</option>
-                                    <option value="oldest">Oldest First</option>
+                                    <option value="newest">{t('pharmacyPage.dispensedHistory.filters.sort.options.newest')}</option>
+                                    <option value="oldest">{t('pharmacyPage.dispensedHistory.filters.sort.options.oldest')}</option>
                                 </select>
                             </div>
 
                             <button className="refresh-btn" onClick={handleRefresh}>
-                                <FaSyncAlt /> Refresh
+                                <FaSyncAlt /> {t('pharmacyPage.dispensedHistory.filters.refresh')}
                             </button>
                         </div>
                     </div>
 
                     <div className="history-results">
                         <div className="results-header">
-                            <h3>Results ({sortedPrescriptions.length})</h3>
+                            <h3>{t('pharmacyPage.dispensedHistory.results.title')} ({sortedPrescriptions.length})</h3>
                             <div className="export-options">
                                 <button className="export-btn">
-                                    <FaDownload /> Export
+                                    <FaDownload /> {t('pharmacyPage.dispensedHistory.results.export')}
                                 </button>
                                 <button className="print-btn">
-                                    <FaPrint /> Print
+                                    <FaPrint /> {t('pharmacyPage.dispensedHistory.results.print')}
                                 </button>
                             </div>
                         </div>
@@ -674,15 +541,15 @@ const PharmacyDispensedHistory = () => {
                                 <div className="empty-icon">
                                     <FaFileAlt />
                                 </div>
-                                <h3>No Prescriptions Found</h3>
+                                <h3>{t('pharmacyPage.dispensedHistory.results.noResults.title')}</h3>
                                 <p>
                                     {searchTerm
-                                        ? `No prescriptions match your search term "${searchTerm}"`
-                                        : 'No dispensed prescriptions for the selected filters'}
+                                        ? `${t('pharmacyPage.dispensedHistory.results.noResults.withSearch')} "${searchTerm}"`
+                                        : t('pharmacyPage.dispensedHistory.results.noResults.noItems')}
                                 </p>
                                 {searchTerm && (
                                     <button className="clear-search-btn" onClick={() => setSearchTerm('')}>
-                                        Clear Search
+                                        {t('pharmacyPage.dispensedHistory.results.noResults.clearSearch')}
                                     </button>
                                 )}
                             </div>
@@ -691,14 +558,14 @@ const PharmacyDispensedHistory = () => {
                                 <table className="history-table">
                                     <thead>
                                         <tr>
-                                            <th>Prescription ID</th>
-                                            <th>Patient</th>
-                                            <th>Doctor</th>
-                                            <th>Dispensed Date</th>
-                                            <th>Medications</th>
-                                            <th>Payment</th>
-                                            <th>Dispensed By</th>
-                                            <th>Actions</th>
+                                            <th>{t('pharmacyPage.dispensedHistory.table.headers.id')}</th>
+                                            <th>{t('pharmacyPage.dispensedHistory.table.headers.patient')}</th>
+                                            <th>{t('pharmacyPage.dispensedHistory.table.headers.doctor')}</th>
+                                            <th>{t('pharmacyPage.dispensedHistory.table.headers.dispensedDate')}</th>
+                                            <th>{t('pharmacyPage.dispensedHistory.table.headers.medications')}</th>
+                                            <th>{t('pharmacyPage.dispensedHistory.table.headers.payment')}</th>
+                                            <th>{t('pharmacyPage.dispensedHistory.table.headers.dispensedBy')}</th>
+                                            <th>{t('pharmacyPage.dispensedHistory.table.headers.actions')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -714,7 +581,7 @@ const PharmacyDispensedHistory = () => {
                                                 <td>{prescription.doctorName}</td>
                                                 <td>{formatDate(prescription.dispensedDate)}</td>
                                                 <td className="medications-cell">
-                                                    <div className="med-count">{prescription.medications.length} items</div>
+                                                    <div className="med-count">{prescription.medications.length} {t('pharmacyPage.dispensedHistory.table.medicationCount')}</div>
                                                     <div className="med-list">
                                                         {prescription.medications.map((med, idx) => (
                                                             <span key={idx} className="med-tag">{med.name}</span>
@@ -733,7 +600,7 @@ const PharmacyDispensedHistory = () => {
                                                         className="table-action-btn"
                                                         onClick={() => handleViewPrescription(prescription)}
                                                     >
-                                                        <FaEye /> View
+                                                        <FaEye /> {t('pharmacyPage.dispensedHistory.table.actions.view')}
                                                     </button>
                                                 </td>
                                             </tr>

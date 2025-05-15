@@ -1,0 +1,111 @@
+{
+    "loading": "Loading help resources...",
+    "pageTitle": "Help & Resources",
+    "pageSubtitle": "Find guides, tutorials, FAQs, and support information",
+    "tabs": {
+        "guides": "Guides & Tutorials",
+        "faqs": "FAQs",
+        "support": "Support",
+        "security": "Security & Privacy"
+    },
+    "categories": {
+        "beginner": "Beginner",
+        "workflow": "Workflow",
+        "advanced": "Advanced",
+        "security": "Security",
+        "technical": "Technical",
+        "account": "Account"
+    },
+    "guides": {
+        "title": "Guides & Tutorials",
+        "searchPlaceholder": "Search guides...",
+        "noResults": {
+            "title": "No Guides Found",
+            "message": "No guides match your search term \"{searchTerm}\". Try a different search term or browse all guides.",
+            "clearSearch": "Clear Search"
+        },
+        "videoLength": "{duration} min video",
+        "documentPages": "{pages} page document",
+        "watchVideo": "Watch Video",
+        "readGuide": "Read Guide",
+        "download": "Download",
+        "addBookmark": "Save this guide",
+        "removeBookmark": "Remove bookmark"
+    },
+    "faqs": {
+        "title": "Frequently Asked Questions",
+        "searchPlaceholder": "Search FAQs...",
+        "noResults": {
+            "title": "No FAQs Found",
+            "message": "No FAQs match your search term \"{searchTerm}\". Try a different search term or browse all FAQs.",
+            "clearSearch": "Clear Search"
+        },
+        "wasHelpful": "This was helpful"
+    },
+    "support": {
+        "title": "Contact Support",
+        "technicalSupport": {
+            "title": "Technical Support",
+            "description": "For system issues, account problems, or technical assistance",
+            "phone": {
+                "label": "Phone Support"
+            },
+            "email": {
+                "label": "Email Support",
+                "copy": "Copy"
+            },
+            "liveChat": {
+                "label": "Live Chat",
+                "action": "Start Chat"
+            }
+        },
+        "hours": {
+            "title": "Support Hours"
+        },
+        "emergency": {
+            "title": "Emergency Support",
+            "description": "Available 24/7 for critical system issues",
+            "action": "Emergency Contact"
+        },
+        "feedback": {
+            "title": "Send Feedback",
+            "description": "Help us improve our pharmacy system with your suggestions and feedback",
+            "action": "Submit Feedback"
+        },
+        "resources": {
+            "title": "Additional Resources",
+            "documentation": "System Documentation",
+            "videos": "Video Tutorials",
+            "userManual": "Download User Manual (PDF)"
+        }
+    },
+    "security": {
+        "title": "Security & Privacy Guidelines",
+        "intro": {
+            "title": "Protecting Patient Data",
+            "description": "As healthcare professionals, we are responsible for safeguarding sensitive patient information. These guidelines help ensure the security and privacy of all data in our pharmacy system. Please review and follow these best practices at all times."
+        },
+        "resources": {
+            "title": "Security Resources",
+            "privacy": {
+                "title": "Privacy Policy",
+                "description": "View our complete data privacy policy and guidelines",
+                "action": "View Policy"
+            },
+            "training": {
+                "title": "Security Training",
+                "description": "Access required security awareness training modules",
+                "action": "Start Training"
+            },
+            "report": {
+                "title": "Report Security Issue",
+                "description": "Report a potential security incident or concern",
+                "action": "Report Issue"
+            }
+        },
+        "compliance": {
+            "title": "Compliance Information",
+            "description": "Our pharmacy system is designed to comply with all applicable healthcare data protection regulations. Regular security assessments and audits are conducted to ensure ongoing compliance. If you have questions about our compliance status or security controls, please contact the IT Security team."
+        }
+    }
+}

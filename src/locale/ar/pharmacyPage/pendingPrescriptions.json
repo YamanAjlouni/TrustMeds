@@ -1,0 +1,95 @@
+{
+    "loading": "جاري تحميل الوصفات الطبية...",
+    "pageTitle": "الوصفات الطبية المعلقة",
+    "pageSubtitle": "معالجة وإدارة الوصفات الطبية التي تنتظر التنفيذ",
+    "search": {
+        "placeholder": "ابحث عن طريق المعرف أو المريض أو الطبيب أو الدواء..."
+    },
+    "filters": {
+        "priority": {
+            "label": "الأولوية",
+            "options": {
+                "all": "الكل",
+                "normal": "عادي",
+                "urgent": "عاجل"
+            }
+        },
+        "date": {
+            "label": "التاريخ",
+            "options": {
+                "all": "جميع التواريخ",
+                "today": "اليوم",
+                "yesterday": "الأمس",
+                "thisWeek": "هذا الأسبوع"
+            }
+        },
+        "sort": {
+            "label": "ترتيب حسب",
+            "options": {
+                "newest": "الأحدث أولاً",
+                "oldest": "الأقدم أولاً",
+                "priority": "الأولوية"
+            }
+        },
+        "refresh": "تحديث"
+    },
+    "results": {
+        "title": "النتائج",
+        "noResults": {
+            "title": "لم يتم العثور على وصفات طبية",
+            "withSearch": "لا توجد وصفات طبية تطابق كلمة البحث الخاصة بك",
+            "noItems": "لا توجد وصفات طبية معلقة في الوقت الحالي",
+            "clearSearch": "مسح البحث"
+        }
+    },
+    "prescriptionCard": {
+        "urgent": "عاجل",
+        "patient": "المريض",
+        "doctor": "الطبيب",
+        "medications": "الأدوية",
+        "items": "عنصر/عناصر",
+        "qty": "الكمية",
+        "actions": {
+            "viewDetails": "عرض التفاصيل",
+            "dispense": "صرف الدواء"
+        }
+    },
+    "detailModal": {
+        "title": "تفاصيل الوصفة الطبية",
+        "sections": {
+            "patient": {
+                "title": "معلومات المريض",
+                "fields": {
+                    "name": "الاسم",
+                    "id": "المعرف",
+                    "dateOfBirth": "تاريخ الميلاد",
+                    "insurance": "التأمين",
+                    "policyNumber": "رقم البوليصة",
+                    "validUntil": "صالح حتى"
+                }
+            },
+            "prescriber": {
+                "title": "الطبيب الواصف",
+                "fields": {
+                    "doctor": "الطبيب",
+                    "id": "المعرف",
+                    "specialty": "التخصص",
+                    "issueDate": "تاريخ الإصدار",
+                    "expiryDate": "تاريخ انتهاء الصلاحية"
+                }
+            },
+            "medications": {
+                "title": "الأدوية",
+                "quantity": "الكمية",
+                "instructions": "التعليمات",
+                "notes": "ملاحظات",
+                "additionalNotes": "ملاحظات إضافية"
+            }
+        },
+        "actions": {
+            "processing": "جاري معالجة الوصفة الطبية...",
+            "dispense": "صرف الوصفة الطبية",
+            "reject": "رفض"
+        }
+    }
+}

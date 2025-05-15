@@ -16,8 +16,8 @@
 
     .pharmacy-container {
         display: flex;
-        height: calc(100vh - 70px); // Use viewport height for consistency
-        position: relative; // Establish positioning context
+        height: calc(100vh - 70px);
+        position: relative;
 
         @media (min-width: 768px) {
             height: calc(100vh - 80px);
@@ -30,18 +30,53 @@
         .pharmacy-content {
             width: 100%;
             margin-left: 0;
-            transition: margin-left 0.3s ease, width 0.3s ease;
+            margin-right: 0;
+            transition: margin-left 0.3s ease, margin-right 0.3s ease, width 0.3s ease;
             box-sizing: border-box;
             min-height: 100%;
             background-color: $light-bg;
-
+            
             @media (min-width: 1120px) {
                 width: calc(100% - 240px);
-                margin-left: 240px;
-
+                
                 &.full-width {
-                    margin-left: 0;
                     width: 100%;
+                }
+            }
+        }
+    }
+
+    // LTR specific styles
+    &.ltr {
+        .pharmacy-container {
+            flex-direction: row;
+
+            .pharmacy-content {
+                @media (min-width: 1120px) {
+                    margin-left: 240px;
+                    margin-right: 0;
+                    
+                    &.full-width {
+                        margin-left: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    // RTL specific styles
+    &.rtl {
+        .pharmacy-container {
+            flex-direction: row-reverse;
+
+            .pharmacy-content {
+                @media (min-width: 1120px) {
+                    margin-right: 240px;
+                    margin-left: 0;
+                    
+                    &.full-width {
+                        margin-right: 0;
+                    }
                 }
             }
         }

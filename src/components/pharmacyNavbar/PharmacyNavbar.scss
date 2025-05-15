@@ -47,6 +47,7 @@ $pharmacy-accent: #fbbc05; // Yellow for accent
             align-items: center;
             justify-content: center;
             transition: color 0.2s, transform 0.2s;
+            position: relative;
 
             // Show toggle button only on smaller screens
             @media (min-width: 1120px) {
@@ -56,6 +57,11 @@ $pharmacy-accent: #fbbc05; // Yellow for accent
             &:hover {
                 color: $pharmacy-primary;
                 transform: scale(1.1);
+            }
+
+            // Active state when sidebar is open
+            &.active {
+                color: $pharmacy-primary;
             }
         }
 
@@ -126,6 +132,74 @@ $pharmacy-accent: #fbbc05; // Yellow for accent
 
         .navbar-actions {
             display: flex;
+
+            .language-wrapper {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+
+                .language-icon-wrapper {
+                    position: relative;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                    padding: 1px 6px;
+
+                    .language-icon {
+                        font-size: 1.1rem;
+                        color: $medium-text;
+                        transition: $transition-standard;
+
+                        @media (min-width: 768px) {
+                            font-size: 1.25rem;
+                        }
+
+                        &:hover {
+                            color: $pharmacy-primary;
+                        }
+                    }
+
+                    .current-language {
+                        font-size: 0.7rem;
+                        font-weight: 600;
+
+                        @media (min-width: 768px) {
+                            font-size: 0.8rem;
+                        }
+                    }
+                }
+
+                .language-dropdown {
+                    position: absolute;
+                    top: calc(100% + 10px);
+                    right: -10px;
+                    width: 120px;
+                    background-color: white;
+                    border-radius: 8px;
+                    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+                    z-index: 10;
+                    overflow: hidden;
+
+                    .language-option {
+                        padding: 0.75rem;
+                        font-size: 0.85rem;
+                        cursor: pointer;
+                        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+                        &:hover {
+                            background-color: rgba($pharmacy-primary, 0.08);
+                        }
+
+                        &.active {
+                            background-color: rgba($pharmacy-primary, 0.1);
+                            color: $pharmacy-primary;
+                            font-weight: 500;
+                        }
+                    }
+                }
+            }
 
             .notification-container,
             .message-container {
@@ -355,6 +429,10 @@ $pharmacy-accent: #fbbc05; // Yellow for accent
             margin-left: 1.25rem;
             position: relative;
 
+            @media (max-width: 768px) {
+                margin-left: 0.5rem;
+            }
+
             .user-menu-button {
                 background: none;
                 border: none;
@@ -381,6 +459,10 @@ $pharmacy-accent: #fbbc05; // Yellow for accent
                     font-weight: 600;
                     font-size: 0.9rem;
                     margin-right: 0.75rem;
+
+                    @media (max-width: 768px) {
+                        margin-right: 0;
+                    }
                 }
 
                 .user-name {
@@ -395,11 +477,37 @@ $pharmacy-accent: #fbbc05; // Yellow for accent
             }
 
             .user-dropdown {
+                position: absolute;
+                top: calc(100% + 10px); /* Adjusted to match other dropdowns */
                 right: 0;
+                left: auto;
                 width: 250px;
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+                overflow: hidden;
+                z-index: 1000;
 
                 &:before {
-                    right: 30px;
+                    content: '';
+                    position: absolute;
+                    top: -6px;
+                    right: 20px; /* Arrow position adjusted */
+                    width: 12px;
+                    height: 12px;
+                    background-color: white;
+                    transform: rotate(45deg);
+                    box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.04);
+                }
+
+                &.rtl {
+                    right: auto;
+                    left: 0;
+
+                    &:before {
+                        right: auto;
+                        left: 20px; /* Arrow position for RTL */
+                    }
                 }
 
                 .user-info {
@@ -477,6 +585,121 @@ $pharmacy-accent: #fbbc05; // Yellow for accent
                                 color: $danger-color;
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* RTL support for Arabic language */
+.lang-ar {
+    .pharmacy-navbar {
+        .navbar-container {
+            .navbar-left {
+                .navbar-logo {
+                    margin-right: 0;
+                    margin-left: 2rem;
+                }
+
+                .sidebar-toggle {
+                    margin-right: 0;
+                    margin-left: 1rem;
+                }
+
+                .navbar-search {
+                    .search-icon {
+                        right: auto;
+                        left: 1rem;
+                    }
+
+                    input {
+                        padding: 0.65rem 1rem 0.65rem 2.5rem;
+                    }
+                }
+            }
+
+            .navbar-right {
+                .navbar-actions {
+                    .language-wrapper {
+                        .language-dropdown {
+                            right: auto;
+                            left: -10px;
+                        }
+                    }
+
+                    .notification-container,
+                    .message-container {
+                        .dropdown-menu {
+                            right: auto;
+                            left: -100px;
+
+                            &:before {
+                                right: auto;
+                                left: 108px;
+                            }
+                        }
+
+                        .notification-item,
+                        .message-item {
+                            &.unread {
+                                &::before {
+                                    left: auto;
+                                    right: 0;
+                                }
+                            }
+                        }
+                    }
+
+                    .message-item {
+                        .message-avatar {
+                            margin-right: 0;
+                            margin-left: 0.75rem;
+                        }
+                    }
+                }
+
+                .user-menu-container {
+                    margin-left: 0;
+                    margin-right: 1.25rem;
+
+                    @media (max-width: 768px) {
+                        margin-right: 0.5rem;
+                        margin-left: 0;
+                    }
+
+                    .user-menu-button {
+                        .user-avatar {
+                            margin-right: 0;
+                            margin-left: 0.75rem;
+
+                            @media (max-width: 768px) {
+                                margin-left: 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .user-dropdown {
+        .user-info {
+            .user-avatar.large {
+                margin-right: 0 !important;
+                margin-left: 1rem !important;
+            }
+        }
+
+        .user-menu-list {
+            li {
+                a, 
+                .logout-button {
+                    text-align: right !important;
+
+                    svg {
+                        margin-right: 0 !important;
+                        margin-left: 0.75rem !important;
                     }
                 }
             }

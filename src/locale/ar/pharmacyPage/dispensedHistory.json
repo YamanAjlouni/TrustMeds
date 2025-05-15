@@ -1,0 +1,124 @@
+{
+    "loading": "جاري تحميل السجل...",
+    "pageTitle": "الوصفات الطبية المصروفة",
+    "pageSubtitle": "عرض وإدارة الوصفات الطبية التي تم صرفها سابقاً",
+    "search": {
+        "placeholder": "بحث عن طريق المعرف أو المريض أو الطبيب أو الدواء..."
+    },
+    "filters": {
+        "dateRange": {
+            "label": "النطاق الزمني",
+            "options": {
+                "all": "جميع التواريخ",
+                "today": "اليوم",
+                "thisWeek": "هذا الأسبوع",
+                "thisMonth": "هذا الشهر",
+                "custom": "نطاق مخصص"
+            },
+            "customRange": {
+                "from": "من",
+                "to": "إلى"
+            }
+        },
+        "payment": {
+            "label": "الدفع",
+            "options": {
+                "all": "جميع الطرق",
+                "insurance": "تأمين",
+                "cash": "نقدي"
+            }
+        },
+        "dispensedBy": {
+            "label": "تم الصرف بواسطة",
+            "options": {
+                "all": "جميع الموظفين"
+            }
+        },
+        "sort": {
+            "label": "ترتيب حسب",
+            "options": {
+                "newest": "الأحدث أولاً",
+                "oldest": "الأقدم أولاً"
+            }
+        },
+        "refresh": "تحديث"
+    },
+    "results": {
+        "title": "النتائج",
+        "export": "تصدير",
+        "print": "طباعة",
+        "noResults": {
+            "title": "لم يتم العثور على وصفات طبية",
+            "withSearch": "لا توجد وصفات طبية تطابق كلمة البحث الخاصة بك",
+            "noItems": "لا توجد وصفات طبية مصروفة للتصفية المحددة",
+            "clearSearch": "مسح البحث"
+        }
+    },
+    "table": {
+        "headers": {
+            "id": "معرف الوصفة",
+            "patient": "المريض",
+            "doctor": "الطبيب",
+            "dispensedDate": "تاريخ الصرف",
+            "medications": "الأدوية",
+            "payment": "الدفع",
+            "dispensedBy": "تم الصرف بواسطة",
+            "actions": "الإجراءات"
+        },
+        "medicationCount": "عنصر/عناصر",
+        "actions": {
+            "view": "عرض"
+        }
+    },
+    "detailModal": {
+        "title": "الوصفة الطبية المصروفة",
+        "actions": {
+            "print": "طباعة",
+            "download": "تنزيل",
+            "close": "إغلاق"
+        },
+        "status": {
+            "title": "الحالة",
+            "dispensed": "تم صرفها",
+            "dispensedOn": "تم الصرف في",
+            "dispensedBy": "تم الصرف بواسطة"
+        },
+        "sections": {
+            "patient": {
+                "title": "معلومات المريض",
+                "fields": {
+                    "name": "الاسم",
+                    "id": "المعرف",
+                    "dateOfBirth": "تاريخ الميلاد",
+                    "insurance": "التأمين",
+                    "policyNumber": "رقم البوليصة"
+                }
+            },
+            "prescriber": {
+                "title": "الطبيب الواصف",
+                "fields": {
+                    "doctor": "الطبيب",
+                    "id": "المعرف",
+                    "specialty": "التخصص",
+                    "issueDate": "تاريخ الإصدار"
+                }
+            },
+            "medications": {
+                "title": "الأدوية",
+                "quantity": "الكمية",
+                "instructions": "التعليمات",
+                "notes": "ملاحظات"
+            },
+            "payment": {
+                "title": "معلومات الدفع",
+                "fields": {
+                    "method": "طريقة الدفع",
+                    "totalCost": "التكلفة الإجمالية",
+                    "coverage": "التغطية",
+                    "copayAmount": "مبلغ المشاركة",
+                    "patientPaid": "ما دفعه المريض"
+                }
+            }
+        }
+    }
+}

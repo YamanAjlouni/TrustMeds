@@ -3,5 +3,9 @@
     "notifications": "الإشعارات",
     "markAllRead": "تحديد الكل كمقروء",
     "viewAllNotifications": "عرض جميع الإشعارات",
-    "language": "اللغة"
+    "language": "اللغة",
+    "myProfile": "ملفي الشخصي",
+    "settings": "الإعدادات",
+    "helpAndSupport": "المساعدة والدعم",
+    "logout": "تسجيل الخروج"
 }

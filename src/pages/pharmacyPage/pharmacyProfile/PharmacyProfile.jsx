@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './PharmacyProfile.scss';
+import { useLanguage } from '../../../context/LanguageContext'; // Import language hook
 import {
     FaUserAlt,
     FaEdit,
@@ -18,6 +19,9 @@ import {
 } from 'react-icons/fa';
 
 const PharmacyProfile = () => {
+    // Get language context
+    const { t, isRTL } = useLanguage();
+    
     // State
     const [isLoaded, setIsLoaded] = useState(false);
     const [activeTab, setActiveTab] = useState('personal');
@@ -39,7 +43,7 @@ const PharmacyProfile = () => {
             supervisor: 'Dr. Ahmed Mahmoud'
         },
         accountSettings: {
-            language: 'english', // english or arabic
+            language: isRTL ? 'arabic' : 'english', // english or arabic
             notifications: {
                 email: true,
                 sms: true,
@@ -184,17 +188,17 @@ const PharmacyProfile = () => {
     const handlePasswordSubmit = () => {
         // Validation
         if (!passwordData.currentPassword || !passwordData.newPassword || !passwordData.confirmPassword) {
-            setPasswordError('All fields are required');
+            setPasswordError(t('pharmacyPage.profile.passwordModal.errors.allFieldsRequired'));
             return;
         }
 
         if (passwordData.newPassword !== passwordData.confirmPassword) {
-            setPasswordError('New passwords do not match');
+            setPasswordError(t('pharmacyPage.profile.passwordModal.errors.passwordsDoNotMatch'));
             return;
         }
 
         if (passwordData.newPassword.length < 8) {
-            setPasswordError('Password must be at least 8 characters');
+            setPasswordError(t('pharmacyPage.profile.passwordModal.errors.passwordTooShort'));
             return;
         }
 
@@ -219,13 +223,13 @@ const PharmacyProfile = () => {
     // Format date for display
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
+        return new Date(dateString).toLocaleDateString(isRTL ? 'ar-SA' : 'en-US', options);
     };
 
     // Format datetime for display
     const formatDateTime = (dateTimeString) => {
         const date = new Date(dateTimeString);
-        return `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+        return `${date.toLocaleDateString(isRTL ? 'ar-SA' : 'en-US')} ${t('pharmacyPage.profile.activity.at')} ${date.toLocaleTimeString(isRTL ? 'ar-SA' : 'en-US', { hour: '2-digit', minute: '2-digit' })}`;
     };
 
     // Get security activity icon
@@ -245,10 +249,10 @@ const PharmacyProfile = () => {
         return (
             <div className="profile-content-section">
                 <div className="section-header">
-                    <h3>Personal Information</h3>
+                    <h3>{t('pharmacyPage.profile.personal.title')}</h3>
                     {!isEditing ? (
                         <button className="edit-btn" onClick={() => setIsEditing(true)}>
-                            <FaEdit /> Edit Profile
+                            <FaEdit /> {t('pharmacyPage.profile.personal.editProfile')}
                         </button>
                     ) : (
                         <div className="action-buttons">
@@ -256,10 +260,10 @@ const PharmacyProfile = () => {
                                 setFormData({ ...userData.personalInfo });
                                 setIsEditing(false);
                             }}>
-                                <FaTimes /> Cancel
+                                <FaTimes /> {t('pharmacyPage.profile.personal.cancel')}
                             </button>
                             <button className="save-btn" onClick={handleSaveProfile}>
-                                <FaSave /> Save Changes
+                                <FaSave /> {t('pharmacyPage.profile.personal.saveChanges')}
                             </button>
                         </div>
                     )}
@@ -268,7 +272,7 @@ const PharmacyProfile = () => {
                 {saveSuccess && (
                     <div className="success-message">
                         <FaCheck className="success-icon" />
-                        <span>Changes saved successfully!</span>
+                        <span>{t('pharmacyPage.profile.personal.successMessage')}</span>
                     </div>
                 )}
 
@@ -283,7 +287,7 @@ const PharmacyProfile = () => {
                         <div className="profile-basic-info">
                             <h3>{userData.personalInfo.name}</h3>
                             <p className="role">{userData.personalInfo.role}</p>
-                            <p className="employee-id">ID: {userData.personalInfo.employeeId}</p>
+                            <p className="employee-id">{t('pharmacyPage.profile.personal.idPrefix')}: {userData.personalInfo.employeeId}</p>
                         </div>
                     </div>
 
@@ -291,45 +295,45 @@ const PharmacyProfile = () => {
                         {!isEditing ? (
                             <div className="details-grid">
                                 <div className="detail-item">
-                                    <span className="detail-label">Full Name</span>
+                                    <span className="detail-label">{t('pharmacyPage.profile.personal.fields.fullName')}</span>
                                     <span className="detail-value">{userData.personalInfo.name}</span>
                                 </div>
                                 <div className="detail-item">
-                                    <span className="detail-label">Email Address</span>
+                                    <span className="detail-label">{t('pharmacyPage.profile.personal.fields.email')}</span>
                                     <span className="detail-value with-icon">
                                         <FaEnvelope className="detail-icon" />
                                         {userData.personalInfo.email}
                                     </span>
                                 </div>
                                 <div className="detail-item">
-                                    <span className="detail-label">Phone Number</span>
+                                    <span className="detail-label">{t('pharmacyPage.profile.personal.fields.phone')}</span>
                                     <span className="detail-value with-icon">
                                         <FaPhone className="detail-icon" />
                                         {userData.personalInfo.phone}
                                     </span>
                                 </div>
                                 <div className="detail-item">
-                                    <span className="detail-label">Address</span>
+                                    <span className="detail-label">{t('pharmacyPage.profile.personal.fields.address')}</span>
                                     <span className="detail-value">{userData.personalInfo.address}</span>
                                 </div>
                                 <div className="detail-item">
-                                    <span className="detail-label">Department</span>
+                                    <span className="detail-label">{t('pharmacyPage.profile.personal.fields.department')}</span>
                                     <span className="detail-value">{userData.personalInfo.department}</span>
                                 </div>
                                 <div className="detail-item">
-                                    <span className="detail-label">Supervisor</span>
+                                    <span className="detail-label">{t('pharmacyPage.profile.personal.fields.supervisor')}</span>
                                     <span className="detail-value">{userData.personalInfo.supervisor}</span>
                                 </div>
                                 <div className="detail-item">
-                                    <span className="detail-label">Date Joined</span>
+                                    <span className="detail-label">{t('pharmacyPage.profile.personal.fields.dateJoined')}</span>
                                     <span className="detail-value">{formatDate(userData.personalInfo.dateJoined)}</span>
                                 </div>
                                 <div className="detail-item">
-                                    <span className="detail-label">Password</span>
+                                    <span className="detail-label">{t('pharmacyPage.profile.personal.fields.password')}</span>
                                     <div className="password-section">
                                         <span className="password-mask">••••••••</span>
                                         <button className="change-password-btn" onClick={() => setShowPasswordModal(true)}>
-                                            Change Password
+                                            {t('pharmacyPage.profile.personal.changePassword')}
                                         </button>
                                     </div>
                                 </div>
@@ -337,7 +341,7 @@ const PharmacyProfile = () => {
                         ) : (
                             <div className="edit-form">
                                 <div className="form-group">
-                                    <label htmlFor="name">Full Name</label>
+                                    <label htmlFor="name">{t('pharmacyPage.profile.personal.fields.fullName')}</label>
                                     <input
                                         type="text"
                                         id="name"
@@ -347,7 +351,7 @@ const PharmacyProfile = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="email">Email Address</label>
+                                    <label htmlFor="email">{t('pharmacyPage.profile.personal.fields.email')}</label>
                                     <input
                                         type="email"
                                         id="email"
@@ -357,7 +361,7 @@ const PharmacyProfile = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="phone">Phone Number</label>
+                                    <label htmlFor="phone">{t('pharmacyPage.profile.personal.fields.phone')}</label>
                                     <input
                                         type="tel"
                                         id="phone"
@@ -367,7 +371,7 @@ const PharmacyProfile = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="address">Address</label>
+                                    <label htmlFor="address">{t('pharmacyPage.profile.personal.fields.address')}</label>
                                     <input
                                         type="text"
                                         id="address"
@@ -377,7 +381,7 @@ const PharmacyProfile = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="department">Department</label>
+                                    <label htmlFor="department">{t('pharmacyPage.profile.personal.fields.department')}</label>
                                     <input
                                         type="text"
                                         id="department"
@@ -387,7 +391,7 @@ const PharmacyProfile = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="supervisor">Supervisor</label>
+                                    <label htmlFor="supervisor">{t('pharmacyPage.profile.personal.fields.supervisor')}</label>
                                     <input
                                         type="text"
                                         id="supervisor"
@@ -409,19 +413,19 @@ const PharmacyProfile = () => {
         return (
             <div className="profile-content-section">
                 <div className="section-header">
-                    <h3>Account Settings</h3>
+                    <h3>{t('pharmacyPage.profile.settings.title')}</h3>
                 </div>
 
                 {saveSuccess && (
                     <div className="success-message">
                         <FaCheck className="success-icon" />
-                        <span>Settings updated successfully!</span>
+                        <span>{t('pharmacyPage.profile.settings.successMessage')}</span>
                     </div>
                 )}
 
                 <div className="settings-container">
                     <div className="settings-group">
-                        <h4 className="settings-title">Interface Language</h4>
+                        <h4 className="settings-title">{t('pharmacyPage.profile.settings.language.title')}</h4>
                         <div className="language-options">
                             <button
                                 className={`language-btn ${userData.accountSettings.language === 'english' ? 'active' : ''}`}
@@ -441,14 +445,14 @@ const PharmacyProfile = () => {
                     </div>
 
                     <div className="settings-group">
-                        <h4 className="settings-title">Notification Preferences</h4>
+                        <h4 className="settings-title">{t('pharmacyPage.profile.settings.notifications.title')}</h4>
                         <div className="notification-options">
                             <div className="notification-option">
                                 <div className="option-info">
                                     <FaEnvelope className="option-icon" />
                                     <div className="option-text">
-                                        <span className="option-title">Email Notifications</span>
-                                        <span className="option-desc">Receive notifications via email</span>
+                                        <span className="option-title">{t('pharmacyPage.profile.settings.notifications.options.email.title')}</span>
+                                        <span className="option-desc">{t('pharmacyPage.profile.settings.notifications.options.email.description')}</span>
                                     </div>
                                 </div>
                                 <label className="toggle-switch">
@@ -464,8 +468,8 @@ const PharmacyProfile = () => {
                                 <div className="option-info">
                                     <FaPhone className="option-icon" />
                                     <div className="option-text">
-                                        <span className="option-title">SMS Notifications</span>
-                                        <span className="option-desc">Receive notifications via SMS</span>
+                                        <span className="option-title">{t('pharmacyPage.profile.settings.notifications.options.sms.title')}</span>
+                                        <span className="option-desc">{t('pharmacyPage.profile.settings.notifications.options.sms.description')}</span>
                                     </div>
                                 </div>
                                 <label className="toggle-switch">
@@ -481,8 +485,8 @@ const PharmacyProfile = () => {
                                 <div className="option-info">
                                     <FaBell className="option-icon" />
                                     <div className="option-text">
-                                        <span className="option-title">In-App Notifications</span>
-                                        <span className="option-desc">Receive notifications within the app</span>
+                                        <span className="option-title">{t('pharmacyPage.profile.settings.notifications.options.inApp.title')}</span>
+                                        <span className="option-desc">{t('pharmacyPage.profile.settings.notifications.options.inApp.description')}</span>
                                     </div>
                                 </div>
                                 <label className="toggle-switch">
@@ -498,26 +502,26 @@ const PharmacyProfile = () => {
                     </div>
 
                     <div className="settings-group">
-                        <h4 className="settings-title">Security Settings</h4>
+                        <h4 className="settings-title">{t('pharmacyPage.profile.settings.security.title')}</h4>
                         <div className="security-options">
                             <div className="security-option">
                                 <div className="option-info">
                                     <FaKey className="option-icon" />
                                     <div className="option-text">
-                                        <span className="option-title">Change Password</span>
-                                        <span className="option-desc">Update your account password</span>
+                                        <span className="option-title">{t('pharmacyPage.profile.settings.security.options.password.title')}</span>
+                                        <span className="option-desc">{t('pharmacyPage.profile.settings.security.options.password.description')}</span>
                                     </div>
                                 </div>
                                 <button className="option-btn" onClick={() => setShowPasswordModal(true)}>
-                                    Change
+                                    {t('pharmacyPage.profile.settings.security.options.password.action')}
                                 </button>
                             </div>
                             <div className="security-option">
                                 <div className="option-info">
                                     <FaShieldAlt className="option-icon" />
                                     <div className="option-text">
-                                        <span className="option-title">Two-Factor Authentication</span>
-                                        <span className="option-desc">Add an extra layer of security</span>
+                                        <span className="option-title">{t('pharmacyPage.profile.settings.security.options.twoFactor.title')}</span>
+                                        <span className="option-desc">{t('pharmacyPage.profile.settings.security.options.twoFactor.description')}</span>
                                     </div>
                                 </div>
                                 <label className="toggle-switch">
@@ -533,8 +537,8 @@ const PharmacyProfile = () => {
                                 <div className="option-info">
                                     <FaSyncAlt className="option-icon" />
                                     <div className="option-text">
-                                        <span className="option-title">Session Timeout</span>
-                                        <span className="option-desc">Time before automatic logout</span>
+                                        <span className="option-title">{t('pharmacyPage.profile.settings.security.options.sessionTimeout.title')}</span>
+                                        <span className="option-desc">{t('pharmacyPage.profile.settings.security.options.sessionTimeout.description')}</span>
                                     </div>
                                 </div>
                                 <select
@@ -542,10 +546,10 @@ const PharmacyProfile = () => {
                                     value={userData.accountSettings.sessionTimeout}
                                     onChange={handleTimeoutChange}
                                 >
-                                    <option value={15}>15 minutes</option>
-                                    <option value={30}>30 minutes</option>
-                                    <option value={60}>1 hour</option>
-                                    <option value={120}>2 hours</option>
+                                    <option value={15}>{t('pharmacyPage.profile.settings.security.options.sessionTimeout.options.15min')}</option>
+                                    <option value={30}>{t('pharmacyPage.profile.settings.security.options.sessionTimeout.options.30min')}</option>
+                                    <option value={60}>{t('pharmacyPage.profile.settings.security.options.sessionTimeout.options.1hour')}</option>
+                                    <option value={120}>{t('pharmacyPage.profile.settings.security.options.sessionTimeout.options.2hours')}</option>
                                 </select>
                             </div>
                         </div>
@@ -560,12 +564,12 @@ const PharmacyProfile = () => {
         return (
             <div className="profile-content-section">
                 <div className="section-header">
-                    <h3>Account Activity</h3>
+                    <h3>{t('pharmacyPage.profile.activity.title')}</h3>
                 </div>
 
                 <div className="activity-container">
                     <div className="activity-card">
-                        <h4 className="activity-title">Recent Security Activity</h4>
+                        <h4 className="activity-title">{t('pharmacyPage.profile.activity.recentActivityTitle')}</h4>
                         <div className="activity-list">
                             {userData.securityActivity.map((activity) => (
                                 <div className="activity-item" key={activity.id}>
@@ -575,7 +579,9 @@ const PharmacyProfile = () => {
                                     <div className="activity-details">
                                         <div className="activity-header">
                                             <span className="activity-type">
-                                                {activity.type === 'login' ? 'Account Login' : 'Password Changed'}
+                                                {activity.type === 'login' 
+                                                    ? t('pharmacyPage.profile.activity.types.login') 
+                                                    : t('pharmacyPage.profile.activity.types.password')}
                                             </span>
                                             <span className="activity-date">{formatDateTime(activity.date)}</span>
                                         </div>
@@ -583,7 +589,7 @@ const PharmacyProfile = () => {
                                             <span className="activity-device">{activity.device}</span>
                                             <div className="activity-location">
                                                 <span>{activity.location}</span>
-                                                <span className="activity-ip">IP: {activity.ip}</span>
+                                                <span className="activity-ip">{t('pharmacyPage.profile.activity.ipPrefix')}: {activity.ip}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -593,7 +599,7 @@ const PharmacyProfile = () => {
                     </div>
 
                     <div className="devices-card">
-                        <h4 className="devices-title">Active Sessions</h4>
+                        <h4 className="devices-title">{t('pharmacyPage.profile.activity.activeSessions')}</h4>
                         <div className="device-item current">
                             <div className="device-icon">
                                 <FaUserAlt />
@@ -601,11 +607,11 @@ const PharmacyProfile = () => {
                             <div className="device-details">
                                 <div className="device-header">
                                     <span className="device-name">Chrome on Windows 10</span>
-                                    <span className="device-status">Current session</span>
+                                    <span className="device-status">{t('pharmacyPage.profile.activity.currentSession')}</span>
                                 </div>
                                 <div className="device-info">
                                     <span className="device-location">Cairo, Egypt</span>
-                                    <span className="device-ip">IP: 197.54.xxx.xxx</span>
+                                    <span className="device-ip">{t('pharmacyPage.profile.activity.ipPrefix')}: 197.54.xxx.xxx</span>
                                 </div>
                             </div>
                         </div>
@@ -634,13 +640,13 @@ const PharmacyProfile = () => {
             {!isLoaded ? (
                 <div className="loading-container">
                     <div className="loader"></div>
-                    <p>Loading profile data...</p>
+                    <p>{t('pharmacyPage.profile.loading')}</p>
                 </div>
             ) : (
                 <div className="profile-container">
                     <div className="page-header">
-                        <h1>Profile & Settings</h1>
-                        <p>Manage your account information and preferences</p>
+                        <h1>{t('pharmacyPage.profile.pageTitle')}</h1>
+                        <p>{t('pharmacyPage.profile.pageSubtitle')}</p>
                     </div>
 
                     <div className="profile-content">
@@ -650,21 +656,21 @@ const PharmacyProfile = () => {
                                 onClick={() => setActiveTab('personal')}
                             >
                                 <FaUserAlt className="tab-icon" />
-                                <span>Personal Information</span>
+                                <span>{t('pharmacyPage.profile.tabs.personal')}</span>
                             </button>
                             <button
                                 className={`tab-btn ${activeTab === 'settings' ? 'active' : ''}`}
                                 onClick={() => setActiveTab('settings')}
                             >
                                 <FaEdit className="tab-icon" />
-                                <span>Account Settings</span>
+                                <span>{t('pharmacyPage.profile.tabs.settings')}</span>
                             </button>
                             <button
                                 className={`tab-btn ${activeTab === 'activity' ? 'active' : ''}`}
                                 onClick={() => setActiveTab('activity')}
                             >
                                 <FaShieldAlt className="tab-icon" />
-                                <span>Security Activity</span>
+                                <span>{t('pharmacyPage.profile.tabs.activity')}</span>
                             </button>
                         </div>
 
@@ -680,7 +686,7 @@ const PharmacyProfile = () => {
                 <div className="modal-overlay">
                     <div className="password-modal">
                         <div className="modal-header">
-                            <h3>Change Password</h3>
+                            <h3>{t('pharmacyPage.profile.passwordModal.title')}</h3>
                             <button className="close-btn" onClick={() => {
                                 setShowPasswordModal(false);
                                 setPasswordError('');
@@ -703,7 +709,7 @@ const PharmacyProfile = () => {
                             )}
 
                             <div className="form-group">
-                                <label htmlFor="currentPassword">Current Password</label>
+                                <label htmlFor="currentPassword">{t('pharmacyPage.profile.passwordModal.fields.currentPassword')}</label>
                                 <input
                                     type="password"
                                     id="currentPassword"
@@ -713,7 +719,7 @@ const PharmacyProfile = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="newPassword">New Password</label>
+                                <label htmlFor="newPassword">{t('pharmacyPage.profile.passwordModal.fields.newPassword')}</label>
                                 <input
                                     type="password"
                                     id="newPassword"
@@ -723,7 +729,7 @@ const PharmacyProfile = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="confirmPassword">Confirm New Password</label>
+                                <label htmlFor="confirmPassword">{t('pharmacyPage.profile.passwordModal.fields.confirmPassword')}</label>
                                 <input
                                     type="password"
                                     id="confirmPassword"
@@ -734,12 +740,12 @@ const PharmacyProfile = () => {
                             </div>
 
                             <div className="password-requirements">
-                                <h4>Password Requirements:</h4>
+                                <h4>{t('pharmacyPage.profile.passwordModal.requirements.title')}:</h4>
                                 <ul>
-                                    <li>At least 8 characters long</li>
-                                    <li>Include at least one uppercase letter</li>
-                                    <li>Include at least one number</li>
-                                    <li>Include at least one special character</li>
+                                    <li>{t('pharmacyPage.profile.passwordModal.requirements.length')}</li>
+                                    <li>{t('pharmacyPage.profile.passwordModal.requirements.uppercase')}</li>
+                                    <li>{t('pharmacyPage.profile.passwordModal.requirements.number')}</li>
+                                    <li>{t('pharmacyPage.profile.passwordModal.requirements.special')}</li>
                                 </ul>
                             </div>
                         </div>
@@ -754,10 +760,10 @@ const PharmacyProfile = () => {
                                     confirmPassword: ''
                                 });
                             }}>
-                                Cancel
+                                {t('pharmacyPage.profile.passwordModal.actions.cancel')}
                             </button>
                             <button className="save-btn" onClick={handlePasswordSubmit}>
-                                Update Password
+                                {t('pharmacyPage.profile.passwordModal.actions.update')}
                             </button>
                         </div>
                     </div>

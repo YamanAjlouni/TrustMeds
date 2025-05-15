@@ -474,11 +474,37 @@
             }
 
             .user-dropdown {
+                position: absolute;
+                top: calc(100% + 10px); /* Adjusted to match other dropdowns */
                 right: 0;
+                left: auto;
                 width: 250px;
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+                overflow: hidden;
+                z-index: 1000;
 
                 &:before {
-                    right: 30px;
+                    content: '';
+                    position: absolute;
+                    top: -6px;
+                    right: 20px; /* Arrow position adjusted */
+                    width: 12px;
+                    height: 12px;
+                    background-color: white;
+                    transform: rotate(45deg);
+                    box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.04);
+                }
+
+                &.rtl {
+                    right: auto;
+                    left: 0;
+
+                    &:before {
+                        right: auto;
+                        left: 20px; /* Arrow position for RTL */
+                    }
                 }
 
                 .user-info {
@@ -494,8 +520,6 @@
                             font-size: 1.1rem;
                             margin-right: 1rem;
                         }
-
-
                     }
 
                     .user-details {
@@ -565,6 +589,7 @@
     }
 }
 
+/* RTL support for Arabic language */
 .lang-ar {
     .doctor-navbar {
         .navbar-container {
@@ -578,7 +603,6 @@
                     margin-right: 0;
                     margin-left: 1rem;
                 }
-
 
                 .navbar-search {
                     .search-icon {
@@ -594,23 +618,24 @@
 
             .navbar-right {
                 .navbar-actions {
+                    .language-wrapper {
+                        .language-dropdown {
+                            right: auto;
+                            left: -10px;
+                        }
+                    }
 
-                    .language-container,
                     .notification-container,
                     .message-container {
                         .dropdown-menu {
-                            right: auto;
-                            left: -10px;
+                            right: auto !important;
+                            left: -100px !important;
 
                             &:before {
                                 right: auto;
                                 left: 108px;
                             }
                         }
-                    }
-
-                    .notification-container,
-                    .message-container {
 
                         .notification-item,
                         .message-item {
@@ -622,24 +647,22 @@
                             }
                         }
                     }
+
+                    .message-item {
+                        .message-avatar {
+                            margin-right: 0;
+                            margin-left: 0.75rem;
+                        }
+                    }
                 }
 
                 .user-menu-container {
+                    margin-left: 0;
+                    margin-right: 1.25rem;
 
                     @media (max-width: 768px) {
                         margin-right: 0.5rem;
-                    }
-
-                    margin-left: 0;
-
-                    .user-dropdown {
-                        right: auto;
-                        left: 0;
-
-                        &:before {
-                            right: auto;
-                            left: 30px;
-                        }
+                        margin-left: 0;
                     }
 
                     .user-menu-button {
@@ -650,8 +673,30 @@
                             @media (max-width: 768px) {
                                 margin-left: 0;
                             }
-
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    .user-dropdown {
+        .user-info {
+            .user-avatar.large {
+                margin-right: 0 !important;
+                margin-left: 1rem !important;
+            }
+        }
+
+        .user-menu-list {
+            li {
+                a, 
+                .logout-button {
+                    text-align: right !important;
+
+                    svg {
+                        margin-right: 0 !important;
+                        margin-left: 0.75rem !important;
                     }
                 }
             }

@@ -22,7 +22,7 @@ const DoctorNavbar = ({ toggleSidebar }) => {
     const [showLanguageDropdown, setShowLanguageDropdown] = useState(false); // Added language dropdown state
 
     // Get language context
-    const { language, changeLanguage, t } = useLanguage();
+    const { language, changeLanguage, t, isRTL } = useLanguage();
 
     // References
     const notificationRef = React.useRef(null);
@@ -302,7 +302,7 @@ const DoctorNavbar = ({ toggleSidebar }) => {
                         </button>
 
                         {showUserMenu && (
-                            <div className="dropdown-menu user-dropdown" onClick={e => e.stopPropagation()}>
+                            <div className={`dropdown-menu user-dropdown ${isRTL ? 'rtl' : ''}`} onClick={e => e.stopPropagation()}>
                                 <div className="user-info">
                                     <div className="user-avatar large">
                                         <span>MA</span>
@@ -331,9 +331,9 @@ const DoctorNavbar = ({ toggleSidebar }) => {
                                     </li>
                                     <li className="divider"></li>
                                     <li>
-                                        <button className="logout-button">
+                                        <NavLink to="/" className="logout-button">
                                             <FaSignOutAlt /> {t ? t('doctorPage.navbar.logout') : "Logout"}
-                                        </button>
+                                        </NavLink>
                                     </li>
                                 </ul>
                             </div>

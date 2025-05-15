@@ -68,9 +68,6 @@ $pharmacy-light: rgba($pharmacy-primary, 0.1);
     }
 
     .history-container {
-        max-width: 1400px;
-        margin: 0 auto;
-
         .page-header {
             margin-bottom: 2rem;
 
@@ -98,6 +95,7 @@ $pharmacy-light: rgba($pharmacy-primary, 0.1);
             padding: 1.25rem;
 
             .search-container {
+                display: flex;
                 flex: 1;
                 min-width: 300px;
                 position: relative;
@@ -969,5 +967,199 @@ $pharmacy-light: rgba($pharmacy-primary, 0.1);
                 }
             }
         }
+    }
+}
+
+
+// RTL Support for Pharmacy Dispensed History
+.lang-ar .pharmacy-dispensed-history {
+    text-align: right !important;
+
+    // Page header
+    .page-header {
+        text-align: right !important;
+    }
+
+    // Search bar adjustments
+    .action-bar {
+        .search-container {
+            .search-icon {
+                left: auto !important;
+                right: 1rem !important;
+            }
+
+            .search-input {
+                padding: 0.75rem 2.5rem 0.75rem 1rem !important;
+            }
+        }
+
+        .filter-controls {
+            .filter-group {
+                text-align: right !important;
+
+                .filter-select {
+                    padding: 0.75rem 0.75rem 0.75rem 2rem !important;
+                    background-position: left 10px center !important;
+                }
+            }
+
+            .date-range-inputs {
+                .date-input-group {
+                    .date-input-wrapper {
+                        .calendar-icon {
+                            left: auto !important;
+                            right: 0.75rem !important;
+                        }
+
+                        .date-input {
+                            padding: 0.75rem 2.25rem 0.75rem 0.75rem !important;
+                        }
+                    }
+                }
+            }
+
+            .refresh-btn {
+                margin-right: 0.5rem !important;
+                margin-left: 0 !important;
+
+                svg {
+                    margin-right: 0 !important;
+                    margin-left: 0.5rem !important;
+                }
+            }
+        }
+    }
+
+    // Results header
+    .history-results {
+        .results-header {
+            .export-options {
+
+                .export-btn,
+                .print-btn {
+                    svg {
+                        margin-right: 0 !important;
+                        margin-left: 0.5rem !important;
+                    }
+                }
+            }
+        }
+
+        // Table for history
+        .history-table-container {
+            .history-table {
+
+                th,
+                td {
+                    text-align: right !important;
+                }
+
+                .table-action-btn {
+                    svg {
+                        margin-right: 0 !important;
+                        margin-left: 0.35rem !important;
+                    }
+                }
+            }
+        }
+    }
+
+    // Modal styling
+    .modal-overlay {
+        .modal-content {
+            .modal-header {
+                .header-left {
+                    text-align: right !important;
+                }
+
+                .header-right {
+                    .header-actions {
+                        .action-btn {
+                            svg {
+                                margin-right: 0 !important;
+                                margin-left: 0.35rem !important;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .modal-body {
+                .status-bar {
+                    text-align: right !important;
+
+                    .status-item {
+                        .status-value {
+                            &.dispensed {
+                                svg {
+                                    margin-right: 0 !important;
+                                    margin-left: 0.35rem !important;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .prescription-sections {
+                    .info-section {
+                        .section-header {
+                            text-align: right !important;
+
+                            .header-icon {
+                                margin-right: 0 !important;
+                                margin-left: 0.75rem !important;
+                            }
+                        }
+
+                        .section-content {
+                            text-align: right !important;
+
+                            .info-grid {
+                                .info-item {
+                                    text-align: right !important;
+                                }
+                            }
+
+                            .medication-card {
+                                .medication-header {
+                                    h4 {
+                                        .dosage {
+                                            margin-left: 0 !important;
+                                            margin-right: 0.25rem !important;
+                                        }
+                                    }
+                                }
+
+                                .medication-instructions {
+                                    text-align: right !important;
+                                }
+                            }
+
+                            .payment-details {
+                                .payment-row {
+                                    flex-direction: row-reverse !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .modal-footer {
+                justify-content: flex-start !important;
+
+                .action-btn {
+                    svg {
+                        margin-right: 0 !important;
+                        margin-left: 0.5rem !important;
+                    }
+                }
+            }
+        }
+    }
+
+    // Empty state - keep centered
+    .empty-state {
+        text-align: center !important;
     }
 }

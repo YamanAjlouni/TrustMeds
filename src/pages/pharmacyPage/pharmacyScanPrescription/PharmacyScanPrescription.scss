@@ -68,9 +68,6 @@ $pharmacy-light: rgba($pharmacy-primary, 0.1);
     }
 
     .scan-container {
-        max-width: 1000px;
-        margin: 0 auto;
-
         .page-header {
             margin-bottom: 2rem;
             text-align: center;
@@ -794,6 +791,116 @@ $pharmacy-light: rgba($pharmacy-primary, 0.1);
 
                 .card-actions {
                     flex-direction: column;
+                }
+            }
+        }
+    }
+}
+
+// RTL Support for Pharmacy Scan Prescription
+.lang-ar .pharmacy-scan-prescription {
+
+    // Scanner card
+    .scanner-card {
+        .scanner-cta {
+            .scan-btn {
+                svg {
+                    margin-right: 0 !important;
+                    margin-left: 0.5rem !important;
+                }
+            }
+        }
+    }
+
+    // Error and success cards
+    .error-card,
+    .success-card {
+
+        .retry-btn,
+        .scan-btn {
+            svg {
+                margin-right: 0 !important;
+                margin-left: 0.5rem !important;
+            }
+        }
+    }
+
+    // Prescription details card
+    .prescription-details-card {
+        .card-header {
+            .priority-badge {
+                &.urgent {
+                    svg {
+                        margin-right: 0 !important;
+                        margin-left: 0.35rem !important;
+                    }
+                }
+            }
+        }
+
+        .prescription-sections {
+            .info-section {
+                .section-header {
+                    .header-icon {
+                        margin-right: 0 !important;
+                        margin-left: 0.75rem !important;
+                    }
+                }
+
+                &.medications-section {
+                    .section-content {
+                        .medication-card {
+                            .medication-instructions {
+                                .instruction-item {
+                                    .instruction-label {
+                                        svg {
+                                            margin-right: 0 !important;
+                                            margin-left: 0.35rem !important;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .card-actions {
+            .verifying-container {
+                .loader.small {
+                    margin-right: 0 !important;
+                    margin-left: 0.75rem !important;
+                }
+            }
+
+            .action-btn {
+                svg {
+                    margin-right: 0 !important;
+                    margin-left: 0.5rem !important;
+                }
+            }
+        }
+    }
+
+    // Instructions card
+    .instruction-card {
+        .instruction-list {
+            li {
+                .step-number {
+                    margin-right: 0 !important;
+                    margin-left: 1rem !important;
+                }
+            }
+        }
+    }
+
+    // Adjust animation directions for RTL in scanner
+    .scanner-card {
+        .scanner-active {
+            .scanner-animation {
+                &::after {
+                    animation-direction: reverse !important;
                 }
             }
         }

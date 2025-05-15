@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import './PharmacyDashboard.scss';
+import { useLanguage } from '../../../context/LanguageContext'; // Import language context
 import {
     FaPills,
     FaCalendarAlt,
@@ -18,6 +19,8 @@ import {
 } from 'react-icons/fa';
 
 const PharmacyDashboard = () => {
+    const { t, isRTL } = useLanguage(); // Get translations and RTL status
+
     // Sample data - in a real app, this would come from your API/backend
     const [overviewStats, setOverviewStats] = useState({
         newPrescriptions: 12,
@@ -183,33 +186,39 @@ const PharmacyDashboard = () => {
         return `${formattedHours}:${formattedMinutes} ${ampm}`;
     };
 
+    // Format date for localization based on language
+    const getFormattedDate = () => {
+        const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+        return new Date().toLocaleDateString(isRTL ? 'ar-SA' : 'en-US', options);
+    };
+
     return (
         <div className="pharmacy-dashboard">
             {!isLoaded ? (
                 <div className="loading-container">
                     <div className="loader"></div>
-                    <p>Loading dashboard...</p>
+                    <p>{t('pharmacyPage.dashboard.loading')}</p>
                 </div>
             ) : (
                 <div className="dashboard-content">
                     <div className="welcome-section">
                         <div className="welcome-message">
-                            <h2>Welcome back, <span className="highlight">Yara</span></h2>
-                            <p>Today is {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                            <h2>{t('pharmacyPage.dashboard.welcomeMessage')}, <span className="highlight">Yara</span></h2>
+                            <p>{t('pharmacyPage.dashboard.todayIs')} {getFormattedDate()}</p>
                         </div>
 
                         <div className="quick-actions">
                             <button className="quick-action-btn primary" onClick={handleScanToggle}>
                                 <FaQrcode />
-                                <span>Scan Prescription</span>
+                                <span>{t('pharmacyPage.dashboard.quickActions.scanPrescription')}</span>
                             </button>
                             <NavLink to="/pharmacy/pending-prescriptions" className="quick-action-btn secondary">
                                 <FaClipboardList />
-                                <span>View Pending ({pendingPrescriptions.length})</span>
+                                <span>{t('pharmacyPage.dashboard.quickActions.viewPending')} ({pendingPrescriptions.length})</span>
                             </NavLink>
                             <NavLink to="/pharmacy/dispensed-history" className="quick-action-btn secondary">
                                 <FaHistory />
-                                <span>Dispensed History</span>
+                                <span>{t('pharmacyPage.dashboard.quickActions.dispensedHistory')}</span>
                             </NavLink>
                         </div>
                     </div>
@@ -217,14 +226,14 @@ const PharmacyDashboard = () => {
                     <div className="dashboard-grid">
                         {/* Overview Stats Section */}
                         <div className="stats-section">
-                            <h3 className="section-title">Today's Overview</h3>
+                            <h3 className="section-title">{t('pharmacyPage.dashboard.todayOverview')}</h3>
                             <div className="stats-grid">
                                 <div className="stat-card">
                                     <div className="stat-icon pending-icon">
                                         <FaClipboardList />
                                     </div>
                                     <div className="stat-content">
-                                        <h4>Pending Prescriptions</h4>
+                                        <h4>{t('pharmacyPage.dashboard.stats.pendingPrescriptions')}</h4>
                                         <p className="stat-value">{overviewStats.newPrescriptions}</p>
                                     </div>
                                 </div>
@@ -234,7 +243,7 @@ const PharmacyDashboard = () => {
                                         <FaCheckCircle />
                                     </div>
                                     <div className="stat-content">
-                                        <h4>Dispensed Today</h4>
+                                        <h4>{t('pharmacyPage.dashboard.stats.dispensedToday')}</h4>
                                         <p className="stat-value">{overviewStats.dispensedToday}</p>
                                     </div>
                                 </div>
@@ -244,7 +253,7 @@ const PharmacyDashboard = () => {
                                         <FaUserAlt />
                                     </div>
                                     <div className="stat-content">
-                                        <h4>Patients Served</h4>
+                                        <h4>{t('pharmacyPage.dashboard.stats.patientsServed')}</h4>
                                         <p className="stat-value">{overviewStats.patientsServed}</p>
                                     </div>
                                 </div>
@@ -254,7 +263,7 @@ const PharmacyDashboard = () => {
                                         <FaPills />
                                     </div>
                                     <div className="stat-content">
-                                        <h4>Medications Dispensed</h4>
+                                        <h4>{t('pharmacyPage.dashboard.stats.medicationsDispensed')}</h4>
                                         <p className="stat-value">{overviewStats.medicationsDispensed}</p>
                                     </div>
                                 </div>
@@ -264,10 +273,10 @@ const PharmacyDashboard = () => {
                         {/* Recent Activity Section */}
                         <div className="activity-section">
                             <div className="section-header">
-                                <h3 className="section-title">Recent Activity</h3>
+                                <h3 className="section-title">{t('pharmacyPage.dashboard.recentActivity.title')}</h3>
                                 <div className="header-actions">
                                     <button className="refresh-btn">
-                                        <FaSyncAlt /> Refresh
+                                        <FaSyncAlt /> {t('pharmacyPage.dashboard.recentActivity.refresh')}
                                     </button>
                                 </div>
                             </div>
@@ -294,15 +303,17 @@ const PharmacyDashboard = () => {
                         {/* Pending Prescriptions Section */}
                         <div className="pending-section">
                             <div className="section-header">
-                                <h3 className="section-title">Pending Prescriptions</h3>
-                                <NavLink to="/pharmacy/pending-prescriptions" className="view-all">View All</NavLink>
+                                <h3 className="section-title">{t('pharmacyPage.dashboard.pendingPrescriptions.title')}</h3>
+                                <NavLink to="/pharmacy/pending-prescriptions" className="view-all">
+                                    {t('pharmacyPage.dashboard.pendingPrescriptions.viewAll')}
+                                </NavLink>
                             </div>
 
                             <div className="pending-prescriptions">
                                 {pendingPrescriptions.length === 0 ? (
                                     <div className="empty-state">
                                         <FaClipboardList className="empty-icon" />
-                                        <p>No pending prescriptions to process</p>
+                                        <p>{t('pharmacyPage.dashboard.pendingPrescriptions.empty')}</p>
                                     </div>
                                 ) : (
                                     pendingPrescriptions.slice(0, 3).map(prescription => (
@@ -313,38 +324,38 @@ const PharmacyDashboard = () => {
                                                     <h4>{prescription.id}</h4>
                                                     {prescription.priority === 'Urgent' && (
                                                         <span className="urgent-badge">
-                                                            <FaExclamationTriangle /> Urgent
+                                                            <FaExclamationTriangle /> {t('pharmacyPage.dashboard.pendingPrescriptions.priority.urgent')}
                                                         </span>
                                                     )}
                                                 </div>
-                                                <span className="prescription-date">{new Date(prescription.issueDate).toLocaleDateString()}</span>
+                                                <span className="prescription-date">{new Date(prescription.issueDate).toLocaleDateString(isRTL ? 'ar-SA' : 'en-US')}</span>
                                             </div>
 
                                             <div className="prescription-details">
                                                 <div className="detail-row">
-                                                    <span className="detail-label">Patient:</span>
+                                                    <span className="detail-label">{t('pharmacyPage.dashboard.pendingPrescriptions.details.patient')}:</span>
                                                     <span className="detail-value">{prescription.patientName}</span>
                                                 </div>
                                                 <div className="detail-row">
-                                                    <span className="detail-label">Doctor:</span>
+                                                    <span className="detail-label">{t('pharmacyPage.dashboard.pendingPrescriptions.details.doctor')}:</span>
                                                     <span className="detail-value">{prescription.doctorName}</span>
                                                 </div>
                                                 <div className="detail-row">
-                                                    <span className="detail-label">Medications:</span>
-                                                    <span className="detail-value">{prescription.medications.length} items</span>
+                                                    <span className="detail-label">{t('pharmacyPage.dashboard.pendingPrescriptions.details.medications')}:</span>
+                                                    <span className="detail-value">{prescription.medications.length} {t('pharmacyPage.dashboard.pendingPrescriptions.details.items')}</span>
                                                 </div>
                                             </div>
 
                                             <div className="prescription-actions">
                                                 <NavLink to={`/pharmacy/pending-prescriptions?id=${prescription.id}`} className="action-btn view-btn">
-                                                    <FaEye /> View Details
+                                                    <FaEye /> {t('pharmacyPage.dashboard.pendingPrescriptions.actions.viewDetails')}
                                                 </NavLink>
                                                 <div className="action-group">
                                                     <button
                                                         className="action-btn approve-btn"
                                                         onClick={() => handleApprovePrescription(prescription)}
                                                     >
-                                                        <FaCheckCircle /> Dispense
+                                                        <FaCheckCircle /> {t('pharmacyPage.dashboard.pendingPrescriptions.actions.dispense')}
                                                     </button>
                                                 </div>
                                             </div>
@@ -357,7 +368,7 @@ const PharmacyDashboard = () => {
                         {/* Scanner Section */}
                         <div className="scanner-section">
                             <div className="section-header">
-                                <h3 className="section-title">Prescription Scanner</h3>
+                                <h3 className="section-title">{t('pharmacyPage.dashboard.scanner.title')}</h3>
                             </div>
                             <div className="scanner-content">
                                 {!showScanner ? (
@@ -365,10 +376,10 @@ const PharmacyDashboard = () => {
                                         <div className="scanner-icon">
                                             <FaQrcode />
                                         </div>
-                                        <h4>Scan a Prescription</h4>
-                                        <p>Process prescriptions quickly by scanning the QR code</p>
+                                        <h4>{t('pharmacyPage.dashboard.scanner.cta.title')}</h4>
+                                        <p>{t('pharmacyPage.dashboard.scanner.cta.description')}</p>
                                         <button className="scanner-btn" onClick={handleScanToggle}>
-                                            Start Scanner
+                                            {t('pharmacyPage.dashboard.scanner.cta.button')}
                                         </button>
                                     </div>
                                 ) : (
@@ -378,42 +389,42 @@ const PharmacyDashboard = () => {
                                                 <div className="scanner-animation">
                                                     <FaQrcode className="scanner-pulse" />
                                                 </div>
-                                                <p>Please hold the QR code in view of the camera...</p>
+                                                <p>{t('pharmacyPage.dashboard.scanner.processing.message')}</p>
                                                 <button className="cancel-btn" onClick={handleScanToggle}>
-                                                    Cancel
+                                                    {t('pharmacyPage.dashboard.scanner.processing.cancel')}
                                                 </button>
                                             </div>
                                         ) : (
                                             <div className="scanned-result">
                                                 <div className="result-header">
                                                     <FaCheckCircle className="success-icon" />
-                                                    <h4>Prescription Found</h4>
+                                                    <h4>{t('pharmacyPage.dashboard.scanner.result.found')}</h4>
                                                 </div>
 
                                                 <div className="result-details">
                                                     <div className="detail-row">
-                                                        <span className="detail-label">ID:</span>
+                                                        <span className="detail-label">{t('pharmacyPage.dashboard.scanner.result.details.id')}:</span>
                                                         <span className="detail-value">{scannedPrescription.id}</span>
                                                     </div>
                                                     <div className="detail-row">
-                                                        <span className="detail-label">Patient:</span>
+                                                        <span className="detail-label">{t('pharmacyPage.dashboard.scanner.result.details.patient')}:</span>
                                                         <span className="detail-value">{scannedPrescription.patientName}</span>
                                                     </div>
                                                     <div className="detail-row">
-                                                        <span className="detail-label">Doctor:</span>
+                                                        <span className="detail-label">{t('pharmacyPage.dashboard.scanner.result.details.doctor')}:</span>
                                                         <span className="detail-value">{scannedPrescription.doctorName}</span>
                                                     </div>
                                                     <div className="detail-row">
-                                                        <span className="detail-label">Date:</span>
-                                                        <span className="detail-value">{new Date(scannedPrescription.issueDate).toLocaleDateString()}</span>
+                                                        <span className="detail-label">{t('pharmacyPage.dashboard.scanner.result.details.date')}:</span>
+                                                        <span className="detail-value">{new Date(scannedPrescription.issueDate).toLocaleDateString(isRTL ? 'ar-SA' : 'en-US')}</span>
                                                     </div>
 
                                                     <div className="medications-list">
-                                                        <h5>Medications ({scannedPrescription.medications.length})</h5>
+                                                        <h5>{t('pharmacyPage.dashboard.scanner.result.details.medications')} ({scannedPrescription.medications.length})</h5>
                                                         {scannedPrescription.medications.map((med, index) => (
                                                             <div className="medication-item" key={index}>
                                                                 <span className="med-name">{med.name} ({med.dosage})</span>
-                                                                <span className="med-qty">Qty: {med.quantity}</span>
+                                                                <span className="med-qty">{t('pharmacyPage.dashboard.scanner.result.details.qty')}: {med.quantity}</span>
                                                             </div>
                                                         ))}
                                                     </div>
@@ -424,13 +435,13 @@ const PharmacyDashboard = () => {
                                                         className="action-btn approve-btn"
                                                         onClick={() => handleApprovePrescription(scannedPrescription)}
                                                     >
-                                                        <FaCheckCircle /> Dispense
+                                                        <FaCheckCircle /> {t('pharmacyPage.dashboard.scanner.result.actions.dispense')}
                                                     </button>
                                                     <button
                                                         className="action-btn cancel-btn"
                                                         onClick={handleScanToggle}
                                                     >
-                                                        Cancel
+                                                        {t('pharmacyPage.dashboard.scanner.result.actions.cancel')}
                                                     </button>
                                                 </div>
                                             </div>

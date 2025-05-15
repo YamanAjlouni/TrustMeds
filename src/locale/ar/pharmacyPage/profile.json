@@ -1,0 +1,113 @@
+{
+    "loading": "جاري تحميل بيانات الملف الشخصي...",
+    "pageTitle": "الملف الشخصي والإعدادات",
+    "pageSubtitle": "إدارة معلومات وتفضيلات حسابك",
+    "tabs": {
+        "personal": "المعلومات الشخصية",
+        "settings": "إعدادات الحساب",
+        "activity": "نشاط الأمان"
+    },
+    "personal": {
+        "title": "المعلومات الشخصية",
+        "editProfile": "تعديل الملف الشخصي",
+        "cancel": "إلغاء",
+        "saveChanges": "حفظ التغييرات",
+        "successMessage": "تم حفظ التغييرات بنجاح!",
+        "idPrefix": "المعرف",
+        "changePassword": "تغيير كلمة المرور",
+        "fields": {
+            "fullName": "الاسم الكامل",
+            "email": "البريد الإلكتروني",
+            "phone": "رقم الهاتف",
+            "address": "العنوان",
+            "department": "القسم",
+            "supervisor": "المشرف",
+            "dateJoined": "تاريخ الانضمام",
+            "password": "كلمة المرور"
+        }
+    },
+    "settings": {
+        "title": "إعدادات الحساب",
+        "successMessage": "تم تحديث الإعدادات بنجاح!",
+        "language": {
+            "title": "لغة الواجهة"
+        },
+        "notifications": {
+            "title": "تفضيلات الإشعارات",
+            "options": {
+                "email": {
+                    "title": "إشعارات البريد الإلكتروني",
+                    "description": "استلام الإشعارات عبر البريد الإلكتروني"
+                },
+                "sms": {
+                    "title": "إشعارات الرسائل النصية",
+                    "description": "استلام الإشعارات عبر الرسائل النصية"
+                },
+                "inApp": {
+                    "title": "إشعارات داخل التطبيق",
+                    "description": "استلام الإشعارات داخل التطبيق"
+                }
+            }
+        },
+        "security": {
+            "title": "إعدادات الأمان",
+            "options": {
+                "password": {
+                    "title": "تغيير كلمة المرور",
+                    "description": "تحديث كلمة مرور حسابك",
+                    "action": "تغيير"
+                },
+                "twoFactor": {
+                    "title": "المصادقة الثنائية",
+                    "description": "إضافة طبقة إضافية من الأمان"
+                },
+                "sessionTimeout": {
+                    "title": "مهلة الجلسة",
+                    "description": "الوقت قبل تسجيل الخروج التلقائي",
+                    "options": {
+                        "15min": "15 دقيقة",
+                        "30min": "30 دقيقة",
+                        "1hour": "ساعة واحدة",
+                        "2hours": "ساعتين"
+                    }
+                }
+            }
+        }
+    },
+    "activity": {
+        "title": "نشاط الحساب",
+        "recentActivityTitle": "نشاط الأمان الأخير",
+        "activeSessions": "الجلسات النشطة",
+        "currentSession": "الجلسة الحالية",
+        "at": "في",
+        "ipPrefix": "آي بي",
+        "types": {
+            "login": "تسجيل دخول الحساب",
+            "password": "تم تغيير كلمة المرور"
+        }
+    },
+    "passwordModal": {
+        "title": "تغيير كلمة المرور",
+        "errors": {
+            "allFieldsRequired": "جميع الحقول مطلوبة",
+            "passwordsDoNotMatch": "كلمات المرور الجديدة غير متطابقة",
+            "passwordTooShort": "يجب أن تكون كلمة المرور 8 أحرف على الأقل"
+        },
+        "fields": {
+            "currentPassword": "كلمة المرور الحالية",
+            "newPassword": "كلمة المرور الجديدة",
+            "confirmPassword": "تأكيد كلمة المرور الجديدة"
+        },
+        "requirements": {
+            "title": "متطلبات كلمة المرور",
+            "length": "8 أحرف على الأقل",
+            "uppercase": "تتضمن حرف كبير واحد على الأقل",
+            "number": "تتضمن رقم واحد على الأقل",
+            "special": "تتضمن رمز خاص واحد على الأقل"
+        },
+        "actions": {
+            "cancel": "إلغاء",
+            "update": "تحديث كلمة المرور"
+        }
+    }
+}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './PharmacyHelp.scss';
+import { useLanguage } from '../../../context/LanguageContext'; // Import language hook
 import {
     FaQuestionCircle,
     FaPlayCircle,
@@ -21,6 +22,9 @@ import {
 } from 'react-icons/fa';
 
 const PharmacyHelp = () => {
+    // Get language context
+    const { t, isRTL } = useLanguage();
+    
     // State
     const [isLoaded, setIsLoaded] = useState(false);
     const [activeTab, setActiveTab] = useState('guides');
@@ -90,38 +94,74 @@ const PharmacyHelp = () => {
         faqs: [
             {
                 id: 'faq-1',
-                question: 'How do I reset my password?',
-                answer: 'To reset your password, go to the Profile & Settings page, click on the "Change Password" button in the Personal Information tab, and follow the instructions. You\'ll need to enter your current password and a new password that meets our security requirements.',
+                question: {
+                    en: 'How do I reset my password?',
+                    ar: 'كيف يمكنني إعادة تعيين كلمة المرور الخاصة بي؟'
+                },
+                answer: {
+                    en: 'To reset your password, go to the Profile & Settings page, click on the "Change Password" button in the Personal Information tab, and follow the instructions. You\'ll need to enter your current password and a new password that meets our security requirements.',
+                    ar: 'لإعادة تعيين كلمة المرور الخاصة بك، انتقل إلى صفحة الملف الشخصي والإعدادات، انقر على زر "تغيير كلمة المرور" في علامة تبويب المعلومات الشخصية، واتبع التعليمات. ستحتاج إلى إدخال كلمة المرور الحالية وكلمة مرور جديدة تلبي متطلبات الأمان لدينا.'
+                },
                 category: 'account'
             },
             {
                 id: 'faq-2',
-                question: 'What should I do if the QR scanner isn\'t working?',
-                answer: 'If the QR scanner isn\'t working, first ensure that you\'ve granted the browser permission to access your camera. If that doesn\'t resolve the issue, try refreshing the page. If problems persist, you can manually enter the prescription ID in the search field on the Pending Prescriptions page.',
+                question: {
+                    en: 'What should I do if the QR scanner isn\'t working?',
+                    ar: 'ماذا أفعل إذا لم يعمل ماسح رمز الاستجابة السريعة (QR)؟'
+                },
+                answer: {
+                    en: 'If the QR scanner isn\'t working, first ensure that you\'ve granted the browser permission to access your camera. If that doesn\'t resolve the issue, try refreshing the page. If problems persist, you can manually enter the prescription ID in the search field on the Pending Prescriptions page.',
+                    ar: 'إذا لم يعمل ماسح رمز الاستجابة السريعة (QR)، تأكد أولاً من أنك منحت المتصفح إذنًا للوصول إلى الكاميرا الخاصة بك. إذا لم يؤدِ ذلك إلى حل المشكلة، حاول تحديث الصفحة. إذا استمرت المشكلة، يمكنك إدخال معرف الوصفة الطبية يدويًا في حقل البحث في صفحة الوصفات الطبية المعلقة.'
+                },
                 category: 'technical'
             },
             {
                 id: 'faq-3',
-                question: 'How do I search for a patient\'s prescription history?',
-                answer: 'To search for a patient\'s prescription history, go to the Dispensed History section and use the search box at the top of the page. You can search by patient name, ID, or prescription number. Use the filters to narrow down results by date range or medication type.',
+                question: {
+                    en: 'How do I search for a patient\'s prescription history?',
+                    ar: 'كيف يمكنني البحث عن تاريخ الوصفات الطبية للمريض؟'
+                },
+                answer: {
+                    en: 'To search for a patient\'s prescription history, go to the Dispensed History section and use the search box at the top of the page. You can search by patient name, ID, or prescription number. Use the filters to narrow down results by date range or medication type.',
+                    ar: 'للبحث عن تاريخ الوصفات الطبية للمريض، انتقل إلى قسم سجل الصرف واستخدم مربع البحث أعلى الصفحة. يمكنك البحث بواسطة اسم المريض أو رقم الهوية أو رقم الوصفة الطبية. استخدم عوامل التصفية لتضييق نطاق النتائج حسب النطاق الزمني أو نوع الدواء.'
+                },
                 category: 'workflow'
             },
             {
                 id: 'faq-4',
-                question: 'Can I use the system on my mobile device?',
-                answer: 'Yes, the pharmacy system is fully responsive and works on mobile devices. You can access all features including prescription scanning (using your device\'s camera), dispensing, and patient management. For the best experience on smaller screens, we recommend using the app in landscape mode.',
+                question: {
+                    en: 'Can I use the system on my mobile device?',
+                    ar: 'هل يمكنني استخدام النظام على جهازي المحمول؟'
+                },
+                answer: {
+                    en: 'Yes, the pharmacy system is fully responsive and works on mobile devices. You can access all features including prescription scanning (using your device\'s camera), dispensing, and patient management. For the best experience on smaller screens, we recommend using the app in landscape mode.',
+                    ar: 'نعم، نظام الصيدلية متوافق تمامًا مع الأجهزة المحمولة. يمكنك الوصول إلى جميع الميزات بما في ذلك مسح الوصفات الطبية (باستخدام كاميرا جهازك) وصرف الأدوية وإدارة المرضى. للحصول على أفضل تجربة على الشاشات الصغيرة، نوصي باستخدام التطبيق في وضع أفقي.'
+                },
                 category: 'technical'
             },
             {
                 id: 'faq-5',
-                question: 'What do I do if I notice a mistake on a prescription?',
-                answer: 'If you notice a mistake on a prescription, do not dispense it. Instead, use the Communication feature to contact the prescribing physician. Select the prescription in question, click on "Contact Doctor," and explain the issue. Wait for the physician\'s response before proceeding. All communications are logged for record-keeping.',
+                question: {
+                    en: 'What do I do if I notice a mistake on a prescription?',
+                    ar: 'ماذا أفعل إذا لاحظت خطأ في الوصفة الطبية؟'
+                },
+                answer: {
+                    en: 'If you notice a mistake on a prescription, do not dispense it. Instead, use the Communication feature to contact the prescribing physician. Select the prescription in question, click on "Contact Doctor," and explain the issue. Wait for the physician\'s response before proceeding. All communications are logged for record-keeping.',
+                    ar: 'إذا لاحظت خطأ في الوصفة الطبية، لا تقم بصرفها. بدلاً من ذلك، استخدم ميزة التواصل للاتصال بالطبيب المعالج. حدد الوصفة الطبية المعنية، وانقر على "الاتصال بالطبيب"، واشرح المشكلة. انتظر رد الطبيب قبل المتابعة. يتم تسجيل جميع الاتصالات لأغراض حفظ السجلات.'
+                },
                 category: 'workflow'
             },
             {
                 id: 'faq-6',
-                question: 'How are patient data and prescription information kept secure?',
-                answer: 'Patient data and prescription information are protected through multiple security measures. All data is encrypted both in transit and at rest. Access is controlled through role-based permissions, and all activities are logged for audit purposes. We comply with relevant healthcare data protection regulations and conduct regular security assessments.',
+                question: {
+                    en: 'How are patient data and prescription information kept secure?',
+                    ar: 'كيف يتم الحفاظ على أمان بيانات المرضى ومعلومات الوصفات الطبية؟'
+                },
+                answer: {
+                    en: 'Patient data and prescription information are protected through multiple security measures. All data is encrypted both in transit and at rest. Access is controlled through role-based permissions, and all activities are logged for audit purposes. We comply with relevant healthcare data protection regulations and conduct regular security assessments.',
+                    ar: 'تتم حماية بيانات المرضى ومعلومات الوصفات الطبية من خلال تدابير أمنية متعددة. جميع البيانات مشفرة أثناء النقل وفي حالة التخزين. يتم التحكم في الوصول من خلال أذونات قائمة على الأدوار، ويتم تسجيل جميع الأنشطة لأغراض المراجعة. نحن نلتزم بلوائح حماية بيانات الرعاية الصحية ذات الصلة ونجري تقييمات أمنية منتظمة.'
+                },
                 category: 'security'
             }
         ],
@@ -155,6 +195,13 @@ const PharmacyHelp = () => {
         ]
     });
 
+    // Get current language code
+    const getCurrentLanguage = () => {
+        // This assumes your useLanguage hook provides a way to get the current language
+        // You might need to adjust this based on your actual implementation
+        return isRTL ? 'ar' : 'en';
+    };
+
     // Simulate loading state
     useEffect(() => {
         setTimeout(() => {
@@ -167,6 +214,9 @@ const PharmacyHelp = () => {
         setSearchQuery(e.target.value);
     };
 
+    // Get the current language
+    const currentLang = getCurrentLanguage();
+
     // Filter guides based on search query
     const filteredGuides = helpData.guides.filter(guide =>
         guide.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -175,8 +225,8 @@ const PharmacyHelp = () => {
 
     // Filter FAQs based on search query
     const filteredFaqs = helpData.faqs.filter(faq =>
-        faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
+        faq.question[currentLang].toLowerCase().includes(searchQuery.toLowerCase()) ||
+        faq.answer[currentLang].toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     // Toggle FAQ expansion
@@ -219,17 +269,22 @@ const PharmacyHelp = () => {
         }
     };
 
+    // Format category name to display properly
+    const formatCategory = (category) => {
+        return t(`pharmacyPage.help.categories.${category}`);
+    };
+
     // Render Guides tab content
     const renderGuidesTab = () => {
         return (
             <div className="help-content-section">
                 <div className="guides-header">
-                    <h3>Guides & Tutorials</h3>
+                    <h3>{t('pharmacyPage.help.guides.title')}</h3>
                     <div className="guides-search">
                         <FaSearch className="search-icon" />
                         <input
                             type="text"
-                            placeholder="Search guides..."
+                            placeholder={t('pharmacyPage.help.guides.searchPlaceholder')}
                             value={searchQuery}
                             onChange={handleSearch}
                             className="search-input"
@@ -240,10 +295,10 @@ const PharmacyHelp = () => {
                 {filteredGuides.length === 0 ? (
                     <div className="no-results">
                         <FaExclamationTriangle className="no-results-icon" />
-                        <h4>No Guides Found</h4>
-                        <p>No guides match your search term "{searchQuery}". Try a different search term or browse all guides.</p>
+                        <h4>{t('pharmacyPage.help.guides.noResults.title')}</h4>
+                        <p>{t('pharmacyPage.help.guides.noResults.message', { searchTerm: searchQuery })}</p>
                         <button className="clear-search-btn" onClick={() => setSearchQuery('')}>
-                            Clear Search
+                            {t('pharmacyPage.help.guides.noResults.clearSearch')}
                         </button>
                     </div>
                 ) : (
@@ -257,6 +312,9 @@ const PharmacyHelp = () => {
                                     <button
                                         className="bookmark-btn"
                                         onClick={() => toggleSaveGuide(guide.id)}
+                                        aria-label={savedGuides.includes(guide.id) ? 
+                                            t('pharmacyPage.help.guides.removeBookmark') : 
+                                            t('pharmacyPage.help.guides.addBookmark')}
                                     >
                                         {savedGuides.includes(guide.id) ?
                                             <FaBookmark className="bookmarked" /> :
@@ -269,21 +327,26 @@ const PharmacyHelp = () => {
                                     <p className="guide-description">{guide.description}</p>
                                     <div className="guide-meta">
                                         <span className={`guide-category ${guide.category}`}>
-                                            {guide.category.charAt(0).toUpperCase() + guide.category.slice(1)}
+                                            {formatCategory(guide.category)}
                                         </span>
                                         <span className="guide-info">
                                             {guide.type === 'video' ?
-                                                `${guide.duration} min video` :
-                                                `${guide.pages} page document`
+                                                t('pharmacyPage.help.guides.videoLength', { duration: guide.duration }) :
+                                                t('pharmacyPage.help.guides.documentPages', { pages: guide.pages })
                                             }
                                         </span>
                                     </div>
                                 </div>
                                 <div className="guide-actions">
                                     <button className="view-guide-btn">
-                                        {guide.type === 'video' ? 'Watch Video' : 'Read Guide'}
+                                        {guide.type === 'video' ? 
+                                            t('pharmacyPage.help.guides.watchVideo') : 
+                                            t('pharmacyPage.help.guides.readGuide')}
                                     </button>
-                                    <button className="download-btn">
+                                    <button 
+                                        className="download-btn"
+                                        aria-label={t('pharmacyPage.help.guides.download')}
+                                    >
                                         <FaDownload />
                                     </button>
                                 </div>
@@ -300,12 +363,12 @@ const PharmacyHelp = () => {
         return (
             <div className="help-content-section">
                 <div className="faqs-header">
-                    <h3>Frequently Asked Questions</h3>
+                    <h3>{t('pharmacyPage.help.faqs.title')}</h3>
                     <div className="faqs-search">
                         <FaSearch className="search-icon" />
                         <input
                             type="text"
-                            placeholder="Search FAQs..."
+                            placeholder={t('pharmacyPage.help.faqs.searchPlaceholder')}
                             value={searchQuery}
                             onChange={handleSearch}
                             className="search-input"
@@ -316,10 +379,10 @@ const PharmacyHelp = () => {
                 {filteredFaqs.length === 0 ? (
                     <div className="no-results">
                         <FaExclamationTriangle className="no-results-icon" />
-                        <h4>No FAQs Found</h4>
-                        <p>No FAQs match your search term "{searchQuery}". Try a different search term or browse all FAQs.</p>
+                        <h4>{t('pharmacyPage.help.faqs.noResults.title')}</h4>
+                        <p>{t('pharmacyPage.help.faqs.noResults.message', { searchTerm: searchQuery })}</p>
                         <button className="clear-search-btn" onClick={() => setSearchQuery('')}>
-                            Clear Search
+                            {t('pharmacyPage.help.faqs.noResults.clearSearch')}
                         </button>
                     </div>
                 ) : (
@@ -332,9 +395,9 @@ const PharmacyHelp = () => {
                                 >
                                     <div className="question-text">
                                         <span className={`faq-category ${faq.category}`}>
-                                            {faq.category.charAt(0).toUpperCase() + faq.category.slice(1)}
+                                            {formatCategory(faq.category)}
                                         </span>
-                                        <h4>{faq.question}</h4>
+                                        <h4>{faq.question[currentLang]}</h4>
                                     </div>
                                     <div className="expand-icon">
                                         {expandedFaq === faq.id ? <FaChevronUp /> : <FaChevronDown />}
@@ -342,10 +405,10 @@ const PharmacyHelp = () => {
                                 </div>
                                 {expandedFaq === faq.id && (
                                     <div className="faq-answer">
-                                        <p>{faq.answer}</p>
+                                        <p>{faq.answer[currentLang]}</p>
                                         <div className="answer-actions">
                                             <button className="was-helpful-btn">
-                                                <FaCheck /> This was helpful
+                                                <FaCheck /> {t('pharmacyPage.help.faqs.wasHelpful')}
                                             </button>
                                         </div>
                                     </div>
@@ -363,22 +426,22 @@ const PharmacyHelp = () => {
         return (
             <div className="help-content-section">
                 <div className="support-header">
-                    <h3>Contact Support</h3>
+                    <h3>{t('pharmacyPage.help.support.title')}</h3>
                 </div>
 
                 <div className="support-content">
                     <div className="support-card">
                         <div className="support-info">
                             <div className="support-contact">
-                                <h4>Technical Support</h4>
-                                <p>For system issues, account problems, or technical assistance</p>
+                                <h4>{t('pharmacyPage.help.support.technicalSupport.title')}</h4>
+                                <p>{t('pharmacyPage.help.support.technicalSupport.description')}</p>
 
                                 <div className="contact-method">
                                     <div className="method-icon">
                                         <FaPhone />
                                     </div>
                                     <div className="method-details">
-                                        <span className="method-label">Phone Support</span>
+                                        <span className="method-label">{t('pharmacyPage.help.support.technicalSupport.phone.label')}</span>
                                         <span className="method-value">{helpData.support.phoneNumber}</span>
                                     </div>
                                 </div>
@@ -388,14 +451,14 @@ const PharmacyHelp = () => {
                                         <FaEnvelope />
                                     </div>
                                     <div className="method-details">
-                                        <span className="method-label">Email Support</span>
+                                        <span className="method-label">{t('pharmacyPage.help.support.technicalSupport.email.label')}</span>
                                         <div className="method-copy">
                                             <span className="method-value">{helpData.support.email}</span>
                                             <button
                                                 className="copy-btn"
                                                 onClick={copyEmailToClipboard}
                                             >
-                                                {copySuccess ? <FaClipboardCheck className="success" /> : 'Copy'}
+                                                {copySuccess ? <FaClipboardCheck className="success" /> : t('pharmacyPage.help.support.technicalSupport.email.copy')}
                                             </button>
                                         </div>
                                     </div>
@@ -406,24 +469,24 @@ const PharmacyHelp = () => {
                                         <FaCommentAlt />
                                     </div>
                                     <div className="method-details">
-                                        <span className="method-label">Live Chat</span>
-                                        <button className="start-chat-btn">Start Chat</button>
+                                        <span className="method-label">{t('pharmacyPage.help.support.technicalSupport.liveChat.label')}</span>
+                                        <button className="start-chat-btn">{t('pharmacyPage.help.support.technicalSupport.liveChat.action')}</button>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="support-hours">
-                                <h4>Support Hours</h4>
+                                <h4>{t('pharmacyPage.help.support.hours.title')}</h4>
                                 <p>{helpData.support.hours}</p>
 
                                 {helpData.support.emergencySupport && (
                                     <div className="emergency-support">
                                         <FaExclamationTriangle className="emergency-icon" />
                                         <div className="emergency-info">
-                                            <h5>Emergency Support</h5>
-                                            <p>Available 24/7 for critical system issues</p>
+                                            <h5>{t('pharmacyPage.help.support.emergency.title')}</h5>
+                                            <p>{t('pharmacyPage.help.support.emergency.description')}</p>
                                             <button className="emergency-btn">
-                                                Emergency Contact
+                                                {t('pharmacyPage.help.support.emergency.action')}
                                             </button>
                                         </div>
                                     </div>
@@ -432,31 +495,31 @@ const PharmacyHelp = () => {
                         </div>
 
                         <div className="feedback-section">
-                            <h4>Send Feedback</h4>
-                            <p>Help us improve our pharmacy system with your suggestions and feedback</p>
+                            <h4>{t('pharmacyPage.help.support.feedback.title')}</h4>
+                            <p>{t('pharmacyPage.help.support.feedback.description')}</p>
                             <button className="feedback-btn">
-                                Submit Feedback
+                                {t('pharmacyPage.help.support.feedback.action')}
                             </button>
                         </div>
                     </div>
 
                     <div className="resources-section">
-                        <h4>Additional Resources</h4>
+                        <h4>{t('pharmacyPage.help.support.resources.title')}</h4>
 
                         <div className="resources-list">
                             <a href="#" className="resource-link">
                                 <FaFileAlt className="resource-icon" />
-                                <span className="resource-text">System Documentation</span>
+                                <span className="resource-text">{t('pharmacyPage.help.support.resources.documentation')}</span>
                                 <FaExternalLinkAlt className="external-icon" />
                             </a>
                             <a href="#" className="resource-link">
                                 <FaPlayCircle className="resource-icon" />
-                                <span className="resource-text">Video Tutorials</span>
+                                <span className="resource-text">{t('pharmacyPage.help.support.resources.videos')}</span>
                                 <FaExternalLinkAlt className="external-icon" />
                             </a>
                             <a href="#" className="resource-link">
                                 <FaDownload className="resource-icon" />
-                                <span className="resource-text">Download User Manual (PDF)</span>
+                                <span className="resource-text">{t('pharmacyPage.help.support.resources.userManual')}</span>
                                 <FaExternalLinkAlt className="external-icon" />
                             </a>
                         </div>
@@ -471,7 +534,7 @@ const PharmacyHelp = () => {
         return (
             <div className="help-content-section">
                 <div className="security-header">
-                    <h3>Security & Privacy Guidelines</h3>
+                    <h3>{t('pharmacyPage.help.security.title')}</h3>
                 </div>
 
                 <div className="security-content">
@@ -480,12 +543,8 @@ const PharmacyHelp = () => {
                             <FaShieldAlt />
                         </div>
                         <div className="security-intro-text">
-                            <h4>Protecting Patient Data</h4>
-                            <p>
-                                As healthcare professionals, we are responsible for safeguarding sensitive patient information.
-                                These guidelines help ensure the security and privacy of all data in our pharmacy system.
-                                Please review and follow these best practices at all times.
-                            </p>
+                            <h4>{t('pharmacyPage.help.security.intro.title')}</h4>
+                            <p>{t('pharmacyPage.help.security.intro.description')}</p>
                         </div>
                     </div>
 
@@ -502,36 +561,32 @@ const PharmacyHelp = () => {
                     </div>
 
                     <div className="security-resources">
-                        <h4>Security Resources</h4>
+                        <h4>{t('pharmacyPage.help.security.resources.title')}</h4>
                         <div className="security-resources-grid">
                             <div className="security-resource-card">
                                 <FaFileAlt className="resource-icon" />
-                                <h5>Privacy Policy</h5>
-                                <p>View our complete data privacy policy and guidelines</p>
-                                <button className="resource-btn">View Policy</button>
+                                <h5>{t('pharmacyPage.help.security.resources.privacy.title')}</h5>
+                                <p>{t('pharmacyPage.help.security.resources.privacy.description')}</p>
+                                <button className="resource-btn">{t('pharmacyPage.help.security.resources.privacy.action')}</button>
                             </div>
                             <div className="security-resource-card">
                                 <FaFileAlt className="resource-icon" />
-                                <h5>Security Training</h5>
-                                <p>Access required security awareness training modules</p>
-                                <button className="resource-btn">Start Training</button>
+                                <h5>{t('pharmacyPage.help.security.resources.training.title')}</h5>
+                                <p>{t('pharmacyPage.help.security.resources.training.description')}</p>
+                                <button className="resource-btn">{t('pharmacyPage.help.security.resources.training.action')}</button>
                             </div>
                             <div className="security-resource-card">
                                 <FaExclamationTriangle className="resource-icon" />
-                                <h5>Report Security Issue</h5>
-                                <p>Report a potential security incident or concern</p>
-                                <button className="resource-btn">Report Issue</button>
+                                <h5>{t('pharmacyPage.help.security.resources.report.title')}</h5>
+                                <p>{t('pharmacyPage.help.security.resources.report.description')}</p>
+                                <button className="resource-btn">{t('pharmacyPage.help.security.resources.report.action')}</button>
                             </div>
                         </div>
                     </div>
 
                     <div className="compliance-info">
-                        <h4>Compliance Information</h4>
-                        <p>
-                            Our pharmacy system is designed to comply with all applicable healthcare data protection regulations.
-                            Regular security assessments and audits are conducted to ensure ongoing compliance.
-                            If you have questions about our compliance status or security controls, please contact the IT Security team.
-                        </p>
+                        <h4>{t('pharmacyPage.help.security.compliance.title')}</h4>
+                        <p>{t('pharmacyPage.help.security.compliance.description')}</p>
                     </div>
                 </div>
             </div>
@@ -559,13 +614,13 @@ const PharmacyHelp = () => {
             {!isLoaded ? (
                 <div className="loading-container">
                     <div className="loader"></div>
-                    <p>Loading help resources...</p>
+                    <p>{t('pharmacyPage.help.loading')}</p>
                 </div>
             ) : (
                 <div className="help-container">
                     <div className="page-header">
-                        <h1>Help & Resources</h1>
-                        <p>Find guides, tutorials, FAQs, and support information</p>
+                        <h1>{t('pharmacyPage.help.pageTitle')}</h1>
+                        <p>{t('pharmacyPage.help.pageSubtitle')}</p>
                     </div>
 
                     <div className="help-tabs">
@@ -578,7 +633,7 @@ const PharmacyHelp = () => {
                             }}
                         >
                             <FaPlayCircle className="tab-icon" />
-                            <span>Guides & Tutorials</span>
+                            <span>{t('pharmacyPage.help.tabs.guides')}</span>
                         </button>
                         <button
                             className={`tab-btn ${activeTab === 'faqs' ? 'active' : ''}`}
@@ -589,7 +644,7 @@ const PharmacyHelp = () => {
                             }}
                         >
                             <FaQuestionCircle className="tab-icon" />
-                            <span>FAQs</span>
+                            <span>{t('pharmacyPage.help.tabs.faqs')}</span>
                         </button>
                         <button
                             className={`tab-btn ${activeTab === 'support' ? 'active' : ''}`}
@@ -600,7 +655,7 @@ const PharmacyHelp = () => {
                             }}
                         >
                             <FaPhone className="tab-icon" />
-                            <span>Support</span>
+                            <span>{t('pharmacyPage.help.tabs.support')}</span>
                         </button>
                         <button
                             className={`tab-btn ${activeTab === 'security' ? 'active' : ''}`}
@@ -611,7 +666,7 @@ const PharmacyHelp = () => {
                             }}
                         >
                             <FaShieldAlt className="tab-icon" />
-                            <span>Security & Privacy</span>
+                            <span>{t('pharmacyPage.help.tabs.security')}</span>
                         </button>
                     </div>
 

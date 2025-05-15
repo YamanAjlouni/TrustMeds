@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './PharmacyScanPrescription.scss';
+import { useLanguage } from '../../../context/LanguageContext'; // Import language context
 import {
     FaQrcode,
     FaCheckCircle,
@@ -15,6 +16,7 @@ import {
 } from 'react-icons/fa';
 
 const PharmacyScanPrescription = () => {
+    const { t, isRTL } = useLanguage(); // Get translations and RTL status
     const [isScanning, setIsScanning] = useState(false);
     const [scannedPrescription, setScannedPrescription] = useState(null);
     const [isVerifying, setIsVerifying] = useState(false);
@@ -157,7 +159,7 @@ const PharmacyScanPrescription = () => {
     // Format date
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', {
+        return date.toLocaleDateString(isRTL ? 'ar-SA' : 'en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
@@ -169,13 +171,13 @@ const PharmacyScanPrescription = () => {
             {!isLoaded ? (
                 <div className="loading-container">
                     <div className="loader"></div>
-                    <p>Loading scanner...</p>
+                    <p>{t('pharmacyPage.scanPrescription.loading')}</p>
                 </div>
             ) : (
                 <div className="scan-container">
                     <div className="page-header">
-                        <h1>Scan Prescription</h1>
-                        <p>Use the QR code scanner to quickly process prescriptions</p>
+                        <h1>{t('pharmacyPage.scanPrescription.pageTitle')}</h1>
+                        <p>{t('pharmacyPage.scanPrescription.pageSubtitle')}</p>
                     </div>
 
                     {!scannedPrescription && !isScanning && !successMessage && (
@@ -184,13 +186,13 @@ const PharmacyScanPrescription = () => {
                                 <div className="scanner-icon">
                                     <FaQrcode />
                                 </div>
-                                <h2>Ready to Scan</h2>
-                                <p>Position the QR code in view of the camera to scan the prescription</p>
+                                <h2>{t('pharmacyPage.scanPrescription.scanner.ready.title')}</h2>
+                                <p>{t('pharmacyPage.scanPrescription.scanner.ready.instruction')}</p>
                                 <button className="scan-btn primary" onClick={startScanning}>
-                                    Start Scanner
+                                    {t('pharmacyPage.scanPrescription.scanner.ready.startButton')}
                                 </button>
                                 <button className="scan-btn secondary" onClick={() => navigate('/pharmacy/pending-prescriptions')}>
-                                    <FaClipboardList /> View Pending Prescriptions
+                                    <FaClipboardList /> {t('pharmacyPage.scanPrescription.scanner.ready.viewPendingButton')}
                                 </button>
                             </div>
                         </div>
@@ -203,10 +205,10 @@ const PharmacyScanPrescription = () => {
                                     <div className="scanner-crosshair"></div>
                                     <FaQrcode className="scanner-pulse" />
                                 </div>
-                                <h2>Scanning...</h2>
-                                <p>Please hold the QR code steady in view of the camera</p>
+                                <h2>{t('pharmacyPage.scanPrescription.scanner.scanning.title')}</h2>
+                                <p>{t('pharmacyPage.scanPrescription.scanner.scanning.instruction')}</p>
                                 <button className="cancel-btn" onClick={cancelScanning}>
-                                    Cancel
+                                    {t('pharmacyPage.scanPrescription.scanner.scanning.cancelButton')}
                                 </button>
                             </div>
                         </div>
@@ -217,10 +219,10 @@ const PharmacyScanPrescription = () => {
                             <div className="error-icon">
                                 <FaExclamationTriangle />
                             </div>
-                            <h2>Error</h2>
+                            <h2>{t('pharmacyPage.scanPrescription.scanner.error.title')}</h2>
                             <p>{error}</p>
                             <button className="retry-btn" onClick={startScanning}>
-                                Try Again
+                                {t('pharmacyPage.scanPrescription.scanner.error.tryAgainButton')}
                             </button>
                         </div>
                     )}
@@ -230,10 +232,10 @@ const PharmacyScanPrescription = () => {
                             <div className="success-icon">
                                 <FaCheckCircle />
                             </div>
-                            <h2>Success!</h2>
+                            <h2>{t('pharmacyPage.scanPrescription.scanner.success.title')}</h2>
                             <p>{successMessage}</p>
                             <button className="scan-btn primary" onClick={startScanning}>
-                                Scan Another
+                                {t('pharmacyPage.scanPrescription.scanner.success.scanAnotherButton')}
                             </button>
                         </div>
                     )}
@@ -242,12 +244,12 @@ const PharmacyScanPrescription = () => {
                         <div className="prescription-details-card">
                             <div className="card-header">
                                 <div className="header-left">
-                                    <h2>Prescription Found</h2>
+                                    <h2>{t('pharmacyPage.scanPrescription.prescriptionDetails.found')}</h2>
                                     <span className="prescription-id">{scannedPrescription.id}</span>
                                 </div>
                                 {scannedPrescription.priority === 'Urgent' && (
                                     <span className="priority-badge urgent">
-                                        <FaExclamationTriangle /> Urgent
+                                        <FaExclamationTriangle /> {t('pharmacyPage.scanPrescription.prescriptionDetails.priority.urgent')}
                                     </span>
                                 )}
                             </div>
@@ -259,32 +261,32 @@ const PharmacyScanPrescription = () => {
                                         <div className="header-icon patient-icon">
                                             <FaUserAlt />
                                         </div>
-                                        <h3>Patient Information</h3>
+                                        <h3>{t('pharmacyPage.scanPrescription.prescriptionDetails.sections.patient.title')}</h3>
                                     </div>
                                     <div className="section-content">
                                         <div className="info-grid">
                                             <div className="info-item">
-                                                <span className="info-label">Name</span>
+                                                <span className="info-label">{t('pharmacyPage.scanPrescription.prescriptionDetails.sections.patient.fields.name')}</span>
                                                 <span className="info-value">{scannedPrescription.patientName}</span>
                                             </div>
                                             <div className="info-item">
-                                                <span className="info-label">ID</span>
+                                                <span className="info-label">{t('pharmacyPage.scanPrescription.prescriptionDetails.sections.patient.fields.id')}</span>
                                                 <span className="info-value">{scannedPrescription.patientId}</span>
                                             </div>
                                             <div className="info-item">
-                                                <span className="info-label">Date of Birth</span>
+                                                <span className="info-label">{t('pharmacyPage.scanPrescription.prescriptionDetails.sections.patient.fields.dateOfBirth')}</span>
                                                 <span className="info-value">{formatDate(scannedPrescription.dateOfBirth)}</span>
                                             </div>
                                             <div className="info-item">
-                                                <span className="info-label">Insurance</span>
+                                                <span className="info-label">{t('pharmacyPage.scanPrescription.prescriptionDetails.sections.patient.fields.insurance')}</span>
                                                 <span className="info-value">{scannedPrescription.insuranceInfo.provider}</span>
                                             </div>
                                             <div className="info-item">
-                                                <span className="info-label">Policy Number</span>
+                                                <span className="info-label">{t('pharmacyPage.scanPrescription.prescriptionDetails.sections.patient.fields.policyNumber')}</span>
                                                 <span className="info-value">{scannedPrescription.insuranceInfo.policyNumber}</span>
                                             </div>
                                             <div className="info-item">
-                                                <span className="info-label">Valid Until</span>
+                                                <span className="info-label">{t('pharmacyPage.scanPrescription.prescriptionDetails.sections.patient.fields.validUntil')}</span>
                                                 <span className="info-value">{formatDate(scannedPrescription.insuranceInfo.validUntil)}</span>
                                             </div>
                                         </div>
@@ -297,28 +299,28 @@ const PharmacyScanPrescription = () => {
                                         <div className="header-icon doctor-icon">
                                             <FaUserMd />
                                         </div>
-                                        <h3>Prescriber</h3>
+                                        <h3>{t('pharmacyPage.scanPrescription.prescriptionDetails.sections.prescriber.title')}</h3>
                                     </div>
                                     <div className="section-content">
                                         <div className="info-grid">
                                             <div className="info-item">
-                                                <span className="info-label">Doctor</span>
+                                                <span className="info-label">{t('pharmacyPage.scanPrescription.prescriptionDetails.sections.prescriber.fields.doctor')}</span>
                                                 <span className="info-value">{scannedPrescription.doctorName}</span>
                                             </div>
                                             <div className="info-item">
-                                                <span className="info-label">ID</span>
+                                                <span className="info-label">{t('pharmacyPage.scanPrescription.prescriptionDetails.sections.prescriber.fields.id')}</span>
                                                 <span className="info-value">{scannedPrescription.doctorId}</span>
                                             </div>
                                             <div className="info-item">
-                                                <span className="info-label">Specialty</span>
+                                                <span className="info-label">{t('pharmacyPage.scanPrescription.prescriptionDetails.sections.prescriber.fields.specialty')}</span>
                                                 <span className="info-value">{scannedPrescription.specialty}</span>
                                             </div>
                                             <div className="info-item">
-                                                <span className="info-label">Issue Date</span>
+                                                <span className="info-label">{t('pharmacyPage.scanPrescription.prescriptionDetails.sections.prescriber.fields.issueDate')}</span>
                                                 <span className="info-value">{formatDate(scannedPrescription.issueDate)}</span>
                                             </div>
                                             <div className="info-item">
-                                                <span className="info-label">Expiry Date</span>
+                                                <span className="info-label">{t('pharmacyPage.scanPrescription.prescriptionDetails.sections.prescriber.fields.expiryDate')}</span>
                                                 <span className="info-value">{formatDate(scannedPrescription.expiryDate)}</span>
                                             </div>
                                         </div>
@@ -331,23 +333,23 @@ const PharmacyScanPrescription = () => {
                                         <div className="header-icon medication-icon">
                                             <FaPills />
                                         </div>
-                                        <h3>Medications</h3>
+                                        <h3>{t('pharmacyPage.scanPrescription.prescriptionDetails.sections.medications.title')}</h3>
                                     </div>
                                     <div className="section-content">
                                         {scannedPrescription.medications.map((medication, index) => (
                                             <div className="medication-card" key={index}>
                                                 <div className="medication-header">
                                                     <h4>{medication.name} <span className="dosage">{medication.dosage}</span></h4>
-                                                    <span className="quantity">Qty: {medication.quantity}</span>
+                                                    <span className="quantity">{t('pharmacyPage.scanPrescription.prescriptionDetails.sections.medications.quantity')}: {medication.quantity}</span>
                                                 </div>
                                                 <div className="medication-instructions">
                                                     <div className="instruction-item">
-                                                        <span className="instruction-label"><FaListAlt /> Sig</span>
+                                                        <span className="instruction-label"><FaListAlt /> {t('pharmacyPage.scanPrescription.prescriptionDetails.sections.medications.sig')}</span>
                                                         <span className="instruction-value">{medication.instructions}</span>
                                                     </div>
                                                     {medication.notes && (
                                                         <div className="instruction-item">
-                                                            <span className="instruction-label"><FaCalendarAlt /> Notes</span>
+                                                            <span className="instruction-label"><FaCalendarAlt /> {t('pharmacyPage.scanPrescription.prescriptionDetails.sections.medications.notes')}</span>
                                                             <span className="instruction-value">{medication.notes}</span>
                                                         </div>
                                                     )}
@@ -357,7 +359,7 @@ const PharmacyScanPrescription = () => {
 
                                         {scannedPrescription.notes && (
                                             <div className="prescription-notes">
-                                                <div className="notes-label">Additional Notes</div>
+                                                <div className="notes-label">{t('pharmacyPage.scanPrescription.prescriptionDetails.sections.medications.additionalNotes')}</div>
                                                 <div className="notes-content">{scannedPrescription.notes}</div>
                                             </div>
                                         )}
@@ -369,7 +371,7 @@ const PharmacyScanPrescription = () => {
                                 {isVerifying ? (
                                     <div className="verifying-container">
                                         <div className="loader small"></div>
-                                        <span>Verifying prescription...</span>
+                                        <span>{t('pharmacyPage.scanPrescription.prescriptionDetails.actions.verifying')}</span>
                                     </div>
                                 ) : (
                                     <>
@@ -377,13 +379,13 @@ const PharmacyScanPrescription = () => {
                                             className="action-btn primary"
                                             onClick={handleDispensePrescription}
                                         >
-                                            <FaCheckCircle /> Dispense Prescription
+                                            <FaCheckCircle /> {t('pharmacyPage.scanPrescription.prescriptionDetails.actions.dispense')}
                                         </button>
                                         <button
                                             className="action-btn secondary"
                                             onClick={handleRejectPrescription}
                                         >
-                                            <FaTimesCircle /> Cancel
+                                            <FaTimesCircle /> {t('pharmacyPage.scanPrescription.prescriptionDetails.actions.cancel')}
                                         </button>
                                     </>
                                 )}
@@ -392,36 +394,17 @@ const PharmacyScanPrescription = () => {
                     )}
 
                     <div className="instruction-card">
-                        <h3>How to Use the Prescription Scanner</h3>
+                        <h3>{t('pharmacyPage.scanPrescription.instructions.title')}</h3>
                         <ol className="instruction-list">
-                            <li>
-                                <span className="step-number">1</span>
-                                <div className="step-content">
-                                    <h4>Scan Prescription QR Code</h4>
-                                    <p>Click "Start Scanner" and position the QR code within the camera view</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span className="step-number">2</span>
-                                <div className="step-content">
-                                    <h4>Verify Information</h4>
-                                    <p>Carefully review all patient and medication details to ensure accuracy</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span className="step-number">3</span>
-                                <div className="step-content">
-                                    <h4>Process or Reject</h4>
-                                    <p>Dispense the prescription or cancel if there are any issues</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span className="step-number">4</span>
-                                <div className="step-content">
-                                    <h4>Verify Insurance</h4>
-                                    <p>Check that the patient's insurance information is valid and up to date</p>
-                                </div>
-                            </li>
+                            {t('pharmacyPage.scanPrescription.instructions.steps', { returnObjects: true }).map((step, index) => (
+                                <li key={index}>
+                                    <span className="step-number">{index + 1}</span>
+                                    <div className="step-content">
+                                        <h4>{step.title}</h4>
+                                        <p>{step.description}</p>
+                                    </div>
+                                </li>
+                            ))}
                         </ol>
                     </div>
                 </div>

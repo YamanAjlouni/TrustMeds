@@ -65,6 +65,7 @@ $pharmacy-light: rgba($pharmacy-primary, 0.1);
       0% {
         transform: rotate(0deg);
       }
+
       100% {
         transform: rotate(360deg);
       }
@@ -180,7 +181,7 @@ $pharmacy-light: rgba($pharmacy-primary, 0.1);
 
       .section-title {
         margin-top: 0;
-        margin-bottom: 1.25rem;
+        margin-bottom:0;
         font-size: 1.2rem;
         font-weight: 600;
         color: $dark-text;
@@ -234,6 +235,10 @@ $pharmacy-light: rgba($pharmacy-primary, 0.1);
       // Stats section (spans full width)
       .stats-section {
         grid-column: span 2;
+
+        .section-title{
+          margin-bottom: 1.25rem;
+        }
 
         .stats-grid {
           display: grid;
@@ -628,10 +633,12 @@ $pharmacy-light: rgba($pharmacy-primary, 0.1);
                     transform: scale(0.95);
                     opacity: 0.8;
                   }
+
                   50% {
                     transform: scale(1.05);
                     opacity: 1;
                   }
+
                   100% {
                     transform: scale(0.95);
                     opacity: 0.8;
@@ -821,7 +828,7 @@ $pharmacy-light: rgba($pharmacy-primary, 0.1);
     .dashboard-content {
       .dashboard-grid {
         grid-template-columns: 1fr;
-        
+
         .stats-section,
         .activity-section,
         .pending-section,
@@ -861,6 +868,162 @@ $pharmacy-light: rgba($pharmacy-primary, 0.1);
       .dashboard-grid {
         .stats-section .stats-grid {
           grid-template-columns: 1fr;
+        }
+      }
+    }
+  }
+}
+
+// RTL Support for Pharmacy Dashboard
+.lang-ar .pharmacy-dashboard {
+  // Flipping content direction, alignment, and margins
+
+  // Welcome section
+  .welcome-section {
+    .welcome-message {
+      h2 {
+        .highlight {
+          &::after {
+            right: 0 !important;
+            left: auto !important;
+          }
+        }
+      }
+    }
+
+    .quick-actions {
+      .quick-action-btn {
+        svg {
+          margin-right: 0 !important;
+          margin-left: 0.5rem !important;
+        }
+      }
+    }
+  }
+
+  // Stats cards
+  .stats-grid {
+    .stat-card {
+      .stat-icon {
+        margin-right: 0 !important;
+        margin-left: 1rem;
+      }
+    }
+  }
+
+  // Activity list
+  .activity-list {
+    .activity-item {
+      .activity-time {
+        margin-right: 0 !important;
+        margin-left: 0.75rem;
+      }
+
+      .activity-icon-container {
+        margin-right: 0 !important;
+        margin-left: 0.75rem;
+      }
+    }
+  }
+
+  // Prescription cards
+  .pending-prescriptions {
+    .prescription-card {
+      .priority-indicator {
+        left: auto !important;
+        right: 0 !important;
+      }
+
+      .prescription-header {
+        padding-left: 1rem !important;
+        padding-right: 1.25rem !important;
+
+        .prescription-id {
+          h4 {
+            margin-right: 0 !important;
+            margin-left: 0.75rem !important;
+          }
+
+          .urgent-badge {
+            svg {
+              margin-right: 0 !important;
+              margin-left: 0.25rem !important;
+            }
+          }
+        }
+      }
+
+      .prescription-details {
+        padding-left: 1rem !important;
+        padding-right: 1.25rem !important;
+
+        .detail-row {
+          .detail-label {
+            margin-right: 0 !important;
+            margin-left: 0.5rem !important;
+          }
+        }
+      }
+
+      .prescription-actions {
+        .action-btn {
+          svg {
+            margin-right: 0 !important;
+            margin-left: 0.4rem !important;
+          }
+        }
+      }
+    }
+  }
+
+  // Scanner
+  .scanner-content {
+    .scanner-active {
+      .scanned-result {
+        .result-header {
+          .success-icon {
+            margin-right: 0 !important;
+            margin-left: 0.75rem !important;
+          }
+        }
+
+        .result-details {
+          .detail-row {
+            .detail-label {
+              margin-right: 0 !important;
+              margin-left: 0.5rem !important;
+            }
+          }
+        }
+
+        .result-actions {
+          .action-btn {
+            svg {
+              margin-right: 0 !important;
+              margin-left: 0.5rem !important;
+            }
+          }
+        }
+      }
+    }
+
+    .scanner-cta {
+      .scanner-btn {
+        svg {
+          margin-right: 0 !important;
+          margin-left: 0.5rem !important;
+        }
+      }
+    }
+  }
+
+  // Header actions
+  .section-header {
+    .header-actions {
+      .refresh-btn {
+        svg {
+          margin-right: 0 !important;
+          margin-left: 0.35rem !important;
         }
       }
     }

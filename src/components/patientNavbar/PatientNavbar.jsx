@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './PatientNavbar.scss';
 import logo from '../../assets/images/trustMeds-logo-blue-nobg-HD.png';
-import { FaBell, FaSearch, FaBars } from 'react-icons/fa';
+import { FaBell, FaSearch, FaBars, FaUserAlt, FaCog, FaQuestionCircle, FaSignOutAlt } from 'react-icons/fa';
 import { BiGlobe } from 'react-icons/bi'; // Adding globe icon for language
 import { NavLink } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext'; // Import the language hook
@@ -11,10 +11,14 @@ export const PatientNavbar = ({ toggleSidebar }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false); // Added state for user menu dropdown
+  
   const notificationRef = useRef(null);
   const searchRef = useRef(null);
   const languageRef = useRef(null);
-  const { language, changeLanguage, t } = useLanguage(); // Use the language context
+  const userMenuRef = useRef(null); // Added ref for user menu dropdown
+  
+  const { language, changeLanguage, t, isRTL } = useLanguage(); // Use the language context with isRTL
 
   // Check scroll position to change navbar style
   useEffect(() => {
@@ -43,6 +47,9 @@ export const PatientNavbar = ({ toggleSidebar }) => {
       if (languageRef.current && !languageRef.current.contains(event.target)) {
         setShowLanguageDropdown(false);
       }
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setShowUserMenu(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -69,6 +76,14 @@ export const PatientNavbar = ({ toggleSidebar }) => {
   // Handle language change
   const handleLanguageChange = (lang) => {
     changeLanguage(lang);
+    setShowLanguageDropdown(false);
+  };
+  
+  // Toggle user menu dropdown
+  const toggleUserMenu = (e) => {
+    e.stopPropagation();
+    setShowUserMenu(!showUserMenu);
+    setShowNotifications(false);
     setShowLanguageDropdown(false);
   };
 
@@ -156,9 +171,51 @@ export const PatientNavbar = ({ toggleSidebar }) => {
               </div>
             )}
           </div>
-          <div className="user-profile">
-            <div className="user-avatar">YS</div>
-            <span className="user-name">Yaman</span>
+          
+          {/* User Profile Dropdown */}
+          <div className="user-profile-wrapper" ref={userMenuRef}>
+            <div className="user-profile" onClick={toggleUserMenu}>
+              <div className="user-avatar">YS</div>
+              <span className="user-name">Yaman</span>
+            </div>
+            
+            {showUserMenu && (
+              <div className={`user-dropdown ${isRTL ? 'rtl' : ''}`}>
+                <div className="user-info">
+                  <div className="user-avatar large">
+                    <span>YS</span>
+                  </div>
+                  <div className="user-details">
+                    <h4>Yaman Saleh</h4>
+                    <p>Patient ID: P-78945</p>
+                  </div>
+                </div>
+                
+                <ul className="user-menu-list">
+                  <li>
+                    <NavLink to="/patient/profile">
+                      <FaUserAlt /> {t ? t('patientPage.navbar.myProfile') : "My Profile"}
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/patient/settings">
+                      <FaCog /> {t ? t('patientPage.navbar.settings') : "Settings"}
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/patient/help">
+                      <FaQuestionCircle /> {t ? t('patientPage.navbar.helpAndSupport') : "Help & Support"}
+                    </NavLink>
+                  </li>
+                  <li className="divider"></li>
+                  <li>
+                    <NavLink to="/" className="logout-button">
+                      <FaSignOutAlt /> {t ? t('patientPage.navbar.logout') : "Logout"}
+                    </NavLink>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </header>

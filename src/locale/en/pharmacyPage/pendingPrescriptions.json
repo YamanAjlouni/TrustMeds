@@ -1,0 +1,95 @@
+{
+    "loading": "Loading prescriptions...",
+    "pageTitle": "Pending Prescriptions",
+    "pageSubtitle": "Process and manage prescriptions awaiting fulfillment",
+    "search": {
+        "placeholder": "Search by ID, patient, doctor, or medication..."
+    },
+    "filters": {
+        "priority": {
+            "label": "Priority",
+            "options": {
+                "all": "All",
+                "normal": "Normal",
+                "urgent": "Urgent"
+            }
+        },
+        "date": {
+            "label": "Date",
+            "options": {
+                "all": "All Dates",
+                "today": "Today",
+                "yesterday": "Yesterday",
+                "thisWeek": "This Week"
+            }
+        },
+        "sort": {
+            "label": "Sort By",
+            "options": {
+                "newest": "Newest First",
+                "oldest": "Oldest First",
+                "priority": "Priority"
+            }
+        },
+        "refresh": "Refresh"
+    },
+    "results": {
+        "title": "Results",
+        "noResults": {
+            "title": "No Prescriptions Found",
+            "withSearch": "No prescriptions match your search term",
+            "noItems": "There are no pending prescriptions at this time",
+            "clearSearch": "Clear Search"
+        }
+    },
+    "prescriptionCard": {
+        "urgent": "Urgent",
+        "patient": "Patient",
+        "doctor": "Doctor",
+        "medications": "Medications",
+        "items": "item(s)",
+        "qty": "Qty",
+        "actions": {
+            "viewDetails": "View Details",
+            "dispense": "Dispense"
+        }
+    },
+    "detailModal": {
+        "title": "Prescription Details",
+        "sections": {
+            "patient": {
+                "title": "Patient Information",
+                "fields": {
+                    "name": "Name",
+                    "id": "ID",
+                    "dateOfBirth": "Date of Birth",
+                    "insurance": "Insurance",
+                    "policyNumber": "Policy Number",
+                    "validUntil": "Valid Until"
+                }
+            },
+            "prescriber": {
+                "title": "Prescriber",
+                "fields": {
+                    "doctor": "Doctor",
+                    "id": "ID",
+                    "specialty": "Specialty",
+                    "issueDate": "Issue Date",
+                    "expiryDate": "Expiry Date"
+                }
+            },
+            "medications": {
+                "title": "Medications",
+                "quantity": "Qty",
+                "instructions": "Instructions",
+                "notes": "Notes",
+                "additionalNotes": "Additional Notes"
+            }
+        },
+        "actions": {
+            "processing": "Processing prescription...",
+            "dispense": "Dispense Prescription",
+            "reject": "Reject"
+        }
+    }
+}

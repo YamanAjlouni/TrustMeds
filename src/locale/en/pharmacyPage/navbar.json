@@ -1,9 +1,10 @@
 {
-    "searchPlaceholder": "Search for medications, doctors, or pharmacies...",
+    "searchPlaceholder": "Search prescriptions, patients...",
     "notifications": "Notifications",
     "markAllRead": "Mark all as read",
     "viewAllNotifications": "View all notifications",
-    "language": "Language",
+    "messages": "Messages",
+    "viewAllMessages": "View all messages",
     "myProfile": "My Profile",
     "settings": "Settings",
     "helpAndSupport": "Help & Support",

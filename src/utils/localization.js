@@ -54,6 +54,28 @@ import arDoctorProfile from '../locale/ar/doctorPage/profile.json';
 import enDoctorHealthResources from '../locale/en/doctorPage/helpResources.json';
 import arDoctorHealthResources from '../locale/ar/doctorPage/helpResources.json';
 
+
+// pharmacy page translation 
+import enPharmacyNavbar from '../locale/en/pharmacyPage/navbar.json';
+import arPharmacyNavbar from '../locale/ar/pharmacyPage/navbar.json';
+import enPharmacySidebar from '../locale/en/pharmacyPage/sidebar.json';
+import arPharmacySidebar from '../locale/ar/pharmacyPage/sidebar.json';
+import enPharmacyDashboard from '../locale/en/pharmacyPage/dashboard.json'
+import arPharmacyDashboard from '../locale/ar/pharmacyPage/dashboard.json'
+import enPharmacyScanPrescription from '../locale/en/pharmacyPage/scanPrescription.json'
+import arPharmacyScanPrescription from '../locale/ar/pharmacyPage/scanPrescription.json'
+import enPharmacyPendingPrescriptions from '../locale/en/pharmacyPage/pendingPrescriptions.json'
+import arPharmacyPendingPrescriptions from '../locale/ar/pharmacyPage/pendingPrescriptions.json'
+import enPharmacyDispensedHistory from '../locale/en/pharmacyPage/dispensedHistory.json'
+import arPharmacyDispensedHistory from '../locale/ar/pharmacyPage/dispensedHistory.json'
+import enPharmacyBilling from '../locale/en/pharmacyPage/billing.json'
+import arPharmacyBilling from '../locale/ar/pharmacyPage/billing.json'
+import enPharmacyProfile from '../locale/en/pharmacyPage/profile.json'
+import arPharmacyProfile from '../locale/ar/pharmacyPage/profile.json'
+import enPharmacyHelp from '../locale/en/pharmacyPage/help.json'
+import arPharmacyHelp from '../locale/ar/pharmacyPage/help.json'
+
+
 // Organize translations by language and section
 const translations = {
     en: {
@@ -93,6 +115,15 @@ const translations = {
             // Add doctor page translations
         },
         pharmacyPage: {
+            navbar: enPharmacyNavbar,
+            sidebar: enPharmacySidebar,
+            dashboard: enPharmacyDashboard,
+            scanPrescription: enPharmacyScanPrescription,
+            pendingPrescriptions: enPharmacyPendingPrescriptions,
+            dispensedHistory: enPharmacyDispensedHistory,
+            billing: enPharmacyBilling,
+            profile: enPharmacyProfile,
+            help: enPharmacyHelp,
             // Add pharmacy page translations
         }
     },
@@ -133,6 +164,16 @@ const translations = {
             // Add doctor page translations
         },
         pharmacyPage: {
+            navbar: arPharmacyNavbar,
+            sidebar: arPharmacySidebar,
+            dashboard: arPharmacyDashboard,
+            scanPrescription: arPharmacyScanPrescription,
+            pendingPrescriptions: arPharmacyPendingPrescriptions,
+            dispensedHistory: arPharmacyDispensedHistory,
+            billing: arPharmacyBilling,
+            profile: arPharmacyProfile,
+            help: arPharmacyHelp,
+
             // Add pharmacy page translations
         }
     }

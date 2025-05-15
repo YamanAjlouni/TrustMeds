@@ -1,0 +1,182 @@
+{
+    "loading": "جاري تحميل بيانات الفواتير...",
+    "pageTitle": "الفواتير والمدفوعات",
+    "pageSubtitle": "إدارة المعاملات المالية ومطالبات التأمين والتقارير المالية",
+    "tabs": {
+        "overview": "نظرة عامة",
+        "transactions": "المعاملات",
+        "insurance": "مطالبات التأمين"
+    },
+    "statuses": {
+        "completed": "مكتمل",
+        "pending": "قيد الانتظار",
+        "failed": "فشل",
+        "approved": "موافق عليه",
+        "rejected": "مرفوض"
+    },
+    "overview": {
+        "stats": {
+            "totalRevenue": {
+                "title": "إجمالي الإيرادات (7 أيام)",
+                "transactionsToday": "معاملة اليوم"
+            },
+            "insuranceClaims": {
+                "title": "مطالبات التأمين",
+                "pending": "قيد الانتظار"
+            },
+            "cashPayments": {
+                "title": "المدفوعات النقدية"
+            },
+            "cardPayments": {
+                "title": "مدفوعات البطاقات"
+            }
+        },
+        "chart": {
+            "title": "نظرة عامة على الإيرادات",
+            "timeFilter": {
+                "week": "أسبوع",
+                "month": "شهر",
+                "quarter": "ربع سنوي"
+            },
+            "placeholder": {
+                "title": "رسم بياني للإيرادات الأسبوعية",
+                "note": "سيتم دمج العرض المرئي للبيانات هنا"
+            }
+        },
+        "recentTransactions": {
+            "title": "المعاملات الأخيرة",
+            "viewAll": "عرض الكل",
+            "patient": "المريض",
+            "prescription": "الوصفة الطبية",
+            "payment": "الدفع",
+            "amount": "المبلغ"
+        },
+        "insuranceClaims": {
+            "title": "حالة مطالبات التأمين",
+            "viewAll": "عرض الكل",
+            "approved": "موافق عليه",
+            "pending": "قيد الانتظار",
+            "rejected": "مرفوض"
+        }
+    },
+    "transactions": {
+        "search": {
+            "placeholder": "بحث عن طريق المعرف أو المريض أو الوصفة الطبية..."
+        },
+        "filters": {
+            "payment": {
+                "label": "الدفع",
+                "options": {
+                    "all": "جميع الطرق",
+                    "insurance": "تأمين",
+                    "cash": "نقدي",
+                    "card": "بطاقة"
+                }
+            },
+            "status": {
+                "label": "الحالة",
+                "options": {
+                    "all": "جميع الحالات",
+                    "completed": "مكتمل",
+                    "pending": "قيد الانتظار",
+                    "failed": "فشل"
+                }
+            },
+            "dateRange": {
+                "label": "النطاق الزمني",
+                "to": "إلى"
+            },
+            "sort": {
+                "label": "ترتيب حسب",
+                "options": {
+                    "newest": "الأحدث أولاً",
+                    "oldest": "الأقدم أولاً",
+                    "amount": "المبلغ (الأعلى إلى الأدنى)"
+                }
+            },
+            "refresh": "تحديث"
+        },
+        "results": {
+            "title": "النتائج",
+            "export": "تصدير",
+            "print": "طباعة",
+            "noResults": {
+                "title": "لم يتم العثور على معاملات",
+                "withSearch": "لا توجد معاملات تطابق كلمة البحث الخاصة بك",
+                "noItems": "لم يتم العثور على معاملات للتصفية المحددة",
+                "clearSearch": "مسح البحث"
+            }
+        },
+        "table": {
+            "headers": {
+                "id": "معرف المعاملة",
+                "date": "التاريخ",
+                "patient": "المريض",
+                "prescription": "الوصفة الطبية",
+                "paymentMethod": "طريقة الدفع",
+                "amount": "المبلغ",
+                "status": "الحالة",
+                "actions": "الإجراءات"
+            },
+            "actions": {
+                "view": "عرض"
+            }
+        },
+        "details": {
+            "title": "تفاصيل المعاملة",
+            "note": "اختر معاملة لعرض التفاصيل"
+        }
+    },
+    "insurance": {
+        "search": {
+            "placeholder": "بحث عن طريق معرف المطالبة أو المريض أو البوليصة..."
+        },
+        "filters": {
+            "provider": {
+                "label": "المزود",
+                "options": {
+                    "all": "جميع المزودين"
+                }
+            },
+            "status": {
+                "label": "الحالة",
+                "options": {
+                    "all": "جميع الحالات",
+                    "approved": "موافق عليه",
+                    "pending": "قيد الانتظار",
+                    "rejected": "مرفوض"
+                }
+            },
+            "dateRange": {
+                "label": "النطاق الزمني",
+                "to": "إلى"
+            },
+            "refresh": "تحديث"
+        },
+        "results": {
+            "title": "مطالبات التأمين",
+            "export": "تصدير",
+            "print": "طباعة"
+        },
+        "table": {
+            "headers": {
+                "id": "معرف المطالبة",
+                "date": "التاريخ",
+                "patient": "المريض",
+                "prescription": "الوصفة الطبية",
+                "provider": "مزود التأمين",
+                "policyNumber": "رقم البوليصة",
+                "amount": "المبلغ",
+                "status": "الحالة",
+                "actions": "الإجراءات"
+            },
+            "actions": {
+                "view": "عرض"
+            }
+        },
+        "details": {
+            "title": "تفاصيل المطالبة",
+            "note": "اختر مطالبة لعرض التفاصيل"
+        }
+    }
+}

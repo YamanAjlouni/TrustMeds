@@ -1,0 +1,182 @@
+{
+    "loading": "Loading billing data...",
+    "pageTitle": "Billing & Payments",
+    "pageSubtitle": "Manage transactions, insurance claims, and financial reports",
+    "tabs": {
+        "overview": "Overview",
+        "transactions": "Transactions",
+        "insurance": "Insurance Claims"
+    },
+    "statuses": {
+        "completed": "Completed",
+        "pending": "Pending",
+        "failed": "Failed",
+        "approved": "Approved",
+        "rejected": "Rejected"
+    },
+    "overview": {
+        "stats": {
+            "totalRevenue": {
+                "title": "Total Revenue (7 days)",
+                "transactionsToday": "transactions today"
+            },
+            "insuranceClaims": {
+                "title": "Insurance Claims",
+                "pending": "Pending"
+            },
+            "cashPayments": {
+                "title": "Cash Payments"
+            },
+            "cardPayments": {
+                "title": "Card Payments"
+            }
+        },
+        "chart": {
+            "title": "Revenue Overview",
+            "timeFilter": {
+                "week": "Week",
+                "month": "Month",
+                "quarter": "Quarter"
+            },
+            "placeholder": {
+                "title": "Weekly Revenue Chart",
+                "note": "Data visualization would be integrated here"
+            }
+        },
+        "recentTransactions": {
+            "title": "Recent Transactions",
+            "viewAll": "View All",
+            "patient": "Patient",
+            "prescription": "Prescription",
+            "payment": "Payment",
+            "amount": "Amount"
+        },
+        "insuranceClaims": {
+            "title": "Insurance Claims Status",
+            "viewAll": "View All",
+            "approved": "Approved",
+            "pending": "Pending",
+            "rejected": "Rejected"
+        }
+    },
+    "transactions": {
+        "search": {
+            "placeholder": "Search by ID, patient, or prescription..."
+        },
+        "filters": {
+            "payment": {
+                "label": "Payment",
+                "options": {
+                    "all": "All Methods",
+                    "insurance": "Insurance",
+                    "cash": "Cash",
+                    "card": "Card"
+                }
+            },
+            "status": {
+                "label": "Status",
+                "options": {
+                    "all": "All Status",
+                    "completed": "Completed",
+                    "pending": "Pending",
+                    "failed": "Failed"
+                }
+            },
+            "dateRange": {
+                "label": "Date Range",
+                "to": "to"
+            },
+            "sort": {
+                "label": "Sort By",
+                "options": {
+                    "newest": "Newest First",
+                    "oldest": "Oldest First",
+                    "amount": "Amount (High to Low)"
+                }
+            },
+            "refresh": "Refresh"
+        },
+        "results": {
+            "title": "Results",
+            "export": "Export",
+            "print": "Print",
+            "noResults": {
+                "title": "No Transactions Found",
+                "withSearch": "No transactions match your search term",
+                "noItems": "No transactions found for the selected filters",
+                "clearSearch": "Clear Search"
+            }
+        },
+        "table": {
+            "headers": {
+                "id": "Transaction ID",
+                "date": "Date",
+                "patient": "Patient",
+                "prescription": "Prescription",
+                "paymentMethod": "Payment Method",
+                "amount": "Amount",
+                "status": "Status",
+                "actions": "Actions"
+            },
+            "actions": {
+                "view": "View"
+            }
+        },
+        "details": {
+            "title": "Transaction Details",
+            "note": "Select a transaction to view details"
+        }
+    },
+    "insurance": {
+        "search": {
+            "placeholder": "Search by claim ID, patient, or policy..."
+        },
+        "filters": {
+            "provider": {
+                "label": "Provider",
+                "options": {
+                    "all": "All Providers"
+                }
+            },
+            "status": {
+                "label": "Status",
+                "options": {
+                    "all": "All Status",
+                    "approved": "Approved",
+                    "pending": "Pending",
+                    "rejected": "Rejected"
+                }
+            },
+            "dateRange": {
+                "label": "Date Range",
+                "to": "to"
+            },
+            "refresh": "Refresh"
+        },
+        "results": {
+            "title": "Insurance Claims",
+            "export": "Export",
+            "print": "Print"
+        },
+        "table": {
+            "headers": {
+                "id": "Claim ID",
+                "date": "Date",
+                "patient": "Patient",
+                "prescription": "Prescription",
+                "provider": "Insurance Provider",
+                "policyNumber": "Policy Number",
+                "amount": "Amount",
+                "status": "Status",
+                "actions": "Actions"
+            },
+            "actions": {
+                "view": "View"
+            }
+        },
+        "details": {
+            "title": "Claim Details",
+            "note": "Select a claim to view details"
+        }
+    }
+}

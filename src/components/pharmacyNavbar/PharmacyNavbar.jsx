@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import './PharmacyNavbar.scss';
 import {
@@ -11,12 +11,24 @@ import {
     FaSignOutAlt,
     FaUserAlt
 } from 'react-icons/fa';
+import { BiGlobe } from 'react-icons/bi'; // Added globe icon import
 import logo from '../../assets/images/trustMeds-logo-blue-nobg-HD.png';
+import { useLanguage } from '../../context/LanguageContext'; // Import language context
 
 const PharmacyNavbar = ({ toggleSidebar }) => {
     const [showNotifications, setShowNotifications] = useState(false);
     const [showMessages, setShowMessages] = useState(false);
     const [showUserMenu, setShowUserMenu] = useState(false);
+    const [showLanguageDropdown, setShowLanguageDropdown] = useState(false); // Added language dropdown state
+
+    // Get language context
+    const { language, changeLanguage, t, isRTL } = useLanguage();
+
+    // References
+    const notificationRef = useRef(null);
+    const messageRef = useRef(null);
+    const userMenuRef = useRef(null);
+    const languageRef = useRef(null); // Added language dropdown ref
 
     // Sample notifications
     const notifications = [
@@ -70,6 +82,7 @@ const PharmacyNavbar = ({ toggleSidebar }) => {
         setShowNotifications(!showNotifications);
         setShowMessages(false);
         setShowUserMenu(false);
+        setShowLanguageDropdown(false); // Close language dropdown
     };
 
     const toggleMessages = (e) => {
@@ -77,6 +90,7 @@ const PharmacyNavbar = ({ toggleSidebar }) => {
         setShowMessages(!showMessages);
         setShowNotifications(false);
         setShowUserMenu(false);
+        setShowLanguageDropdown(false); // Close language dropdown
     };
 
     const toggleUserMenu = (e) => {
@@ -84,6 +98,22 @@ const PharmacyNavbar = ({ toggleSidebar }) => {
         setShowUserMenu(!showUserMenu);
         setShowNotifications(false);
         setShowMessages(false);
+        setShowLanguageDropdown(false); // Close language dropdown
+    };
+
+    // New function to toggle language dropdown
+    const toggleLanguageDropdown = (e) => {
+        e.stopPropagation();
+        setShowLanguageDropdown(!showLanguageDropdown);
+        setShowNotifications(false);
+        setShowMessages(false);
+        setShowUserMenu(false);
+    };
+
+    // Handle language change
+    const handleLanguageChange = (lang) => {
+        changeLanguage(lang);
+        setShowLanguageDropdown(false);
     };
 
     // Handle sidebar toggle
@@ -93,11 +123,20 @@ const PharmacyNavbar = ({ toggleSidebar }) => {
     };
 
     // Close dropdowns when clicking outside
-    React.useEffect(() => {
-        const closeDropdowns = () => {
-            setShowNotifications(false);
-            setShowMessages(false);
-            setShowUserMenu(false);
+    useEffect(() => {
+        const closeDropdowns = (e) => {
+            if (notificationRef.current && !notificationRef.current.contains(e.target)) {
+                setShowNotifications(false);
+            }
+            if (messageRef.current && !messageRef.current.contains(e.target)) {
+                setShowMessages(false);
+            }
+            if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+                setShowUserMenu(false);
+            }
+            if (languageRef.current && !languageRef.current.contains(e.target)) {
+                setShowLanguageDropdown(false);
+            }
         };
 
         document.addEventListener('click', closeDropdowns);
@@ -120,14 +159,42 @@ const PharmacyNavbar = ({ toggleSidebar }) => {
                     </NavLink>
 
                     <div className="navbar-search">
-                        <input type="text" placeholder="Search prescriptions, patients..." />
+                        <input type="text" placeholder={t ? t('pharmacyPage.navbar.searchPlaceholder') : "Search prescriptions, patients..."} />
                         <FaSearch className="search-icon" />
                     </div>
                 </div>
 
                 <div className="navbar-right">
                     <div className="navbar-actions">
-                        <div className="notification-container">
+                        {/* Language Selector */}
+                        <div className="language-wrapper" ref={languageRef}>
+                            <div
+                                className="language-icon-wrapper"
+                                onClick={toggleLanguageDropdown}
+                            >
+                                <BiGlobe className="language-icon" />
+                                <span className="current-language">{language?.toUpperCase()}</span>
+                            </div>
+
+                            {showLanguageDropdown && (
+                                <div className="language-dropdown" onClick={e => e.stopPropagation()}>
+                                    <div
+                                        className={`language-option ${language === 'en' ? 'active' : ''}`}
+                                        onClick={() => handleLanguageChange('en')}
+                                    >
+                                        English
+                                    </div>
+                                    <div
+                                        className={`language-option ${language === 'ar' ? 'active' : ''}`}
+                                        onClick={() => handleLanguageChange('ar')}
+                                    >
+                                        العربية
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="notification-container" ref={notificationRef}>
                             <button className="action-button" onClick={toggleNotifications}>
                                 <FaBell />
                                 {notifications.filter(n => n.unread).length > 0 && (
@@ -138,8 +205,8 @@ const PharmacyNavbar = ({ toggleSidebar }) => {
                             {showNotifications && (
                                 <div className="dropdown-menu notifications-dropdown" onClick={e => e.stopPropagation()}>
                                     <div className="dropdown-header">
-                                        <h3>Notifications</h3>
-                                        <button className="mark-all-read">Mark all as read</button>
+                                        <h3>{t ? t('pharmacyPage.navbar.notifications') : "Notifications"}</h3>
+                                        <button className="mark-all-read">{t ? t('pharmacyPage.navbar.markAllRead') : "Mark all as read"}</button>
                                     </div>
 
                                     <div className="dropdown-body">
@@ -165,13 +232,13 @@ const PharmacyNavbar = ({ toggleSidebar }) => {
                                     </div>
 
                                     <div className="dropdown-footer">
-                                        <NavLink to="/pharmacy/notifications">View all notifications</NavLink>
+                                        <NavLink to="/pharmacy/notifications">{t ? t('pharmacyPage.navbar.viewAllNotifications') : "View all notifications"}</NavLink>
                                     </div>
                                 </div>
                             )}
                         </div>
 
-                        <div className="message-container">
+                        {/* <div className="message-container" ref={messageRef}>
                             <button className="action-button" onClick={toggleMessages}>
                                 <FaEnvelope />
                                 {messages.filter(m => m.unread).length > 0 && (
@@ -182,8 +249,8 @@ const PharmacyNavbar = ({ toggleSidebar }) => {
                             {showMessages && (
                                 <div className="dropdown-menu messages-dropdown" onClick={e => e.stopPropagation()}>
                                     <div className="dropdown-header">
-                                        <h3>Messages</h3>
-                                        <button className="mark-all-read">Mark all as read</button>
+                                        <h3>{t ? t('pharmacyPage.navbar.messages') : "Messages"}</h3>
+                                        <button className="mark-all-read">{t ? t('pharmacyPage.navbar.markAllRead') : "Mark all as read"}</button>
                                     </div>
 
                                     <div className="dropdown-body">
@@ -213,14 +280,14 @@ const PharmacyNavbar = ({ toggleSidebar }) => {
                                     </div>
 
                                     <div className="dropdown-footer">
-                                        <NavLink to="/pharmacy/communication">View all messages</NavLink>
+                                        <NavLink to="/pharmacy/communication">{t ? t('pharmacyPage.navbar.viewAllMessages') : "View all messages"}</NavLink>
                                     </div>
                                 </div>
                             )}
-                        </div>
+                        </div> */}
                     </div>
 
-                    <div className="user-menu-container">
+                    <div className="user-menu-container" ref={userMenuRef}>
                         <button className="user-menu-button" onClick={toggleUserMenu}>
                             <div className="user-avatar">
                                 <span>YM</span>
@@ -229,7 +296,7 @@ const PharmacyNavbar = ({ toggleSidebar }) => {
                         </button>
 
                         {showUserMenu && (
-                            <div className="dropdown-menu user-dropdown" onClick={e => e.stopPropagation()}>
+                            <div className={`dropdown-menu user-dropdown ${isRTL ? 'rtl' : ''}`} onClick={e => e.stopPropagation()}>
                                 <div className="user-info">
                                     <div className="user-avatar large">
                                         <span>YM</span>
@@ -243,23 +310,23 @@ const PharmacyNavbar = ({ toggleSidebar }) => {
                                 <ul className="user-menu-list">
                                     <li>
                                         <NavLink to="/pharmacy/profile">
-                                            <FaUserAlt /> My Profile
+                                            <FaUserAlt /> {t ? t('pharmacyPage.navbar.myProfile') : "My Profile"}
                                         </NavLink>
                                     </li>
                                     <li>
                                         <NavLink to="/pharmacy/profile/settings">
-                                            <FaCog /> Settings
+                                            <FaCog /> {t ? t('pharmacyPage.navbar.settings') : "Settings"}
                                         </NavLink>
                                     </li>
                                     <li>
                                         <NavLink to="/pharmacy/help">
-                                            <FaQuestionCircle /> Help & Support
+                                            <FaQuestionCircle /> {t ? t('pharmacyPage.navbar.helpAndSupport') : "Help & Support"}
                                         </NavLink>
                                     </li>
                                     <li className="divider"></li>
                                     <li>
                                         <NavLink to="/" className="logout-button">
-                                            <FaSignOutAlt /> Logout
+                                            <FaSignOutAlt /> {t ? t('pharmacyPage.navbar.logout') : "Logout"}
                                         </NavLink>
                                     </li>
                                 </ul>

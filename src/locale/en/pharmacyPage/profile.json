@@ -1,0 +1,113 @@
+{
+    "loading": "Loading profile data...",
+    "pageTitle": "Profile & Settings",
+    "pageSubtitle": "Manage your account information and preferences",
+    "tabs": {
+        "personal": "Personal Information",
+        "settings": "Account Settings",
+        "activity": "Security Activity"
+    },
+    "personal": {
+        "title": "Personal Information",
+        "editProfile": "Edit Profile",
+        "cancel": "Cancel",
+        "saveChanges": "Save Changes",
+        "successMessage": "Changes saved successfully!",
+        "idPrefix": "ID",
+        "changePassword": "Change Password",
+        "fields": {
+            "fullName": "Full Name",
+            "email": "Email Address",
+            "phone": "Phone Number",
+            "address": "Address",
+            "department": "Department",
+            "supervisor": "Supervisor",
+            "dateJoined": "Date Joined",
+            "password": "Password"
+        }
+    },
+    "settings": {
+        "title": "Account Settings",
+        "successMessage": "Settings updated successfully!",
+        "language": {
+            "title": "Interface Language"
+        },
+        "notifications": {
+            "title": "Notification Preferences",
+            "options": {
+                "email": {
+                    "title": "Email Notifications",
+                    "description": "Receive notifications via email"
+                },
+                "sms": {
+                    "title": "SMS Notifications",
+                    "description": "Receive notifications via SMS"
+                },
+                "inApp": {
+                    "title": "In-App Notifications",
+                    "description": "Receive notifications within the app"
+                }
+            }
+        },
+        "security": {
+            "title": "Security Settings",
+            "options": {
+                "password": {
+                    "title": "Change Password",
+                    "description": "Update your account password",
+                    "action": "Change"
+                },
+                "twoFactor": {
+                    "title": "Two-Factor Authentication",
+                    "description": "Add an extra layer of security"
+                },
+                "sessionTimeout": {
+                    "title": "Session Timeout",
+                    "description": "Time before automatic logout",
+                    "options": {
+                        "15min": "15 minutes",
+                        "30min": "30 minutes",
+                        "1hour": "1 hour",
+                        "2hours": "2 hours"
+                    }
+                }
+            }
+        }
+    },
+    "activity": {
+        "title": "Account Activity",
+        "recentActivityTitle": "Recent Security Activity",
+        "activeSessions": "Active Sessions",
+        "currentSession": "Current session",
+        "at": "at",
+        "ipPrefix": "IP",
+        "types": {
+            "login": "Account Login",
+            "password": "Password Changed"
+        }
+    },
+    "passwordModal": {
+        "title": "Change Password",
+        "errors": {
+            "allFieldsRequired": "All fields are required",
+            "passwordsDoNotMatch": "New passwords do not match",
+            "passwordTooShort": "Password must be at least 8 characters"
+        },
+        "fields": {
+            "currentPassword": "Current Password",
+            "newPassword": "New Password",
+            "confirmPassword": "Confirm New Password"
+        },
+        "requirements": {
+            "title": "Password Requirements",
+            "length": "At least 8 characters long",
+            "uppercase": "Include at least one uppercase letter",
+            "number": "Include at least one number",
+            "special": "Include at least one special character"
+        },
+        "actions": {
+            "cancel": "Cancel",
+            "update": "Update Password"
+        }
+    }
+}

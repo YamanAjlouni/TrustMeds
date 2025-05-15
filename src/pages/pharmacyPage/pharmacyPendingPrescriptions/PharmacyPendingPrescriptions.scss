@@ -95,6 +95,7 @@ $pharmacy-light: rgba($pharmacy-primary, 0.1);
       padding: 1.25rem;
 
       .search-container {
+        display: flex;
         flex: 1;
         min-width: 300px;
         position: relative;
@@ -696,7 +697,7 @@ $pharmacy-light: rgba($pharmacy-primary, 0.1);
 
                       .instruction-value {
                         font-size: 0.9rem;
-                        color: $dark-text; 
+                        color: $dark-text;
                         line-height: 1.4;
                       }
                     }
@@ -923,5 +924,184 @@ $pharmacy-light: rgba($pharmacy-primary, 0.1);
         }
       }
     }
+  }
+}
+
+
+// RTL Support for Pharmacy Pending Prescriptions
+.lang-ar .pharmacy-pending-prescriptions {
+  text-align: right !important;
+
+  // Page header
+  .page-header {
+    text-align: right !important;
+  }
+
+  // Search bar adjustments
+  .action-bar {
+    .search-container {
+      .search-icon {
+        left: auto !important;
+        right: 1rem !important;
+      }
+
+      .search-input {
+        padding: 0.75rem 2.5rem 0.75rem 1rem !important;
+      }
+    }
+
+    .filter-controls {
+      .filter-group {
+        text-align: right !important;
+
+        .filter-select {
+          padding: 0.75rem 0.75rem 0.75rem 2rem !important;
+          background-position: left 10px center !important;
+        }
+      }
+
+      .refresh-btn {
+        margin-right: 0.5rem !important;
+        margin-left: 0 !important;
+
+        svg {
+          margin-right: 0 !important;
+          margin-left: 0.5rem !important;
+        }
+      }
+    }
+  }
+
+  // Prescription cards
+  .prescriptions-list {
+    .prescription-card {
+      .priority-bar {
+        right: 0 !important;
+        left: auto !important;
+      }
+
+      .prescription-content {
+        text-align: right !important;
+
+        .prescription-header {
+          .priority-tag {
+            svg {
+              margin-right: 0 !important;
+              margin-left: 0.35rem !important;
+            }
+          }
+        }
+
+        .prescription-body {
+          text-align: right !important;
+        }
+
+        .prescription-actions {
+
+          .view-btn,
+          .dispense-btn {
+            svg {
+              margin-right: 0 !important;
+              margin-left: 0.4rem !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Modal styling
+  .modal-overlay {
+    .modal-content {
+      .modal-header {
+        .header-left {
+          text-align: right !important;
+        }
+
+        .header-right {
+          .priority-badge {
+            &.urgent {
+              svg {
+                margin-right: 0 !important;
+                margin-left: 0.35rem !important;
+              }
+            }
+          }
+
+          .close-btn {
+            margin-left: 0 !important;
+            margin-right: 0.5rem !important;
+          }
+        }
+      }
+
+      .modal-body {
+        text-align: right !important;
+
+        .prescription-sections {
+          .info-section {
+            .section-header {
+              text-align: right !important;
+
+              .header-icon {
+                margin-right: 0 !important;
+                margin-left: 0.75rem !important;
+              }
+            }
+
+            .section-content {
+              text-align: right !important;
+
+              .info-grid {
+                .info-item {
+                  text-align: right !important;
+                }
+              }
+
+              .medication-card {
+
+                .medication-header,
+                .medication-instructions {
+                  text-align: right !important;
+                }
+              }
+
+              .prescription-notes {
+                text-align: right !important;
+              }
+            }
+          }
+        }
+      }
+
+      .modal-footer {
+        .action-btn {
+          svg {
+            margin-right: 0 !important;
+            margin-left: 0.5rem !important;
+          }
+        }
+
+        .verifying-container {
+          .loader.small {
+            margin-right: 0 !important;
+            margin-left: 0.75rem !important;
+          }
+        }
+      }
+    }
+  }
+
+  // Results header
+  .results-header {
+    .sort-indicators {
+      margin-left: 0 !important;
+      margin-right: auto !important;
+    }
+  }
+
+  // Empty state - keep centered
+  .empty-state {
+    text-align: center !important;
   }
 }

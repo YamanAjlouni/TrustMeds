@@ -10,13 +10,106 @@ $pharmacy-secondary: #1976d2; // Blue for accent
     width: 240px;
     position: fixed;
     top: 0;
-    left: 0;
     padding-top: 70px;
     color: white;
     transition: transform 0.3s ease;
     overflow-y: auto;
     z-index: 50;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+
+    // LTR styles
+    &.ltr {
+        left: 0;
+        right: auto;
+        
+        @media (max-width: 1119px) {
+            transform: translateX(-100%);
+        }
+        
+        .pharmacy-sidebar-profile {
+            .profile-avatar {
+                margin-right: 1rem;
+                margin-left: 0;
+            }
+        }
+        
+        .pharmacy-sidebar-nav {
+            ul {
+                li {
+                    a {
+                        &.active {
+                            &:before {
+                                left: 0;
+                                right: auto;
+                            }
+                        }
+                        
+                        .nav-icon {
+                            margin-right: 1rem;
+                            margin-left: 0;
+                        }
+                    }
+                }
+            }
+        }
+        
+        .pharmacy-sidebar-footer {
+            .logout-btn {
+                .logout-icon {
+                    margin-right: 0.75rem;
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+    
+    // RTL styles
+    &.rtl {
+        left: auto;
+        right: 0;
+        background: linear-gradient(135deg, $pharmacy-primary, darken($pharmacy-primary, 15%));
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+        
+        @media (max-width: 1119px) {
+            transform: translateX(100%);
+        }
+        
+        .pharmacy-sidebar-profile {
+            .profile-avatar {
+                margin-left: 1rem;
+                margin-right: 0;
+            }
+        }
+        
+        .pharmacy-sidebar-nav {
+            ul {
+                li {
+                    a {
+                        &.active {
+                            &:before {
+                                right: 0;
+                                left: auto;
+                            }
+                        }
+                        
+                        .nav-icon {
+                            margin-left: 1rem;
+                            margin-right: 0;
+                        }
+                    }
+                }
+            }
+        }
+        
+        .pharmacy-sidebar-footer {
+            .logout-btn {
+                .logout-icon {
+                    margin-left: 0.75rem;
+                    margin-right: 0;
+                }
+            }
+        }
+    }
 
     @media (min-width: 768px) {
         padding-top: 80px;
@@ -27,12 +120,8 @@ $pharmacy-secondary: #1976d2; // Blue for accent
     }
 
     // Mobile view handling
-    @media (max-width: 1119px) {
-        transform: translateX(-100%);
-
-        &.open {
-            transform: translateX(0);
-        }
+    &.open {
+        transform: translateX(0) !important;
     }
 
     .pharmacy-sidebar-profile {
@@ -49,7 +138,6 @@ $pharmacy-secondary: #1976d2; // Blue for accent
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 1rem;
 
             svg {
                 font-size: 1.5rem;
@@ -112,7 +200,6 @@ $pharmacy-secondary: #1976d2; // Blue for accent
                         &:before {
                             content: '';
                             position: absolute;
-                            left: 0;
                             top: 0;
                             width: 4px;
                             height: 100%;
@@ -121,7 +208,6 @@ $pharmacy-secondary: #1976d2; // Blue for accent
                     }
 
                     .nav-icon {
-                        margin-right: 1rem;
                         font-size: 1.1rem;
                         min-width: 24px;
                         display: flex;
@@ -163,10 +249,6 @@ $pharmacy-secondary: #1976d2; // Blue for accent
 
             &:hover {
                 background-color: rgba(255, 255, 255, 0.2);
-            }
-
-            .logout-icon {
-                margin-right: 0.75rem;
             }
         }
     }

@@ -1109,3 +1109,189 @@ $failed-color: $urgent-color;
         }
     }
 }
+
+// RTL Support for Pharmacy Billing
+.lang-ar .pharmacy-billing {
+    text-align: right !important;
+
+    // Page header
+    .page-header {
+        text-align: right !important;
+    }
+
+    // Tab buttons
+    .billing-tabs {
+        .tab-btn {
+            svg {
+                margin-right: 0 !important;
+                margin-left: 0.5rem !important;
+            }
+        }
+    }
+
+    // Overview section
+    .billing-overview {
+
+        // Stats cards
+        .stats-section {
+            .stat-card {
+                .stat-icon {
+                    margin-right: 0 !important;
+                    margin-left: 1rem !important;
+                }
+            }
+        }
+
+        // Chart section
+        .chart-section {
+            .section-header {
+                .time-filter {
+                    .time-filter-btn {
+                        svg {
+                            margin-right: 0 !important;
+                            margin-left: 0.35rem !important;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Transaction cards
+        .recent-transactions-section {
+            .transaction-card {
+                .transaction-header {
+                    .transaction-status {
+                        .status-badge {
+                            svg {
+                                margin-right: 0 !important;
+                                margin-left: 0.35rem !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Insurance summary
+        .insurance-section {
+            .summary-item {
+                .summary-icon {
+                    margin-right: 0 !important;
+                    margin-left: 1rem !important;
+                }
+            }
+        }
+    }
+
+    // Filter bars
+    .filter-bar {
+        .search-container {
+            .search-icon {
+                left: auto !important;
+                right: 1rem !important;
+            }
+
+            .search-input {
+                padding: 0.85rem 2.5rem 0.85rem 1rem !important;
+            }
+        }
+
+        .filters {
+            .filter-group {
+                text-align: right !important;
+
+                .filter-select {
+                    padding: 0.75rem 0.75rem 0.75rem 2rem !important;
+                    background-position: left 10px center !important;
+                }
+
+                .date-inputs {
+                    .date-input-wrapper {
+                        .calendar-icon {
+                            left: auto !important;
+                            right: 0.75rem !important;
+                        }
+
+                        .date-input {
+                            padding: 0.75rem 2.25rem 0.75rem 0.75rem !important;
+                        }
+                    }
+                }
+            }
+
+            .refresh-btn {
+                svg {
+                    margin-right: 0 !important;
+                    margin-left: 0.5rem !important;
+                }
+            }
+        }
+    }
+
+    // Results sections
+    .transactions-results,
+    .insurance-results {
+        .results-header {
+            .export-options {
+
+                .export-btn,
+                .print-btn {
+                    svg {
+                        margin-right: 0 !important;
+                        margin-left: 0.5rem !important;
+                    }
+                }
+            }
+        }
+
+        // Tables
+        .transactions-table-container,
+        .insurance-table-container {
+            table {
+
+                th,
+                td {
+                    text-align: right !important;
+                }
+
+                // Status and payment badges
+                .status-badge,
+                .payment-badge {
+                    svg {
+                        margin-right: 0 !important;
+                        margin-left: 0.35rem !important;
+                    }
+                }
+
+                // Action buttons
+                .action-btn {
+                    svg {
+                        margin-right: 0 !important;
+                        margin-left: 0.35rem !important;
+                    }
+                }
+            }
+        }
+    }
+
+    // Detail panels
+    .transaction-details,
+    .claim-details {
+
+        .transaction-detail-card,
+        .claim-detail-card {
+            .card-header {
+                text-align: right !important;
+            }
+
+            .card-body {
+                text-align: right !important;
+            }
+        }
+    }
+
+    // Empty state - keep centered
+    .empty-state {
+        text-align: center !important;
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "dashboard": "نظرة عامة",
+    "scanPrescription": "مسح الوصفة الطبية",
+    "pendingPrescriptions": "الوصفات الطبية المعلقة",
+    "dispensedHistory": "سجل صرف الأدوية",
+    "communication": "التواصل",
+    "billing": "الفواتير",
+    "profile": "الملف الشخصي والإعدادات",
+    "help": "المساعدة والموارد"
+}

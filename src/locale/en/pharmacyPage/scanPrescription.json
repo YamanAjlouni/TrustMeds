@@ -1,0 +1,88 @@
+{
+    "loading": "Loading scanner...",
+    "pageTitle": "Scan Prescription",
+    "pageSubtitle": "Use the QR code scanner to quickly process prescriptions",
+    "scanner": {
+        "ready": {
+            "title": "Ready to Scan",
+            "instruction": "Position the QR code in view of the camera to scan the prescription",
+            "startButton": "Start Scanner",
+            "viewPendingButton": "View Pending Prescriptions"
+        },
+        "scanning": {
+            "title": "Scanning...",
+            "instruction": "Please hold the QR code steady in view of the camera",
+            "cancelButton": "Cancel"
+        },
+        "error": {
+            "title": "Error",
+            "tryAgainButton": "Try Again"
+        },
+        "success": {
+            "title": "Success!",
+            "scanAnotherButton": "Scan Another"
+        }
+    },
+    "prescriptionDetails": {
+        "found": "Prescription Found",
+        "priority": {
+            "urgent": "Urgent"
+        },
+        "sections": {
+            "patient": {
+                "title": "Patient Information",
+                "fields": {
+                    "name": "Name",
+                    "id": "ID",
+                    "dateOfBirth": "Date of Birth",
+                    "insurance": "Insurance",
+                    "policyNumber": "Policy Number",
+                    "validUntil": "Valid Until"
+                }
+            },
+            "prescriber": {
+                "title": "Prescriber",
+                "fields": {
+                    "doctor": "Doctor",
+                    "id": "ID",
+                    "specialty": "Specialty",
+                    "issueDate": "Issue Date",
+                    "expiryDate": "Expiry Date"
+                }
+            },
+            "medications": {
+                "title": "Medications",
+                "quantity": "Qty",
+                "sig": "Sig",
+                "notes": "Notes",
+                "additionalNotes": "Additional Notes"
+            }
+        },
+        "actions": {
+            "verifying": "Verifying prescription...",
+            "dispense": "Dispense Prescription",
+            "cancel": "Cancel"
+        }
+    },
+    "instructions": {
+        "title": "How to Use the Prescription Scanner",
+        "steps": [
+            {
+                "title": "Scan Prescription QR Code",
+                "description": "Click \"Start Scanner\" and position the QR code within the camera view"
+            },
+            {
+                "title": "Verify Information",
+                "description": "Carefully review all patient and medication details to ensure accuracy"
+            },
+            {
+                "title": "Process or Reject",
+                "description": "Dispense the prescription or cancel if there are any issues"
+            },
+            {
+                "title": "Verify Insurance",
+                "description": "Check that the patient's insurance information is valid and up to date"
+            }
+        ]
+    }
+}

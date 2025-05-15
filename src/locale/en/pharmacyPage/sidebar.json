@@ -1,0 +1,10 @@
+{
+    "dashboard": "Overview",
+    "scanPrescription": "Scan Prescription",
+    "pendingPrescriptions": "Pending Prescriptions",
+    "dispensedHistory": "Dispensed History",
+    "communication": "Communication",
+    "billing": "Billing",
+    "profile": "Profile & Settings",
+    "help": "Help & Resources"
+}

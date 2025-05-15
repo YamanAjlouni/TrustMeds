@@ -1,0 +1,73 @@
+{
+    "welcomeMessage": "Welcome back",
+    "todayIs": "Today is",
+    "quickActions": {
+        "scanPrescription": "Scan Prescription",
+        "viewPending": "View Pending",
+        "dispensedHistory": "Dispensed History"
+    },
+    "todayOverview": "Today's Overview",
+    "stats": {
+        "pendingPrescriptions": "Pending Prescriptions",
+        "dispensedToday": "Dispensed Today",
+        "patientsServed": "Patients Served",
+        "medicationsDispensed": "Medications Dispensed"
+    },
+    "recentActivity": {
+        "title": "Recent Activity",
+        "refresh": "Refresh",
+        "activityTypes": {
+            "dispensed": "Dispensed",
+            "received": "Received",
+            "alert": "Alert",
+            "communication": "Communication"
+        }
+    },
+    "pendingPrescriptions": {
+        "title": "Pending Prescriptions",
+        "viewAll": "View All",
+        "empty": "No pending prescriptions to process",
+        "details": {
+            "patient": "Patient",
+            "doctor": "Doctor",
+            "medications": "Medications",
+            "items": "items"
+        },
+        "priority": {
+            "normal": "Normal",
+            "urgent": "Urgent"
+        },
+        "actions": {
+            "viewDetails": "View Details",
+            "dispense": "Dispense"
+        }
+    },
+    "scanner": {
+        "title": "Prescription Scanner",
+        "cta": {
+            "title": "Scan a Prescription",
+            "description": "Process prescriptions quickly by scanning the QR code",
+            "button": "Start Scanner"
+        },
+        "processing": {
+            "message": "Please hold the QR code in view of the camera...",
+            "cancel": "Cancel"
+        },
+        "result": {
+            "found": "Prescription Found",
+            "details": {
+                "id": "ID",
+                "patient": "Patient",
+                "doctor": "Doctor",
+                "date": "Date",
+                "medications": "Medications",
+                "qty": "Qty"
+            },
+            "actions": {
+                "dispense": "Dispense",
+                "cancel": "Cancel"
+            }
+        }
+    },
+    "loading": "Loading dashboard..."
+}

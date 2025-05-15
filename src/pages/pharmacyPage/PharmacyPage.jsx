@@ -11,9 +11,11 @@ import PharmacyCommunication from './pharmacyCommunication/PharmacyCommunication
 import PharmacyBilling from './pharmacyBilling/PharmacyBilling';
 import PharmacyProfile from './pharmacyProfile/PharmacyProfile';
 import PharmacyHelp from './pharmacyHelp/PharmacyHelp';
+import { useLanguage } from '../../context/LanguageContext'; // Import language context
 
 export const PharmacyPage = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default closed on mobile
+    const { isRTL } = useLanguage(); // Get RTL status from language context
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -41,7 +43,7 @@ export const PharmacyPage = () => {
     }, []);
 
     return (
-        <div className='pharmacy-out-container'>
+        <div className={`pharmacy-out-container ${isRTL ? 'rtl' : 'ltr'}`}>
             <PharmacyNavbar toggleSidebar={toggleSidebar} />
 
             <div className="pharmacy-container">

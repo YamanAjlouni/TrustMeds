@@ -1,0 +1,73 @@
+{
+    "welcomeMessage": "مرحبًا بعودتك",
+    "todayIs": "اليوم هو",
+    "quickActions": {
+        "scanPrescription": "مسح الوصفة الطبية",
+        "viewPending": "عرض المعلقة",
+        "dispensedHistory": "سجل الصرف"
+    },
+    "todayOverview": "نظرة عامة لليوم",
+    "stats": {
+        "pendingPrescriptions": "الوصفات المعلقة",
+        "dispensedToday": "تم صرفها اليوم",
+        "patientsServed": "المرضى الذين تمت خدمتهم",
+        "medicationsDispensed": "الأدوية المصروفة"
+    },
+    "recentActivity": {
+        "title": "النشاط الأخير",
+        "refresh": "تحديث",
+        "activityTypes": {
+            "dispensed": "تم الصرف",
+            "received": "تم الاستلام",
+            "alert": "تنبيه",
+            "communication": "تواصل"
+        }
+    },
+    "pendingPrescriptions": {
+        "title": "الوصفات الطبية المعلقة",
+        "viewAll": "عرض الكل",
+        "empty": "لا توجد وصفات طبية معلقة للمعالجة",
+        "details": {
+            "patient": "المريض",
+            "doctor": "الطبيب",
+            "medications": "الأدوية",
+            "items": "عناصر"
+        },
+        "priority": {
+            "normal": "عادي",
+            "urgent": "عاجل"
+        },
+        "actions": {
+            "viewDetails": "عرض التفاصيل",
+            "dispense": "صرف"
+        }
+    },
+    "scanner": {
+        "title": "ماسح الوصفات الطبية",
+        "cta": {
+            "title": "مسح وصفة طبية",
+            "description": "معالجة الوصفات الطبية بسرعة عن طريق مسح رمز الاستجابة السريعة",
+            "button": "بدء الماسح"
+        },
+        "processing": {
+            "message": "يرجى إبقاء رمز الاستجابة السريعة في مرمى الكاميرا...",
+            "cancel": "إلغاء"
+        },
+        "result": {
+            "found": "تم العثور على الوصفة الطبية",
+            "details": {
+                "id": "المعرف",
+                "patient": "المريض",
+                "doctor": "الطبيب",
+                "date": "التاريخ",
+                "medications": "الأدوية",
+                "qty": "الكمية"
+            },
+            "actions": {
+                "dispense": "صرف",
+                "cancel": "إلغاء"
+            }
+        }
+    },
+    "loading": "جاري تحميل لوحة التحكم..."
+}

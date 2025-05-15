@@ -1,0 +1,124 @@
+{
+    "loading": "Loading history...",
+    "pageTitle": "Dispensed Prescriptions",
+    "pageSubtitle": "View and manage previously dispensed prescriptions",
+    "search": {
+        "placeholder": "Search by ID, patient, doctor, or medication..."
+    },
+    "filters": {
+        "dateRange": {
+            "label": "Date Range",
+            "options": {
+                "all": "All Dates",
+                "today": "Today",
+                "thisWeek": "This Week",
+                "thisMonth": "This Month",
+                "custom": "Custom Range"
+            },
+            "customRange": {
+                "from": "From",
+                "to": "To"
+            }
+        },
+        "payment": {
+            "label": "Payment",
+            "options": {
+                "all": "All Methods",
+                "insurance": "Insurance",
+                "cash": "Cash"
+            }
+        },
+        "dispensedBy": {
+            "label": "Dispensed By",
+            "options": {
+                "all": "All Staff"
+            }
+        },
+        "sort": {
+            "label": "Sort By",
+            "options": {
+                "newest": "Newest First",
+                "oldest": "Oldest First"
+            }
+        },
+        "refresh": "Refresh"
+    },
+    "results": {
+        "title": "Results",
+        "export": "Export",
+        "print": "Print",
+        "noResults": {
+            "title": "No Prescriptions Found",
+            "withSearch": "No prescriptions match your search term",
+            "noItems": "No dispensed prescriptions for the selected filters",
+            "clearSearch": "Clear Search"
+        }
+    },
+    "table": {
+        "headers": {
+            "id": "Prescription ID",
+            "patient": "Patient",
+            "doctor": "Doctor",
+            "dispensedDate": "Dispensed Date",
+            "medications": "Medications",
+            "payment": "Payment",
+            "dispensedBy": "Dispensed By",
+            "actions": "Actions"
+        },
+        "medicationCount": "items",
+        "actions": {
+            "view": "View"
+        }
+    },
+    "detailModal": {
+        "title": "Dispensed Prescription",
+        "actions": {
+            "print": "Print",
+            "download": "Download",
+            "close": "Close"
+        },
+        "status": {
+            "title": "Status",
+            "dispensed": "Dispensed",
+            "dispensedOn": "Dispensed On",
+            "dispensedBy": "Dispensed By"
+        },
+        "sections": {
+            "patient": {
+                "title": "Patient Information",
+                "fields": {
+                    "name": "Name",
+                    "id": "ID",
+                    "dateOfBirth": "Date of Birth",
+                    "insurance": "Insurance",
+                    "policyNumber": "Policy Number"
+                }
+            },
+            "prescriber": {
+                "title": "Prescriber",
+                "fields": {
+                    "doctor": "Doctor",
+                    "id": "ID",
+                    "specialty": "Specialty",
+                    "issueDate": "Issue Date"
+                }
+            },
+            "medications": {
+                "title": "Medications",
+                "quantity": "Qty",
+                "instructions": "Instructions",
+                "notes": "Notes"
+            },
+            "payment": {
+                "title": "Payment Information",
+                "fields": {
+                    "method": "Payment Method",
+                    "totalCost": "Total Cost",
+                    "coverage": "Coverage",
+                    "copayAmount": "Copay Amount",
+                    "patientPaid": "Patient Paid"
+                }
+            }
+        }
+    }
+}
