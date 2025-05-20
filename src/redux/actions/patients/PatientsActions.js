@@ -1,63 +1,58 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axiosInstance, { errorMessage } from "../../axiosInstance";
-import { AddPatientAPI, DeletePatientAPI, GetPatientsAPI, UpdatePatientAPI } from "../../Api";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import {
+    GetMyProfileAPI,
+    GetMyEmergencyContactAPI,
+    CreateMyEmergencyContactAPI,
+    UpdateMyEmergencyContactAPI,
+    DeleteMyEmergencyContactAPI
+} from '../../Api';
 
-// جلب كل المرضى
-export const fetchPatients = createAsyncThunk("patients/fetchAll", async (_, { rejectWithValue }) => {
+export const fetchMyProfile = createAsyncThunk("profile/fetchMyProfile", async (_, { rejectWithValue }) => {
     try {
-        const { data } = await axiosInstance.get(GetPatientsAPI);
+        const { data } = await axiosInstance.get(GetMyProfileAPI);
         return data;
     } catch (error) {
-        if (error.response) {
-            return rejectWithValue(error.response.data.message);
-        } else {
-            return rejectWithValue(errorMessage);
-        }
+        if (error.response) return rejectWithValue(error.response.data.message);
+        return rejectWithValue(errorMessage);
     }
-}
-);
+});
 
-// إضافة مريض جديد
-export const addPatient = createAsyncThunk("patients/add", async (patientData, { rejectWithValue }) => {
+export const fetchMyEmergencyContact = createAsyncThunk("profile/fetchMyEmergencyContact", async (_, { rejectWithValue }) => {
     try {
-        const { data } = await axiosInstance.post(AddPatientAPI, patientData);
+        const { data } = await axiosInstance.get(GetMyEmergencyContactAPI);
         return data;
     } catch (error) {
-        if (error.response) {
-            return rejectWithValue(error.response.data.message);
-        } else {
-            return rejectWithValue(errorMessage);
-        }
+        if (error.response) return rejectWithValue(error.response.data.message);
+        return rejectWithValue(errorMessage);
     }
-}
-);
+});
 
-// تحديث بيانات مريض
-export const updatePatient = createAsyncThunk("patients/update", async ({ id, patientData }, { rejectWithValue }) => {
+export const createMyEmergencyContact = createAsyncThunk("profile/createMyEmergencyContact", async (contactData, { rejectWithValue }) => {
     try {
-        const { data } = await axiosInstance.put(UpdatePatientAPI(id), patientData);
+        const { data } = await axiosInstance.post(CreateMyEmergencyContactAPI, contactData);
         return data;
     } catch (error) {
-        if (error.response) {
-            return rejectWithValue(error.response.data.message);
-        } else {
-            return rejectWithValue(errorMessage);
-        }
+        if (error.response) return rejectWithValue(error.response.data.message);
+        return rejectWithValue(errorMessage);
     }
-}
-);
+});
 
-// حذف مريض
-export const deletePatient = createAsyncThunk("patients/delete", async (id, { rejectWithValue }) => {
+export const updateMyEmergencyContact = createAsyncThunk("profile/updateMyEmergencyContact", async ({ id, contactData }, { rejectWithValue }) => {
     try {
-        await axiosInstance.delete(DeletePatientAPI(id));
-        return id; // نرجع الـ id عشان نحدث الستيت
+        const { data } = await axiosInstance.put(UpdateMyEmergencyContactAPI(id), contactData);
+        return data;
     } catch (error) {
-        if (error.response) {
-            return rejectWithValue(error.response.data.message);
-        } else {
-            return rejectWithValue(errorMessage);
-        }
+        if (error.response) return rejectWithValue(error.response.data.message);
+        return rejectWithValue(errorMessage);
     }
-}
-);
+});
+
+export const deleteMyEmergencyContact = createAsyncThunk("profile/deleteMyEmergencyContact", async (id, { rejectWithValue }) => {
+    try {
+        await axiosInstance.delete(DeleteMyEmergencyContactAPI(id));
+        return id;
+    } catch (error) {
+        if (error.response) return rejectWithValue(error.response.data.message);
+        return rejectWithValue(errorMessage);
+    }
+});

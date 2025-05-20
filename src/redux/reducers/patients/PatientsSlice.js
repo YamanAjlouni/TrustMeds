@@ -1,18 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchPatients, addPatient, updatePatient, deletePatient } from "../../actions/patients/PatientsActions";
+import { createMyEmergencyContact, deleteMyEmergencyContact, fetchMyEmergencyContact, fetchMyProfile, updateMyEmergencyContact } from "../../actions/patients/PatientsActions";
 
 const initialState = {
-    patients: [],
+    myProfile: null,
+    emergencyContact: null,
     loading: false,
     error: null,
     successMessage: null,
 };
 
-const patientSlice = createSlice({
-    name: "patients",
+const myProfileSlice = createSlice({
+    name: "myProfile",
     initialState,
     reducers: {
-        clearPatientMessages: (state) => {
+        clearProfileMessages: (state) => {
             state.error = null;
             state.successMessage = null;
         },
@@ -20,71 +21,81 @@ const patientSlice = createSlice({
     extraReducers: (builder) => {
         builder
 
-            // Fetch Patients
-            .addCase(fetchPatients.pending, (state) => {
+            // 🔹 Fetch Profile
+            .addCase(fetchMyProfile.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchPatients.fulfilled, (state, action) => {
+            .addCase(fetchMyProfile.fulfilled, (state, action) => {
                 state.loading = false;
-                state.patients = action.payload;
+                state.myProfile = action.payload;
             })
-            .addCase(fetchPatients.rejected, (state, action) => {
+            .addCase(fetchMyProfile.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
-            // Add Patient
-            .addCase(addPatient.pending, (state) => {
+            // 🔹 Fetch Emergency Contact
+            .addCase(fetchMyEmergencyContact.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(addPatient.fulfilled, (state, action) => {
+            .addCase(fetchMyEmergencyContact.fulfilled, (state, action) => {
                 state.loading = false;
-                state.patients.push(action.payload);
-                state.successMessage = "تمت إضافة المريض بنجاح";
+                state.emergencyContact = action.payload;
             })
-            .addCase(addPatient.rejected, (state, action) => {
+            .addCase(fetchMyEmergencyContact.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
-            // Update Patient
-            .addCase(updatePatient.pending, (state) => {
+            // 🔹 Create Emergency Contact
+            .addCase(createMyEmergencyContact.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(updatePatient.fulfilled, (state, action) => {
+            .addCase(createMyEmergencyContact.fulfilled, (state, action) => {
                 state.loading = false;
-                const updatedPatient = action.payload;
-                state.patients = state.patients.map((patient) =>
-                    patient._id === updatedPatient._id ? updatedPatient : patient
-                );
-                state.successMessage = "تم تحديث بيانات المريض";
+                state.emergencyContact = action.payload;
+                state.successMessage = "تمت إضافة جهة الاتصال في حالات الطوارئ";
             })
-            .addCase(updatePatient.rejected, (state, action) => {
+            .addCase(createMyEmergencyContact.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
-            // Delete Patient
-            .addCase(deletePatient.pending, (state) => {
+            // 🔹 Update Emergency Contact
+            .addCase(updateMyEmergencyContact.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(deletePatient.fulfilled, (state, action) => {
+            .addCase(updateMyEmergencyContact.fulfilled, (state, action) => {
                 state.loading = false;
-                const deletedId = action.payload;
-                state.patients = state.patients.filter((p) => p._id !== deletedId);
-                state.successMessage = "تم حذف المريض بنجاح";
+                state.emergencyContact = action.payload;
+                state.successMessage = "تم تحديث جهة الاتصال في حالات الطوارئ";
             })
-            .addCase(deletePatient.rejected, (state, action) => {
+            .addCase(updateMyEmergencyContact.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+
+            // 🔹 Delete Emergency Contact
+            .addCase(deleteMyEmergencyContact.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteMyEmergencyContact.fulfilled, (state) => {
+                state.loading = false;
+                state.emergencyContact = null;
+                state.successMessage = "تم حذف جهة الاتصال في حالات الطوارئ";
+            })
+            .addCase(deleteMyEmergencyContact.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });
     },
 });
 
-export const { clearPatientMessages } = patientSlice.actions;
+export const { clearProfileMessages } = myProfileSlice.actions;
 
-export default patientSlice.reducer;
+export default myProfileSlice.reducer;

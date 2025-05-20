@@ -1,60 +1,47 @@
 // The Base URL used in axiosInstance file so no need to define it here 
 
-/////// Patient Endpoints ///////
-export const GetPatientsAPI = 'patients/';
-export const AddPatientAPI = 'patients/';
-export const GetPatientByIdAPI = (id) => `patients/${id}/`;
-export const UpdatePatientAPI = (id) => `patients/${id}/`; // Put and Patch
-export const DeletePatientAPI = (id) => `patients/${id}/`;
 
-// Emergency Contact Endpoints
-export const GetEmergencyContactsAPI = 'patients/emergency-contacts/';
-export const AddEmergencyContactAPI = 'patients/emergency-contacts/';
-export const GetEmergencyContactByIdAPI = (id) => `patients/emergency-contacts/${id}/`;
-export const UpdateEmergencyContactAPI = (id) => `patients/emergency-contacts/${id}/`; // Put and Patch
-export const DeleteEmergencyContactAPI = (id) => `patients/emergency-contacts/${id}/`;
+/////// Patient Self Endpoints ///////
+// Profile & Emergency Contact
+export const GetMyProfileAPI = 'patients/me/profile/';
+export const GetMyEmergencyContactAPI = 'patients/me/emergency-contact/';
+export const CreateMyEmergencyContactAPI = 'patients/create-emergency-contact/';
+export const UpdateMyEmergencyContactAPI = (id) => `patients/update-emergency-contact/${id}/`;
+export const DeleteMyEmergencyContactAPI = (id) => `patients/delete-emergency-contact/${id}/`;
 
-// Visit Endpoints
-export const GetVisitsAPI = 'patients/visits/';
-export const AddVisitAPI = 'patients/visits/';
-export const GetVisitByIdAPI = (id) => `patients/visits/${id}/`;
-export const UpdateVisitAPI = (id) => `patients/visits/${id}/`; // Put and Patch
-export const DeleteVisitAPI = (id) => `patients/visits/${id}/`;
+// Medications
+export const GetMyMedicationsAPI = 'patients/me/medications/';
+export const CreateMyMedicationAPI = 'patients/create-medication/';
+export const UpdateMyMedicationAPI = (id) => `patients/update-medication/${id}/`;
+export const DeleteMyMedicationAPI = (id) => `patients/delete-medication/${id}/`;
 
-// Allergy Endpoints
-export const GetAllergiesAPI = 'patients/allergies/';
-export const AddAllergyAPI = 'patients/allergies/';
-export const GetAllergyByIdAPI = (id) => `patients/allergies/${id}/`;
-export const UpdateAllergyAPI = (id) => `patients/allergies/${id}/`; // Put and Patch
-export const DeleteAllergyAPI = (id) => `patients/allergies/${id}/`;
+// Allergies
+export const GetMyAllergiesAPI = 'patients/me/allergies/';
+export const CreateMyAllergyAPI = 'patients/create-allergy/';
+export const UpdateMyAllergyAPI = (id) => `patients/update-allergy/${id}/`;
+export const DeleteMyAllergyAPI = (id) => `patients/delete-allergy/${id}/`;
 
-// Chronic Disease Endpoints
-export const GetChronicDiseasesAPI = 'patients/chronic-diseases/';
-export const AddChronicDiseaseAPI = 'patients/chronic-diseases/';
-export const GetChronicDiseaseByIdAPI = (id) => `patients/chronic-diseases/${id}/`;
-export const UpdateChronicDiseaseAPI = (id) => `patients/chronic-diseases/${id}/`; // Put and Patch
-export const DeleteChronicDiseaseAPI = (id) => `patients/chronic-diseases/${id}/`;
+// Chronic Diseases
+export const GetMyChronicDiseasesAPI = 'patients/me/chronic-diseases/';
+export const CreateMyChronicDiseaseAPI = 'patients/create-chronic-disease/';
+export const UpdateMyChronicDiseaseAPI = (id) => `patients/update-chronic-disease/${id}/`;
+export const DeleteMyChronicDiseaseAPI = (id) => `patients/delete-chronic-disease/${id}/`;
 
-// Surgery Endpoints
-export const GetSurgeriesAPI = 'patients/surgeries/';
-export const AddSurgeryAPI = 'patients/surgeries/';
-export const GetSurgeryByIdAPI = (id) => `patients/surgeries/${id}/`;
-export const UpdateSurgeryAPI = (id) => `patients/surgeries/${id}/`; // Put and Patch
-export const DeleteSurgeryAPI = (id) => `patients/surgeries/${id}/`;
+// Surgeries
+export const GetMySurgeriesAPI = 'patients/me/surgeries/';
+export const CreateMySurgeryAPI = 'patients/create-surgery/';
+export const UpdateMySurgeryAPI = (id) => `patients/update-surgery/${id}/`;
+export const DeleteMySurgeryAPI = (id) => `patients/delete-surgery/${id}/`;
 
-// Disability Endpoints
-export const GetDisabilitiesAPI = 'patients/disabilities/';
-export const AddDisabilityAPI = 'patients/disabilities/';
-export const GetDisabilityByIdAPI = (id) => `patients/disabilities/${id}/`;
-export const UpdateDisabilityAPI = (id) => `patients/disabilities/${id}/`; // Put and Patch
-export const DeleteDisabilityAPI = (id) => `patients/disabilities/${id}/`;
+// Disabilities
+export const GetMyDisabilitiesAPI = 'patients/me/disabilities/';
+export const CreateMyDisabilityAPI = 'patients/create-disability/';
+export const UpdateMyDisabilityAPI = (id) => `patients/update-disability/${id}/`;
+export const DeleteMyDisabilityAPI = (id) => `patients/delete-disability/${id}/`;
 
-// Medication Endpoints
-export const GetMedicationsAPI = 'patients/medications/';
-export const AddMedicationAPI = 'patients/medications/';
-export const GetMedicationByIdAPI = (id) => `patients/medications/${id}/`;
-export const UpdateMedicationAPI = (id) => `patients/medications/${id}/`; // Put and Patch
-export const DeleteMedicationAPI = (id) => `patients/medications/${id}/`;
+// Appointments & Doctors
+export const GetMyAppointmentsAPI = 'patients/me/appointments/';
+export const GetMyDoctorsAPI = 'patients/me/doctors/';
 
 
 ////// Doctors //////

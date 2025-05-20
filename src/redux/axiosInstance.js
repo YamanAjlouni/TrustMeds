@@ -12,6 +12,17 @@ const axiosInstance = axios.create({
     timeout: 10000, // optional: 10 seconds timeout
 });
 
+// في حال عملنا التوكن تاتي cookies بستخدم هذا الكود
+// const axiosInstance = axios.create({
+//   baseURL: 'https://malazshukri.pythonanywhere.com/api/',
+//   withCredentials: true, // 👈 أهم سطر لإرسال الكوكي تلقائيًا
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+//   timeout: 10000,
+// });
+
+
 // Optional: Add a request interceptor (مثلاً لإضافة التوكن تلقائيًا)
 axiosInstance.interceptors.request.use(
     (config) => {
