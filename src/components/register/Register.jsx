@@ -3,52 +3,45 @@ import './Register.scss';
 import {
   FaLock,
   FaEnvelope,
-  FaUser,
   FaEye,
   FaEyeSlash,
   FaExclamationCircle,
   FaShieldAlt,
   FaClinicMedical,
-  FaUserMd,
-  FaStore,
   FaPhone,
   FaArrowLeft,
-  FaIdCard,
   FaCheckCircle
 } from 'react-icons/fa';
 import { useNavigate, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../redux/actions/authentication/AuthActions';
 
 export const Register = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [registerError, setRegisterError] = useState('');
   const [registerSuccess, setRegisterSuccess] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
+  // Simplified form data - only include what the API requires
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
     email: '',
     phone: '',
     password: '',
-    confirmPassword: '',
-    userType: 'patient' // default to patient
   });
 
   const [formErrors, setFormErrors] = useState({
-    firstName: '',
-    lastName: '',
     email: '',
     phone: '',
     password: '',
-    confirmPassword: '',
     terms: ''
   });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.auth);
 
   // Simulate initial loading state
   useEffect(() => {
@@ -60,26 +53,11 @@ export const Register = () => {
   const validateForm = () => {
     let isValid = true;
     const errors = {
-      firstName: '',
-      lastName: '',
       email: '',
       phone: '',
       password: '',
-      confirmPassword: '',
       terms: ''
     };
-
-    // First name validation
-    if (!formData.firstName.trim()) {
-      errors.firstName = 'First name is required';
-      isValid = false;
-    }
-
-    // Last name validation
-    if (!formData.lastName.trim()) {
-      errors.lastName = 'Last name is required';
-      isValid = false;
-    }
 
     // Email validation
     if (!formData.email) {
@@ -111,15 +89,6 @@ export const Register = () => {
       isValid = false;
     }
 
-    // Confirm password validation
-    if (!formData.confirmPassword) {
-      errors.confirmPassword = 'Please confirm your password';
-      isValid = false;
-    } else if (formData.password !== formData.confirmPassword) {
-      errors.confirmPassword = 'Passwords do not match';
-      isValid = false;
-    }
-
     // Terms validation
     if (!acceptedTerms) {
       errors.terms = 'You must accept the terms and conditions';
@@ -146,41 +115,69 @@ export const Register = () => {
     }
   };
 
-  const handleUserTypeChange = (type) => {
-    setFormData({
-      ...formData,
-      userType: type
-    });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setFormSubmitted(true);
-    setRegisterError('');
 
     if (validateForm()) {
       setIsLoading(true);
+      setRegisterError(''); // Clear any previous errors
 
-      // Simulate API call with a timeout
-      setTimeout(() => {
-        // In a real app, you would make an actual API call to register the user
-        setIsLoading(false);
+      try {
+        // Send the data in the format expected by the API
+        await dispatch(registerUser({
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password,
+        }));
+        
         setRegisterSuccess(true);
-
-        // Redirect to login after showing success message
-        setTimeout(() => {
-          navigate('/login');
-        }, 3000);
-      }, 2000);
+        setTimeout(() => navigate('/login'), 1500);
+      } catch (err) {
+        console.error('Registration error in component:', err);
+        
+        // Improved error message extraction
+        let errorMessage = "Registration failed. Please try again.";
+        
+        if (err.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          if (typeof err.response.data === 'string') {
+            errorMessage = err.response.data;
+          } else if (err.response.data?.message) {
+            errorMessage = err.response.data.message;
+          } else if (err.response.data?.error) {
+            errorMessage = err.response.data.error;
+          } else if (err.response.data?.email) {
+            // Handle specific field errors
+            errorMessage = `Email: ${err.response.data.email}`;
+          } else if (err.response.data?.phone_number) {
+            errorMessage = `Phone number: ${err.response.data.phone_number}`;
+          } else if (err.response.data?.password) {
+            errorMessage = `Password: ${err.response.data.password}`;
+          } else if (err.response.data?.non_field_errors) {
+            errorMessage = err.response.data.non_field_errors;
+          } else {
+            // Try to stringify the error data
+            try {
+              errorMessage = `Server error: ${JSON.stringify(err.response.data)}`;
+            } catch (e) {
+              errorMessage = `Server error (${err.response.status})`;
+            }
+          }
+        } else if (err.message) {
+          errorMessage = err.message;
+        }
+        
+        setRegisterError(errorMessage);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
-  };
-
-  const handleToggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
   };
 
   return (
@@ -216,35 +213,6 @@ export const Register = () => {
                   <p>Join TrustMeds to access our healthcare services</p>
                 </div>
 
-                <div className="user-type-selector">
-                  <div className="user-type-options">
-                    <button
-                      className={`user-type-option ${formData.userType === 'patient' ? 'active' : ''}`}
-                      onClick={() => handleUserTypeChange('patient')}
-                      type="button"
-                    >
-                      <FaUser className="user-type-icon" />
-                      <span>Patient</span>
-                    </button>
-                    <button
-                      className={`user-type-option ${formData.userType === 'doctor' ? 'active' : ''}`}
-                      onClick={() => handleUserTypeChange('doctor')}
-                      type="button"
-                    >
-                      <FaUserMd className="user-type-icon" />
-                      <span>Doctor</span>
-                    </button>
-                    <button
-                      className={`user-type-option ${formData.userType === 'pharmacy' ? 'active' : ''}`}
-                      onClick={() => handleUserTypeChange('pharmacy')}
-                      type="button"
-                    >
-                      <FaStore className="user-type-icon" />
-                      <span>Pharmacy</span>
-                    </button>
-                  </div>
-                </div>
-
                 {registerError && (
                   <div className="error-message">
                     <FaExclamationCircle />
@@ -253,80 +221,40 @@ export const Register = () => {
                 )}
 
                 <form className="register-form" onSubmit={handleSubmit}>
-                  <div className="form-row">
-                    <div className={`form-group ${formErrors.firstName && formSubmitted ? 'has-error' : ''}`}>
-                      <label htmlFor="firstName">First Name</label>
-                      <div className="input-with-icon">
-                        <FaUser className="input-icon" />
-                        <input
-                          type="text"
-                          id="firstName"
-                          name="firstName"
-                          placeholder="Enter your first name"
-                          value={formData.firstName}
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                      {formErrors.firstName && formSubmitted && (
-                        <div className="input-error">{formErrors.firstName}</div>
-                      )}
+                  <div className={`form-group ${formErrors.email && formSubmitted ? 'has-error' : ''}`}>
+                    <label htmlFor="email">Email Address</label>
+                    <div className="input-with-icon">
+                      <FaEnvelope className="input-icon" />
+                      <input
+                        type="text"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                      />
                     </div>
-
-                    <div className={`form-group ${formErrors.lastName && formSubmitted ? 'has-error' : ''}`}>
-                      <label htmlFor="lastName">Last Name</label>
-                      <div className="input-with-icon">
-                        <FaUser className="input-icon" />
-                        <input
-                          type="text"
-                          id="lastName"
-                          name="lastName"
-                          placeholder="Enter your last name"
-                          value={formData.lastName}
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                      {formErrors.lastName && formSubmitted && (
-                        <div className="input-error">{formErrors.lastName}</div>
-                      )}
-                    </div>
+                    {formErrors.email && formSubmitted && (
+                      <div className="input-error">{formErrors.email}</div>
+                    )}
                   </div>
 
-                  <div className="form-row">
-                    <div className={`form-group ${formErrors.email && formSubmitted ? 'has-error' : ''}`}>
-                      <label htmlFor="email">Email Address</label>
-                      <div className="input-with-icon">
-                        <FaEnvelope className="input-icon" />
-                        <input
-                          type="text"
-                          id="email"
-                          name="email"
-                          placeholder="Enter your email address"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                      {formErrors.email && formSubmitted && (
-                        <div className="input-error">{formErrors.email}</div>
-                      )}
+                  <div className={`form-group ${formErrors.phone && formSubmitted ? 'has-error' : ''}`}>
+                    <label htmlFor="phone">Phone Number</label>
+                    <div className="input-with-icon">
+                      <FaPhone className="input-icon" />
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="Enter your phone number"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                      />
                     </div>
-
-                    <div className={`form-group ${formErrors.phone && formSubmitted ? 'has-error' : ''}`}>
-                      <label htmlFor="phone">Phone Number</label>
-                      <div className="input-with-icon">
-                        <FaPhone className="input-icon" />
-                        <input
-                          type="tel"
-                          id="phone"
-                          name="phone"
-                          placeholder="Enter your phone number"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                      {formErrors.phone && formSubmitted && (
-                        <div className="input-error">{formErrors.phone}</div>
-                      )}
-                    </div>
+                    {formErrors.phone && formSubmitted && (
+                      <div className="input-error">{formErrors.phone}</div>
+                    )}
                   </div>
 
                   <div className={`form-group ${formErrors.password && formSubmitted ? 'has-error' : ''}`}>
@@ -356,32 +284,6 @@ export const Register = () => {
                     <div className="password-requirements">
                       <p>Password must be at least 8 characters with at least 1 uppercase letter, 1 lowercase letter, and 1 number</p>
                     </div>
-                  </div>
-
-                  <div className={`form-group ${formErrors.confirmPassword && formSubmitted ? 'has-error' : ''}`}>
-                    <label htmlFor="confirmPassword">Confirm Password</label>
-                    <div className="input-with-icon">
-                      <FaLock className="input-icon" />
-                      <input
-                        type={showConfirmPassword ? "text" : "password"}
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        placeholder="Confirm your password"
-                        value={formData.confirmPassword}
-                        onChange={handleInputChange}
-                      />
-                      <button
-                        type="button"
-                        className="password-toggle-btn"
-                        onClick={handleToggleConfirmPasswordVisibility}
-                        aria-label={showConfirmPassword ? "Hide password" : "Show password"}
-                      >
-                        {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                      </button>
-                    </div>
-                    {formErrors.confirmPassword && formSubmitted && (
-                      <div className="input-error">{formErrors.confirmPassword}</div>
-                    )}
                   </div>
 
                   <div className={`form-group terms-group ${formErrors.terms && formSubmitted ? 'has-error' : ''}`}>

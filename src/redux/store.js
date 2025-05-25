@@ -1,10 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import patientReducer from "./reducers/patients/PatientsSlice";
-// استورد الـ slices الأخرى لما تجهزهم
+import authReducer from "./reducers/authentication/authReducer";
+import profileReducer from "./reducers/patients/ProfileReducer";
+import emergencyContactReducer from "./reducers/patients/EmergencyContactReducer";
 
 const store = configureStore({
     reducer: {
-        patients: patientReducer,
+        auth: authReducer,
+        profile: profileReducer,
+        emergencyContact: emergencyContactReducer,
     },
 });
 

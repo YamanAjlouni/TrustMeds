@@ -284,7 +284,7 @@ $z-index-modal: 100;
         .loading-state {
             @include flex-center;
             flex-direction: column;
-            height: 400px;
+            height: 100%;
             color: $text-color;
             opacity: 0.8;
 

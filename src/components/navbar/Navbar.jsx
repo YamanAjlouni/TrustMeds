@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Navbar.scss';
 import logo from '../../assets/images/trustMeds-logo-blue-nobg-HD.png';
 import { useLanguage } from '../../context/LanguageContext';
 import LanguageSwitcher from '../languageSwitcher/LanguageSwitcher';
+import { Link } from 'react-router-dom';
 
 export const Navbar = () => {
   const { loadSection, direction } = useLanguage();
@@ -47,10 +48,10 @@ export const Navbar = () => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
-        mobileMenuOpen && 
-        navLinksRef.current && 
+        mobileMenuOpen &&
+        navLinksRef.current &&
         !navLinksRef.current.contains(event.target) &&
-        hamburgerRef.current && 
+        hamburgerRef.current &&
         !hamburgerRef.current.contains(event.target)
       ) {
         setMobileMenuOpen(false);
@@ -83,8 +84,8 @@ export const Navbar = () => {
           <img src={logo} alt="TrustMeds Logo" />
         </div>
 
-        <div 
-          ref={navLinksRef} 
+        <div
+          ref={navLinksRef}
           className={`navbar-links ${mobileMenuOpen ? 'active' : ''}`}
         >
           <img src={logo} alt="TrustMeds Logo" className="mobile-logo" />
@@ -93,8 +94,8 @@ export const Navbar = () => {
           <button onClick={() => scrollToSection(aboutRef)}>{navbarText.howItWorks}</button>
           <button onClick={() => scrollToSection(servicesRef)}>{navbarText.featuresAndSecurity}</button>
           <button onClick={() => scrollToSection(contactRef)}>{navbarText.contactUs}</button>
-          <button className="btn-login">{navbarText.login}</button>
-          <button className="btn-signup">{navbarText.signUp}</button>
+          <Link to="/login" className="btn-login">{navbarText.login}</Link>
+          <Link to="/signup" className="btn-signup">{navbarText.signUp}</Link>
           <LanguageSwitcher />
         </div>
 

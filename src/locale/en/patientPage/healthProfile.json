@@ -4,7 +4,7 @@
         "navigationTabs": {
             "personalInfo": "Personal Information",
             "allergies": "Allergies",
-            "medicalConditions": "Medical Conditions",
+            "chronicDiseases": "Chronic Diseases",
             "insuranceInfo": "Insurance Information",
             "medicalHistory": "Medical History"
         },
@@ -91,7 +91,7 @@
             }
         },
         "medicalConditions": {
-            "sectionTitle": "Medical Conditions",
+            "sectionTitle": "Chronic Diseases",
             "sectionSubtitle": "Manage your ongoing and past medical conditions",
             "emptyState": "No medical conditions on record",
             "form": {

@@ -4,7 +4,7 @@
         "navigationTabs": {
             "personalInfo": "المعلومات الشخصية",
             "allergies": "الحساسية",
-            "medicalConditions": "الحالات الطبية",
+            "chronicDiseases": "الأمراض المزمنة",
             "insuranceInfo": "معلومات التأمين",
             "medicalHistory": "التاريخ الطبي"
         },
@@ -24,6 +24,8 @@
             "scheduleNow": "جدولة الآن"
         },
         "personalInfo": {
+            "firstName": "الاسم الاول",
+            "lastName": "الكنية",
             "sectionTitle": "المعلومات الشخصية",
             "patientId": "رقم المريض",
             "alertTitle": "معلومات صحية مهمة",
@@ -83,7 +85,7 @@
             }
         },
         "medicalConditions": {
-            "sectionTitle": "الحالات الطبية",
+            "sectionTitle": "الأمراض المزمنة",
             "sectionSubtitle": "إدارة الحالات الطبية الحالية والسابقة",
             "emptyState": "لا توجد حالات طبية مسجلة",
             "form": {

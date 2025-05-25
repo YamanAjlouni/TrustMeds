@@ -10,29 +10,57 @@ import {
   FaShieldAlt,
   FaClinicMedical,
   FaUserMd,
-  FaStore
+  FaStore,
+  FaPhone
 } from 'react-icons/fa';
 import { useNavigate, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../redux/actions/authentication/AuthActions';
+import tokenService from '../../services/tokenService';
 
 export const Login = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [loginError, setLoginError] = useState('');
+  const [loginMethod, setLoginMethod] = useState('email'); // 'email' or 'phone'
 
   const [formData, setFormData] = useState({
     email: '',
+    phone: '',
     password: ''
   });
 
   const [formErrors, setFormErrors] = useState({
     email: '',
+    phone: '',
     password: ''
   });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
+
+  // Check if already authenticated, redirect to appropriate dashboard
+  useEffect(() => {
+    if (isAuthenticated || tokenService.isAuthenticated()) {
+      // Get user info from token to determine user type
+      const userInfo = tokenService.getUserFromToken();
+      const userType = userInfo?.user_type || 'patient'; // Default to patient if not specified
+
+      // Redirect based on user type
+      switch (userType) {
+        case 'doctor':
+          navigate('/doctor/overview');
+          break;
+        case 'pharmacy':
+          navigate('/pharmacy/overview');
+          break;
+        default:
+          navigate('/patient/overview');
+      }
+    }
+  }, [isAuthenticated, navigate]);
 
   // Simulate initial loading state
   useEffect(() => {
@@ -45,24 +73,35 @@ export const Login = () => {
     let isValid = true;
     const errors = {
       email: '',
+      phone: '',
       password: ''
     };
 
-    // Email validation
-    if (!formData.email) {
-      errors.email = 'Email is required';
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errors.email = 'Please enter a valid email address';
-      isValid = false;
+    // Only validate email if using email method
+    if (loginMethod === 'email') {
+      if (!formData.email) {
+        errors.email = 'Email is required';
+        isValid = false;
+      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+        errors.email = 'Please enter a valid email address';
+        isValid = false;
+      }
+    }
+
+    // Only validate phone if using phone method
+    if (loginMethod === 'phone') {
+      if (!formData.phone) {
+        errors.phone = 'Phone number is required';
+        isValid = false;
+      } else if (!/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(formData.phone)) {
+        errors.phone = 'Please enter a valid phone number';
+        isValid = false;
+      }
     }
 
     // Password validation
     if (!formData.password) {
       errors.password = 'Password is required';
-      isValid = false;
-    } else if (formData.password.length < 6) {
-      errors.password = 'Password must be at least 6 characters';
       isValid = false;
     }
 
@@ -86,38 +125,71 @@ export const Login = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const toggleLoginMethod = () => {
+    setLoginMethod(loginMethod === 'email' ? 'phone' : 'email');
+    // Clear errors when switching methods
+    setFormErrors({
+      email: '',
+      phone: '',
+      password: ''
+    });
+  };
+
+  // Update the handleSubmit function in your Login.jsx component
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setFormSubmitted(true);
 
     if (validateForm()) {
-      setIsLoading(true);
-      setLoginError('');
+      try {
+        // Create credentials object based on login method
+        const credentials = {
+          password: formData.password,
+        };
 
-      // Simulate API call with a timeout
-      setTimeout(() => {
-        // In a real app, you would make an actual API call here and determine user type from response
-        // For demo, we'll just navigate to the appropriate dashboard based on email
-        if (formData.email === 'patient@example.com' && formData.password === 'password123') {
-          navigate('/patient/overview');
-        } else if (formData.email === 'doctor@example.com' && formData.password === 'password123') {
-          navigate('/doctor/overview');
-        } else if (formData.email === 'pharmacy@example.com' && formData.password === 'password123') {
-          navigate('/pharmacy/overview');
+        if (loginMethod === 'email') {
+          credentials.email = formData.email;
         } else {
-          setLoginError('Invalid email or password. Please try again.');
+          credentials.phone_number = formData.phone;
         }
-        setIsLoading(false);
-      }, 1500);
+
+        console.log('Submitting login credentials:', credentials);
+
+        // Dispatch login action
+        await dispatch(loginUser(credentials));
+
+        // Check if token was saved
+        const hasToken = localStorage.getItem('accessToken');
+        console.log('After login dispatch - token exists:', !!hasToken);
+
+        if (hasToken) {
+          console.log('Token exists, redirecting to patient dashboard');
+          // Your token doesn't contain user_type, so always go to patient dashboard
+          navigate('/patient/overview');
+        } else {
+          console.warn('Login completed but no token was saved');
+        }
+      } catch (err) {
+        console.error('Login error:', err);
+      }
     }
   };
+
+  // Replace the useEffect for redirection with this simpler version
+  useEffect(() => {
+    // Check if token exists and redirect if needed
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      console.log('Token found on page load, redirecting to patient dashboard');
+      navigate('/patient/overview');
+    }
+  }, [navigate]); // Only run on first render and when navigate changes
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const handleForgotPassword = () => {
-    // In a real app, this would navigate to a password reset page
     navigate('/reset-password');
   };
 
@@ -180,31 +252,68 @@ export const Login = () => {
                 <p>Sign in to access your account</p>
               </div>
 
-              {loginError && (
+              <div className="login-method-toggle">
+                <button
+                  className={`login-method-button ${loginMethod === 'email' ? 'active' : ''}`}
+                  onClick={() => setLoginMethod('email')}
+                  type="button"
+                >
+                  <FaEnvelope /> Email
+                </button>
+                <button
+                  className={`login-method-button ${loginMethod === 'phone' ? 'active' : ''}`}
+                  onClick={() => setLoginMethod('phone')}
+                  type="button"
+                >
+                  <FaPhone /> Phone
+                </button>
+              </div>
+
+              {error && (
                 <div className="error-message">
                   <FaExclamationCircle />
-                  <span>{loginError}</span>
+                  <span>{typeof error === 'string' ? error : 'Authentication failed. Please try again.'}</span>
                 </div>
               )}
 
               <form className="login-form" onSubmit={handleSubmit}>
-                <div className={`form-group ${formErrors.email && formSubmitted ? 'has-error' : ''}`}>
-                  <label htmlFor="email">Email Address</label>
-                  <div className="input-with-icon">
-                    <FaEnvelope className="input-icon" />
-                    <input
-                      type="text"
-                      id="email"
-                      name="email"
-                      placeholder="Enter your email address"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                    />
+                {loginMethod === 'email' ? (
+                  <div className={`form-group ${formErrors.email && formSubmitted ? 'has-error' : ''}`}>
+                    <label htmlFor="email">Email Address</label>
+                    <div className="input-with-icon">
+                      <FaEnvelope className="input-icon" />
+                      <input
+                        type="text"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    {formErrors.email && formSubmitted && (
+                      <div className="input-error">{formErrors.email}</div>
+                    )}
                   </div>
-                  {formErrors.email && formSubmitted && (
-                    <div className="input-error">{formErrors.email}</div>
-                  )}
-                </div>
+                ) : (
+                  <div className={`form-group ${formErrors.phone && formSubmitted ? 'has-error' : ''}`}>
+                    <label htmlFor="phone">Phone Number</label>
+                    <div className="input-with-icon">
+                      <FaPhone className="input-icon" />
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="Enter your phone number"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    {formErrors.phone && formSubmitted && (
+                      <div className="input-error">{formErrors.phone}</div>
+                    )}
+                  </div>
+                )}
 
                 <div className={`form-group ${formErrors.password && formSubmitted ? 'has-error' : ''}`}>
                   <div className="password-label-container">
@@ -255,10 +364,10 @@ export const Login = () => {
 
                 <button
                   type="submit"
-                  className={`login-button ${isLoading ? 'loading' : ''}`}
-                  disabled={isLoading}
+                  className={`login-button ${loading ? 'loading' : ''}`}
+                  disabled={loading}
                 >
-                  {isLoading ? (
+                  {loading ? (
                     <>
                       <span className="spinner"></span>
                       <span>Signing in...</span>
@@ -271,24 +380,6 @@ export const Login = () => {
 
               <div className="login-footer">
                 <p>Don't have an account? <Link to="/register">Create an account</Link></p>
-              </div>
-
-              <div className="demo-credentials">
-                <h4>Demo Accounts</h4>
-                <div className="credential-list">
-                  <div className="credential-item">
-                    <span className="user-type patient">Patient:</span>
-                    <span className="credentials">patient@example.com / password123</span>
-                  </div>
-                  <div className="credential-item">
-                    <span className="user-type doctor">Doctor:</span>
-                    <span className="credentials">doctor@example.com / password123</span>
-                  </div>
-                  <div className="credential-item">
-                    <span className="user-type pharmacy">Pharmacy:</span>
-                    <span className="credentials">pharmacy@example.com / password123</span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

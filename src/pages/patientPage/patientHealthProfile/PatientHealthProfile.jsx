@@ -1,51 +1,191 @@
-import React, { useState, useEffect } from 'react';
-import {
-    FaUserAlt,
-    FaAllergies,
-    FaNotesMedical,
-    FaFileAlt,
-    FaIdCard,
-    FaPencilAlt,
-    FaCheck,
-    FaTimes,
-    FaShieldAlt,
-    FaHistory,
-    FaExclamationTriangle,
-    FaDownload,
-    FaBell,
-    FaExclamationCircle
-} from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { FaUserAlt, FaAllergies, FaNotesMedical, FaFileAlt, FaIdCard, FaPencilAlt, FaCheck, FaTimes, FaShieldAlt, FaHistory, FaExclamationTriangle, FaDownload, FaExclamationCircle } from 'react-icons/fa';
 import './PatientHealthProfile.scss';
-import { useLanguage } from '../../../context/LanguageContext'; // Adjust path as needed
+import { useLanguage } from '../../../context/LanguageContext';
+import { GetProfileAction, UpdateMyProfileAction } from '../../../redux/actions/patients/profileAction'; // Added UpdateMyProfileAction
+import { GetEmergencyContactAction, CreateEmergencyContactAction, UpdateEmergencyContactAction } from '../../../redux/actions/patients/emergencyContactAction'; // Added emergency contact actions
 
 export const PatientHealthProfile = () => {
-    // Use the language context
+    // Redux hooks
+    const dispatch = useDispatch();
+    const {
+        loading: profileLoading,
+        profile: apiProfile,
+        error: profileError,
+        updating: profileUpdating, // Added updating state
+        updateSuccess: profileUpdateSuccess // Added success state
+    } = useSelector(state => state.profile);
+
+    // Emergency contacts state
+    const {
+        contacts: emergencyContacts,
+        loading: contactsLoading,
+        creating: contactCreating,
+        updating: contactUpdating,
+        error: contactError,
+        createSuccess: contactCreateSuccess,
+        updateSuccess: contactUpdateSuccess
+    } = useSelector(state => {
+        return state.emergencyContact || {};
+    });
+
     const { t, isRTL, language } = useLanguage();
 
     // Translation prefix to simplify access
     const prefix = 'patientPage.healthProfile.patientHealthProfile';
 
-    // Sample data with both languages - in a real app, this would come from your API/backend
-    const [personalInfo, setPersonalInfo] = useState({
-        firstName: 'Yaman',
-        lastName: 'Ajlouni',
-        dateOfBirth: '1990-06-15',
-        genderEn: 'Male',
-        genderAr: 'ذكر',
-        bloodType: 'O+',
-        height: '180 cm',
-        weight: '75 kg',
-        emailAddress: 'yaman.ajlouni@example.com',
-        phoneNumber: '(555) 123-4567',
-        address: '123 Main Street, Anytown, CA 12345',
-        emergencyContact: {
-            name: 'Sarah Ajlouni',
-            relationshipEn: 'Spouse',
-            relationshipAr: 'زوجة',
-            phoneNumber: '(555) 987-6543'
-        }
-    });
+    // Helper function to map gender from API to display format
+    const mapGender = (apiGender) => {
+        const genderMap = {
+            'M': { en: 'Male', ar: 'ذكر' },
+            'F': { en: 'Female', ar: 'أنثى' },
+            'O': { en: 'Other', ar: 'أخرى' }
+        };
+        return genderMap[apiGender] || { en: 'Not specified', ar: 'غير محدد' };
+    };
 
+    // Helper function to format height and weight
+    const formatMeasurement = (value, unit) => {
+        return value ? `${value} ${unit}` : '';
+    };
+
+    // Convert API profile data to component format
+    const getPersonalInfoFromAPI = (profileData) => {
+        if (!profileData || Object.keys(profileData).length === 0) {
+            return {
+                id: null,
+                firstName: '',
+                lastName: '',
+                dateOfBirth: '',
+                genderEn: '',
+                genderAr: '',
+                bloodType: '',
+                height: '',
+                weight: '',
+                emailAddress: '',
+                phoneNumber: '',
+                address: '',
+                emergencyContact: {
+                    name: '',
+                    relationshipEn: '',
+                    relationshipAr: '',
+                    phoneNumber: ''
+                }
+            };
+        }
+
+        const genderMapping = mapGender(profileData.gender);
+
+        const result = {
+            id: profileData.id,
+            firstName: profileData.first_name || '',
+            lastName: profileData.last_name || '',
+            dateOfBirth: profileData.date_of_birth || '',
+            genderEn: genderMapping?.en || '',
+            genderAr: genderMapping?.ar || '',
+            bloodType: profileData.blood_type || '',
+            height: formatMeasurement(profileData.height, 'cm'),
+            weight: formatMeasurement(profileData.weight, 'kg'),
+            emailAddress: profileData.email_address || profileData.email || '',
+            phoneNumber: profileData.phone_number || profileData.phone || '',
+            address: profileData.address || '',
+            // Emergency contact will be handled separately with emergency contact API
+            emergencyContact: {
+                name: '',
+                relationshipEn: '',
+                relationshipAr: '',
+                phoneNumber: ''
+            }
+        };
+
+        // console.log("📋 personal info:", result);
+        return result;
+    };
+
+    // Initialize personal info with empty data
+    const [personalInfo, setPersonalInfo] = useState(() => getPersonalInfoFromAPI({}));
+
+    // Fetch profile data and emergency contacts on component mount
+    useEffect(() => {
+        dispatch(GetProfileAction())
+            .unwrap()
+            .then((result) => {
+                const convertedData = getPersonalInfoFromAPI(result.data || result);
+                setPersonalInfo(convertedData);
+            })
+            .catch((error) => {
+                console.error("❌ GetProfileAction failed:", error);
+            });
+
+        // Load emergency contacts
+        dispatch(GetEmergencyContactAction())
+            .unwrap()
+            .then((result) => {
+                // console.log("🚨 Emergency contacts loaded:", result);
+            })
+            .catch((error) => {
+                console.error("❌ GetEmergencyContactAction failed:", error);
+            });
+    }, [dispatch]);
+
+    // Handle profile update success
+    useEffect(() => {
+        if (profileUpdateSuccess) {
+            setIsEditing(false);
+            setEditedData({});
+            // Refresh profile data
+            dispatch(GetProfileAction())
+                .unwrap()
+                .then((result) => {
+                    const convertedData = getPersonalInfoFromAPI(result.data || result);
+                    setPersonalInfo(convertedData);
+                })
+                .catch((error) => {
+                    console.error("❌ GetProfileAction failed:", error);
+                });
+
+            // Also refresh emergency contacts to make sure we have the latest data
+            dispatch(GetEmergencyContactAction());
+        }
+    }, [profileUpdateSuccess, dispatch]);
+
+    // Handle emergency contact success
+    useEffect(() => {
+        if (contactCreateSuccess || contactUpdateSuccess) {
+            // Refresh emergency contacts
+            dispatch(GetEmergencyContactAction());
+        }
+    }, [contactCreateSuccess, contactUpdateSuccess, dispatch]);
+
+    // Set emergency contact info from API data
+    useEffect(() => {
+        if (emergencyContacts && Array.isArray(emergencyContacts) && emergencyContacts.length > 0) {
+            const primaryContact = emergencyContacts[0]; // Use first contact as primary
+            setPersonalInfo(prev => ({
+                ...prev,
+                emergencyContact: {
+                    name: primaryContact.name || '',
+                    relationshipEn: primaryContact.relationship || '',
+                    relationshipAr: primaryContact.relationship || '',
+                    phoneNumber: primaryContact.phone || primaryContact.phone_number || ''
+                }
+            }));
+        } else {
+            // Clear emergency contact if no contacts exist
+            setPersonalInfo(prev => ({
+                ...prev,
+                emergencyContact: {
+                    name: '',
+                    relationshipEn: '',
+                    relationshipAr: '',
+                    phoneNumber: ''
+                }
+            }));
+        }
+    }, [emergencyContacts]);
+
+    // Sample data for other sections (allergies, conditions, etc.) - these will be replaced later with API calls
     const [allergies, setAllergies] = useState([
         {
             id: 1,
@@ -162,12 +302,14 @@ export const PatientHealthProfile = () => {
     const [editedData, setEditedData] = useState({});
     const [isLoaded, setIsLoaded] = useState(false);
 
-    // Simulate loading state
+    // Simulate loading state - now also considers profile loading
     useEffect(() => {
-        setTimeout(() => {
-            setIsLoaded(true);
-        }, 800);
-    }, []);
+        if (!profileLoading) {
+            setTimeout(() => {
+                setIsLoaded(true);
+            }, 800);
+        }
+    }, [profileLoading]);
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
@@ -184,12 +326,80 @@ export const PatientHealthProfile = () => {
         setEditedData({});
     };
 
-    const saveChanges = () => {
-        // In a real app, this would send the updated data to your backend
-        // For now, we'll just update the state directly
+    // Helper function to convert component data to API format
+    const convertToAPIFormat = (formData) => {
+        const apiData = {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            date_of_birth: formData.dateOfBirth,
+            email_address: formData.emailAddress, // Fixed: API expects email_address
+            phone_number: formData.phoneNumber,    // Fixed: API expects phone_number
+            address: formData.address,
+            blood_type: formData.bloodType
+        };
+
+        // Convert gender back to API format
+        const genderMap = {
+            'Male': 'M',
+            'Female': 'F',
+            'Other': 'O',
+            'ذكر': 'M',
+            'أنثى': 'F',
+            'أخرى': 'O'
+        };
+
+        const currentGender = getLangField(formData, 'gender');
+        if (currentGender && genderMap[currentGender]) {
+            apiData.gender = genderMap[currentGender];
+        }
+
+        // Extract numeric values from height and weight
+        if (formData.height) {
+            const heightMatch = formData.height.match(/(\d+(?:\.\d+)?)/);
+            if (heightMatch) {
+                apiData.height = parseFloat(heightMatch[1]);
+            }
+        }
+
+        if (formData.weight) {
+            const weightMatch = formData.weight.match(/(\d+(?:\.\d+)?)/);
+            if (weightMatch) {
+                apiData.weight = parseFloat(weightMatch[1]);
+            }
+        }
+
+        return apiData;
+    };
+
+    const saveChanges = async () => {
         switch (activeTab) {
             case 'personal':
-                setPersonalInfo(editedData);
+                try {
+                    const apiFormData = convertToAPIFormat(editedData);
+                    // Dispatch the update action
+                    await dispatch(UpdateMyProfileAction(apiFormData)).unwrap();
+
+                    // Handle emergency contact separately if it exists
+                    if (editedData.emergencyContact && editedData.emergencyContact.name) {
+                        const emergencyContactData = {
+                            name: editedData.emergencyContact.name,
+                            relationship: getLangField(editedData.emergencyContact, 'relationship'),
+                            phone: editedData.emergencyContact.phoneNumber,
+                            email: '' // Add email field if needed
+                        };
+                        if (emergencyContacts && Array.isArray(emergencyContacts) && emergencyContacts.length > 0) {
+                            // Update existing emergency contact
+                            await dispatch(UpdateEmergencyContactAction({
+                                id: emergencyContacts[0].id,
+                                contactData: emergencyContactData
+                            })).unwrap();
+                        } else {
+                            await dispatch(CreateEmergencyContactAction(emergencyContactData)).unwrap();
+                        }
+                    }
+                } catch (error) {
+                    console.error("❌ Profile update failed:", error);
+                }
                 break;
             case 'allergies':
                 if (editedData.id) {
@@ -199,8 +409,10 @@ export const PatientHealthProfile = () => {
                 } else {
                     setAllergies([...allergies, { ...editedData, id: allergies.length + 1 }]);
                 }
+                setIsEditing(false);
+                setEditedData({});
                 break;
-            case 'conditions':
+            case 'chronic':
                 if (editedData.id) {
                     setMedicalConditions(medicalConditions.map(condition =>
                         condition.id === editedData.id ? editedData : condition
@@ -208,9 +420,13 @@ export const PatientHealthProfile = () => {
                 } else {
                     setMedicalConditions([...medicalConditions, { ...editedData, id: medicalConditions.length + 1 }]);
                 }
+                setIsEditing(false);
+                setEditedData({});
                 break;
             case 'insurance':
                 setInsuranceInfo(editedData);
+                setIsEditing(false);
+                setEditedData({});
                 break;
             case 'history':
                 if (editedData.id) {
@@ -220,18 +436,29 @@ export const PatientHealthProfile = () => {
                 } else {
                     setMedicalHistory([...medicalHistory, { ...editedData, id: medicalHistory.length + 1 }]);
                 }
+                setIsEditing(false);
+                setEditedData({});
                 break;
             default:
                 break;
         }
-        setIsEditing(false);
-        setEditedData({});
     };
 
     const renderPersonalInfoContent = () => {
         if (isEditing) {
             return (
                 <div className="edit-form personal-info-form">
+                    {profileError && (
+                        <div className="alert alert-error">
+                            {profileError}
+                        </div>
+                    )}
+                    {contactError && (
+                        <div className="alert alert-error">
+                            Emergency contact error: {contactError}
+                        </div>
+                    )}
+
                     <div className="form-grid">
                         <div className="form-group">
                             <label>{t(`${prefix}.personalInfo.firstName`)}</label>
@@ -287,6 +514,7 @@ export const PatientHealthProfile = () => {
                                 value={editedData.bloodType || ''}
                                 onChange={(e) => setEditedData({ ...editedData, bloodType: e.target.value })}
                             >
+                                <option value="">Select Blood Type</option>
                                 <option value="A+">A+</option>
                                 <option value="A-">A-</option>
                                 <option value="B+">B+</option>
@@ -301,6 +529,7 @@ export const PatientHealthProfile = () => {
                             <label>{t(`${prefix}.personalInfo.personalDetails.height`)}</label>
                             <input
                                 type="text"
+                                placeholder="e.g., 175 cm"
                                 value={editedData.height || ''}
                                 onChange={(e) => setEditedData({ ...editedData, height: e.target.value })}
                             />
@@ -309,6 +538,7 @@ export const PatientHealthProfile = () => {
                             <label>{t(`${prefix}.personalInfo.personalDetails.weight`)}</label>
                             <input
                                 type="text"
+                                placeholder="e.g., 70 kg"
                                 value={editedData.weight || ''}
                                 onChange={(e) => setEditedData({ ...editedData, weight: e.target.value })}
                             />
@@ -383,11 +613,15 @@ export const PatientHealthProfile = () => {
                     </div>
 
                     <div className="form-actions">
-                        <button className="action-btn secondary" onClick={cancelEditing}>
+                        <button className="action-btn secondary" onClick={cancelEditing} disabled={profileUpdating || contactUpdating || contactCreating}>
                             <FaTimes /> {t(`${prefix}.buttons.cancel`)}
                         </button>
-                        <button className="action-btn primary" onClick={saveChanges}>
-                            <FaCheck /> {t(`${prefix}.buttons.save`)}
+                        <button
+                            className="action-btn primary"
+                            onClick={saveChanges}
+                            disabled={profileUpdating || contactUpdating || contactCreating}
+                        >
+                            <FaCheck /> {profileUpdating || contactUpdating || contactCreating ? 'Saving...' : t(`${prefix}.buttons.save`)}
                         </button>
                     </div>
                 </div>
@@ -402,7 +636,9 @@ export const PatientHealthProfile = () => {
                     </div>
                     <div className="profile-name">
                         <h3>{personalInfo.firstName} {personalInfo.lastName}</h3>
-                        <p className="profile-subtitle">{t(`${prefix}.personalInfo.patientId`)}: PT-12345678</p>
+                        <p className="profile-subtitle">
+                            {t(`${prefix}.personalInfo.patientId`)}: {personalInfo.id ? `PT-${String(personalInfo.id).padStart(8, '0')}` : 'PT---------'}
+                        </p>
                     </div>
                     <div className="profile-actions">
                         <button className="edit-btn" onClick={() => startEditing({ ...personalInfo })}>
@@ -411,14 +647,16 @@ export const PatientHealthProfile = () => {
                     </div>
                 </div>
 
-                <div className="alert-box">
-                    <FaExclamationCircle className="alert-box-icon" />
-                    <div className="alert-box-content">
-                        <h4>{t(`${prefix}.personalInfo.alertTitle`)}</h4>
-                        <p>{t(`${prefix}.personalInfo.alertMessage`)}</p>
+                {/* Show alert only if critical information is missing */}
+                {(!personalInfo.bloodType || !personalInfo.height || !personalInfo.weight) && (
+                    <div className="alert-box">
+                        <FaExclamationCircle className="alert-box-icon" />
+                        <div className="alert-box-content">
+                            <h4>{t(`${prefix}.personalInfo.alertTitle`)}</h4>
+                            <p>{t(`${prefix}.personalInfo.alertMessage`)}</p>
+                        </div>
                     </div>
-                    <button className="alert-box-action">{t(`${prefix}.buttons.scheduleNow`)}</button>
-                </div>
+                )}
 
                 <div className="info-grid">
                     <div className="info-group">
@@ -426,27 +664,34 @@ export const PatientHealthProfile = () => {
                         <div className="info-items">
                             <div className="info-item">
                                 <span className="info-label">{t(`${prefix}.personalInfo.personalDetails.dateOfBirth`)}</span>
-                                <span className="info-value">{new Date(personalInfo.dateOfBirth).toLocaleDateString()}</span>
+                                <span className="info-value">
+                                    {personalInfo.dateOfBirth ? new Date(personalInfo.dateOfBirth).toLocaleDateString() : 'Not provided'}
+                                </span>
                             </div>
                             <div className="info-item">
                                 <span className="info-label">{t(`${prefix}.personalInfo.personalDetails.age`)}</span>
-                                <span className="info-value">{new Date().getFullYear() - new Date(personalInfo.dateOfBirth).getFullYear()} {t(`${prefix}.personalInfo.personalDetails.years`)}</span>
+                                <span className="info-value">
+                                    {personalInfo.dateOfBirth
+                                        ? `${new Date().getFullYear() - new Date(personalInfo.dateOfBirth).getFullYear()} ${t(`${prefix}.personalInfo.personalDetails.years`)}`
+                                        : 'Not provided'
+                                    }
+                                </span>
                             </div>
                             <div className="info-item">
                                 <span className="info-label">{t(`${prefix}.personalInfo.personalDetails.gender`)}</span>
-                                <span className="info-value">{getLangField(personalInfo, 'gender')}</span>
+                                <span className="info-value">{getLangField(personalInfo, 'gender') || 'Not provided'}</span>
                             </div>
                             <div className="info-item">
                                 <span className="info-label">{t(`${prefix}.personalInfo.personalDetails.bloodType`)}</span>
-                                <span className="info-value">{personalInfo.bloodType}</span>
+                                <span className="info-value">{personalInfo.bloodType || 'Not provided'}</span>
                             </div>
                             <div className="info-item">
                                 <span className="info-label">{t(`${prefix}.personalInfo.personalDetails.height`)}</span>
-                                <span className="info-value">{personalInfo.height}</span>
+                                <span className="info-value">{personalInfo.height || 'Not provided'}</span>
                             </div>
                             <div className="info-item">
                                 <span className="info-label">{t(`${prefix}.personalInfo.personalDetails.weight`)}</span>
-                                <span className="info-value">{personalInfo.weight}</span>
+                                <span className="info-value">{personalInfo.weight || 'Not provided'}</span>
                             </div>
                         </div>
                     </div>
@@ -456,15 +701,15 @@ export const PatientHealthProfile = () => {
                         <div className="info-items">
                             <div className="info-item">
                                 <span className="info-label">{t(`${prefix}.personalInfo.contactInfo.email`)}</span>
-                                <span className="info-value">{personalInfo.emailAddress}</span>
+                                <span className="info-value">{personalInfo.emailAddress || 'Not provided'}</span>
                             </div>
                             <div className="info-item">
                                 <span className="info-label">{t(`${prefix}.personalInfo.contactInfo.phone`)}</span>
-                                <span className="info-value">{personalInfo.phoneNumber}</span>
+                                <span className="info-value">{personalInfo.phoneNumber || 'Not provided'}</span>
                             </div>
                             <div className="info-item">
                                 <span className="info-label">{t(`${prefix}.personalInfo.contactInfo.address`)}</span>
-                                <span className="info-value">{personalInfo.address}</span>
+                                <span className="info-value">{personalInfo.address || 'Not provided'}</span>
                             </div>
                         </div>
                     </div>
@@ -472,18 +717,34 @@ export const PatientHealthProfile = () => {
                     <div className="info-group">
                         <h4>{t(`${prefix}.personalInfo.emergencyContact.title`)}</h4>
                         <div className="info-items">
-                            <div className="info-item">
-                                <span className="info-label">{t(`${prefix}.personalInfo.emergencyContact.name`)}</span>
-                                <span className="info-value">{personalInfo.emergencyContact.name}</span>
-                            </div>
-                            <div className="info-item">
-                                <span className="info-label">{t(`${prefix}.personalInfo.emergencyContact.relationship`)}</span>
-                                <span className="info-value">{getLangField(personalInfo.emergencyContact, 'relationship')}</span>
-                            </div>
-                            <div className="info-item">
-                                <span className="info-label">{t(`${prefix}.personalInfo.emergencyContact.phone`)}</span>
-                                <span className="info-value">{personalInfo.emergencyContact.phoneNumber}</span>
-                            </div>
+                            {personalInfo?.emergencyContact?.name ? (
+                                <>
+                                    <div className="info-item">
+                                        <span className="info-label">{t(`${prefix}.personalInfo.emergencyContact.name`)}</span>
+                                        <span className="info-value">{personalInfo.emergencyContact.name}</span>
+                                    </div>
+                                    <div className="info-item">
+                                        <span className="info-label">{t(`${prefix}.personalInfo.emergencyContact.relationship`)}</span>
+                                        <span className="info-value">{getLangField(personalInfo.emergencyContact, 'relationship')}</span>
+                                    </div>
+                                    <div className="info-item">
+                                        <span className="info-label">{t(`${prefix}.personalInfo.emergencyContact.phone`)}</span>
+                                        <span className="info-value">{personalInfo.emergencyContact.phoneNumber}</span>
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="info-item">
+                                    <span className="info-value empty-state">
+                                        No emergency contact information.
+                                        <button
+                                            className="link-btn"
+                                            onClick={() => startEditing({ ...personalInfo })}
+                                        >
+                                            Add emergency contact
+                                        </button>
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -507,15 +768,32 @@ export const PatientHealthProfile = () => {
                             <div className="trend normal">{t(`${prefix}.personalInfo.biometricSummary.normal`)}</div>
                         </div>
                         <div className="biometric-item">
-                            <div className="biometric-value">23.1</div>
+                            <div className="biometric-value">
+                                {personalInfo.height && personalInfo.weight ?
+                                    (() => {
+                                        const heightValue = parseFloat(personalInfo.height);
+                                        const weightValue = parseFloat(personalInfo.weight);
+                                        if (heightValue && weightValue) {
+                                            const heightInMeters = heightValue / 100;
+                                            const bmi = (weightValue / (heightInMeters * heightInMeters)).toFixed(1);
+                                            return bmi;
+                                        }
+                                        return '--';
+                                    })()
+                                    : '--'
+                                }
+                            </div>
                             <div className="biometric-label">{t(`${prefix}.personalInfo.biometricSummary.bmi`)}</div>
-                            <div className="trend normal">{t(`${prefix}.personalInfo.biometricSummary.normal`)}</div>
+                            <div className="trend normal">{personalInfo.height && personalInfo.weight ? t(`${prefix}.personalInfo.biometricSummary.normal`) : 'Not calculated'}</div>
                         </div>
                     </div>
                 </div>
             </div>
         );
     };
+
+    // ... (keep all other render functions exactly the same: renderAllergiesContent, renderMedicalConditionsContent, etc.)
+    // I'm keeping the rest of your existing render functions unchanged to maintain your structure
 
     const renderAllergiesContent = () => {
         if (isEditing) {
@@ -1350,7 +1628,7 @@ export const PatientHealthProfile = () => {
                 return renderPersonalInfoContent();
             case 'allergies':
                 return renderAllergiesContent();
-            case 'conditions':
+            case 'chronic':
                 return renderMedicalConditionsContent();
             case 'insurance':
                 return renderInsuranceContent();
@@ -1360,6 +1638,25 @@ export const PatientHealthProfile = () => {
                 return renderPersonalInfoContent();
         }
     };
+
+    // Show error state if profile fetch failed
+    if (profileError && !apiProfile) {
+        return (
+            <div className="patient-health-profile">
+                <div className="error-state">
+                    <FaExclamationTriangle className="error-icon" />
+                    <h3>Error Loading Profile</h3>
+                    <p>{profileError}</p>
+                    <button
+                        className="action-btn primary"
+                        onClick={() => dispatch(GetProfileAction())}
+                    >
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="patient-health-profile">
@@ -1385,11 +1682,11 @@ export const PatientHealthProfile = () => {
                             {allergies.length > 0 && <span className="badge">{allergies.length}</span>}
                         </button>
                         <button
-                            className={`nav-item ${activeTab === 'conditions' ? 'active' : ''}`}
-                            onClick={() => handleTabChange('conditions')}
+                            className={`nav-item ${activeTab === 'chronic' ? 'active' : ''}`}
+                            onClick={() => handleTabChange('chronic')}
                         >
                             <FaNotesMedical className="nav-icon" />
-                            <span>{t(`${prefix}.navigationTabs.medicalConditions`)}</span>
+                            <span>{t(`${prefix}.navigationTabs.chronicDiseases`)}</span>
                             {medicalConditions.length > 0 && <span className="badge">{medicalConditions.length}</span>}
                         </button>
                         <button
@@ -1416,10 +1713,10 @@ export const PatientHealthProfile = () => {
                 </div>
 
                 <div className="profile-content">
-                    {!isLoaded ? (
+                    {(!isLoaded || profileLoading) ? (
                         <div className="loading-state">
                             <div className="spinner"></div>
-                            <p>{t(`${prefix}.loading`)}</p>
+                            <p>{profileLoading ? 'Loading profile...' : t(`${prefix}.loading`)}</p>
                         </div>
                     ) : (
                         renderActiveTabContent()

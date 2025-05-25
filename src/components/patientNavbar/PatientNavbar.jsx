@@ -3,7 +3,7 @@ import './PatientNavbar.scss';
 import logo from '../../assets/images/trustMeds-logo-blue-nobg-HD.png';
 import { FaBell, FaSearch, FaBars, FaUserAlt, FaCog, FaQuestionCircle, FaSignOutAlt } from 'react-icons/fa';
 import { BiGlobe } from 'react-icons/bi'; // Adding globe icon for language
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom'; // Added useNavigate
 import { useLanguage } from '../../context/LanguageContext'; // Import the language hook
 
 export const PatientNavbar = ({ toggleSidebar }) => {
@@ -12,13 +12,14 @@ export const PatientNavbar = ({ toggleSidebar }) => {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false); // Added state for user menu dropdown
-  
+
   const notificationRef = useRef(null);
   const searchRef = useRef(null);
   const languageRef = useRef(null);
   const userMenuRef = useRef(null); // Added ref for user menu dropdown
-  
+
   const { language, changeLanguage, t, isRTL } = useLanguage(); // Use the language context with isRTL
+  const navigate = useNavigate(); // Added navigate hook
 
   // Check scroll position to change navbar style
   useEffect(() => {
@@ -78,13 +79,34 @@ export const PatientNavbar = ({ toggleSidebar }) => {
     changeLanguage(lang);
     setShowLanguageDropdown(false);
   };
-  
+
   // Toggle user menu dropdown
   const toggleUserMenu = (e) => {
     e.stopPropagation();
     setShowUserMenu(!showUserMenu);
     setShowNotifications(false);
     setShowLanguageDropdown(false);
+  };
+
+  // Handle logout - remove access token and redirect
+  const handleLogout = () => {
+    try {
+      // Remove access token from localStorage
+      localStorage.removeItem('accessToken');
+      // You might also want to remove other auth-related items
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('user');
+
+      // Close the user menu
+      setShowUserMenu(false);
+
+      // Navigate to home page
+      navigate('/');
+    } catch (error) {
+      console.error('Error during logout:', error);
+      // Still navigate even if there's an error removing items
+      navigate('/');
+    }
   };
 
   return (
@@ -171,14 +193,14 @@ export const PatientNavbar = ({ toggleSidebar }) => {
               </div>
             )}
           </div>
-          
+
           {/* User Profile Dropdown */}
           <div className="user-profile-wrapper" ref={userMenuRef}>
             <div className="user-profile" onClick={toggleUserMenu}>
               <div className="user-avatar">YS</div>
               <span className="user-name">Yaman</span>
             </div>
-            
+
             {showUserMenu && (
               <div className={`user-dropdown ${isRTL ? 'rtl' : ''}`}>
                 <div className="user-info">
@@ -190,7 +212,7 @@ export const PatientNavbar = ({ toggleSidebar }) => {
                     <p>Patient ID: P-78945</p>
                   </div>
                 </div>
-                
+
                 <ul className="user-menu-list">
                   <li>
                     <NavLink to="/patient/profile">
@@ -209,9 +231,11 @@ export const PatientNavbar = ({ toggleSidebar }) => {
                   </li>
                   <li className="divider"></li>
                   <li>
-                    <NavLink to="/" className="logout-button">
+                    <button
+                      className="logout-button"
+                      onClick={handleLogout}>
                       <FaSignOutAlt /> {t ? t('patientPage.navbar.logout') : "Logout"}
-                    </NavLink>
+                    </button>
                   </li>
                 </ul>
               </div>
