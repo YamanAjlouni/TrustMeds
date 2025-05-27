@@ -1,10 +1,11 @@
+
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaUserAlt, FaAllergies, FaNotesMedical, FaFileAlt, FaIdCard, FaPencilAlt, FaCheck, FaTimes, FaShieldAlt, FaHistory, FaExclamationTriangle, FaDownload, FaExclamationCircle } from 'react-icons/fa';
 import './PatientHealthProfile.scss';
 import { useLanguage } from '../../../context/LanguageContext';
-import { GetProfileAction, UpdateMyProfileAction } from '../../../redux/actions/patients/profileAction'; // Added UpdateMyProfileAction
-import { GetEmergencyContactAction, CreateEmergencyContactAction, UpdateEmergencyContactAction } from '../../../redux/actions/patients/emergencyContactAction'; // Added emergency contact actions
+import { GetProfileAction, UpdateMyProfileAction } from '../../../redux/actions/patients/profileAction';
+import { GetEmergencyContactAction, CreateEmergencyContactAction, UpdateEmergencyContactAction } from '../../../redux/actions/patients/emergencyContactAction';
 
 export const PatientHealthProfile = () => {
     // Redux hooks
@@ -13,8 +14,8 @@ export const PatientHealthProfile = () => {
         loading: profileLoading,
         profile: apiProfile,
         error: profileError,
-        updating: profileUpdating, // Added updating state
-        updateSuccess: profileUpdateSuccess // Added success state
+        updating: profileUpdating,
+        updateSuccess: profileUpdateSuccess
     } = useSelector(state => state.profile);
 
     // Emergency contacts state
@@ -90,7 +91,6 @@ export const PatientHealthProfile = () => {
             emailAddress: profileData.email_address || profileData.email || '',
             phoneNumber: profileData.phone_number || profileData.phone || '',
             address: profileData.address || '',
-            // Emergency contact will be handled separately with emergency contact API
             emergencyContact: {
                 name: '',
                 relationshipEn: '',
@@ -99,34 +99,34 @@ export const PatientHealthProfile = () => {
             }
         };
 
-        // console.log("📋 personal info:", result);
         return result;
     };
 
     // Initialize personal info with empty data
     const [personalInfo, setPersonalInfo] = useState(() => getPersonalInfoFromAPI({}));
 
+    // Track if initial data has been loaded
+    const [initialLoadComplete, setInitialLoadComplete] = useState(false);
+
     // Fetch profile data and emergency contacts on component mount
     useEffect(() => {
-        dispatch(GetProfileAction())
-            .unwrap()
-            .then((result) => {
-                const convertedData = getPersonalInfoFromAPI(result.data || result);
+        const loadInitialData = async () => {
+            try {
+                const profileResult = await dispatch(GetProfileAction()).unwrap();
+                const convertedData = getPersonalInfoFromAPI(profileResult.data || profileResult);
                 setPersonalInfo(convertedData);
-            })
-            .catch((error) => {
-                console.error("❌ GetProfileAction failed:", error);
-            });
 
-        // Load emergency contacts
-        dispatch(GetEmergencyContactAction())
-            .unwrap()
-            .then((result) => {
-                // console.log("🚨 Emergency contacts loaded:", result);
-            })
-            .catch((error) => {
-                console.error("❌ GetEmergencyContactAction failed:", error);
-            });
+                await dispatch(GetEmergencyContactAction()).unwrap();
+
+                setInitialLoadComplete(true);
+            } catch (error) {
+                console.error("❌ Failed to load initial data:", error);
+                // Even if there's an error, mark as complete to show the error state
+                setInitialLoadComplete(true);
+            }
+        };
+
+        loadInitialData();
     }, [dispatch]);
 
     // Handle profile update success
@@ -145,7 +145,6 @@ export const PatientHealthProfile = () => {
                     console.error("❌ GetProfileAction failed:", error);
                 });
 
-            // Also refresh emergency contacts to make sure we have the latest data
             dispatch(GetEmergencyContactAction());
         }
     }, [profileUpdateSuccess, dispatch]);
@@ -153,15 +152,13 @@ export const PatientHealthProfile = () => {
     // Handle emergency contact success
     useEffect(() => {
         if (contactCreateSuccess || contactUpdateSuccess) {
-            // Refresh emergency contacts
             dispatch(GetEmergencyContactAction());
         }
     }, [contactCreateSuccess, contactUpdateSuccess, dispatch]);
 
-    // Set emergency contact info from API data
     useEffect(() => {
         if (emergencyContacts && Array.isArray(emergencyContacts) && emergencyContacts.length > 0) {
-            const primaryContact = emergencyContacts[0]; // Use first contact as primary
+            const primaryContact = emergencyContacts[0];
             setPersonalInfo(prev => ({
                 ...prev,
                 emergencyContact: {
@@ -172,7 +169,6 @@ export const PatientHealthProfile = () => {
                 }
             }));
         } else {
-            // Clear emergency contact if no contacts exist
             setPersonalInfo(prev => ({
                 ...prev,
                 emergencyContact: {
@@ -185,7 +181,6 @@ export const PatientHealthProfile = () => {
         }
     }, [emergencyContacts]);
 
-    // Sample data for other sections (allergies, conditions, etc.) - these will be replaced later with API calls
     const [allergies, setAllergies] = useState([
         {
             id: 1,
@@ -300,16 +295,9 @@ export const PatientHealthProfile = () => {
     const [activeTab, setActiveTab] = useState('personal');
     const [isEditing, setIsEditing] = useState(false);
     const [editedData, setEditedData] = useState({});
-    const [isLoaded, setIsLoaded] = useState(false);
 
-    // Simulate loading state - now also considers profile loading
-    useEffect(() => {
-        if (!profileLoading) {
-            setTimeout(() => {
-                setIsLoaded(true);
-            }, 800);
-        }
-    }, [profileLoading]);
+    // Calculate if we should show loading state
+    const isInitialLoading = !initialLoadComplete || profileLoading || contactsLoading;
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
@@ -332,8 +320,8 @@ export const PatientHealthProfile = () => {
             first_name: formData.firstName,
             last_name: formData.lastName,
             date_of_birth: formData.dateOfBirth,
-            email_address: formData.emailAddress, // Fixed: API expects email_address
-            phone_number: formData.phoneNumber,    // Fixed: API expects phone_number
+            email_address: formData.emailAddress,
+            phone_number: formData.phoneNumber,
             address: formData.address,
             blood_type: formData.bloodType
         };
@@ -443,6 +431,8 @@ export const PatientHealthProfile = () => {
                 break;
         }
     };
+
+    //// starting of the jsx code ////
 
     const renderPersonalInfoContent = () => {
         if (isEditing) {
@@ -1621,7 +1611,6 @@ export const PatientHealthProfile = () => {
             </div>
         );
     };
-
     const renderActiveTabContent = () => {
         switch (activeTab) {
             case 'personal':
@@ -1639,8 +1628,9 @@ export const PatientHealthProfile = () => {
         }
     };
 
+
     // Show error state if profile fetch failed
-    if (profileError && !apiProfile) {
+    if (profileError && !apiProfile && initialLoadComplete) {
         return (
             <div className="patient-health-profile">
                 <div className="error-state">
@@ -1713,10 +1703,14 @@ export const PatientHealthProfile = () => {
                 </div>
 
                 <div className="profile-content">
-                    {(!isLoaded || profileLoading) ? (
+                    {isInitialLoading ? (
                         <div className="loading-state">
                             <div className="spinner"></div>
-                            <p>{profileLoading ? 'Loading profile...' : t(`${prefix}.loading`)}</p>
+                            <p>
+                                {profileLoading ? 'Loading profile...' :
+                                    contactsLoading ? 'Loading emergency contacts...' :
+                                        t(`${prefix}.loading`)}
+                            </p>
                         </div>
                     ) : (
                         renderActiveTabContent()
