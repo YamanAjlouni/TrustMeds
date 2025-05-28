@@ -66,6 +66,7 @@
             "sectionSubtitle": "إدارة الحساسية والتفاعلات المعروفة",
             "emptyState": "لا توجد حساسية مسجلة",
             "form": {
+                "selectAllergen" : "اختر حساسية",
                 "allergen": "مسبب الحساسية",
                 "severity": "الشدة",
                 "diagnosedDate": "تاريخ التشخيص",

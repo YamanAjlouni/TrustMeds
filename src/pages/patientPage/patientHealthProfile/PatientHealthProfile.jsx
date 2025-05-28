@@ -6,6 +6,14 @@ import './PatientHealthProfile.scss';
 import { useLanguage } from '../../../context/LanguageContext';
 import { GetProfileAction, UpdateMyProfileAction } from '../../../redux/actions/patients/profileAction';
 import { GetEmergencyContactAction, CreateEmergencyContactAction, UpdateEmergencyContactAction } from '../../../redux/actions/patients/emergencyContactAction';
+// Add these imports at the top
+import {
+    GetALLAllergiesAction,
+    GetMyAllergiesAction,
+    CreateMyAllergyAction,
+    UpdateMyAllergyAction,
+    DeleteMyAllergyAction
+} from '../../../redux/actions/patients/allergiesActions';
 
 export const PatientHealthProfile = () => {
     // Redux hooks
@@ -29,7 +37,20 @@ export const PatientHealthProfile = () => {
         updateSuccess: contactUpdateSuccess
     } = useSelector(state => {
         return state.emergencyContact || {};
-    });
+    })
+
+    // allergies state
+    const {
+        allAllergies,
+        myAllergies,
+        loading: allergiesLoading,
+        error: allergiesError,
+        creating: allergyCreating,
+        updating: allergyUpdating,
+        createSuccess: allergyCreateSuccess,
+        updateSuccess: allergyUpdateSuccess,
+        deleteSuccess: allergyDeleteSuccess
+    } = useSelector(state => state.allergies);
 
     const { t, isRTL, language } = useLanguage();
 
@@ -117,11 +138,12 @@ export const PatientHealthProfile = () => {
                 setPersonalInfo(convertedData);
 
                 await dispatch(GetEmergencyContactAction()).unwrap();
+                await dispatch(GetALLAllergiesAction()).unwrap(); // Fetch all possible allergens
+                await dispatch(GetMyAllergiesAction()).unwrap(); // Fetch patient's allergies
 
                 setInitialLoadComplete(true);
             } catch (error) {
                 console.error("❌ Failed to load initial data:", error);
-                // Even if there's an error, mark as complete to show the error state
                 setInitialLoadComplete(true);
             }
         };
@@ -157,6 +179,13 @@ export const PatientHealthProfile = () => {
     }, [contactCreateSuccess, contactUpdateSuccess, dispatch]);
 
     useEffect(() => {
+        if (allergyCreateSuccess || allergyUpdateSuccess || allergyDeleteSuccess) {
+            dispatch(GetMyAllergiesAction());
+        }
+    }, [allergyCreateSuccess, allergyUpdateSuccess, allergyDeleteSuccess, dispatch]);
+
+
+    useEffect(() => {
         if (emergencyContacts && Array.isArray(emergencyContacts) && emergencyContacts.length > 0) {
             const primaryContact = emergencyContacts[0];
             setPersonalInfo(prev => ({
@@ -181,32 +210,7 @@ export const PatientHealthProfile = () => {
         }
     }, [emergencyContacts]);
 
-    const [allergies, setAllergies] = useState([
-        {
-            id: 1,
-            allergenEn: 'Penicillin',
-            allergenAr: 'البنسلين',
-            severityEn: 'High',
-            severityAr: 'عالية',
-            reactionEn: 'Hives, difficulty breathing',
-            reactionAr: 'طفح جلدي، صعوبة في التنفس',
-            diagnosedDate: '2015-03-20',
-            notesEn: 'Avoid all penicillin-based antibiotics',
-            notesAr: 'تجنب جميع المضادات الحيوية التي تحتوي على البنسلين'
-        },
-        {
-            id: 2,
-            allergenEn: 'Peanuts',
-            allergenAr: 'الفول السوداني',
-            severityEn: 'Moderate',
-            severityAr: 'متوسطة',
-            reactionEn: 'Skin rash, swelling',
-            reactionAr: 'طفح جلدي، تورم',
-            diagnosedDate: '2010-08-12',
-            notesEn: 'Avoid all peanut products',
-            notesAr: 'تجنب جميع منتجات الفول السوداني'
-        }
-    ]);
+    const allergies = myAllergies;
 
     const [medicalConditions, setMedicalConditions] = useState([
         {
@@ -297,7 +301,7 @@ export const PatientHealthProfile = () => {
     const [editedData, setEditedData] = useState({});
 
     // Calculate if we should show loading state
-    const isInitialLoading = !initialLoadComplete || profileLoading || contactsLoading;
+    const isInitialLoading = !initialLoadComplete || profileLoading || contactsLoading || allergiesLoading;
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
@@ -390,15 +394,29 @@ export const PatientHealthProfile = () => {
                 }
                 break;
             case 'allergies':
-                if (editedData.id) {
-                    setAllergies(allergies.map(allergy =>
-                        allergy.id === editedData.id ? editedData : allergy
-                    ));
-                } else {
-                    setAllergies([...allergies, { ...editedData, id: allergies.length + 1 }]);
+                try {
+                    const allergyData = {
+                        allergen: editedData.allergenId, // ID from the dropdown
+                        severity: editedData.severity,
+                        reaction: editedData.reaction,
+                        diagnosed_date: editedData.diagnosedDate,
+                        notes: editedData.notes
+                    };
+
+                    if (editedData.id) {
+                        await dispatch(UpdateMyAllergyAction({
+                            id: editedData.id,
+                            data: allergyData
+                        })).unwrap();
+                    } else {
+                        await dispatch(CreateMyAllergyAction(allergyData)).unwrap();
+                    }
+
+                    setIsEditing(false);
+                    setEditedData({});
+                } catch (error) {
+                    console.error("❌ Allergy save failed:", error);
                 }
-                setIsEditing(false);
-                setEditedData({});
                 break;
             case 'chronic':
                 if (editedData.id) {
@@ -792,51 +810,28 @@ export const PatientHealthProfile = () => {
                     <div className="form-grid">
                         <div className="form-group span-2">
                             <label>{t(`${prefix}.allergies.form.allergen`)}</label>
-                            <input
-                                type="text"
-                                value={getLangField(editedData, 'allergen') || ''}
-                                onChange={(e) => {
-                                    const langField = language === 'ar' ? 'allergenAr' : 'allergenEn';
-                                    setEditedData({ ...editedData, [langField]: e.target.value });
-                                }}
-                            />
+                            <select
+                                value={editedData.allergenId || ''}
+                                onChange={(e) => setEditedData({ ...editedData, allergenId: e.target.value })}
+                            >
+                                <option value="">{t(`${prefix}.allergies.form.selectAllergen`)}</option>
+                                {allAllergies.map(allergen => (
+                                    <option key={allergen.id} value={allergen.id}>
+                                        {getLangField(allergen, 'name')}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className="form-group">
                             <label>{t(`${prefix}.allergies.form.severity`)}</label>
                             <select
-                                value={getLangField(editedData, 'severity') || ''}
-                                onChange={(e) => {
-                                    const value = e.target.value;
-                                    const severityMap = {
-                                        'Low': 'منخفضة',
-                                        'Moderate': 'متوسطة',
-                                        'High': 'عالية',
-                                        'Severe': 'شديدة',
-                                        'منخفضة': 'Low',
-                                        'متوسطة': 'Moderate',
-                                        'عالية': 'High',
-                                        'شديدة': 'Severe'
-                                    };
-
-                                    setEditedData({
-                                        ...editedData,
-                                        severityEn: language === 'en' ? value : severityMap[value],
-                                        severityAr: language === 'ar' ? value : severityMap[value]
-                                    });
-                                }}
+                                value={editedData.severity || ''}
+                                onChange={(e) => setEditedData({ ...editedData, severity: e.target.value })}
                             >
-                                <option value={language === 'en' ? 'Low' : 'منخفضة'}>
-                                    {t(`${prefix}.allergies.severity.low`)}
-                                </option>
-                                <option value={language === 'en' ? 'Moderate' : 'متوسطة'}>
-                                    {t(`${prefix}.allergies.severity.moderate`)}
-                                </option>
-                                <option value={language === 'en' ? 'High' : 'عالية'}>
-                                    {t(`${prefix}.allergies.severity.high`)}
-                                </option>
-                                <option value={language === 'en' ? 'Severe' : 'شديدة'}>
-                                    {t(`${prefix}.allergies.severity.severe`)}
-                                </option>
+                                <option value="Low">{t(`${prefix}.allergies.severity.low`)}</option>
+                                <option value="Moderate">{t(`${prefix}.allergies.severity.moderate`)}</option>
+                                <option value="High">{t(`${prefix}.allergies.severity.high`)}</option>
+                                <option value="Severe">{t(`${prefix}.allergies.severity.severe`)}</option>
                             </select>
                         </div>
                         <div className="form-group">
@@ -851,21 +846,15 @@ export const PatientHealthProfile = () => {
                             <label>{t(`${prefix}.allergies.form.reaction`)}</label>
                             <input
                                 type="text"
-                                value={getLangField(editedData, 'reaction') || ''}
-                                onChange={(e) => {
-                                    const langField = language === 'ar' ? 'reactionAr' : 'reactionEn';
-                                    setEditedData({ ...editedData, [langField]: e.target.value });
-                                }}
+                                value={editedData.reaction || ''}
+                                onChange={(e) => setEditedData({ ...editedData, reaction: e.target.value })}
                             />
                         </div>
                         <div className="form-group span-2">
                             <label>{t(`${prefix}.allergies.form.notes`)}</label>
                             <textarea
-                                value={getLangField(editedData, 'notes') || ''}
-                                onChange={(e) => {
-                                    const langField = language === 'ar' ? 'notesAr' : 'notesEn';
-                                    setEditedData({ ...editedData, [langField]: e.target.value });
-                                }}
+                                value={editedData.notes || ''}
+                                onChange={(e) => setEditedData({ ...editedData, notes: e.target.value })}
                                 rows="3"
                             ></textarea>
                         </div>
@@ -875,8 +864,18 @@ export const PatientHealthProfile = () => {
                         <button className="action-btn secondary" onClick={cancelEditing}>
                             <FaTimes /> {t(`${prefix}.buttons.cancel`)}
                         </button>
-                        <button className="action-btn primary" onClick={saveChanges}>
-                            <FaCheck /> {t(editedData.id ? `${prefix}.buttons.updateAllergy` : `${prefix}.buttons.addAllergy`)}
+                        <button
+                            className="action-btn primary"
+                            onClick={saveChanges}
+                            disabled={allergyCreating || allergyUpdating}
+                        >
+                            <FaCheck />
+                            {allergyCreating || allergyUpdating
+                                ? t(`${prefix}.buttons.saving`)
+                                : t(editedData.id
+                                    ? `${prefix}.buttons.updateAllergy`
+                                    : `${prefix}.buttons.addAllergy`)
+                            }
                         </button>
                     </div>
                 </div>
@@ -909,14 +908,27 @@ export const PatientHealthProfile = () => {
                             <div className="allergy-card" key={allergy.id}>
                                 <div className="allergy-header">
                                     <div className="allergy-title">
-                                        <h4>{getLangField(allergy, 'allergen')}</h4>
-                                        <span className={`severity-badge severity-${allergy.severityEn.toLowerCase()}`}>
-                                            {t(`${prefix}.allergies.severity.${allergy.severityEn.toLowerCase()}`)} {t(`${prefix}.allergies.form.severity`)}
+                                        <h4>{getLangField(allergy.allergen, 'name')}</h4>
+                                        <span className={`severity-badge severity-${allergy.severity.toLowerCase()}`}>
+                                            {t(`${prefix}.allergies.severity.${allergy.severity.toLowerCase()}`)}
+                                            {t(`${prefix}.allergies.form.severity`)}
                                         </span>
                                     </div>
-                                    <button className="edit-btn small" onClick={() => startEditing({ ...allergy })}>
-                                        <FaPencilAlt />
-                                    </button>
+                                    <div className="allergy-actions">
+                                        <button className="edit-btn small" onClick={() => startEditing({
+                                            ...allergy,
+                                            allergenId: allergy.allergen.id
+                                        })}>
+                                            <FaPencilAlt />
+                                        </button>
+                                        <button
+                                            className="delete-btn small"
+                                            onClick={() => dispatch(DeleteMyAllergyAction(allergy.id))}
+                                            disabled={allergiesLoading}
+                                        >
+                                            <FaTimes />
+                                        </button>
+                                    </div>
                                 </div>
                                 <div className="allergy-details">
                                     <div className="allergy-item">

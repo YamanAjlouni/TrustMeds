@@ -16,6 +16,7 @@ export const UpdateMyMedicationAPI = (id) => `patients/update-medication/${id}/`
 export const DeleteMyMedicationAPI = (id) => `patients/delete-medication/${id}/`;
 
 // Allergies
+export const GetAllAllergiesAPI = 'patients/public/allergies/';
 export const GetMyAllergiesAPI = 'patients/me/allergies/';
 export const CreateMyAllergyAPI = 'patients/create-allergy/';
 export const UpdateMyAllergyAPI = (id) => `patients/update-allergy/${id}/`;

@@ -72,6 +72,7 @@
             "sectionSubtitle": "Manage your known allergies and reactions",
             "emptyState": "No allergies on record",
             "form": {
+                "selectAllergen": "Select Allergy",
                 "allergen": "Allergen",
                 "severity": "Severity",
                 "diagnosedDate": "Diagnosed Date",
