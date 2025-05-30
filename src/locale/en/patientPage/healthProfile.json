@@ -9,6 +9,7 @@
             "medicalHistory": "Medical History"
         },
         "buttons": {
+            "saving" : "Saving",
             "edit": "Edit",
             "editProfile": "Edit Profile",
             "cancel": "Cancel",

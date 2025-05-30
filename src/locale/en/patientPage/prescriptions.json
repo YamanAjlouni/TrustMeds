@@ -37,5 +37,8 @@
     "noActivePrescriptions": "No active prescriptions found",
     "noPrescriptionHistory": "No prescription history found",
     "tryAdjusting": "Try adjusting your search or filters",
-    "completed": "Completed"
+    "completed": "Completed",
+    "medicationId" : "ID of Medication",
+    "notAvailable" : "Not Available",
+    "notSet" : "Not Set"
 }

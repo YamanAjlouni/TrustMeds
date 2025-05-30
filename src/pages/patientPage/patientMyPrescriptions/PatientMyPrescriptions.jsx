@@ -1,128 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import './PatientMyPrescriptions.scss';
 import {
-    FaPills, FaHistory, FaFilePrescription, FaHospitalUser,
-    FaExclamationTriangle, FaSearch, FaFilter, FaPlusCircle,
-    FaTimes, FaChevronDown, FaChevronUp, FaBell, FaCalendarAlt,
-    FaArrowRight
+    FaPills, FaHistory, FaFilePrescription, FaExclamationTriangle, FaSearch, FaFilter, FaPlusCircle,
+    FaTimes, FaBell, FaCalendarAlt, FaSpinner
 } from 'react-icons/fa';
-import { useLanguage } from '../../../context/LanguageContext'; // Import language context
+import { useLanguage } from '../../../context/LanguageContext';
+import { GetMyMedicationsAction } from '../../../redux/actions/patients/medicationsActions';
 
 export const PatientMyPrescriptions = () => {
-    const { language, t } = useLanguage(); // Get language and translation function
+    const { language, t } = useLanguage();
     const isArabic = language === 'ar';
+    const dispatch = useDispatch();
 
-    // State for active prescriptions with both English and Arabic data
-    const [activePrescriptions, setActivePrescriptions] = useState([
-        {
-            id: 1,
-            nameEn: "Amoxicillin",
-            nameAr: "أموكسيسيلين",
-            dosage: "500mg",
-            frequencyEn: "3 times daily",
-            frequencyAr: "3 مرات يوميًا",
-            refillsRemaining: 2,
-            nextRefillDate: "2025-04-15",
-            doctorEn: "Dr. Smith",
-            doctorAr: "د. سميث",
-            instructionsEn: "Take with food. Complete full course of treatment.",
-            instructionsAr: "تناول مع الطعام. أكمل المدة العلاجية كاملة.",
-            pharmacyEn: "Main Street Pharmacy",
-            pharmacyAr: "صيدلية الشارع الرئيسي",
-            prescribedDate: "2025-03-10",
-            expirationDate: "2025-09-10",
-            color: "#4B9CD3",
-            ndc: "12345-678-90",
-            status: "active"
-        },
-        {
-            id: 2,
-            nameEn: "Lisinopril",
-            nameAr: "ليسينوبريل",
-            dosage: "10mg",
-            frequencyEn: "Once daily",
-            frequencyAr: "مرة واحدة يوميًا",
-            refillsRemaining: 3,
-            nextRefillDate: "2025-04-20",
-            doctorEn: "Dr. Johnson",
-            doctorAr: "د. جونسون",
-            instructionsEn: "Take in the morning. May cause dizziness.",
-            instructionsAr: "تناول في الصباح. قد يسبب الدوار.",
-            pharmacyEn: "Main Street Pharmacy",
-            pharmacyAr: "صيدلية الشارع الرئيسي",
-            prescribedDate: "2025-02-15",
-            expirationDate: "2026-02-15",
-            color: "#2AAC8A",
-            ndc: "54321-876-54",
-            status: "active"
-        },
-        {
-            id: 3,
-            nameEn: "Atorvastatin",
-            nameAr: "أتورفاستاتين",
-            dosage: "20mg",
-            frequencyEn: "Once daily",
-            frequencyAr: "مرة واحدة يوميًا",
-            refillsRemaining: 5,
-            nextRefillDate: "2025-05-05",
-            doctorEn: "Dr. Johnson",
-            doctorAr: "د. جونسون",
-            instructionsEn: "Take in the evening. Report muscle pain.",
-            instructionsAr: "تناول في المساء. أبلغ عن آلام العضلات.",
-            pharmacyEn: "Central Pharmacy",
-            pharmacyAr: "الصيدلية المركزية",
-            prescribedDate: "2025-03-05",
-            expirationDate: "2026-03-05",
-            color: "#F6B93B",
-            ndc: "98765-432-10",
-            status: "active"
-        }
-    ]);
-
-    // State for prescription history with both English and Arabic data
-    const [prescriptionHistory, setPrescriptionHistory] = useState([
-        {
-            id: 101,
-            nameEn: "Doxycycline",
-            nameAr: "دوكسيسيكلين",
-            dosage: "100mg",
-            frequencyEn: "Twice daily",
-            frequencyAr: "مرتين يوميًا",
-            refillsRemaining: 0,
-            doctorEn: "Dr. Smith",
-            doctorAr: "د. سميث",
-            instructionsEn: "Take with food. Avoid sun exposure.",
-            instructionsAr: "تناول مع الطعام. تجنب التعرض للشمس.",
-            pharmacyEn: "Main Street Pharmacy",
-            pharmacyAr: "صيدلية الشارع الرئيسي",
-            prescribedDate: "2025-01-05",
-            expirationDate: "2025-02-05",
-            color: "#975BA5",
-            ndc: "11122-333-44",
-            status: "completed"
-        },
-        {
-            id: 102,
-            nameEn: "Prednisone",
-            nameAr: "بريدنيزون",
-            dosage: "10mg",
-            frequencyEn: "Once daily",
-            frequencyAr: "مرة واحدة يوميًا",
-            refillsRemaining: 0,
-            doctorEn: "Dr. Lee",
-            doctorAr: "د. لي",
-            instructionsEn: "Take with food. Taper as directed.",
-            instructionsAr: "تناول مع الطعام. قلل الجرعة حسب التوجيهات.",
-            pharmacyEn: "Central Pharmacy",
-            pharmacyAr: "الصيدلية المركزية",
-            prescribedDate: "2024-12-10",
-            expirationDate: "2025-01-10",
-            color: "#E74C3C",
-            ndc: "55566-777-88",
-            status: "completed"
-        }
-    ]);
+    // Get medications from Redux store
+    const { myMedications, loading, error, hasLoadedOnce } = useSelector(
+        (state) => state.medications
+    );
 
     // State for active tab
     const [activeTab, setActiveTab] = useState('active');
@@ -144,39 +38,44 @@ export const PatientMyPrescriptions = () => {
     // State for showing filter panel
     const [showFilters, setShowFilters] = useState(false);
 
-    // Check if screen is mobile/small
+    // State for mobile view
     const [isMobile, setIsMobile] = useState(false);
 
+    // Fetch medications on component mount
+    useEffect(() => {
+        if (!hasLoadedOnce) {
+            dispatch(GetMyMedicationsAction());
+        }
+    }, [dispatch, hasLoadedOnce]);
+
+    // Check if screen is mobile/small
     useEffect(() => {
         const checkIfMobile = () => {
             setIsMobile(window.innerWidth < 576);
         };
 
-        // Initial check
         checkIfMobile();
-
-        // Add event listener for window resize
         window.addEventListener('resize', checkIfMobile);
-
-        // Cleanup
         return () => window.removeEventListener('resize', checkIfMobile);
     }, []);
+
+    // Separate active and completed prescriptions
+    const activePrescriptions = myMedications.filter(med => med.status === 'active');
+    const prescriptionHistory = myMedications.filter(med => med.status === 'completed');
 
     // Helper function to get localized value
     const getLocalizedValue = (enValue, arValue) => {
         return isArabic ? arValue : enValue;
     };
 
-    // Get unique doctors and pharmacies for filter options based on current language
-    const allDoctors = [...new Set([
-        ...activePrescriptions.map(p => isArabic ? p.doctorAr : p.doctorEn),
-        ...prescriptionHistory.map(p => isArabic ? p.doctorAr : p.doctorEn)
-    ])];
+    // Get unique doctors and pharmacies for filter options
+    const allDoctors = [...new Set(myMedications.map(p =>
+        isArabic ? p.doctorAr : p.doctorEn
+    ).filter(Boolean))];
 
-    const allPharmacies = [...new Set([
-        ...activePrescriptions.map(p => isArabic ? p.pharmacyAr : p.pharmacyEn),
-        ...prescriptionHistory.map(p => isArabic ? p.pharmacyAr : p.pharmacyEn)
-    ])];
+    const allPharmacies = [...new Set(myMedications.map(p =>
+        isArabic ? p.pharmacyAr : p.pharmacyEn
+    ).filter(Boolean))];
 
     // Function to apply filters
     const applyFilters = (prescriptions) => {
@@ -188,8 +87,8 @@ export const PatientMyPrescriptions = () => {
             // Filter by search query
             const matchesSearch =
                 name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                doctor.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                pharmacy.toLowerCase().includes(searchQuery.toLowerCase());
+                (doctor && doctor.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                (pharmacy && pharmacy.toLowerCase().includes(searchQuery.toLowerCase()));
 
             // Filter by doctor
             const matchesDoctor = !filters.doctor || doctor === filters.doctor;
@@ -197,7 +96,7 @@ export const PatientMyPrescriptions = () => {
             // Filter by pharmacy
             const matchesPharmacy = !filters.pharmacy || pharmacy === filters.pharmacy;
 
-            // Filter by refills needed (refillsRemaining <= 1)
+            // Filter by refills needed
             const matchesRefills = !filters.refillsNeeded ||
                 (prescription.refillsRemaining !== undefined && prescription.refillsRemaining <= 1);
 
@@ -212,6 +111,7 @@ export const PatientMyPrescriptions = () => {
 
     // Function to check if a prescription is expiring within 30 days
     const isExpiringWithin30Days = (expirationDate) => {
+        if (!expirationDate) return false;
         const today = new Date();
         const expDate = new Date(expirationDate);
         const thirtyDaysFromNow = new Date();
@@ -250,12 +150,11 @@ export const PatientMyPrescriptions = () => {
         }
     };
 
-    // For Add Prescription button - just show an info message for now
+    // For Add Prescription button
     const [showAddInfo, setShowAddInfo] = useState(false);
 
     const handleAddPrescriptionClick = () => {
         setShowAddInfo(true);
-        // After 3 seconds, hide the message
         setTimeout(() => {
             setShowAddInfo(false);
         }, 3000);
@@ -263,13 +162,12 @@ export const PatientMyPrescriptions = () => {
 
     // Format date function with language support
     const formatDate = (dateString) => {
+        if (!dateString) return t('patientPage.prescriptions.notSet');
         const date = new Date(dateString);
         if (isArabic) {
-            // Arabic date format
             const options = { year: 'numeric', month: 'short', day: 'numeric' };
             return date.toLocaleDateString('ar-SA', options);
         } else {
-            // English date format
             return date.toLocaleDateString('en-US', {
                 month: 'short',
                 day: 'numeric',
@@ -277,6 +175,15 @@ export const PatientMyPrescriptions = () => {
             });
         }
     };
+
+    if (loading && !hasLoadedOnce) {
+        return (
+            <div className="loading-container">
+                <FaSpinner className="spinner" />
+                <p>{t('common.loading')}</p>
+            </div>
+        );
+    }
 
     return (
         <div className="my-prescriptions-container">
@@ -336,6 +243,12 @@ export const PatientMyPrescriptions = () => {
             {showAddInfo && (
                 <div className="add-info-message">
                     <FaBell className="info-icon" /> {t('patientPage.prescriptions.requestInfo')}
+                </div>
+            )}
+
+            {error && (
+                <div className="error-message">
+                    <FaExclamationTriangle className="error-icon" /> {error}
                 </div>
             )}
 
@@ -463,18 +376,18 @@ export const PatientMyPrescriptions = () => {
                                 >
                                     <div className="prescription-name-section">
                                         <h3>
-                                            {getLocalizedValue(prescription.nameEn, prescription.nameAr)}
+                                            {getLocalizedValue(prescription.nameEn, prescription.nameAr) || prescription.medication_name}
                                             <span className="prescription-dosage">{prescription.dosage}</span>
                                         </h3>
                                         <p className="prescription-frequency">
-                                            {getLocalizedValue(prescription.frequencyEn, prescription.frequencyAr)}
+                                            {getLocalizedValue(prescription.frequencyEn, prescription.frequencyAr) || prescription.frequency}
                                         </p>
                                     </div>
                                     <div className="prescription-refills">
                                         <span
                                             className={`refills-count ${prescription.refillsRemaining <= 1 ? 'low-refills' : ''}`}
                                         >
-                                            {prescription.refillsRemaining}
+                                            {prescription.refillsRemaining || 0}
                                         </span>
                                         <span className="refills-label">{t('patientPage.prescriptions.refillsLeft')}</span>
                                     </div>
@@ -487,13 +400,13 @@ export const PatientMyPrescriptions = () => {
                                     <div className="info-item">
                                         <span className="info-label">{t('patientPage.prescriptions.doctor')}</span>
                                         <span className="info-value">
-                                            {getLocalizedValue(prescription.doctorEn, prescription.doctorAr)}
+                                            {getLocalizedValue(prescription.doctorEn, prescription.doctorAr) || t('patientPage.prescriptions.notAvailable')}
                                         </span>
                                     </div>
                                     <div className="info-item">
                                         <span className="info-label">{t('patientPage.prescriptions.pharmacy')}</span>
                                         <span className="info-value">
-                                            {getLocalizedValue(prescription.pharmacyEn, prescription.pharmacyAr)}
+                                            {getLocalizedValue(prescription.pharmacyEn, prescription.pharmacyAr) || t('patientPage.prescriptions.notAvailable')}
                                         </span>
                                     </div>
                                     <div className="info-item">
@@ -511,17 +424,17 @@ export const PatientMyPrescriptions = () => {
                                             <h4>{t('patientPage.prescriptions.prescriptionDetails')}</h4>
                                             <div className="details-grid">
                                                 <div className="detail-item">
-                                                    <span className="detail-label">{t('patientPage.prescriptions.ndc')}</span>
-                                                    <span className="detail-value">{prescription.ndc}</span>
+                                                    <span className="detail-label">{t('patientPage.prescriptions.medicationId')}</span>
+                                                    <span className="detail-value">{prescription.medication || prescription.id}</span>
                                                 </div>
                                                 <div className="detail-item">
                                                     <span className="detail-label">{t('patientPage.prescriptions.prescribed')}</span>
-                                                    <span className="detail-value">{formatDate(prescription.prescribedDate)}</span>
+                                                    <span className="detail-value">{formatDate(prescription.prescribedDate || prescription.start_date)}</span>
                                                 </div>
                                                 <div className="detail-item">
                                                     <span className="detail-label">{t('patientPage.prescriptions.expires')}</span>
-                                                    <span className={`detail-value ${isExpiringWithin30Days(prescription.expirationDate) ? 'expiring-soon' : ''}`}>
-                                                        {formatDate(prescription.expirationDate)}
+                                                    <span className={`detail-value ${isExpiringWithin30Days(prescription.expirationDate || prescription.end_date) ? 'expiring-soon' : ''}`}>
+                                                        {formatDate(prescription.expirationDate || prescription.end_date)}
                                                     </span>
                                                 </div>
                                             </div>
@@ -529,7 +442,7 @@ export const PatientMyPrescriptions = () => {
 
                                         <div className="instructions-section">
                                             <h4>{t('patientPage.prescriptions.instructions')}</h4>
-                                            <p>{getLocalizedValue(prescription.instructionsEn, prescription.instructionsAr)}</p>
+                                            <p>{getLocalizedValue(prescription.instructionsEn, prescription.instructionsAr) || t('patientPage.prescriptions.notAvailable')}</p>
                                         </div>
 
                                         <div className="action-buttons">
@@ -565,11 +478,11 @@ export const PatientMyPrescriptions = () => {
                                 >
                                     <div className="prescription-name-section">
                                         <h3>
-                                            {getLocalizedValue(prescription.nameEn, prescription.nameAr)}
+                                            {getLocalizedValue(prescription.nameEn, prescription.nameAr) || prescription.medication_name}
                                             <span className="prescription-dosage">{prescription.dosage}</span>
                                         </h3>
                                         <p className="prescription-frequency">
-                                            {getLocalizedValue(prescription.frequencyEn, prescription.frequencyAr)}
+                                            {getLocalizedValue(prescription.frequencyEn, prescription.frequencyAr) || prescription.frequency}
                                         </p>
                                     </div>
                                     <div className="prescription-status">
@@ -584,47 +497,47 @@ export const PatientMyPrescriptions = () => {
                                     <div className="info-item">
                                         <span className="info-label">{t('patientPage.prescriptions.doctor')}</span>
                                         <span className="info-value">
-                                            {getLocalizedValue(prescription.doctorEn, prescription.doctorAr)}
+                                            {getLocalizedValue(prescription.doctorEn, prescription.doctorAr) || t('patientPage.prescriptions.notAvailable')}
                                         </span>
                                     </div>
                                     <div className="info-item">
                                         <span className="info-label">{t('patientPage.prescriptions.pharmacy')}</span>
                                         <span className="info-value">
-                                            {getLocalizedValue(prescription.pharmacyEn, prescription.pharmacyAr)}
+                                            {getLocalizedValue(prescription.pharmacyEn, prescription.pharmacyAr) || t('patientPage.prescriptions.notAvailable')}
                                         </span>
                                     </div>
                                     <div className="info-item">
                                         <span className="info-label">{t('patientPage.prescriptions.prescribed')}</span>
                                         <span className="info-value">
                                             <FaCalendarAlt className="calendar-icon" />
-                                            {formatDate(prescription.prescribedDate)}
+                                            {formatDate(prescription.prescribedDate || prescription.start_date)}
                                         </span>
                                     </div>
                                 </div>
-                                
+
                                 {expandedPrescription === prescription.id && (
                                     <div className="prescription-details">
                                         <div className="details-section">
                                             <h4>{t('patientPage.prescriptions.prescriptionDetails')}</h4>
                                             <div className="details-grid">
                                                 <div className="detail-item">
-                                                    <span className="detail-label">{t('patientPage.prescriptions.ndc')}</span>
-                                                    <span className="detail-value">{prescription.ndc}</span>
+                                                    <span className="detail-label">{t('patientPage.prescriptions.medicationId')}</span>
+                                                    <span className="detail-value">{prescription.medication || prescription.id}</span>
                                                 </div>
                                                 <div className="detail-item">
                                                     <span className="detail-label">{t('patientPage.prescriptions.prescribed')}</span>
-                                                    <span className="detail-value">{formatDate(prescription.prescribedDate)}</span>
+                                                    <span className="detail-value">{formatDate(prescription.prescribedDate || prescription.start_date)}</span>
                                                 </div>
                                                 <div className="detail-item">
                                                     <span className="detail-label">{t('patientPage.prescriptions.expired')}</span>
-                                                    <span className="detail-value">{formatDate(prescription.expirationDate)}</span>
+                                                    <span className="detail-value">{formatDate(prescription.expirationDate || prescription.end_date)}</span>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="instructions-section">
                                             <h4>{t('patientPage.prescriptions.instructions')}</h4>
-                                            <p>{getLocalizedValue(prescription.instructionsEn, prescription.instructionsAr)}</p>
+                                            <p>{getLocalizedValue(prescription.instructionsEn, prescription.instructionsAr) || t('patientPage.prescriptions.notAvailable')}</p>
                                         </div>
 
                                         <div className="action-buttons">

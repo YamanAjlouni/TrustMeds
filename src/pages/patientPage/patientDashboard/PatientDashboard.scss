@@ -627,6 +627,33 @@
                         }
                     }
                 }
+
+                .no-medications {
+                    text-align: center;
+                    padding: 2rem;
+                    background-color: #f8fafc;
+                    border-radius: 0.75rem;
+                    border: 1px dashed #e2e8f0;
+
+                    p {
+                        color: #64748b;
+                        font-size: 1rem;
+                        margin-bottom: 1rem;
+                    }
+
+                    .view-all-link {
+                        color: $primary-color;
+                        text-decoration: none;
+                        font-weight: 600;
+                        font-size: 0.95rem;
+                        transition: all 0.3s ease;
+
+                        &:hover {
+                            text-decoration: underline;
+                            color: darken($primary-color, 10%);
+                        }
+                    }
+                }
             }
 
             // Upcoming Events Section

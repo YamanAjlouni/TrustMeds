@@ -1,6 +1,7 @@
 {
     "loading": "Loading your dashboard...",
     "welcomeBack": "Welcome back",
+    "patient": "User",
     "lastLogin": "Last login",
     "requestRefill": "Request Refill",
     "schedule": "Schedule",
@@ -15,6 +16,7 @@
     "viewAll": "View All",
     "frequency": "Frequency",
     "refills": "Refills",
+    "notSet": "Not Set",
     "remaining": "remaining",
     "nextRefill": "Next refill",
     "lastTaken": "Last taken",

@@ -9,6 +9,7 @@
             "medicalHistory": "التاريخ الطبي"
         },
         "buttons": {
+            "saving": "يحفظ",
             "edit": "تعديل",
             "editProfile": "تعديل الملف",
             "cancel": "إلغاء",
@@ -66,7 +67,7 @@
             "sectionSubtitle": "إدارة الحساسية والتفاعلات المعروفة",
             "emptyState": "لا توجد حساسية مسجلة",
             "form": {
-                "selectAllergen" : "اختر حساسية",
+                "selectAllergen": "اختر حساسية",
                 "allergen": "مسبب الحساسية",
                 "severity": "الشدة",
                 "diagnosedDate": "تاريخ التشخيص",

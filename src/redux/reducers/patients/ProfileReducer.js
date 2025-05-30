@@ -27,7 +27,7 @@ export const profileSlice = createSlice({
             })
             .addCase(GetProfileAction.fulfilled, (state, { payload }) => {
                 state.loading = false;
-                state.profile = payload.data;
+                state.profile = payload; // Instead of payload.data
                 state.error = null;
             })
             .addCase(GetProfileAction.rejected, (state, { payload }) => {

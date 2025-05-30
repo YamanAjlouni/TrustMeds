@@ -5,6 +5,7 @@ import axiosInstance from "../../axiosInstance";
 export const GetProfileAction = createAsyncThunk("profile/get", async (info, { rejectWithValue }) => {
     try {
         let { data } = await axiosInstance.get(GetMyProfileAPI);
+        console.log(data)
         return data;
     } catch (error) {
         console.error("❌ API Error:", error);

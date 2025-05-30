@@ -1,6 +1,7 @@
 {
     "loading": "جاري تحميل لوحة التحكم...",
     "welcomeBack": "مرحبًا بعودتك",
+    "patient": "مستخدم",
     "lastLogin": "آخر تسجيل دخول",
     "requestRefill": "طلب إعادة تعبئة",
     "schedule": "جدولة",
@@ -15,6 +16,7 @@
     "viewAll": "عرض الكل",
     "frequency": "التكرار",
     "refills": "إعادة التعبئة",
+    "notSet": "ليست محددة",
     "remaining": "متبقية",
     "nextRefill": "إعادة التعبئة التالية",
     "lastTaken": "آخر تناول",

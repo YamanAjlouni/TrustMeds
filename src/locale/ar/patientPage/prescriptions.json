@@ -37,5 +37,8 @@
     "noActivePrescriptions": "لا توجد وصفات طبية نشطة",
     "noPrescriptionHistory": "لا يوجد سجل للوصفات الطبية",
     "tryAdjusting": "حاول تعديل البحث أو الفلاتر",
-    "completed": "مكتملة"
+    "completed": "مكتملة",
+    "medicationId": "معرف الدواء",
+    "notAvailable": "غير متوفر",
+    "notSet": "لم يتم تحديده"
 }
