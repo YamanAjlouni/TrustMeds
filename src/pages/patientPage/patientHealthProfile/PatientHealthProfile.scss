@@ -770,7 +770,7 @@ $z-index-modal: 100;
                     }
                 }
 
-                .allergy-actions{
+                .allergy-actions {
                     display: flex;
                 }
             }
@@ -853,7 +853,7 @@ $z-index-modal: 100;
                     }
                 }
 
-                .condition-actions{
+                .condition-actions {
                     display: flex;
                 }
             }
@@ -1554,7 +1554,7 @@ $z-index-modal: 100;
         }
 
         .profile-content {
-            padding: $space-md;
+            padding: 12px;
         }
 
         .section-header {
@@ -1586,6 +1586,10 @@ $z-index-modal: 100;
             .form-group.span-2 {
                 grid-column: span 1;
             }
+
+        }
+        .conditions-form {
+            padding: 10px;
         }
 
         .member-info-section {

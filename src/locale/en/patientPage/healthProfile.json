@@ -100,7 +100,7 @@
                 "condition": "Condition",
                 "diagnosedDate": "Diagnosed Date",
                 "status": "Status",
-                "treatingPhysician": "Treating Physician",
+                "doctor": "Doctor",
                 "notes": "Notes"
             },
             "status": {

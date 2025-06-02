@@ -392,6 +392,7 @@ export const PatientHealthProfile = () => {
         try {
             const chronicDiseaseData = {
                 disease: editedData.condition || '',
+                doctor: editedData.doctor || null,
                 diagnosed_date: editedData.diagnosedDate || null,
                 status: editedData.status || 'active',
                 notes: editedData.notes || ''
@@ -1067,7 +1068,7 @@ export const PatientHealthProfile = () => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group span">
                             <label>{t(`${prefix}.medicalConditions.form.diagnosedDate`)}</label>
                             <input
                                 type="date"
@@ -1086,6 +1087,15 @@ export const PatientHealthProfile = () => {
                                 <option value="in_remission">{t(`${prefix}.medicalConditions.status.inRemission`)}</option>
                                 <option value="chronic">{t(`${prefix}.medicalConditions.status.chronic`)}</option>
                             </select>
+                        </div>
+                        <div className="form-group span-2">
+                            <label>{t(`${prefix}.medicalConditions.form.doctor`)}</label>
+                            <input
+                                type="text"
+                                value={editedData.doctor || ''}
+                                onChange={(e) => setEditedData({ ...editedData, doctor: e.target.value })}
+                                placeholder="Enter doctor's name"
+                            />
                         </div>
                         <div className="form-group span-2">
                             <label>{t(`${prefix}.medicalConditions.form.notes`)}</label>
@@ -1162,7 +1172,8 @@ export const PatientHealthProfile = () => {
                                             onClick={() => startEditing({
                                                 ...condition,
                                                 diagnosedDate: condition.diagnosed_date,
-                                                condition: condition.disease_name || condition.disease
+                                                condition: condition.disease_name || condition.disease,
+                                                doctor: condition.doctor
                                             })}
                                         >
                                             <FaPencilAlt />
@@ -1177,6 +1188,12 @@ export const PatientHealthProfile = () => {
                                     </div>
                                 </div>
                                 <div className="condition-details">
+                                    {condition.doctor && (
+                                        <div className="condition-item">
+                                            <span className="condition-label">{t(`${prefix}.medicalConditions.details.doctor`)}:</span>
+                                            <span className="condition-value">{condition.doctor}</span>
+                                        </div>
+                                    )}
                                     <div className="condition-item">
                                         <span className="condition-label">{t(`${prefix}.medicalConditions.details.diagnosed`)}:</span>
                                         <span className="condition-value">
@@ -1596,7 +1613,7 @@ export const PatientHealthProfile = () => {
                                             onClick={() => startEditing({
                                                 ...record,
                                                 procedure: record.surgery_name || record.surgery,
-                                                provider: record.hospital,
+                                                provider: record.provider,
                                                 physician: record.doctor
                                             })}
                                         >
@@ -1611,10 +1628,10 @@ export const PatientHealthProfile = () => {
                                         </button>
                                     </div>
                                     <div className="timeline-details">
-                                        {record.hospital && (
+                                        {record.provider && (
                                             <div className="timeline-detail">
                                                 <span className="detail-label">{t(`${prefix}.medicalHistory.details.provider`)}:</span>
-                                                <span className="detail-value">{record.hospital}</span>
+                                                <span className="detail-value">{record.provider}</span>
                                             </div>
                                         )}
                                         {record.doctor && (

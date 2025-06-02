@@ -56,5 +56,9 @@
     "attachFiles": "إرفاق ملفات",
     "maxSize": "الحجم الأقصى: 10 ميجابايت",
     "sendMessage": "إرسال الرسالة",
-    "securityNote": "جميع الرسائل مشفرة بشكل آمن ومتوافقة مع HIPAA"
+    "securityNote": "جميع الرسائل مشفرة بشكل آمن ومتوافقة مع HIPAA",
+    "generalPractitioner": "طبيب عام ",
+    "notes": "ملاحظات",
+    "available": "متاح",
+    "contactInfo": "معلومات التواصل"
 }

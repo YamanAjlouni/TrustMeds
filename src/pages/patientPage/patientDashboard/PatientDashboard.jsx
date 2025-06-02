@@ -6,6 +6,8 @@ import { useLanguage } from '../../../context/LanguageContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetMyMedicationsAction } from '../../../redux/actions/patients/medicationsActions';
 import { GetProfileAction } from '../../../redux/actions/patients/profileAction';
+import { GetMyAppointmentsAction } from '../../../redux/actions/patients/appointmentsActions';
+import { GetMyDoctorsAction } from '../../../redux/actions/patients/doctorsActions';
 
 export const PatientDashboard = () => {
   const { language, t } = useLanguage();
@@ -22,8 +24,36 @@ export const PatientDashboard = () => {
     (state) => state.profile
   );
 
+  // Get appointments from Redux store
+  const { myAppointments, loading: appointmentsLoading, hasLoadedOnce: appointmentsLoaded } = useSelector(
+    (state) => state.appointments
+  );
+
+  // Get doctors from Redux store
+  const { myDoctors, loading: doctorsLoading, hasLoadedOnce: doctorsLoaded } = useSelector(
+    (state) => state.doctors
+  );
+
   // Get active medications
   const activeMedications = myMedications.filter(med => med.status === 'active');
+
+  // Get upcoming appointments (future appointments sorted by date)
+  const upcomingAppointments = myAppointments
+    .filter(appointment => {
+      const appointmentDateTime = new Date(`${appointment.date}T${appointment.time}`);
+      return appointmentDateTime > new Date();
+    })
+    .sort((a, b) => {
+      const dateA = new Date(`${a.date}T${a.time}`);
+      const dateB = new Date(`${b.date}T${b.time}`);
+      return dateA - dateB;
+    });
+
+  // Get next appointment
+  const nextAppointment = upcomingAppointments.length > 0 ? upcomingAppointments[0] : null;
+
+  // Get primary doctor
+  const primaryDoctor = myDoctors.find(doctor => doctor.is_primary) || myDoctors[0];
 
   // Sample pharmacy data with separate fields for English and Arabic
   const [preferredPharmacies, setPreferredPharmacies] = useState([
@@ -60,34 +90,6 @@ export const PatientDashboard = () => {
       deliveryAvailable: true,
       isPrimary: false,
       lastVisited: "2025-03-15"
-    }
-  ]);
-
-  // Sample upcoming events with separate fields for English and Arabic
-  const [upcomingEvents, setUpcomingEvents] = useState([
-    {
-      id: 1,
-      dateDay: 15,
-      dateMonthEn: "APR",
-      dateMonthAr: "أبريل",
-      titleEn: "Prescription Refill",
-      titleAr: "إعادة تعبئة الوصفة الطبية",
-      descriptionEn: "Amoxicillin 500mg",
-      descriptionAr: "أموكسيسيلين 500 ملغ",
-      timeInfoEn: "Automatic refill scheduled",
-      timeInfoAr: "تمت جدولة إعادة تعبئة تلقائية"
-    },
-    {
-      id: 2,
-      dateDay: 22,
-      dateMonthEn: "APR",
-      dateMonthAr: "أبريل",
-      titleEn: "Doctor Appointment",
-      titleAr: "موعد مع الطبيب",
-      descriptionEn: "Annual checkup with Dr. Smith",
-      descriptionAr: "فحص سنوي مع د. سميث",
-      timeInfoEn: "2:30 PM - 3:30 PM",
-      timeInfoAr: "2:30 مساءً - 3:30 مساءً"
     }
   ]);
 
@@ -128,6 +130,20 @@ export const PatientDashboard = () => {
       dispatch(GetProfileAction());
     }
   }, [dispatch, profile]);
+
+  // Fetch appointments on component mount
+  useEffect(() => {
+    if (!appointmentsLoaded) {
+      dispatch(GetMyAppointmentsAction());
+    }
+  }, [dispatch, appointmentsLoaded]);
+
+  // Fetch doctors on component mount
+  useEffect(() => {
+    if (!doctorsLoaded) {
+      dispatch(GetMyDoctorsAction());
+    }
+  }, [dispatch, doctorsLoaded]);
 
   // Simulate loading state
   useEffect(() => {
@@ -183,6 +199,44 @@ export const PatientDashboard = () => {
     }
   };
 
+  // Format appointment date for display
+  const formatAppointmentDate = (dateString) => {
+    const date = new Date(dateString);
+    if (isArabic) {
+      return {
+        day: date.getDate(),
+        month: date.toLocaleDateString('ar-SA', { month: 'short' })
+      };
+    } else {
+      return {
+        day: date.getDate(),
+        month: date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()
+      };
+    }
+  };
+
+  // Format appointment time
+  const formatAppointmentTime = (timeString) => {
+    // Handle time in HH:MM:SS or HH:MM format
+    const [hours, minutes] = timeString.split(':');
+    const date = new Date();
+    date.setHours(parseInt(hours), parseInt(minutes), 0);
+    
+    if (isArabic) {
+      return date.toLocaleTimeString('ar-SA', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: true 
+      });
+    } else {
+      return date.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: true 
+      });
+    }
+  };
+
   // Helper function to get localized value
   const getLocalizedValue = (enValue, arValue) => {
     return isArabic ? arValue : enValue;
@@ -194,9 +248,12 @@ export const PatientDashboard = () => {
   // Get first 2 active medications for display
   const displayMedications = activeMedications.slice(0, 2);
 
+  // Check if all data is loading
+  const isDataLoading = medicationsLoading || profileLoading || appointmentsLoading || doctorsLoading;
+
   return (
     <div className="patient-dashboard">
-      {!isLoaded || medicationsLoading || profileLoading ? (
+      {!isLoaded || isDataLoading ? (
         <div className="loading-container">
           <div className="loader"></div>
           <p>{t('patientPage.dashboard.loading')}</p>
@@ -250,7 +307,12 @@ export const PatientDashboard = () => {
                     </div>
                     <div className="metric-info">
                       <h4>{t('patientPage.dashboard.nextAppointment')}</h4>
-                      <p className="metric-value">{getLocalizedValue("Apr 22", "22 أبريل")}</p>
+                      <p className="metric-value">
+                        {nextAppointment 
+                          ? formatAppointmentDate(nextAppointment.date).day + " " + formatAppointmentDate(nextAppointment.date).month
+                          : t('patientPage.dashboard.noUpcoming')
+                        }
+                      </p>
                     </div>
                   </div>
 
@@ -260,7 +322,15 @@ export const PatientDashboard = () => {
                     </div>
                     <div className="metric-info">
                       <h4>{t('patientPage.dashboard.primaryDoctor')}</h4>
-                      <p className="metric-value">{getLocalizedValue("Dr. Smith", "د. سميث")}</p>
+                      <p className="metric-value">
+                        {primaryDoctor 
+                          ? (isArabic 
+                              ? (primaryDoctor.nameAr || `د. ${primaryDoctor.first_name} ${primaryDoctor.last_name}`)
+                              : `Dr. ${primaryDoctor.first_name} ${primaryDoctor.last_name}`
+                            )
+                          : t('patientPage.dashboard.notAssigned')
+                        }
+                      </p>
                     </div>
                   </div>
 
@@ -337,41 +407,66 @@ export const PatientDashboard = () => {
                 </div>
               </section>
 
-              {/* Upcoming Events Section */}
+              {/* Upcoming Appointments Section */}
               <section className="dashboard-section upcoming-section">
-                <h3 className="section-title">{t('patientPage.dashboard.upcomingEvents')}</h3>
+                <div className="section-header">
+                  <h3 className="section-title">{t('patientPage.dashboard.upcomingEvents')}</h3>
+                  <NavLink to='/patient/appointments' className="view-all">{t('patientPage.dashboard.viewAll')}</NavLink>
+                </div>
                 <div className="upcoming-events">
-                  {upcomingEvents.map(event => (
-                    <div
-                      className="upcoming-event"
-                      key={event.id}
-                      onClick={() => window.innerWidth < 576 && toggleEventActions(event.id)}
-                    >
-                      <div className="event-date">
-                        <div className="date-day">{event.dateDay}</div>
-                        <div className="date-month">
-                          {getLocalizedValue(event.dateMonthEn, event.dateMonthAr)}
+                  {upcomingAppointments.length > 0 ? (
+                    upcomingAppointments.slice(0, 2).map(appointment => {
+                      const dateInfo = formatAppointmentDate(appointment.date);
+                      return (
+                        <div
+                          className="upcoming-event"
+                          key={appointment.id}
+                          onClick={() => window.innerWidth < 576 && toggleEventActions(appointment.id)}
+                        >
+                          <div className="event-date">
+                            <div className="date-day">{dateInfo.day}</div>
+                            <div className="date-month">{dateInfo.month}</div>
+                          </div>
+                          <div className="event-details">
+                            <h4 className="event-title">
+                              {appointment.appointment_type || t('patientPage.dashboard.doctorAppointment')}
+                            </h4>
+                            <p className="event-description">
+                              {appointment.doctor_name || 
+                               (primaryDoctor && (isArabic 
+                                 ? (primaryDoctor.nameAr || `د. ${primaryDoctor.first_name} ${primaryDoctor.last_name}`)
+                                 : `Dr. ${primaryDoctor.first_name} ${primaryDoctor.last_name}`
+                               )) ||
+                               t('patientPage.dashboard.generalCheckup')
+                              }
+                            </p>
+                            <div className="event-time">
+                              <FaCalendarAlt className="time-icon" />
+                              <span>{formatAppointmentTime(appointment.time)}</span>
+                            </div>
+                            {appointment.notes && (
+                              <div className="event-notes">
+                                <span className="notes-label">{t('patientPage.dashboard.notes')}:</span>
+                                <span className="notes-text">{appointment.notes}</span>
+                              </div>
+                            )}
+                          </div>
+                          <div className="event-actions">
+                            <button className="event-action-btn">
+                              {t('patientPage.dashboard.reschedule')}
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                      <div className="event-details">
-                        <h4 className="event-title">
-                          {getLocalizedValue(event.titleEn, event.titleAr)}
-                        </h4>
-                        <p className="event-description">
-                          {getLocalizedValue(event.descriptionEn, event.descriptionAr)}
-                        </p>
-                        <div className="event-time">
-                          <FaCalendarAlt className="time-icon" />
-                          <span>{getLocalizedValue(event.timeInfoEn, event.timeInfoAr)}</span>
-                        </div>
-                      </div>
-                      <div className="event-actions">
-                        <button className="event-action-btn">
-                          {event.id === 1 ? t('patientPage.dashboard.modify') : t('patientPage.dashboard.reschedule')}
-                        </button>
-                      </div>
+                      );
+                    })
+                  ) : (
+                    <div className="no-events">
+                      <p>{t('patientPage.dashboard.noUpcoming')}</p>
+                      <NavLink to='/patient/appointments' className="view-all-link">
+                        {t('patientPage.dashboard.scheduleAppointment')}
+                      </NavLink>
                     </div>
-                  ))}
+                  )}
                 </div>
               </section>
 

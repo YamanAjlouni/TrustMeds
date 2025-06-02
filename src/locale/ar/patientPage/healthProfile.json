@@ -94,7 +94,7 @@
                 "condition": "الحالة",
                 "diagnosedDate": "تاريخ التشخيص",
                 "status": "الحالة",
-                "treatingPhysician": "الطبيب المعالج",
+                "doctor": "الطبيب",
                 "notes": "ملاحظات"
             },
             "status": {

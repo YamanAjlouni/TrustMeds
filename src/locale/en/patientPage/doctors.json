@@ -56,5 +56,9 @@
     "attachFiles": "Attach Files",
     "maxSize": "Max size: 10MB",
     "sendMessage": "Send Message",
-    "securityNote": "All messages are securely encrypted and HIPAA compliant"
+    "securityNote": "All messages are securely encrypted and HIPAA compliant",
+    "generalPractitioner": "General Doctor",
+    "notes": "Notes",
+    "available" : "Available",
+    "contactInfo" : "Contact Info"
 }
