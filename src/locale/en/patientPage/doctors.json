@@ -36,6 +36,8 @@
     "scheduleAppointment": "Schedule Appointment",
     "myHealthcareProviders": "My Healthcare Providers",
     "addProvider": "Add Provider",
+    "noProviders": "No Providers",
+    "addFirstProvider": "Add First Provider",
     "addShort": "Add",
     "removeFromFavorites": "Remove from favorites",
     "addToFavorites": "Add to favorites",

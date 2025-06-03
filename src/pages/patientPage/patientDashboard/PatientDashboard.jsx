@@ -411,7 +411,7 @@ export const PatientDashboard = () => {
               <section className="dashboard-section upcoming-section">
                 <div className="section-header">
                   <h3 className="section-title">{t('patientPage.dashboard.upcomingEvents')}</h3>
-                  <NavLink to='/patient/appointments' className="view-all">{t('patientPage.dashboard.viewAll')}</NavLink>
+                  <NavLink to='/patient/doctors' className="view-all">{t('patientPage.dashboard.viewAll')}</NavLink>
                 </div>
                 <div className="upcoming-events">
                   {upcomingAppointments.length > 0 ? (
@@ -462,7 +462,7 @@ export const PatientDashboard = () => {
                   ) : (
                     <div className="no-events">
                       <p>{t('patientPage.dashboard.noUpcoming')}</p>
-                      <NavLink to='/patient/appointments' className="view-all-link">
+                      <NavLink to='/patient/doctors' className="view-all-link">
                         {t('patientPage.dashboard.scheduleAppointment')}
                       </NavLink>
                     </div>

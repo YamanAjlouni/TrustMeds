@@ -56,20 +56,20 @@ export const loginUser = (credentials) => async (dispatch) => {
     dispatch({ type: LOGIN_REQUEST });
     
     try {
-        console.log('Logging in with credentials:', credentials);
+        // console.log('Logging in with credentials:', credentials);
         const response = await axiosInstance.post('accounts/patients/login/', credentials);
         
-        console.log('Login response:', response.data);
+        // console.log('Login response:', response.data);
         
         // Handle the case where only access token is provided (no refresh token)
         if (response.data?.access) {
-            console.log('Access token found in response');
+            // console.log('Access token found in response');
             localStorage.setItem('accessToken', response.data.access);
-            console.log('Access token saved to localStorage');
+            // console.log('Access token saved to localStorage');
             
             // Check if token was actually saved
             const savedToken = localStorage.getItem('accessToken');
-            console.log('Verification - token saved:', !!savedToken);
+            // console.log('Verification - token saved:', !!savedToken);
             
             if (!savedToken) {
                 console.warn('Failed to save token to localStorage');

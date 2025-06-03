@@ -5,6 +5,8 @@ import { FaBell, FaSearch, FaBars, FaUserAlt, FaCog, FaQuestionCircle, FaSignOut
 import { BiGlobe } from 'react-icons/bi'; // Adding globe icon for language
 import { NavLink, useNavigate } from 'react-router-dom'; // Added useNavigate
 import { useLanguage } from '../../context/LanguageContext'; // Import the language hook
+import { useSelector, useDispatch } from 'react-redux'; // Import Redux hooks
+import { GetProfileAction } from '../../redux/actions/patients/profileAction';
 
 export const PatientNavbar = ({ toggleSidebar }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -20,6 +22,47 @@ export const PatientNavbar = ({ toggleSidebar }) => {
 
   const { language, changeLanguage, t, isRTL } = useLanguage(); // Use the language context with isRTL
   const navigate = useNavigate(); // Added navigate hook
+  
+  // Redux state and dispatch
+  const dispatch = useDispatch();
+  const { profile, loading } = useSelector((state) => state.profile);
+
+  // Fetch profile data on component mount
+  useEffect(() => {
+    dispatch(GetProfileAction());
+  }, [dispatch]);
+
+  // Helper function to get user initials
+  const getUserInitials = () => {
+    if (profile?.first_name && profile?.last_name) {
+      return `${profile.first_name.charAt(0)}${profile.last_name.charAt(0)}`.toUpperCase();
+    }
+    return 'U'; // Default fallback
+  };
+
+  // Helper function to get full name
+  const getFullName = () => {
+    if (profile?.first_name && profile?.last_name) {
+      return `${profile.first_name} ${profile.last_name}`;
+    }
+    return 'User'; // Default fallback
+  };
+
+  // Helper function to get display name (first name only)
+  const getDisplayName = () => {
+    if (profile?.first_name) {
+      return profile.first_name;
+    }
+    return 'User'; // Default fallback
+  };
+
+  // Helper function to get patient ID
+  const getPatientId = () => {
+    if (profile?.id) {
+      return `P-${profile.id}`;
+    }
+    return 'P-****'; // Default fallback
+  };
 
   // Check scroll position to change navbar style
   useEffect(() => {
@@ -197,30 +240,34 @@ export const PatientNavbar = ({ toggleSidebar }) => {
           {/* User Profile Dropdown */}
           <div className="user-profile-wrapper" ref={userMenuRef}>
             <div className="user-profile" onClick={toggleUserMenu}>
-              <div className="user-avatar">YS</div>
-              <span className="user-name">Yaman</span>
+              <div className="user-avatar">
+                {loading ? '...' : getUserInitials()}
+              </div>
+              <span className="user-name">
+                {loading ? 'Loading...' : getDisplayName()}
+              </span>
             </div>
 
             {showUserMenu && (
               <div className={`user-dropdown ${isRTL ? 'rtl' : ''}`}>
                 <div className="user-info">
                   <div className="user-avatar large">
-                    <span>YS</span>
+                    <span>{loading ? '...' : getUserInitials()}</span>
                   </div>
                   <div className="user-details">
-                    <h4>Yaman Saleh</h4>
-                    <p>Patient ID: P-78945</p>
+                    <h4>{loading ? 'Loading...' : getFullName()}</h4>
+                    <p>Patient ID: {loading ? 'P-****' : getPatientId()}</p>
                   </div>
                 </div>
 
                 <ul className="user-menu-list">
                   <li>
-                    <NavLink to="/patient/profile">
+                    <NavLink to="/patient/health-info">
                       <FaUserAlt /> {t ? t('patientPage.navbar.myProfile') : "My Profile"}
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to="/patient/settings">
+                    <NavLink to="/patient/health-info">
                       <FaCog /> {t ? t('patientPage.navbar.settings') : "Settings"}
                     </NavLink>
                   </li>

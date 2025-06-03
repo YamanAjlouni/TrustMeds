@@ -36,6 +36,8 @@
     "scheduleAppointment": "تحديد موعد",
     "myHealthcareProviders": "مقدمي الرعاية الصحية",
     "addProvider": "إضافة طبيب",
+    "noProviders": "لا يوجد أطباء",
+    "addFirstProvider": "أضف اول طبيب",
     "addShort": "إضافة",
     "removeFromFavorites": "إزالة من المفضلة",
     "addToFavorites": "إضافة إلى المفضلة",
