@@ -9,7 +9,7 @@
             "medicalHistory": "Medical History"
         },
         "buttons": {
-            "saving" : "Saving",
+            "saving": "Saving",
             "edit": "Edit",
             "editProfile": "Edit Profile",
             "cancel": "Cancel",
@@ -57,7 +57,10 @@
                 "title": "Emergency Contact",
                 "name": "Name",
                 "relationship": "Relationship",
-                "phone": "Phone"
+                "phone": "Phone",
+                "noEmergencyContact": "No Emergency Contact Added",
+                "noEmergencyContactMessage": "Add an emergency contact to ensure your loved ones can be reached in case of medical emergencies.",
+                "addEmergencyContactButton": "Add Emergency Contact"
             },
             "biometricSummary": {
                 "title": "Biometric Summary",
@@ -105,9 +108,9 @@
             },
             "status": {
                 "active": "Active",
+                "inactive": "Not Active",
                 "resolved": "Resolved",
-                "inRemission": "In Remission",
-                "chronic": "Chronic"
+                "unknown": "Unknown"
             },
             "details": {
                 "diagnosed": "Diagnosed",

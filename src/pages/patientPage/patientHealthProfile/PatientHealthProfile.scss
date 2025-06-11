@@ -132,7 +132,6 @@ $z-index-modal: 100;
     background-color: $background-color;
     padding: $space-lg;
     line-height: $line-height-normal;
-    min-height: 100vh;
 
     // Container with full width
     .profile-container {
@@ -198,7 +197,7 @@ $z-index-modal: 100;
                 transition: background-color $transition-standard, color $transition-standard;
                 position: relative;
 
-                &:hover {
+                &:hover:not(.disabled) {
                     background-color: rgba(255, 255, 255, 0.1);
                     color: $secondary-color;
                 }
@@ -221,6 +220,18 @@ $z-index-modal: 100;
                     }
                 }
 
+                // New disabled state for non-patients
+                &.disabled {
+                    opacity: 0.4;
+                    cursor: not-allowed;
+                    color: rgba(255, 255, 255, 0.5);
+
+                    &:hover {
+                        background-color: transparent;
+                        color: rgba(255, 255, 255, 0.5);
+                    }
+                }
+
                 .nav-icon {
                     margin-right: $space-md;
                     font-size: $font-size-lg;
@@ -235,7 +246,6 @@ $z-index-modal: 100;
                     @include badge($light-color, white);
                     font-weight: bold;
                     width: auto;
-
                 }
             }
         }
@@ -256,7 +266,7 @@ $z-index-modal: 100;
                 @include flex-center;
                 transition: all $transition-standard;
 
-                &:hover {
+                &:hover:not(:disabled) {
                     background-color: rgba(255, 255, 255, 0.15);
                     transform: translateY(-2px);
                     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -265,6 +275,18 @@ $z-index-modal: 100;
                 &:active {
                     transform: translateY(0);
                     background-color: rgba(255, 255, 255, 0.2);
+                }
+
+                // Disabled state for non-patients
+                &:disabled {
+                    opacity: 0.4;
+                    cursor: not-allowed;
+
+                    &:hover {
+                        background: none;
+                        transform: none;
+                        box-shadow: none;
+                    }
                 }
 
                 svg {
@@ -308,6 +330,143 @@ $z-index-modal: 100;
                     transform: rotate(360deg);
                 }
             }
+        }
+    }
+
+    // NEW: Welcome setup for new patients
+    .welcome-patient-setup {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: $space-2xl;
+        background: linear-gradient(135deg, rgba($light-color, 0.4), rgba($light-color, 0.1));
+        border-radius: $radius-xl;
+        margin: $space-xl 0;
+
+        .welcome-header {
+            margin-bottom: $space-xl;
+
+            .welcome-icon {
+                font-size: 4rem;
+                color: $primary-color;
+                margin-bottom: $space-lg;
+                opacity: 0.8;
+            }
+
+            h3 {
+                margin: 0 0 $space-md;
+                font-size: $font-size-3xl;
+                font-weight: $font-weight-semibold;
+                color: $text-color;
+            }
+
+            p {
+                margin: 0;
+                font-size: $font-size-lg;
+                color: $muted-text;
+                max-width: 500px;
+                line-height: $line-height-relaxed;
+            }
+        }
+
+        .setup-benefits {
+            margin-bottom: $space-xl;
+            text-align: left;
+            max-width: 400px;
+
+            h4 {
+                margin: 0 0 $space-md;
+                font-size: $font-size-lg;
+                font-weight: $font-weight-medium;
+                color: $text-color;
+                text-align: center;
+            }
+
+            ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+
+                li {
+                    padding: $space-sm 0;
+                    font-size: $font-size-base;
+                    color: $muted-text;
+                    position: relative;
+                    padding-left: $space-xl;
+
+                    &:before {
+                        content: '✓';
+                        position: absolute;
+                        left: 0;
+                        color: $green-color;
+                        font-weight: $font-weight-bold;
+                        font-size: $font-size-lg;
+                    }
+                }
+            }
+        }
+
+        .setup-btn {
+            padding: $space-lg $space-2xl;
+            font-size: $font-size-lg;
+            font-weight: $font-weight-semibold;
+            border-radius: $radius-lg;
+            box-shadow: $elevated-shadow;
+
+            &:hover {
+                transform: translateY(-3px);
+                box-shadow: $floating-shadow;
+            }
+        }
+    }
+
+    // NEW: Restricted access for non-patients
+    .restricted-access {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: $space-2xl;
+        background-color: rgba($warning-color, 0.05);
+        border: 2px dashed rgba($warning-color, 0.3);
+        border-radius: $radius-xl;
+        margin: $space-xl 0;
+
+        .restricted-icon {
+            font-size: 3rem;
+            color: $warning-color;
+            margin-bottom: $space-lg;
+        }
+
+        h3 {
+            margin: 0 0 $space-md;
+            font-size: $font-size-2xl;
+            font-weight: $font-weight-semibold;
+            color: $text-color;
+        }
+
+        p {
+            margin: 0 0 $space-xl;
+            font-size: $font-size-base;
+            color: $muted-text;
+            line-height: $line-height-relaxed;
+        }
+    }
+
+    // NEW: Profile status badge
+    .profile-status-badge {
+        display: inline-block;
+        padding: $space-xs $space-md;
+        border-radius: $radius-lg;
+        font-size: $font-size-xs;
+        font-weight: $font-weight-medium;
+        margin-top: $space-xs;
+
+        &.new-patient {
+            background-color: rgba($warning-color, 0.15);
+            color: darken($warning-color, 20%);
+            border: 1px solid rgba($warning-color, 0.3);
         }
     }
 
@@ -444,7 +603,6 @@ $z-index-modal: 100;
             display: flex;
             align-items: center;
             gap: $space-lg;
-
         }
     }
 
@@ -568,8 +726,134 @@ $z-index-modal: 100;
                         text-align: right;
                         word-break: break-word;
                         font-weight: $font-weight-medium;
+
+                        &.empty-state {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: $space-sm;
+                            color: $muted-text;
+                            font-style: italic;
+                            padding: $space-md;
+                            background-color: $surface-alt;
+                            border-radius: $radius-md;
+                            border: 1px dashed $border-color;
+                            text-align: center;
+                            width: 100%;
+
+                            .link-btn {
+                                background: none;
+                                border: none;
+                                color: $primary-color;
+                                font-weight: $font-weight-medium;
+                                cursor: pointer;
+                                text-decoration: underline;
+                                font-size: $font-size-sm;
+                                padding: $space-xs 0;
+                                transition: all $transition-standard;
+                                margin-top: $space-xs;
+
+                                &:hover {
+                                    color: darken($primary-color, 10%);
+                                    text-decoration: none;
+                                    background-color: rgba($primary-color, 0.05);
+                                    border-radius: $radius-sm;
+                                    padding: $space-xs $space-sm;
+                                }
+
+                                &:focus {
+                                    outline: 2px solid rgba($primary-color, 0.3);
+                                    outline-offset: 2px;
+                                }
+
+                                &:active {
+                                    transform: translateY(1px);
+                                }
+                            }
+                        }
                     }
                 }
+            }
+        }
+    }
+
+    // Enhanced Emergency Contact Empty State
+    .emergency-contact-empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: $space-xl;
+        background: linear-gradient(135deg, rgba($light-color, 0.3), rgba($light-color, 0.1));
+        border: 2px dashed rgba($primary-color, 0.2);
+        border-radius: $radius-lg;
+        text-align: center;
+        margin: $space-md 0;
+        transition: all $transition-standard;
+
+        &:hover {
+            border-color: rgba($primary-color, 0.4);
+            background: linear-gradient(135deg, rgba($light-color, 0.5), rgba($light-color, 0.2));
+        }
+
+        .empty-icon {
+            font-size: 2.5rem;
+            color: rgba($primary-color, 0.6);
+            margin-bottom: $space-md;
+        }
+
+        .empty-message {
+            color: $muted-text;
+            margin-bottom: $space-lg;
+            font-size: $font-size-base;
+            line-height: $line-height-relaxed;
+
+            .primary-text {
+                color: $text-color;
+                font-weight: $font-weight-medium;
+                display: block;
+                margin-bottom: $space-xs;
+            }
+
+            .secondary-text {
+                font-size: $font-size-sm;
+                color: lighten($muted-text, 10%);
+            }
+        }
+
+        .add-emergency-contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: $space-sm;
+            padding: $space-md $space-lg;
+            background: linear-gradient(135deg, $primary-color, darken($primary-color, 5%));
+            color: $secondary-color;
+            border: none;
+            border-radius: $radius-md;
+            font-weight: $font-weight-medium;
+            font-size: $font-size-base;
+            cursor: pointer;
+            transition: all $transition-standard;
+            box-shadow: 0 2px 8px rgba($primary-color, 0.2);
+
+            &:hover {
+                background: linear-gradient(135deg, darken($primary-color, 5%), darken($primary-color, 10%));
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+            }
+
+            &:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 6px rgba($primary-color, 0.3);
+            }
+
+            &:focus {
+                outline: none;
+                box-shadow: 0 0 0 3px rgba($primary-color, 0.3);
+            }
+
+            .btn-icon {
+                font-size: $font-size-lg;
             }
         }
     }
@@ -1333,7 +1617,6 @@ $z-index-modal: 100;
             box-shadow: 0 0 0 3px rgba($red-color, 0.25);
         }
 
-        // Small version (used in cards)
         &.small {
             padding: $space-xs;
             border-radius: $radius-circle;
@@ -1342,7 +1625,6 @@ $z-index-modal: 100;
             @include flex-center;
         }
 
-        // Medium version (if needed elsewhere)
         &.medium {
             padding: $space-sm $space-md;
             border-radius: $radius-md;
@@ -1408,6 +1690,32 @@ $z-index-modal: 100;
                 background-color: darken($red-color, 8%);
                 transform: translateY(-1px);
             }
+        }
+    }
+
+    // NEW: Error state styles
+    .error-state {
+        @include flex-center;
+        flex-direction: column;
+        padding: $space-2xl;
+        text-align: center;
+
+        .error-icon {
+            font-size: 3rem;
+            color: $error-color;
+            margin-bottom: $space-lg;
+        }
+
+        h3 {
+            margin: 0 0 $space-md;
+            font-size: $font-size-2xl;
+            font-weight: $font-weight-semibold;
+            color: $text-color;
+        }
+
+        p {
+            margin: 0 0 $space-xl;
+            color: $muted-text;
         }
     }
 
@@ -1586,8 +1894,8 @@ $z-index-modal: 100;
             .form-group.span-2 {
                 grid-column: span 1;
             }
-
         }
+
         .conditions-form {
             padding: 10px;
         }
@@ -1686,15 +1994,26 @@ $z-index-modal: 100;
             padding: $space-xs $space-sm;
             font-size: $font-size-xs;
         }
+
+        .info-grid {
+            .info-group {
+                h4 {
+                    padding: 12px 16px;
+                }
+
+                .info-items {
+                    padding: 16px;
+                }
+            }
+        }
     }
 }
 
+// RTL language support
 .lang-ar {
     .patient-health-profile {
-        // Global RTL adjustments
         text-align: right;
 
-        // Sidebar RTL adjustments
         .profile-sidebar {
             .sidebar-nav {
                 .nav-item {
@@ -1730,7 +2049,6 @@ $z-index-modal: 100;
             }
         }
 
-        // Buttons and actions RTL adjustments
         .edit-btn,
         .add-btn,
         .action-btn,
@@ -1741,7 +2059,6 @@ $z-index-modal: 100;
             }
         }
 
-        // Profile header RTL adjustments
         .profile-header {
             .profile-avatar {
                 margin-right: 0;
@@ -1749,7 +2066,6 @@ $z-index-modal: 100;
             }
         }
 
-        // Alert box RTL adjustments
         .alert-box {
             border-left: none;
             border-right: 4px solid $primary-color;
@@ -1760,7 +2076,6 @@ $z-index-modal: 100;
             }
         }
 
-        // Info grid RTL adjustments
         .info-grid {
             .info-group {
                 .info-items {
@@ -1777,7 +2092,6 @@ $z-index-modal: 100;
             }
         }
 
-        // Allergy and condition cards RTL adjustments
         .allergies-list,
         .conditions-list {
 
@@ -1814,7 +2128,6 @@ $z-index-modal: 100;
             }
         }
 
-        // Insurance card RTL adjustments
         .insurance-card {
             .insurance-card-content {
                 .member-info-section {
@@ -1847,7 +2160,6 @@ $z-index-modal: 100;
             }
         }
 
-        // Timeline RTL adjustments
         .timeline {
             padding-left: 0;
             padding-right: $space-md;
@@ -1878,7 +2190,6 @@ $z-index-modal: 100;
             }
         }
 
-        // Edit forms RTL adjustments
         .edit-form {
             .form-grid {
                 .form-group {
@@ -1899,14 +2210,12 @@ $z-index-modal: 100;
             }
         }
 
-        // Section header RTL adjustments
         .section-header {
             .section-title-wrapper {
                 text-align: right;
             }
         }
 
-        // Filter component RTL adjustments
         .history-filter {
             .filter-label {
                 margin-right: 0;
@@ -1914,16 +2223,24 @@ $z-index-modal: 100;
             }
         }
 
-        // Biometric summary RTL adjustments
         .biometric-summary {
             .summary-title {
                 text-align: right;
             }
         }
 
-        // Empty state RTL adjustments
         .empty-state {
             text-align: center;
+        }
+
+        // NEW: RTL for new patient features
+        .emergency-contact-empty {
+            .add-emergency-contact-btn {
+                .btn-icon {
+                    margin-right: 0;
+                    margin-left: $space-sm;
+                }
+            }
         }
     }
 }

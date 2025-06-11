@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
     FaUserAlt, FaAllergies, FaNotesMedical, FaFileAlt, FaIdCard,
     FaPencilAlt, FaCheck, FaTimes, FaShieldAlt, FaHistory,
-    FaExclamationTriangle, FaDownload, FaExclamationCircle
+    FaExclamationTriangle, FaDownload, FaExclamationCircle, FaUserPlus
 } from 'react-icons/fa';
 
 // Styles and Context
@@ -15,7 +15,8 @@ import { useLanguage } from '../../../context/LanguageContext';
 // Profile Actions
 import {
     GetProfileAction,
-    UpdateMyProfileAction
+    UpdateMyProfileAction,
+    CreateProfileAction // Added for new patient creation
 } from '../../../redux/actions/patients/profileAction';
 
 // Emergency Contact Actions
@@ -88,13 +89,16 @@ export const PatientHealthProfile = () => {
     const prefix = 'patientPage.healthProfile.patientHealthProfile';
 
     // ==================== REDUX STATE ====================
-    // Profile State
+    // Profile State - Enhanced with new fields for patient creation
     const {
         loading: profileLoading,
         profile: apiProfile,
         error: profileError,
         updating: profileUpdating,
-        updateSuccess: profileUpdateSuccess
+        creating: profileCreating, // New field
+        updateSuccess: profileUpdateSuccess,
+        createSuccess: profileCreateSuccess, // New field
+        isPatient // New field to track if user is already a patient
     } = useSelector(state => state.profile);
 
     // Emergency Contacts State
@@ -276,21 +280,40 @@ export const PatientHealthProfile = () => {
         }
     }
 
+    // New helper function to check if user has minimal data to be considered a patient
+    function hasMinimalPatientData(data) {
+        return data && (
+            data.firstName ||
+            data.lastName ||
+            data.dateOfBirth ||
+            data.emailAddress ||
+            data.phoneNumber
+        );
+    }
+
     // ==================== DATA LOADING FUNCTIONS ====================
     const loadInitialData = useCallback(async () => {
         try {
             const profileResult = await dispatch(GetProfileAction()).unwrap();
             const convertedData = convertProfileFromAPI(profileResult.data || profileResult);
             setPersonalInfo(convertedData);
-            await dispatch(GetEmergencyContactAction()).unwrap();
+
+            // Only try to load emergency contacts if user is already a patient
+            if (isPatient) {
+                await dispatch(GetEmergencyContactAction()).unwrap();
+            }
+
             setInitialLoadComplete(true);
         } catch (error) {
             console.error("Failed to load initial data:", error);
             setInitialLoadComplete(true);
         }
-    }, [dispatch]);
+    }, [dispatch, isPatient]);
 
     const loadTabData = useCallback(async () => {
+        // Only load additional data if user is already a patient
+        if (!isPatient) return;
+
         try {
             switch (activeTab) {
                 case TABS.ALLERGIES:
@@ -315,10 +338,12 @@ export const PatientHealthProfile = () => {
         } catch (error) {
             console.error(`Failed to load ${activeTab} data:`, error);
         }
-    }, [activeTab, dispatch, hasLoadedAllAllergies, hasLoadedMyAllergies, hasLoadedChronicDiseases, hasLoadedSurgeries]);
+    }, [activeTab, dispatch, isPatient, hasLoadedAllAllergies, hasLoadedMyAllergies, hasLoadedChronicDiseases, hasLoadedSurgeries]);
 
     // ==================== UI HANDLER FUNCTIONS ====================
     const handleTabChange = (tab) => {
+        // Only restrict access if user is not a patient - but still allow navigation
+        // The restriction will be shown in the content area instead
         setActiveTab(tab);
         setIsEditing(false);
         setEditedData({});
@@ -338,7 +363,14 @@ export const PatientHealthProfile = () => {
     const savePersonalInfo = async () => {
         try {
             const apiFormData = convertProfileToAPI(editedData);
-            await dispatch(UpdateMyProfileAction(apiFormData)).unwrap();
+
+            // Enhanced logic: use create or update based on patient status
+            if (isPatient) {
+                await dispatch(UpdateMyProfileAction(apiFormData)).unwrap();
+            } else {
+                // Create new patient profile
+                await dispatch(CreateProfileAction(apiFormData)).unwrap();
+            }
 
             // Handle emergency contact
             if (editedData.emergencyContact?.name) {
@@ -359,7 +391,7 @@ export const PatientHealthProfile = () => {
                 }
             }
         } catch (error) {
-            console.error("Profile update failed:", error);
+            console.error("Profile save failed:", error);
         }
     };
 
@@ -489,6 +521,21 @@ export const PatientHealthProfile = () => {
             dispatch(GetEmergencyContactAction());
         }
     }, [profileUpdateSuccess, dispatch]);
+
+    // Handle profile create success - New effect
+    useEffect(() => {
+        if (profileCreateSuccess) {
+            cancelEditing();
+            // After successful creation, reload the profile
+            dispatch(GetProfileAction())
+                .unwrap()
+                .then((result) => {
+                    const convertedData = convertProfileFromAPI(result.data || result);
+                    setPersonalInfo(convertedData);
+                });
+            dispatch(GetEmergencyContactAction());
+        }
+    }, [profileCreateSuccess, dispatch]);
 
     // Handle emergency contact updates
     useEffect(() => {
@@ -703,16 +750,20 @@ export const PatientHealthProfile = () => {
                         <button
                             className="action-btn secondary"
                             onClick={cancelEditing}
-                            disabled={profileUpdating || contactUpdating || contactCreating}
+                            disabled={profileUpdating || profileCreating || contactUpdating || contactCreating}
                         >
                             <FaTimes /> {t(`${prefix}.buttons.cancel`)}
                         </button>
                         <button
                             className="action-btn primary"
                             onClick={saveChanges}
-                            disabled={profileUpdating || contactUpdating || contactCreating}
+                            disabled={profileUpdating || profileCreating || contactUpdating || contactCreating}
                         >
-                            <FaCheck /> {profileUpdating || contactUpdating || contactCreating ? 'Saving...' : t(`${prefix}.buttons.save`)}
+                            <FaCheck />
+                            {profileUpdating || profileCreating || contactUpdating || contactCreating
+                                ? 'Saving...'
+                                : t(`${prefix}.buttons.save`)
+                            }
                         </button>
                     </div>
                 </div>
@@ -734,6 +785,38 @@ export const PatientHealthProfile = () => {
             return `${age} ${t(`${prefix}.personalInfo.personalDetails.years`)}`;
         };
 
+        // New patient welcome screen - only show if user has no profile data at all
+        if (!isPatient && !hasMinimalPatientData(personalInfo)) {
+            return (
+                <div className="info-display personal-info-display">
+                    <div className="welcome-patient-setup">
+                        <div className="welcome-header">
+                            <FaUserPlus className="welcome-icon" />
+                            <h3>Welcome! Let's Set Up Your Health Profile</h3>
+                            <p>To get started with your health profile, please provide some basic information about yourself.</p>
+                        </div>
+
+                        <div className="setup-benefits">
+                            <h4>Why create your health profile?</h4>
+                            <ul>
+                                <li>Track your medical history and allergies</li>
+                                <li>Store emergency contact information</li>
+                                <li>Manage your insurance details</li>
+                                <li>Keep all your health information in one place</li>
+                            </ul>
+                        </div>
+
+                        <button
+                            className="action-btn primary setup-btn"
+                            onClick={() => startEditing(getEmptyPersonalInfo())}
+                        >
+                            <FaUserPlus /> Create My Health Profile
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
         return (
             <div className="info-display personal-info-display">
                 {/* Profile Header */}
@@ -746,22 +829,45 @@ export const PatientHealthProfile = () => {
                         <p className="profile-subtitle">
                             {t(`${prefix}.personalInfo.patientId`)}: {personalInfo.id ? `PT-${String(personalInfo.id).padStart(8, '0')}` : 'PT---------'}
                         </p>
+                        {!isPatient && (
+                            <span className="profile-status-badge new-patient">
+                                New Patient - Complete your profile
+                            </span>
+                        )}
                     </div>
                     <div className="profile-actions">
                         <button className="edit-btn" onClick={() => startEditing({ ...personalInfo })}>
-                            <FaPencilAlt /> {t(`${prefix}.buttons.editProfile`)}
+                            <FaPencilAlt /> {isPatient ? t(`${prefix}.buttons.editProfile`) : 'Complete Profile'}
                         </button>
                     </div>
                 </div>
 
                 {/* Missing Info Alert */}
-                {(!personalInfo.bloodType || !personalInfo.height || !personalInfo.weight) && (
+                {(!personalInfo.bloodType || !personalInfo.height || !personalInfo.weight || !isPatient) && (
                     <div className="alert-box">
                         <FaExclamationCircle className="alert-box-icon" />
                         <div className="alert-box-content">
-                            <h4>{t(`${prefix}.personalInfo.alertTitle`)}</h4>
-                            <p>{t(`${prefix}.personalInfo.alertMessage`)}</p>
+                            <h4>
+                                {!isPatient
+                                    ? 'Complete Your Health Profile'
+                                    : t(`${prefix}.personalInfo.alertTitle`)
+                                }
+                            </h4>
+                            <p>
+                                {!isPatient
+                                    ? 'Please complete your profile to access all health features and ensure we have your important medical information.'
+                                    : t(`${prefix}.personalInfo.alertMessage`)
+                                }
+                            </p>
                         </div>
+                        {!isPatient && (
+                            <button
+                                className="alert-box-action"
+                                onClick={() => startEditing({ ...personalInfo })}
+                            >
+                                Complete Now
+                            </button>
+                        )}
                     </div>
                 )}
 
@@ -839,55 +945,89 @@ export const PatientHealthProfile = () => {
                                     </div>
                                 </>
                             ) : (
-                                <div className="info-item">
-                                    <span className="info-value empty-state">
-                                        No emergency contact information.
-                                        <button
-                                            className="link-btn"
-                                            onClick={() => startEditing({ ...personalInfo })}
-                                        >
-                                            Add emergency contact
-                                        </button>
-                                    </span>
+                                <div className="emergency-contact-empty">
+                                    <FaUserPlus className="empty-icon" />
+                                    <div className="empty-message">
+                                        <span className="primary-text">{t(`${prefix}.personalInfo.emergencyContact.noEmergencyContact`)}</span>
+                                        <span className="secondary-text">
+                                            {t(`${prefix}.personalInfo.emergencyContact.noEmergencyContactMessage`)}
+                                        </span>
+                                    </div>
+                                    <button
+                                        className="add-emergency-contact-btn"
+                                        onClick={() => startEditing({ ...personalInfo })}
+                                    >
+                                        <FaUserPlus className="btn-icon" />
+                                        {t(`${prefix}.personalInfo.emergencyContact.addEmergencyContactButton`)}Add Emergency Contact
+                                    </button>
                                 </div>
                             )}
                         </div>
                     </div>
                 </div>
 
-                {/* Biometric Summary */}
-                <div className="biometric-summary">
-                    <h4 className="summary-title">{t(`${prefix}.personalInfo.biometricSummary.title`)}</h4>
-                    <div className="biometric-grid">
-                        <div className="biometric-item">
-                            <div className="biometric-value">120/80</div>
-                            <div className="biometric-label">{t(`${prefix}.personalInfo.biometricSummary.bloodPressure`)}</div>
-                            <div className="trend normal">{t(`${prefix}.personalInfo.biometricSummary.normal`)}</div>
-                        </div>
-                        <div className="biometric-item">
-                            <div className="biometric-value">72</div>
-                            <div className="biometric-label">{t(`${prefix}.personalInfo.biometricSummary.heartRate`)}</div>
-                            <div className="trend normal">{t(`${prefix}.personalInfo.biometricSummary.normal`)}</div>
-                        </div>
-                        <div className="biometric-item">
-                            <div className="biometric-value">98.6°F</div>
-                            <div className="biometric-label">{t(`${prefix}.personalInfo.biometricSummary.temperature`)}</div>
-                            <div className="trend normal">{t(`${prefix}.personalInfo.biometricSummary.normal`)}</div>
-                        </div>
-                        <div className="biometric-item">
-                            <div className="biometric-value">{calculateBMI()}</div>
-                            <div className="biometric-label">{t(`${prefix}.personalInfo.biometricSummary.bmi`)}</div>
-                            <div className="trend normal">
-                                {personalInfo.height && personalInfo.weight ? t(`${prefix}.personalInfo.biometricSummary.normal`) : 'Not calculated'}
+                {/* Biometric Summary - only show if user is already a patient */}
+                {isPatient && (
+                    <div className="biometric-summary">
+                        <h4 className="summary-title">{t(`${prefix}.personalInfo.biometricSummary.title`)}</h4>
+                        <div className="biometric-grid">
+                            <div className="biometric-item">
+                                <div className="biometric-value">120/80</div>
+                                <div className="biometric-label">{t(`${prefix}.personalInfo.biometricSummary.bloodPressure`)}</div>
+                                <div className="trend normal">{t(`${prefix}.personalInfo.biometricSummary.normal`)}</div>
+                            </div>
+                            <div className="biometric-item">
+                                <div className="biometric-value">72</div>
+                                <div className="biometric-label">{t(`${prefix}.personalInfo.biometricSummary.heartRate`)}</div>
+                                <div className="trend normal">{t(`${prefix}.personalInfo.biometricSummary.normal`)}</div>
+                            </div>
+                            <div className="biometric-item">
+                                <div className="biometric-value">98.6°F</div>
+                                <div className="biometric-label">{t(`${prefix}.personalInfo.biometricSummary.temperature`)}</div>
+                                <div className="trend normal">{t(`${prefix}.personalInfo.biometricSummary.normal`)}</div>
+                            </div>
+                            <div className="biometric-item">
+                                <div className="biometric-value">{calculateBMI()}</div>
+                                <div className="biometric-label">{t(`${prefix}.personalInfo.biometricSummary.bmi`)}</div>
+                                <div className="trend normal">
+                                    {personalInfo.height && personalInfo.weight ? t(`${prefix}.personalInfo.biometricSummary.normal`) : 'Not calculated'}
+                                </div>
                             </div>
                         </div>
                     </div>
+                )}
+            </div>
+        );
+    };
+
+    // New function to render restricted content for non-patients
+    const renderRestrictedTabContent = (tabName) => {
+        return (
+            <div className="info-display restricted-display">
+                <div className="restricted-access">
+                    <FaExclamationTriangle className="restricted-icon" />
+                    <h3>Complete Your Profile First</h3>
+                    <p>Please complete your basic health profile to access {tabName} management.</p>
+                    <button
+                        className="action-btn primary"
+                        onClick={() => {
+                            setActiveTab(TABS.PERSONAL);
+                            startEditing({ ...personalInfo });
+                        }}
+                    >
+                        Complete Profile
+                    </button>
                 </div>
             </div>
         );
     };
 
     const renderAllergiesContent = () => {
+        // Show restricted content if user is not a patient yet
+        if (!isPatient) {
+            return renderRestrictedTabContent('allergies');
+        }
+
         if (isEditing) {
             return (
                 <div className="edit-form allergies-form">
@@ -1054,6 +1194,11 @@ export const PatientHealthProfile = () => {
     };
 
     const renderMedicalConditionsContent = () => {
+        // Show restricted content if user is not a patient yet
+        if (!isPatient) {
+            return renderRestrictedTabContent('medical conditions');
+        }
+
         if (isEditing) {
             return (
                 <div className="edit-form conditions-form">
@@ -1083,9 +1228,9 @@ export const PatientHealthProfile = () => {
                                 onChange={(e) => setEditedData({ ...editedData, status: e.target.value })}
                             >
                                 <option value="active">{t(`${prefix}.medicalConditions.status.active`)}</option>
+                                <option value="inactive">{t(`${prefix}.medicalConditions.status.inactive`)}</option>
                                 <option value="resolved">{t(`${prefix}.medicalConditions.status.resolved`)}</option>
-                                <option value="in_remission">{t(`${prefix}.medicalConditions.status.inRemission`)}</option>
-                                <option value="chronic">{t(`${prefix}.medicalConditions.status.chronic`)}</option>
+                                <option value="unknown">{t(`${prefix}.medicalConditions.status.unknown`)}</option>
                             </select>
                         </div>
                         <div className="form-group span-2">
@@ -1218,6 +1363,11 @@ export const PatientHealthProfile = () => {
     };
 
     const renderInsuranceContent = () => {
+        // Show restricted content if user is not a patient yet
+        if (!isPatient) {
+            return renderRestrictedTabContent('insurance information');
+        }
+
         if (isEditing) {
             return (
                 <div className="edit-form insurance-form">
@@ -1489,6 +1639,11 @@ export const PatientHealthProfile = () => {
     };
 
     const renderMedicalHistoryContent = () => {
+        // Show restricted content if user is not a patient yet
+        if (!isPatient) {
+            return renderRestrictedTabContent('medical history');
+        }
+
         if (isEditing) {
             return (
                 <div className="edit-form history-form">
@@ -1674,7 +1829,7 @@ export const PatientHealthProfile = () => {
     };
 
     // ==================== ERROR HANDLING ====================
-    if (profileError && !apiProfile && initialLoadComplete) {
+    if (profileError && !apiProfile && initialLoadComplete && isPatient !== false) {
         return (
             <div className="patient-health-profile">
                 <div className="error-state">
@@ -1710,7 +1865,7 @@ export const PatientHealthProfile = () => {
                             <span>{t(`${prefix}.navigationTabs.personalInfo`)}</span>
                         </button>
                         <button
-                            className={`nav-item ${activeTab === TABS.ALLERGIES ? 'active' : ''}`}
+                            className={`nav-item ${activeTab === TABS.ALLERGIES ? 'active' : ''} ${!isPatient ? 'disabled' : ''}`}
                             onClick={() => handleTabChange(TABS.ALLERGIES)}
                         >
                             <FaAllergies className="nav-icon" />
@@ -1718,7 +1873,7 @@ export const PatientHealthProfile = () => {
                             {myAllergies.length > 0 && <span className="badge">{myAllergies.length}</span>}
                         </button>
                         <button
-                            className={`nav-item ${activeTab === TABS.CHRONIC ? 'active' : ''}`}
+                            className={`nav-item ${activeTab === TABS.CHRONIC ? 'active' : ''} ${!isPatient ? 'disabled' : ''}`}
                             onClick={() => handleTabChange(TABS.CHRONIC)}
                         >
                             <FaNotesMedical className="nav-icon" />
@@ -1726,14 +1881,14 @@ export const PatientHealthProfile = () => {
                             {myChronicDiseases.length > 0 && <span className="badge">{myChronicDiseases.length}</span>}
                         </button>
                         <button
-                            className={`nav-item ${activeTab === TABS.INSURANCE ? 'active' : ''}`}
+                            className={`nav-item ${activeTab === TABS.INSURANCE ? 'active' : ''} ${!isPatient ? 'disabled' : ''}`}
                             onClick={() => handleTabChange(TABS.INSURANCE)}
                         >
                             <FaIdCard className="nav-icon" />
                             <span>{t(`${prefix}.navigationTabs.insuranceInfo`)}</span>
                         </button>
                         <button
-                            className={`nav-item ${activeTab === TABS.HISTORY ? 'active' : ''}`}
+                            className={`nav-item ${activeTab === TABS.HISTORY ? 'active' : ''} ${!isPatient ? 'disabled' : ''}`}
                             onClick={() => handleTabChange(TABS.HISTORY)}
                         >
                             <FaHistory className="nav-icon" />
@@ -1742,7 +1897,7 @@ export const PatientHealthProfile = () => {
                         </button>
                     </div>
                     <div className="sidebar-footer">
-                        <button className="print-btn">
+                        <button className="print-btn" disabled={!isPatient}>
                             <FaFileAlt /> {t(`${prefix}.buttons.printRecord`)}
                         </button>
                     </div>

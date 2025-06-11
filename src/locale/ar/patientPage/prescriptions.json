@@ -40,5 +40,6 @@
     "completed": "مكتملة",
     "medicationId": "معرف الدواء",
     "notAvailable": "غير متوفر",
-    "notSet": "لم يتم تحديده"
+    "notSet": "لم يتم تحديده",
+    "loading": "جاري التحميل"
 }

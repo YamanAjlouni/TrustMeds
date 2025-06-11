@@ -51,7 +51,10 @@
                 "title": "جهة اتصال للطوارئ",
                 "name": "الاسم",
                 "relationship": "العلاقة",
-                "phone": "الهاتف"
+                "phone": "الهاتف",
+                "noEmergencyContact": "لم تتم إضافة جهة اتصال للطوارئ",
+                "noEmergencyContactMessage": "أضف جهة اتصال للطوارئ لضمان إمكانية الوصول إلى أحبائك في حالة الطوارئ الطبية.",
+                "addEmergencyContactButton": "إضافة جهة اتصال الطوارئ"
             },
             "biometricSummary": {
                 "title": "ملخص القياسات الحيوية",
@@ -99,9 +102,9 @@
             },
             "status": {
                 "active": "نشطة",
+                "inactive": "غير نشطة",
                 "resolved": "تم حلها",
-                "inRemission": "في طور الهدوء",
-                "chronic": "مزمنة"
+                "unknown": "غير مغروفة"
             },
             "details": {
                 "diagnosed": "تم التشخيص",

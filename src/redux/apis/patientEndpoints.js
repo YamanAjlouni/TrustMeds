@@ -2,6 +2,7 @@
 // Profile
 export const GetMyProfileAPI = 'patients/me/profile/';
 export const UpdateMyProfileApi = 'patients/me/update-profile/';
+export const CreateProfileApi = 'patients/create-patient/';
 
 // Emergency Contact
 export const GetMyEmergencyContactAPI = 'patients/me/emergency-contact/';

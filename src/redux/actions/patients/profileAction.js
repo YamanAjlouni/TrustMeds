@@ -1,46 +1,52 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { GetMyProfileAPI, UpdateMyProfileApi } from "../../apis/patientEndpoints";
-import axiosInstance from "../../axiosInstance";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { CreateProfileApi, GetMyProfileAPI, UpdateMyProfileApi } from '../../apis/patientEndpoints';
+import axiosInstance from '../../axiosInstance';
 
-export const GetProfileAction = createAsyncThunk("profile/get", async (info, { rejectWithValue }) => {
-    try {
-        let { data } = await axiosInstance.get(GetMyProfileAPI);
-        // console.log(data)
-        return data;
-    } catch (error) {
-        console.error("❌ API Error:", error);
-        console.error("Error details:", {
-            message: error.message,
-            response: error.response,
-            request: error.request
-        });
-
-        if (error.response) {
-            const validationMessage = error.response.data.message;
-            return rejectWithValue(validationMessage);
-        } else {
-            return rejectWithValue("Network error occurred");
+export const GetProfileAction = createAsyncThunk(
+    'profile/getProfile',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(GetMyProfileAPI);
+            return response.data;
+        } catch (error) {
+            const errorMessage = error.response?.data?.detail ||
+                error.response?.data?.message ||
+                error.message ||
+                'Failed to fetch profile';
+            return rejectWithValue(errorMessage);
         }
     }
-});
+);
 
-export const UpdateMyProfileAction = createAsyncThunk("profile/update", async (profileData, { rejectWithValue }) => {
-    try {
-        let { data } = await axiosInstance.patch(UpdateMyProfileApi, profileData);
-        return data;
-    } catch (error) {
-        console.error("❌ API Error:", error);
-        console.error("Error details:", {
-            message: error.message,
-            response: error.response,
-            request: error.request
-        });
-
-        if (error.response) {
-            const validationMessage = error.response.data.message || "Update failed";
-            return rejectWithValue(validationMessage);
-        } else {
-            return rejectWithValue("Network error occurred");
+// Create Profile Action (for new patients)
+export const CreateProfileAction = createAsyncThunk(
+    'profile/createProfile',
+    async (profileData, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.post(CreateProfileApi, profileData);
+            return response.data;
+        } catch (error) {
+            const errorMessage = error.response?.data?.detail ||
+                error.response?.data?.message ||
+                error.message ||
+                'Failed to create profile';
+            return rejectWithValue(errorMessage);
         }
     }
-});
+);
+
+export const UpdateMyProfileAction = createAsyncThunk(
+    'profile/updateProfile',
+    async (profileData, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.put(UpdateMyProfileApi, profileData);
+            return response.data;
+        } catch (error) {
+            const errorMessage = error.response?.data?.detail ||
+                error.response?.data?.message ||
+                error.message ||
+                'Failed to update profile';
+            return rejectWithValue(errorMessage);
+        }
+    }
+);

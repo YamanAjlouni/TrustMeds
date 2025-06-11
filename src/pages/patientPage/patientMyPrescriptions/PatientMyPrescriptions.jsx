@@ -180,7 +180,7 @@ export const PatientMyPrescriptions = () => {
         return (
             <div className="loading-container">
                 <FaSpinner className="spinner" />
-                <p>{t('common.loading')}</p>
+                <p>{t('patientPage.prescriptions.loading')}</p>
             </div>
         );
     }
