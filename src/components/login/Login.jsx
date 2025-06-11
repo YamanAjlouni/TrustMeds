@@ -66,7 +66,7 @@ export const Login = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoaded(true);
-    }, 800);
+    }, 200);
   }, []);
 
   const validateForm = () => {
@@ -203,13 +203,13 @@ export const Login = () => {
       ) : (
         <div className="login-container">
           <div className="login-left-panel">
-            <div className="brand-container">
+            <Link to='/' className="brand-container">
               <div className="app-logo">
                 <FaClinicMedical />
               </div>
-              <h1 className="app-name">TrustMeds</h1>
+              <h3 to='/' className="app-name">TrustMeds</h3>
               <p className="app-tagline">Your Health, Connected</p>
-            </div>
+            </Link>
             <div className="features-list">
               <div className="feature-item">
                 <div className="feature-icon patient-icon">

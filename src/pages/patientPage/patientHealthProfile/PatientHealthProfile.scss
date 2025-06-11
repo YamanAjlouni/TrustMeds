@@ -132,6 +132,7 @@ $z-index-modal: 100;
     background-color: $background-color;
     padding: $space-lg;
     line-height: $line-height-normal;
+    align-content: center;
 
     // Container with full width
     .profile-container {
