@@ -271,6 +271,151 @@ $disabled-bg: lighten($light-text, 20%);
                     }
                 }
 
+                .user-type-selector {
+                    padding: 0 2rem 1.5rem;
+
+                    label {
+                        display: block;
+                        margin-bottom: 1rem;
+                        font-size: 1rem;
+                        font-weight: 500;
+                        color: $dark-text;
+                        text-align: center;
+                    }
+
+                    .user-type-options {
+                        display: flex;
+                        gap: 0.75rem;
+                        background-color: $light-bg;
+                        border-radius: 16px;
+                        padding: 8px;
+                        border: 1px solid $border-color;
+                        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+
+                        .user-type-option {
+                            flex: 1;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            gap: 0.5rem;
+                            padding: 1rem 0.75rem;
+                            border: none;
+                            background: transparent;
+                            border-radius: 12px;
+                            font-size: 0.9rem;
+                            font-weight: 500;
+                            color: $medium-text;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                            position: relative;
+                            min-height: 80px;
+
+                            .user-type-icon {
+                                font-size: 1.5rem;
+                                transition: all 0.2s ease;
+                            }
+
+                            span {
+                                transition: all 0.2s ease;
+                                font-weight: 500;
+                            }
+
+                            &:hover {
+                                color: $dark-text;
+                                background-color: rgba(255, 255, 255, 0.8);
+                                transform: translateY(-1px);
+                                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                            }
+
+                            &.active {
+                                color: white;
+                                transform: translateY(-2px);
+                                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+                                .user-type-icon,
+                                span {
+                                    color: white;
+                                }
+
+                                // Patient active state
+                                &:nth-child(1) {
+                                    background: linear-gradient(135deg, $patient-color, darken($patient-color, 8%));
+                                    box-shadow: 0 4px 12px rgba($patient-color, 0.3);
+
+                                    &:hover {
+                                        background: linear-gradient(135deg, darken($patient-color, 3%), darken($patient-color, 11%));
+                                        box-shadow: 0 6px 16px rgba($patient-color, 0.4);
+                                    }
+                                }
+
+                                // Doctor active state
+                                &:nth-child(2) {
+                                    background: linear-gradient(135deg, $doctor-color, darken($doctor-color, 8%));
+                                    box-shadow: 0 4px 12px rgba($doctor-color, 0.3);
+
+                                    &:hover {
+                                        background: linear-gradient(135deg, darken($doctor-color, 3%), darken($doctor-color, 11%));
+                                        box-shadow: 0 6px 16px rgba($doctor-color, 0.4);
+                                    }
+                                }
+
+                                // Pharmacy active state
+                                &:nth-child(3) {
+                                    background: linear-gradient(135deg, $pharmacy-color, darken($pharmacy-color, 8%));
+                                    box-shadow: 0 4px 12px rgba($pharmacy-color, 0.3);
+
+                                    &:hover {
+                                        background: linear-gradient(135deg, darken($pharmacy-color, 3%), darken($pharmacy-color, 11%));
+                                        box-shadow: 0 6px 16px rgba($pharmacy-color, 0.4);
+                                    }
+                                }
+                            }
+
+                            // Subtle hover states for non-active buttons
+                            &:not(.active) {
+                                &:nth-child(1):hover {
+                                    color: $patient-color;
+                                    background-color: rgba($patient-color, 0.1);
+                                    border: 1px solid rgba($patient-color, 0.2);
+
+                                    .user-type-icon {
+                                        color: $patient-color;
+                                    }
+                                }
+
+                                &:nth-child(2):hover {
+                                    color: $doctor-color;
+                                    background-color: rgba($doctor-color, 0.1);
+                                    border: 1px solid rgba($doctor-color, 0.2);
+
+                                    .user-type-icon {
+                                        color: $doctor-color;
+                                    }
+                                }
+
+                                &:nth-child(3):hover {
+                                    color: $pharmacy-color;
+                                    background-color: rgba($pharmacy-color, 0.1);
+                                    border: 1px solid rgba($pharmacy-color, 0.2);
+
+                                    .user-type-icon {
+                                        color: $pharmacy-color;
+                                    }
+                                }
+                            }
+
+                            &:focus {
+                                outline: none;
+                            }
+
+                            &:active {
+                                transform: translateY(-1px);
+                            }
+                        }
+                    }
+                }
+
+
                 .error-message {
                     display: flex;
                     align-items: center;

@@ -10,7 +10,10 @@ import {
   FaClinicMedical,
   FaPhone,
   FaArrowLeft,
-  FaCheckCircle
+  FaCheckCircle,
+  FaUser,
+  FaUserMd,
+  FaStore
 } from 'react-icons/fa';
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,12 +27,12 @@ export const Register = () => {
   const [registerError, setRegisterError] = useState('');
   const [registerSuccess, setRegisterSuccess] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [userType, setUserType] = useState('patient'); // 'patient', 'doctor', 'pharmacy'
 
-  // Simplified form data - only include what the API requires
   const [formData, setFormData] = useState({
     email: '',
     phone: '',
-    password: '',
+    password: ''
   });
 
   const [formErrors, setFormErrors] = useState({
@@ -121,15 +124,11 @@ export const Register = () => {
 
     if (validateForm()) {
       setIsLoading(true);
-      setRegisterError(''); // Clear any previous errors
+      setRegisterError('');
 
       try {
-        // Send the data in the format expected by the API
-        await dispatch(registerUser({
-          email: formData.email,
-          phone: formData.phone,
-          password: formData.password,
-        }));
+        // Register with selected user type
+        await dispatch(registerUser(formData, userType));
         
         setRegisterSuccess(true);
         setTimeout(() => navigate('/login'), 1500);
@@ -140,8 +139,6 @@ export const Register = () => {
         let errorMessage = "Registration failed. Please try again.";
         
         if (err.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
           if (typeof err.response.data === 'string') {
             errorMessage = err.response.data;
           } else if (err.response.data?.message) {
@@ -149,7 +146,6 @@ export const Register = () => {
           } else if (err.response.data?.error) {
             errorMessage = err.response.data.error;
           } else if (err.response.data?.email) {
-            // Handle specific field errors
             errorMessage = `Email: ${err.response.data.email}`;
           } else if (err.response.data?.phone_number) {
             errorMessage = `Phone number: ${err.response.data.phone_number}`;
@@ -158,7 +154,6 @@ export const Register = () => {
           } else if (err.response.data?.non_field_errors) {
             errorMessage = err.response.data.non_field_errors;
           } else {
-            // Try to stringify the error data
             try {
               errorMessage = `Server error: ${JSON.stringify(err.response.data)}`;
             } catch (e) {
@@ -178,6 +173,17 @@ export const Register = () => {
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const getUserTypeLabel = (type) => {
+    switch (type) {
+      case 'doctor':
+        return 'Doctor';
+      case 'pharmacy':
+        return 'Pharmacy';
+      default:
+        return 'Patient';
+    }
   };
 
   return (
@@ -213,6 +219,37 @@ export const Register = () => {
                   <p>Join TrustMeds to access our healthcare services</p>
                 </div>
 
+                {/* User Type Selector */}
+                <div className="user-type-selector">
+                  <label>I am a:</label>
+                  <div className="user-type-options">
+                    <button
+                      type="button"
+                      className={`user-type-option ${userType === 'patient' ? 'active' : ''}`}
+                      onClick={() => setUserType('patient')}
+                    >
+                      <FaUser className="user-type-icon" />
+                      <span>Patient</span>
+                    </button>
+                    <button
+                      type="button"
+                      className={`user-type-option ${userType === 'doctor' ? 'active' : ''}`}
+                      onClick={() => setUserType('doctor')}
+                    >
+                      <FaUserMd className="user-type-icon" />
+                      <span>Doctor</span>
+                    </button>
+                    <button
+                      type="button"
+                      className={`user-type-option ${userType === 'pharmacy' ? 'active' : ''}`}
+                      onClick={() => setUserType('pharmacy')}
+                    >
+                      <FaStore className="user-type-icon" />
+                      <span>Pharmacy</span>
+                    </button>
+                  </div>
+                </div>
+
                 {registerError && (
                   <div className="error-message">
                     <FaExclamationCircle />
@@ -221,6 +258,7 @@ export const Register = () => {
                 )}
 
                 <form className="register-form" onSubmit={handleSubmit}>
+                  {/* Email Field */}
                   <div className={`form-group ${formErrors.email && formSubmitted ? 'has-error' : ''}`}>
                     <label htmlFor="email">Email Address</label>
                     <div className="input-with-icon">
@@ -239,6 +277,7 @@ export const Register = () => {
                     )}
                   </div>
 
+                  {/* Phone Field */}
                   <div className={`form-group ${formErrors.phone && formSubmitted ? 'has-error' : ''}`}>
                     <label htmlFor="phone">Phone Number</label>
                     <div className="input-with-icon">
@@ -257,6 +296,7 @@ export const Register = () => {
                     )}
                   </div>
 
+                  {/* Password Field */}
                   <div className={`form-group ${formErrors.password && formSubmitted ? 'has-error' : ''}`}>
                     <label htmlFor="password">Password</label>
                     <div className="input-with-icon">
@@ -286,6 +326,7 @@ export const Register = () => {
                     </div>
                   </div>
 
+                  {/* Terms and Conditions */}
                   <div className={`form-group terms-group ${formErrors.terms && formSubmitted ? 'has-error' : ''}`}>
                     <label className="checkbox-container">
                       <input
@@ -301,6 +342,7 @@ export const Register = () => {
                     )}
                   </div>
 
+                  {/* Submit Button */}
                   <button
                     type="submit"
                     className={`register-button ${isLoading ? 'loading' : ''}`}
@@ -312,7 +354,7 @@ export const Register = () => {
                         <span>Creating Account...</span>
                       </>
                     ) : (
-                      <span>Create Account</span>
+                      <span>Create {getUserTypeLabel(userType)} Account</span>
                     )}
                   </button>
                 </form>
@@ -323,6 +365,9 @@ export const Register = () => {
               <div className="security-notice">
                 <FaShieldAlt className="security-icon" />
                 <p>Your information is protected with industry-leading security</p>
+              </div>
+              <div className="login-link">
+                <p>Already have an account? <Link to="/login">Sign in here</Link></p>
               </div>
             </div>
           </div>

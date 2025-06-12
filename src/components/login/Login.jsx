@@ -24,6 +24,7 @@ export const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [loginMethod, setLoginMethod] = useState('email'); // 'email' or 'phone'
+  const [userType, setUserType] = useState('patient');
 
   const [formData, setFormData] = useState({
     email: '',
@@ -43,24 +44,28 @@ export const Login = () => {
 
   // Check if already authenticated, redirect to appropriate dashboard
   useEffect(() => {
-    if (isAuthenticated || tokenService.isAuthenticated()) {
-      // Get user info from token to determine user type
-      const userInfo = tokenService.getUserFromToken();
-      const userType = userInfo?.user_type || 'patient'; // Default to patient if not specified
-
-      // Redirect based on user type
-      switch (userType) {
-        case 'doctor':
-          navigate('/doctor/overview');
-          break;
-        case 'pharmacy':
-          navigate('/pharmacy/overview');
-          break;
-        default:
-          navigate('/patient/overview');
-      }
+    const token = localStorage.getItem('accessToken');
+    const savedUserType = localStorage.getItem('userType');
+    
+    if (token && savedUserType && (isAuthenticated || tokenService.isAuthenticated())) {
+      console.log(`Already authenticated, redirecting to ${savedUserType} dashboard`);
+      redirectToDashboard(savedUserType);
     }
   }, [isAuthenticated, navigate]);
+
+  // Function to redirect based on user type
+  const redirectToDashboard = (type) => {
+    switch (type) {
+      case 'doctor':
+        navigate('/doctor/overview');
+        break;
+      case 'pharmacy':
+        navigate('/pharmacy/overview');
+        break;
+      default:
+        navigate('/patient/overview');
+    }
+  };
 
   // Simulate initial loading state
   useEffect(() => {
@@ -135,13 +140,18 @@ export const Login = () => {
     });
   };
 
-  // Update the handleSubmit function in your Login.jsx component
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormSubmitted(true);
 
     if (validateForm()) {
       try {
+        // Clear any existing tokens before attempting login
+        console.log('Clearing existing tokens before login attempt');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('userType');
+
         // Create credentials object based on login method
         const credentials = {
           password: formData.password,
@@ -154,36 +164,54 @@ export const Login = () => {
         }
 
         console.log('Submitting login credentials:', credentials);
+        console.log('User type:', userType);
 
-        // Dispatch login action
-        await dispatch(loginUser(credentials));
+        // Dispatch login action with user type and wait for it to complete
+        const loginResult = await dispatch(loginUser(credentials, userType));
 
-        // Check if token was saved
-        const hasToken = localStorage.getItem('accessToken');
-        console.log('After login dispatch - token exists:', !!hasToken);
+        console.log('Login result:', loginResult);
 
-        if (hasToken) {
-          console.log('Token exists, redirecting to patient dashboard');
-          // Your token doesn't contain user_type, so always go to patient dashboard
-          navigate('/patient/overview');
+        // Only redirect if login was actually successful
+        // Check both the result and if tokens were saved
+        const hasNewToken = localStorage.getItem('accessToken');
+        const savedUserType = localStorage.getItem('userType');
+
+        if (hasNewToken && savedUserType) {
+          // Verify that the saved user type matches what we expected
+          if (savedUserType === userType) {
+            console.log(`Login successful, redirecting to ${userType} dashboard`);
+            // Add small delay to ensure localStorage is fully committed
+            setTimeout(() => {
+              redirectToDashboard(userType);
+            }, 200);
+          } else {
+            console.warn(`User type mismatch: Expected ${userType}, got ${savedUserType}`);
+            // Clear tokens since there's a mismatch
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            localStorage.removeItem('userType');
+          }
         } else {
-          console.warn('Login completed but no token was saved');
+          console.warn('Login failed - no token saved');
+          // Clear any partial data
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          localStorage.removeItem('userType');
         }
+
       } catch (err) {
         console.error('Login error:', err);
+        
+        // Make sure to clear any tokens on error
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('userType');
+        
+        // The error will be handled by Redux and shown in the UI
+        // Don't redirect anywhere on error
       }
     }
   };
-
-  // Replace the useEffect for redirection with this simpler version
-  useEffect(() => {
-    // Check if token exists and redirect if needed
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      console.log('Token found on page load, redirecting to patient dashboard');
-      navigate('/patient/overview');
-    }
-  }, [navigate]); // Only run on first render and when navigate changes
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -191,6 +219,28 @@ export const Login = () => {
 
   const handleForgotPassword = () => {
     navigate('/reset-password');
+  };
+
+  const getUserTypeIcon = (type) => {
+    switch (type) {
+      case 'doctor':
+        return <FaUserMd />;
+      case 'pharmacy':
+        return <FaStore />;
+      default:
+        return <FaUser />;
+    }
+  };
+
+  const getUserTypeLabel = (type) => {
+    switch (type) {
+      case 'doctor':
+        return 'Doctor';
+      case 'pharmacy':
+        return 'Pharmacy';
+      default:
+        return 'Patient';
+    }
   };
 
   return (
@@ -207,7 +257,7 @@ export const Login = () => {
               <div className="app-logo">
                 <FaClinicMedical />
               </div>
-              <h3 to='/' className="app-name">TrustMeds</h3>
+              <h3 className="app-name">TrustMeds</h3>
               <p className="app-tagline">Your Health, Connected</p>
             </Link>
             <div className="features-list">
@@ -252,6 +302,37 @@ export const Login = () => {
                 <p>Sign in to access your account</p>
               </div>
 
+              {/* User Type Selector */}
+              <div className="user-type-selector">
+                <label>I am a:</label>
+                <div className="user-type-options">
+                  <button
+                    type="button"
+                    className={`user-type-option ${userType === 'patient' ? 'active' : ''}`}
+                    onClick={() => setUserType('patient')}
+                  >
+                    <FaUser className="user-type-icon" />
+                    <span>Patient</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`user-type-option ${userType === 'doctor' ? 'active' : ''}`}
+                    onClick={() => setUserType('doctor')}
+                  >
+                    <FaUserMd className="user-type-icon" />
+                    <span>Doctor</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`user-type-option ${userType === 'pharmacy' ? 'active' : ''}`}
+                    onClick={() => setUserType('pharmacy')}
+                  >
+                    <FaStore className="user-type-icon" />
+                    <span>Pharmacy</span>
+                  </button>
+                </div>
+              </div>
+
               <div className="login-method-toggle">
                 <button
                   className={`login-method-button ${loginMethod === 'email' ? 'active' : ''}`}
@@ -272,7 +353,7 @@ export const Login = () => {
               {error && (
                 <div className="error-message">
                   <FaExclamationCircle />
-                  <span>{typeof error === 'string' ? error : 'Authentication failed. Please try again.'}</span>
+                  <span>{typeof error === 'string' ? error : 'Authentication failed. Please check your credentials and try again.'}</span>
                 </div>
               )}
 
@@ -373,7 +454,7 @@ export const Login = () => {
                       <span>Signing in...</span>
                     </>
                   ) : (
-                    <span>Sign In</span>
+                    <span>Sign In as {getUserTypeLabel(userType)}</span>
                   )}
                 </button>
               </form>

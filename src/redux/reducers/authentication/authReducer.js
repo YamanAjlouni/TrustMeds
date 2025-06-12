@@ -1,4 +1,4 @@
-// redux/reducers/authentication/authReducer.js
+// redux/reducers/authReducer.js
 import {
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
@@ -10,28 +10,19 @@ import {
     REFRESH_TOKEN_REQUEST,
     REFRESH_TOKEN_SUCCESS,
     REFRESH_TOKEN_FAILURE
-} from "../../actions/authentication/AuthActions";
-
-// Initialize token from localStorage at startup
-const getInitialAuthState = () => {
-    try {
-        const hasToken = !!localStorage.getItem('accessToken');
-        // console.log('Initial auth state - token exists:', hasToken);
-        return hasToken;
-    } catch (error) {
-        // console.error('Error getting initial auth state:', error);
-        return false;
-    }
-};
+} from '../../actions/authentication/AuthActions';
 
 const initialState = {
-    loading: false,
     user: null,
+    userType: null,
+    isAuthenticated: false,
+    loading: false,
     error: null,
-    isAuthenticated: getInitialAuthState()
+    accessToken: null,
+    refreshToken: null
 };
 
-const authReducer = (state = initialState, action) => {    
+const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case REGISTER_REQUEST:
         case LOGIN_REQUEST:
@@ -41,44 +32,47 @@ const authReducer = (state = initialState, action) => {
                 loading: true,
                 error: null
             };
-            
+
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
-            console.log('Login/Register success payload:', action.payload);
             return {
                 ...state,
                 loading: false,
-                user: action.payload,
-                error: null,
-                isAuthenticated: true
+                isAuthenticated: true,
+                user: action.payload.user || action.payload,
+                userType: action.payload.userType,
+                accessToken: action.payload.access,
+                refreshToken: action.payload.refresh,
+                error: null
             };
-            
+
         case REFRESH_TOKEN_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                error: null,
-                isAuthenticated: true
+                accessToken: action.payload.access,
+                error: null
             };
-            
+
         case REGISTER_FAILURE:
         case LOGIN_FAILURE:
         case REFRESH_TOKEN_FAILURE:
             return {
                 ...state,
                 loading: false,
-                error: action.payload,
-                isAuthenticated: false
+                isAuthenticated: false,
+                user: null,
+                userType: null,
+                accessToken: null,
+                refreshToken: null,
+                error: action.payload
             };
-            
+
         case LOGOUT:
             return {
-                ...state,
-                user: null,
-                isAuthenticated: false,
-                error: null
+                ...initialState
             };
-            
+
         default:
             return state;
     }
