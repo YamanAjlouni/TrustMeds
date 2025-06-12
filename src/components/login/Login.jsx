@@ -46,7 +46,7 @@ export const Login = () => {
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     const savedUserType = localStorage.getItem('userType');
-    
+
     if (token && savedUserType && (isAuthenticated || tokenService.isAuthenticated())) {
       console.log(`Already authenticated, redirecting to ${savedUserType} dashboard`);
       redirectToDashboard(savedUserType);
@@ -171,26 +171,15 @@ export const Login = () => {
 
         console.log('Login result:', loginResult);
 
-        // Only redirect if login was actually successful
-        // Check both the result and if tokens were saved
+        // Check if login was successful by checking localStorage
         const hasNewToken = localStorage.getItem('accessToken');
         const savedUserType = localStorage.getItem('userType');
 
         if (hasNewToken && savedUserType) {
-          // Verify that the saved user type matches what we expected
-          if (savedUserType === userType) {
-            console.log(`Login successful, redirecting to ${userType} dashboard`);
-            // Add small delay to ensure localStorage is fully committed
-            setTimeout(() => {
-              redirectToDashboard(userType);
-            }, 200);
-          } else {
-            console.warn(`User type mismatch: Expected ${userType}, got ${savedUserType}`);
-            // Clear tokens since there's a mismatch
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-            localStorage.removeItem('userType');
-          }
+          console.log(`Login successful, redirecting immediately to ${savedUserType} dashboard`);
+
+          // Immediate redirect - no delay needed since Redux state is updated
+          redirectToDashboard(savedUserType);
         } else {
           console.warn('Login failed - no token saved');
           // Clear any partial data
@@ -201,18 +190,17 @@ export const Login = () => {
 
       } catch (err) {
         console.error('Login error:', err);
-        
+
         // Make sure to clear any tokens on error
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('userType');
-        
+
         // The error will be handled by Redux and shown in the UI
-        // Don't redirect anywhere on error
       }
     }
   };
-
+  
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };

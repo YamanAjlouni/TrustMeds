@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { LanguageProvider } from '../context/LanguageContext';
 import Landing from '../pages/landingPage/Landing';
 import Login from '../components/login/Login';
@@ -12,53 +13,53 @@ import tokenService from '../services/tokenService';
 
 const ProtectedRoute = ({ children }) => {
     const hasToken = localStorage.getItem('accessToken') !== null;
-    // console.log('ProtectedRoute check - hasToken:', hasToken);
 
     if (!hasToken) {
-        console.log('No token, redirecting to login');
         return <Navigate to="/login" replace />;
     }
 
-    // console.log('Token exists, rendering protected content');
     return children;
 };
 
 const AppRoutes = () => {
     const [userType, setUserType] = useState(null);
     const [isReady, setIsReady] = useState(false);
+    
+    // Get auth state from Redux to react to login changes immediately
+    const authState = useSelector((state) => state.auth);
+    const { isAuthenticated, userType: reduxUserType } = authState;
 
     // Function to get user type reliably
     const getUserType = () => {
         try {
-            // console.log('getUserType called');
+            // First priority: Check Redux state (most up-to-date after login)
+            if (reduxUserType) {
+                return reduxUserType;
+            }
 
+            // Second priority: Check localStorage
             const storedUserType = localStorage.getItem('userType');
-
             if (storedUserType) {
                 return storedUserType;
             }
 
             // Fallback: token service
             const userInfo = tokenService.getUserFromToken();
-
             const tokenUserType = userInfo?.user_type;
             if (tokenUserType) {
                 localStorage.setItem('userType', tokenUserType);
                 return tokenUserType;
             }
 
-            // console.warn('No user type found, defaulting to patient');
-            return 'login';
+            return null;
         } catch (error) {
             console.error('Error getting user type:', error);
-            return 'login';
+            return null;
         }
     };
 
     // Initialize and monitor user type changes
     useEffect(() => {
-        // console.log('AppRoutes useEffect triggered');
-
         const updateUserType = () => {
             const currentUserType = getUserType();
             setUserType(currentUserType);
@@ -68,40 +69,23 @@ const AppRoutes = () => {
         // Initial check
         updateUserType();
 
-        // Set up polling to catch localStorage changes quickly
-        const interval = setInterval(() => {
-            const newUserType = getUserType();
-            if (newUserType !== userType) {
-                // console.log(`User type changed: ${userType} → ${newUserType}`);
-                setUserType(newUserType);
-            }
-        }, 200);
+        // React immediately to Redux state changes (after login)
+        if (reduxUserType && reduxUserType !== userType) {
+            setUserType(reduxUserType);
+        }
 
-        // Clean up after 5 seconds
-        const timeout = setTimeout(() => {
-            // console.log('Stopping user type polling');
-            clearInterval(interval);
-        }, 5000);
-
-        return () => {
-            clearInterval(interval);
-            clearTimeout(timeout);
-        };
-    }, [userType]);
+    }, [reduxUserType, isAuthenticated]);
 
     // Function to check if current user type matches required type
     const checkUserType = (requiredType) => {
         const actualUserType = userType || getUserType();
-        // console.log(`checkUserType: required=${requiredType}, actual=${actualUserType}`);
         const matches = actualUserType === requiredType;
-        // console.log(`User type ${matches ? '✅ MATCHES' : '❌ DOES NOT MATCH'}`);
         return matches;
     };
 
     // Function to get the correct dashboard path
     const getDashboardPath = () => {
         const currentUserType = userType || getUserType();
-        // console.log('getDashboardPath for user type:', currentUserType);
 
         let path;
         switch (currentUserType) {
@@ -111,11 +95,13 @@ const AppRoutes = () => {
             case 'pharmacy':
                 path = '/pharmacy/overview';
                 break;
-            default:
+            case 'patient':
                 path = '/patient/overview';
+                break;
+            default:
+                path = '/login';
         }
 
-        // console.log('Dashboard path determined:', path);
         return path;
     };
 
@@ -123,11 +109,13 @@ const AppRoutes = () => {
     useEffect(() => {
         // console.log('AppRoutes state:', {
         //     userType,
+        //     reduxUserType,
         //     isReady,
+        //     isAuthenticated,
         //     accessToken: !!localStorage.getItem('accessToken'),
         //     storedUserType: localStorage.getItem('userType')
         // });
-    }, [userType, isReady]);
+    }, [userType, reduxUserType, isReady, isAuthenticated]);
 
     if (!isReady) {
         return (
@@ -163,7 +151,6 @@ const AppRoutes = () => {
                                     return <PatientPage />;
                                 } else {
                                     const redirectPath = getDashboardPath();
-                                    console.log('Redirecting to:', redirectPath);
                                     return <Navigate to={redirectPath} replace />;
                                 }
                             })()}
@@ -182,7 +169,6 @@ const AppRoutes = () => {
                                     return <DoctorPage />;
                                 } else {
                                     const redirectPath = getDashboardPath();
-                                    console.log('Redirecting to:', redirectPath);
                                     return <Navigate to={redirectPath} replace />;
                                 }
                             })()}
@@ -201,7 +187,6 @@ const AppRoutes = () => {
                                     return <PharmacyPage />;
                                 } else {
                                     const redirectPath = getDashboardPath();
-                                    console.log('Redirecting to:', redirectPath);
                                     return <Navigate to={redirectPath} replace />;
                                 }
                             })()}
@@ -218,10 +203,9 @@ const AppRoutes = () => {
 
                             if (hasToken) {
                                 const redirectPath = getDashboardPath();
-                                console.log('🌟 Authenticated, redirecting to dashboard:', redirectPath);
                                 return <Navigate to={redirectPath} replace />;
                             } else {
-                                console.log('🌟 Not authenticated, redirecting to login');
+                                console.log('Catch-all: Not authenticated, redirecting to login');
                                 return <Navigate to="/login" replace />;
                             }
                         })()

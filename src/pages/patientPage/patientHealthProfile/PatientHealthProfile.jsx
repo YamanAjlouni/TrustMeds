@@ -423,7 +423,7 @@ export const PatientHealthProfile = () => {
     const saveChronicDisease = async () => {
         try {
             const chronicDiseaseData = {
-                disease: editedData.condition || '',
+                name: editedData.condition || '',
                 doctor: editedData.doctor || null,
                 diagnosed_date: editedData.diagnosedDate || null,
                 status: editedData.status || 'active',
@@ -448,7 +448,7 @@ export const PatientHealthProfile = () => {
     const saveSurgery = async () => {
         try {
             const surgeryData = {
-                surgery: editedData.procedure || '',
+                name: editedData.procedure || '',
                 date: editedData.date || null,
                 hospital: editedData.provider || '',
                 doctor: editedData.physician || '',

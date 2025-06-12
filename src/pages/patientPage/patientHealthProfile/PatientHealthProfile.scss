@@ -1072,8 +1072,6 @@ $z-index-modal: 100;
                     }
 
                     &.notes {
-                        flex-direction: column;
-
                         .allergy-label {
                             margin-bottom: $space-xs;
                         }
@@ -1155,8 +1153,6 @@ $z-index-modal: 100;
                     }
 
                     &.notes {
-                        flex-direction: column;
-
                         .condition-label {
                             margin-bottom: $space-xs;
                         }
@@ -1440,8 +1436,6 @@ $z-index-modal: 100;
                         }
 
                         &.notes {
-                            flex-direction: column;
-
                             .detail-label {
                                 margin-bottom: $space-xs;
                             }

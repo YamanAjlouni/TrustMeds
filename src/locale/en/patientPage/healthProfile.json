@@ -114,7 +114,7 @@
             },
             "details": {
                 "diagnosed": "Diagnosed",
-                "physician": "Physician",
+                "doctor": "Doctor",
                 "notes": "Notes"
             }
         },
