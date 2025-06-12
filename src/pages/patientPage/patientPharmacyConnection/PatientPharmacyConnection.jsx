@@ -568,7 +568,7 @@ export const PatientPharmacyConnection = () => {
                                             <>
                                                 <div className="preference-item">
                                                     <span className="preference-label">{t('patientPage.pharmacyConnection.delivery.preferences.scheduledDay')}</span>
-                                                    <span className="preference-value">{t(`patientPage.pharmacyConnection.common.days.${getLangField(deliveryOptions, 'scheduledDay').toLowerCase()}`)}</span>
+                                                    <span className="preference-value">{t(`${getLangField(deliveryOptions, 'scheduledDay')}`)}</span>
                                                 </div>
                                                 <div className="preference-item">
                                                     <span className="preference-label">{t('patientPage.pharmacyConnection.delivery.preferences.preferredTime')}</span>
@@ -663,7 +663,7 @@ export const PatientPharmacyConnection = () => {
                                         <div className="delivery-info">
                                             <div className="delivery-status">
                                                 <span className={`status-badge ${getLangField(delivery, 'status').toLowerCase()}`}>
-                                                    {t(`patientPage.pharmacyConnection.common.status.${getLangField(delivery, 'status').toLowerCase()}`)}
+                                                    {t(`${getLangField(delivery, 'status')}`)}
                                                 </span>
                                             </div>
                                             <div className="delivery-meds">
