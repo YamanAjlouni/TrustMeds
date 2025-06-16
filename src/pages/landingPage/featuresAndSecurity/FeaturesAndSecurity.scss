@@ -6,7 +6,6 @@
     position: relative;
     overflow: hidden;
 
-    // Decorative elements
     .decorative-shape {
         position: absolute;
         z-index: 0;
@@ -192,7 +191,6 @@
         }
     }
 
-    // Features tab styling
     .features-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -283,7 +281,6 @@
         }
     }
 
-    // Security tab styling
     .security-content {
         .security-overview {
             text-align: center;
@@ -409,14 +406,12 @@
         }
     }
 
-    // Tablet responsiveness
     @media (max-width: 1100px) {
         .features-grid {
             grid-template-columns: repeat(2, 1fr);
         }
     }
 
-    // Mobile responsiveness
     @media (max-width: 768px) {
         padding: 70px 0;
 

@@ -6,7 +6,6 @@
     position: relative;
     overflow: hidden;
 
-    // Decorative elements
     .decorative-shape {
         position: absolute;
         z-index: 0;
@@ -286,7 +285,6 @@
         }
     }
 
-    // Tablet responsiveness
     @media (max-width: 1100px) {
         padding: 80px 0;
 
@@ -295,7 +293,6 @@
         }
     }
 
-    // Mobile responsiveness
     @media (max-width: 768px) {
         padding: 60px 0;
 
@@ -343,7 +340,6 @@
         }
     }
 
-    // Small mobile responsiveness
     @media (max-width: 580px) {
         padding: 50px 0;
 
